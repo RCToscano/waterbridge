@@ -1,11 +1,11 @@
 # Compiled class file
 /.metadata/
-/.class/
 *.settings
 *.class
 */bin
 */build
 *.project
+*.classpath
 
 # Log file
 *.log
