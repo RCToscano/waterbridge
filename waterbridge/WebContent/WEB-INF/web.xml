@@ -16,6 +16,10 @@
     <servlet-name>MessageBO</servlet-name>
     <servlet-class>br.com.waterbridge.bo.MessageBO</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>CadastroBO</servlet-name>
+    <servlet-class>br.com.waterbridge.bo.CadastroBO</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
     <url-pattern>/Login</url-pattern>
@@ -31,6 +35,10 @@
   <servlet-mapping>
     <servlet-name>MessageBO</servlet-name>
     <url-pattern>/MessageBO</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>CadastroBO</servlet-name>
+    <url-pattern>/CadastroBO</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>30</session-timeout>

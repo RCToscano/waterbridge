@@ -36,6 +36,16 @@
                     </ul>
                 </li>
             </ul>
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Cadastros <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="CadastroBO?acao=representante">Representante</a></li>
+                         <li class="divider"></li>
+<!--                         <li><a href="ServicoBO?acao=cadastrar"></a></li> -->
+                    </ul>
+                </li>
+            </ul>
             <ul class="nav navbar-nav navbar-right">
 	        	<span class="navbar-text">Ol&aacute; ${sessionScope.user.nome}, seja bem-vindo!</span>
 <!-- 		    	<li><a href="#"><span class="glyphicon glyphicon-user"></span> Perfil</a></li> -->
