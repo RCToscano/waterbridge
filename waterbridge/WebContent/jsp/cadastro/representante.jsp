@@ -12,7 +12,13 @@
         <link href="./css/menucustomcolor.css" rel="stylesheet"/>
         <link href="./css/footercustom.css" rel="stylesheet"/>
         <script src="./js/jquery-1.11.3.min.js"></script>
+        <script src="./js/jquery.mask.min.js" type="text/javascript"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script>
+            $(function () {
+                $("#telefone").mask("(99) 99999-9999");
+            });
+        </script>
     </head>
     <body>
         <jsp:include page="/menu/${sessionScope.user.perfil.menu}" ></jsp:include>
@@ -37,47 +43,106 @@
 			
 			<div class="row">
 				<div class="col-md-7 col-md-offset-2">
-					<form class="form-horizontal" action="" method="post">
+					<form action="" method="post">
 						<fieldset>
 							<legend class="text-left">Cadastro de Representante</legend>
-							<div class="form-group">
-								<label class="col-md-4 control-label" for="name">Nome/Razão Social:</label>
-								<div class="col-md-8">
-									<input id="name" name="name" type="text" class="form-control"/>
+							
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="control-label" for="name">Nome/Razão Social:</label>
+									<input type="text" class="form-control" id="name" name="name"/>
 								</div>
 							</div>
-
-							<div class="form-group">
-								<label class="col-md-4 control-label" for="email">Telefone:</label>
-								<div class="col-md-8">
-									<input id="email" name="email" type="text" placeholder="(99) 9 9999-9999" class="form-control"/>
+							
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label class="control-label" for="name">Telefone:</label>
+									<input type="text" class="form-control" id="telefone" name="telefone" />
 								</div>
 							</div>
+							
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="control-label" for="name">E-mail:</label>
+									<input type="email" class="form-control" id="email" name="email" />
+								</div>
+							</div>
+							
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="control-label" for="name">Responsável:</label>
+									<input type="text" class="form-control" id="responsavel" name="responsavel" />
+								</div>
+							</div>
+							
+							 <div class="col-sm-7">
+								<div class="form-group">
+	                                <label>Busca de Logradouro no Google</label>
+	                                <input id="autocomplete" class="form-control" placeholder="Digite o Endereço ou CEP" onFocus="geolocate()" type="text" size="100"></input>
+	                            </div>
+                            </div>
+	                            
+                            <div class="col-sm-5">
+                            	<div class="form-group">
+	                                <label>Coordenadas</label>
+	                                <div class="input-group">
+                                        <input class="form-control" type="text" name="coordenadas" id="coordenadas" value="" readonly></input>
+	                                    <input class="form-control" type="hidden" name="latitude" id="latitude" value=""></input>
+	                                    <input class="form-control" type="hidden" name="longitude" id="longitude" value=""></input>
+	                                    <span class="input-group-btn"><!-- Append button addon using class input-group-lg -->
+	                                        <button class="btn btn-default" type="button" onclick="abrirMapa()">Mapa <span class="glyphicon glyphicon-map-marker text-danger"></span></button>
+	                                    </span>
+	                                </div>
+                                </div>
+							</div>
+	                            
+                            <div class="col-sm-7">
+								<div class="form-group">
+	                                <label>Endereço</label>
+	                                <input class="form-control" type="text" name="endereco" id="route" value="" maxlength="100"></input>
+	                            </div>
+                            </div>
+	                            
+                            <div class="col-sm-2">
+                            	<div class="form-group">
+	                                <label>Número</label>
+	                                <input class="form-control" type="text" name="numero" id="street_number" value="" maxlength="6"></input>
+	                            </div>
+                            </div>
+	                            
+                            <div class="col-sm-3">
+                            	<div class="form-group">
+	                                <label>Complemento</label>
+	                                <input class="form-control" type="text" name="compl" id="locality" value="" type="text" maxlength="50"/>
+	                            </div>
+	                        </div>
+	                        
+                            <div class="col-sm-5">
+	                        	<div class="form-group">
+	                                <label>Município</label>
+	                                <input class="form-control" type="text" name="municipio" id="municipio" value="" maxlength="100"></input>
+	                            </div>
+                            </div>
+	                        
+                            <div class="col-sm-4">
+	                        	<div class="form-group">
+	                                <label>Estado</label>
+	                                <input class="form-control" type="text" name="estado" id="administrative_area_level_1" value="" maxlength="100"></input>
+	                            </div>
+                            </div>
+	                            
+	                        <div class="col-sm-3">
+	                        	<div class="form-group">
+	                                <label>CEP</label>
+	                                <input class="form-control" type="text" name="cep" id="postal_code" value="" maxlength="9"></input>
+	                            </div>
+	                        </div>
 	    
-							<div class="form-group">
-								<label class="col-md-4 control-label" for="message">Enderço:</label>
-								<div class="col-md-8">
-									<input id="email" name="email" type="text" class="form-control"/>
-								</div>
-							</div>
-	    
-							<div class="form-group">
-								<label class="col-md-4 control-label" for="message">E-mail:</label>
-								<div class="col-md-8">
-									<input id="email" name="email" type="email" class="form-control"/>
-								</div>
-							</div>
-	    
-							<div class="form-group">
-								<label class="col-md-4 control-label" for="message">Responsável:</label>
-								<div class="col-md-8">
-									<input id="email" name="email" type="text" class="form-control"/>
-								</div>
-							</div>
-	    
-							<div class="form-group">
-								<div class="col-md-12 text-center">
-									<button type="submit" class="btn btn-primary">Cadastrar</button>
+	    					<div class="col-sm-12">
+								<div class="form-group">
+									<div class="col-md-12 text-center">
+										<button type="submit" class="btn btn-primary">Cadastrar</button>
+									</div>
 								</div>
 							</div>
 						</fieldset>

@@ -42,6 +42,7 @@
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="CadastroBO?acao=representante">Representante</a></li>
                          <li class="divider"></li>
+                        <li><a href="CadastroBO?acao=bridge">Bridge's</a></li>
 <!--                         <li><a href="ServicoBO?acao=cadastrar"></a></li> -->
                     </ul>
                 </li>
