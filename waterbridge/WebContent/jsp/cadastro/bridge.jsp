@@ -51,8 +51,8 @@
 							
 							<div class="col-sm-3">
 								<div class="form-group">
-									<label class="control-label" for="name">Device N&deg;:</label>
-									<input type="text" class="form-control" id="device" name="device" required/>
+									<label class="control-label" for="name">Dispositivo N&deg;:</label>
+									<input type="text" class="form-control" id="device" name="device" value="" required/>
 								</div>
 							</div>
 							
@@ -109,14 +109,14 @@
 							<div class="col-sm-4">
 								<div class="form-group">
 									<label class="control-label" for="name">Custo Mensal:</label>
-									<input type="text" class="form-control" id="custo" name="custo" required/>
+									<input type="text" class="form-control" id="custo" name="custo" value="" required/>
 								</div>
 							</div>
 							
 							<div class="col-sm-4">
 								<div class="form-group">
 									<label class="control-label" for="name">Taxa de Envio Diário:</label>
-									<input type="text" class="form-control" id="taxa" name="taxa" required/>
+									<input type="text" class="form-control" id="taxa" name="taxa" value="" required/>
 								</div>
 							</div>
 							

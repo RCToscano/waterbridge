@@ -50,30 +50,25 @@
 							<div class="col-sm-6">
 								<div class="form-group">
 									<label class="control-label" for="name">Nome/Razão Social:</label>
-									<input type="text" class="form-control" id="name" name="name"/>
+									<input type="text" class="form-control" id="name" name="name" value="" />
 								</div>
 							</div>
 							
 							<div class="col-sm-4">
 								<div class="form-group">
 									<label class="control-label" for="name">Telefone:</label>
-									<input type="text" class="form-control" id="telefone" name="telefone" />
-								</div>
-							</div>
-							
-							<div class="col-sm-6">
-								<div class="form-group">
-									<label class="control-label" for="name">E-mail:</label>
-									<input type="email" class="form-control" id="email" name="email" />
+									<input type="text" class="form-control" id="telefone" name="telefone" value="" />
 								</div>
 							</div>
 							
 							<div class="col-sm-6">
 								<div class="form-group">
 									<label class="control-label" for="name">Responsável:</label>
-									<input type="text" class="form-control" id="responsavel" name="responsavel" />
+									<input type="text" class="form-control" id="responsavel" name="responsavel" value="" />
 								</div>
 							</div>
+							
+							<div class="col-sm-12"></div>
 							
 							 <div class="col-sm-7">
 								<div class="form-group">
@@ -99,44 +94,58 @@
                             <div class="col-sm-7">
 								<div class="form-group">
 	                                <label>Endereço</label>
-	                                <input class="form-control" type="text" name="endereco" id="route" value="" maxlength="100"></input>
+	                                <input class="form-control" type="text" name="endereco" id="route" value="" maxlength="100" value="" />
 	                            </div>
                             </div>
 	                            
                             <div class="col-sm-2">
                             	<div class="form-group">
 	                                <label>Número</label>
-	                                <input class="form-control" type="text" name="numero" id="street_number" value="" maxlength="6"></input>
+	                                <input class="form-control" type="text" name="numero" id="street_number" value="" maxlength="6" value="" />
 	                            </div>
                             </div>
 	                            
                             <div class="col-sm-3">
                             	<div class="form-group">
 	                                <label>Complemento</label>
-	                                <input class="form-control" type="text" name="compl" id="locality" value="" type="text" maxlength="50"/>
+	                                <input class="form-control" type="text" name="compl" id="locality" value="" type="text" maxlength="50" value="" />
 	                            </div>
 	                        </div>
 	                        
                             <div class="col-sm-5">
 	                        	<div class="form-group">
 	                                <label>Município</label>
-	                                <input class="form-control" type="text" name="municipio" id="municipio" value="" maxlength="100"></input>
+	                                <input class="form-control" type="text" name="municipio" id="municipio" value="" maxlength="100" value="" />
 	                            </div>
                             </div>
 	                        
                             <div class="col-sm-4">
 	                        	<div class="form-group">
 	                                <label>Estado</label>
-	                                <input class="form-control" type="text" name="estado" id="administrative_area_level_1" value="" maxlength="100"></input>
+	                                <input class="form-control" type="text" name="estado" id="administrative_area_level_1" value="" maxlength="100" value="" />
 	                            </div>
                             </div>
 	                            
 	                        <div class="col-sm-3">
 	                        	<div class="form-group">
 	                                <label>CEP</label>
-	                                <input class="form-control" type="text" name="cep" id="postal_code" value="" maxlength="9"></input>
+	                                <input class="form-control" type="text" name="cep" id="postal_code" value="" maxlength="9" value="" />
 	                            </div>
 	                        </div>
+	                        
+	                        <div class="col-sm-6">
+								<div class="form-group">
+									<label class="control-label">E-mail/Login:</label>
+									<input type="email" class="form-control" id="email" name="email" value="" />
+								</div>
+							</div>
+							
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label class="control-label">Senha:</label>
+									<input type="password" class="form-control" id="senha" name="senha" value="" />
+								</div>
+							</div>
 	    
 	    					<div class="col-sm-12">
 								<div class="form-group">
