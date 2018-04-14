@@ -17,6 +17,8 @@
         <script>
             $(function () {
                 $("#telefone").mask("(99) 99999-9999");
+                $("#cpf").mask("999.999.999-99");
+                $("#cnpj").mask("99.999.999/9999-99");
             });
         </script>
     </head>
@@ -26,7 +28,7 @@
         	<ul class="breadcrumb">
 			    <li><a href="HomeBO?acao=home">Home</a></li>
 			    <li class="active">Cadastro</li>
-			    <li class="active">Representante</li>
+			    <li class="active">Consumidor</li>
 			</ul>
 			
 <%-- 			<c:if test="${aviso != ''}"> --%>
@@ -45,26 +47,45 @@
 				<div class="col-md-7 col-md-offset-2">
 					<form action="" method="post">
 						<fieldset>
-							<legend class="text-left">Cadastro de Representante</legend>
+							<legend class="text-left">Cadastro de Consumidor</legend>
 							
 							<div class="col-sm-6">
 								<div class="form-group">
-									<label class="control-label" for="name">Nome/Razão Social:</label>
-									<input type="text" class="form-control" id="name" name="name" value="" />
+									<label class="control-label">Nome/Razão Social:</label>
+									<input type="text" class="form-control" id="name" name="name" value="" required/>
 								</div>
 							</div>
 							
 							<div class="col-sm-4">
 								<div class="form-group">
-									<label class="control-label" for="name">Telefone:</label>
-									<input type="text" class="form-control" id="telefone" name="telefone" value="" />
+									<label class="control-label">Telefone:</label>
+									<input type="text" class="form-control" id="telefone" name="telefone" value="" required/>
+								</div>
+							</div>
+							
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label class="control-label">CPF:</label>
+									<input type="text" class="form-control" id="cpf" name="cpf" placeholder="999.999.999-99" value="" required/>
+								</div>
+							</div>
+							
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label class="control-label">CNPJ:</label>
+									<input type="text" class="form-control" id="cnpj" name="cnpj" placeholder="99.999.999/9999-99" value="" required/>
 								</div>
 							</div>
 							
 							<div class="col-sm-6">
 								<div class="form-group">
-									<label class="control-label" for="name">Responsável:</label>
-									<input type="text" class="form-control" id="responsavel" name="responsavel" value="" />
+									<label class="control-label">Representante Responsável:</label>
+									<select class="form-control" name="representante" id="representante" required>
+										<option value="" selected>Selecione...</option>
+										<option value="1">Representante 1</option>
+										<option value="2">Representante 2</option>
+										<option value="3">Representante 3</option>
+									</select>
 								</div>
 							</div>
 							
@@ -94,58 +115,75 @@
                             <div class="col-sm-7">
 								<div class="form-group">
 	                                <label>Endereço</label>
-	                                <input class="form-control" type="text" name="endereco" id="route" value="" maxlength="100" value="" />
+	                                <input class="form-control" type="text" name="endereco" id="route" value="" maxlength="100" value="" required/>
 	                            </div>
                             </div>
 	                            
                             <div class="col-sm-2">
                             	<div class="form-group">
 	                                <label>Número</label>
-	                                <input class="form-control" type="text" name="numero" id="street_number" value="" maxlength="6" value="" />
+	                                <input class="form-control" type="text" name="numero" id="street_number" value="" maxlength="6" value="" required/>
 	                            </div>
                             </div>
 	                            
                             <div class="col-sm-3">
                             	<div class="form-group">
 	                                <label>Complemento</label>
-	                                <input class="form-control" type="text" name="compl" id="locality" value="" type="text" maxlength="50" value="" />
+	                                <input class="form-control" type="text" name="compl" id="locality" value="" type="text" maxlength="50" value="" required/>
 	                            </div>
 	                        </div>
 	                        
                             <div class="col-sm-5">
 	                        	<div class="form-group">
 	                                <label>Município</label>
-	                                <input class="form-control" type="text" name="municipio" id="municipio" value="" maxlength="100" value="" />
+	                                <input class="form-control" type="text" name="municipio" id="municipio" value="" maxlength="100" value="" required/>
 	                            </div>
                             </div>
 	                        
                             <div class="col-sm-4">
 	                        	<div class="form-group">
 	                                <label>Estado</label>
-	                                <input class="form-control" type="text" name="estado" id="administrative_area_level_1" value="" maxlength="100" value="" />
+	                                <input class="form-control" type="text" name="estado" id="administrative_area_level_1" value="" maxlength="100" value="" required/>
 	                            </div>
                             </div>
 	                            
 	                        <div class="col-sm-3">
 	                        	<div class="form-group">
 	                                <label>CEP</label>
-	                                <input class="form-control" type="text" name="cep" id="postal_code" value="" maxlength="9" value="" />
+	                                <input class="form-control" type="text" name="cep" id="postal_code" value="" maxlength="9" value="" required/>
 	                            </div>
 	                        </div>
-	                        
-	                        <div class="col-sm-6">
+							
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label class="control-label">Latitute:</label>
+									<input type="text" class="form-control" id="latitute" name="latitute" value="" required/>
+								</div>
+							</div>
+							
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label class="control-label">Longitude:</label>
+									<input type="text" class="form-control" id="longitude" name="longitude" value="" required/>
+								</div>
+							</div>
+							
+							<div class="col-sm-12"></div>
+							
+							<div class="col-sm-6">
 								<div class="form-group">
 									<label class="control-label">E-mail/Login:</label>
-									<input type="email" class="form-control" id="email" name="email" value="" />
+									<input type="email" class="form-control" id="email" name="email" value="" required/>
 								</div>
 							</div>
 							
 							<div class="col-sm-4">
 								<div class="form-group">
 									<label class="control-label">Senha:</label>
-									<input type="password" class="form-control" id="senha" name="senha" value="" />
+									<input type="password" class="form-control" id="senha" name="senha" value="" required/>
 								</div>
 							</div>
+							
 	    
 	    					<div class="col-sm-12">
 								<div class="form-group">
