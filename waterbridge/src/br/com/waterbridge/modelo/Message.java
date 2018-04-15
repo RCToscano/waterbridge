@@ -1,61 +1,93 @@
 package br.com.waterbridge.modelo;
 
+import java.math.BigInteger;
+
 public class Message {
 
 	private Long idMessage;
-	private String texto;
-	//	time (int): the event timestamp (in seconds since the Unix Epoch)
-//	severity (string): the severity of the event (between DEBUG, INFO, WARN, ERROR and FATAL)
-//	sourceType (string): the type of source at the origin of the event (between BASE_STATION, DEVICE, CONTRACT, CERTIFICATE, GROUP, PARTNER and NEWS)
-//	sourceId (string): the identifier of the source of the event (in hexadecimal string)
-//	eventType (string): the event type triggered
-	private Long time;
-	private String severity;
-	private String sourceType;
-	private String sourceId;
-	private String eventType;
-
+	private Long idUser;
+	private String data;
+	private BigInteger consumo;
+	private BigInteger vazao;
+	private BigInteger biVersion;
+	private BigInteger biMeterId;
+	private BigInteger biVolume;
+	private BigInteger biTemperature;
+	private BigInteger biBattery;
+	private BigInteger biAlarme;
+	private String dtInsert;
+	
 	public Long getIdMessage() {
 		return idMessage;
 	}
 	public void setIdMessage(Long idMessage) {
 		this.idMessage = idMessage;
 	}
-	public String getTexto() {
-		return texto;
+	public Long getIdUser() {
+		return idUser;
 	}
-	public void setTexto(String texto) {
-		this.texto = texto;
+	public void setIdUser(Long idUser) {
+		this.idUser = idUser;
 	}
-	public Long getTime() {
-		return time;
+	public String getData() {
+		return data;
 	}
-	public void setTime(Long time) {
-		this.time = time;
+	public void setData(String data) {
+		this.data = data;
 	}
-	public String getSeverity() {
-		return severity;
+	public BigInteger getConsumo() {
+		return consumo;
 	}
-	public void setSeverity(String severity) {
-		this.severity = severity;
+	public void setConsumo(BigInteger consumo) {
+		this.consumo = consumo;
 	}
-	public String getSourceType() {
-		return sourceType;
+	public BigInteger getVazao() {
+		return vazao;
 	}
-	public void setSourceType(String sourceType) {
-		this.sourceType = sourceType;
+	public void setVazao(BigInteger vazao) {
+		this.vazao = vazao;
 	}
-	public String getSourceId() {
-		return sourceId;
+	public BigInteger getBiVersion() {
+		return biVersion;
 	}
-	public void setSourceId(String sourceId) {
-		this.sourceId = sourceId;
+	public void setBiVersion(BigInteger biVersion) {
+		this.biVersion = biVersion;
 	}
-	public String getEventType() {
-		return eventType;
+	public BigInteger getBiMeterId() {
+		return biMeterId;
 	}
-	public void setEventType(String eventType) {
-		this.eventType = eventType;
+	public void setBiMeterId(BigInteger biMeterId) {
+		this.biMeterId = biMeterId;
+	}
+	public BigInteger getBiVolume() {
+		return biVolume;
+	}
+	public void setBiVolume(BigInteger biVolume) {
+		this.biVolume = biVolume;
+	}
+	public BigInteger getBiTemperature() {
+		return biTemperature;
+	}
+	public void setBiTemperature(BigInteger biTemperature) {
+		this.biTemperature = biTemperature;
+	}
+	public BigInteger getBiBattery() {
+		return biBattery;
+	}
+	public void setBiBattery(BigInteger biBattery) {
+		this.biBattery = biBattery;
+	}
+	public BigInteger getBiAlarme() {
+		return biAlarme;
+	}
+	public void setBiAlarme(BigInteger biAlarme) {
+		this.biAlarme = biAlarme;
+	}
+	public String getDtInsert() {
+		return dtInsert;
+	}
+	public void setDtInsert(String dtInsert) {
+		this.dtInsert = dtInsert;
 	}
 	
 }
