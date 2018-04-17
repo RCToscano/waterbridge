@@ -1,20 +1,18 @@
 package br.com.waterbridge.modelo;
 
-import java.math.BigInteger;
-
 public class Message {
 
 	private Long idMessage;
 	private Long idUser;
 	private String data;
-	private BigInteger consumo;
-	private BigInteger vazao;
-	private BigInteger biVersion;
-	private BigInteger biMeterId;
-	private BigInteger biVolume;
-	private BigInteger biTemperature;
-	private BigInteger biBattery;
-	private BigInteger biAlarme;
+	private String version;
+	private Long meterId;
+	private Long volume;
+	private Long temperature;
+	private Double battery;
+	private Long alarm;
+	private Long consumo;
+	private Long vazao;
 	private String dtInsert;
 	
 	public Long getIdMessage() {
@@ -35,53 +33,53 @@ public class Message {
 	public void setData(String data) {
 		this.data = data;
 	}
-	public BigInteger getConsumo() {
+	public String getVersion() {
+		return version;
+	}
+	public void setVersion(String version) {
+		this.version = version;
+	}
+	public Long getMeterId() {
+		return meterId;
+	}
+	public void setMeterId(Long meterId) {
+		this.meterId = meterId;
+	}
+	public Long getVolume() {
+		return volume;
+	}
+	public void setVolume(Long volume) {
+		this.volume = volume;
+	}
+	public Long getTemperature() {
+		return temperature;
+	}
+	public void setTemperature(Long temperature) {
+		this.temperature = temperature;
+	}
+	public Double getBattery() {
+		return battery;
+	}
+	public void setBattery(Double battery) {
+		this.battery = battery;
+	}
+	public Long getAlarm() {
+		return alarm;
+	}
+	public void setAlarm(Long alarm) {
+		this.alarm = alarm;
+	}
+	public Long getConsumo() {
 		return consumo;
 	}
-	public void setConsumo(BigInteger consumo) {
+	public void setConsumo(Long consumo) {
 		this.consumo = consumo;
 	}
-	public BigInteger getVazao() {
+	public Long getVazao() {
 		return vazao;
 	}
-	public void setVazao(BigInteger vazao) {
+	public void setVazao(Long vazao) {
 		this.vazao = vazao;
-	}
-	public BigInteger getBiVersion() {
-		return biVersion;
-	}
-	public void setBiVersion(BigInteger biVersion) {
-		this.biVersion = biVersion;
-	}
-	public BigInteger getBiMeterId() {
-		return biMeterId;
-	}
-	public void setBiMeterId(BigInteger biMeterId) {
-		this.biMeterId = biMeterId;
-	}
-	public BigInteger getBiVolume() {
-		return biVolume;
-	}
-	public void setBiVolume(BigInteger biVolume) {
-		this.biVolume = biVolume;
-	}
-	public BigInteger getBiTemperature() {
-		return biTemperature;
-	}
-	public void setBiTemperature(BigInteger biTemperature) {
-		this.biTemperature = biTemperature;
-	}
-	public BigInteger getBiBattery() {
-		return biBattery;
-	}
-	public void setBiBattery(BigInteger biBattery) {
-		this.biBattery = biBattery;
-	}
-	public BigInteger getBiAlarme() {
-		return biAlarme;
-	}
-	public void setBiAlarme(BigInteger biAlarme) {
-		this.biAlarme = biAlarme;
 	}
 	public String getDtInsert() {
 		return dtInsert;
