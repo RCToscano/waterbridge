@@ -48,10 +48,12 @@ public class MessageBO extends HttpServlet {
 	    		sb.append(linha);
 	    	}
 	    	
+	    	//String data = "1006474774230201001c0000";
+			String data = "10017335000001700017A508";
+	    	
 	    	Message message = new Gson().fromJson(sb.toString(), Message.class);
+	    	message.setData(data);
 
-			//String data = "1006474774230201001c0000";
-			String data = "10017335000001700017A508";			
 			String dataVersion = message.getData().substring(0, 2);
 	        String dataMeterPosition = message.getData().substring(2, 4);
 	        String dataVolume = message.getData().substring(4, 12);
