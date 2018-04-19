@@ -24,7 +24,7 @@ public class MessageBO extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private Connection connection;
-	StringBuilder sb = new StringBuilder();
+	StringBuilder sb;
 	
 	@Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -41,6 +41,7 @@ public class MessageBO extends HttpServlet {
 //            }  
             
 			connection = ConnectionFactory.getConnection();
+			sb = new StringBuilder();
 	    	
 	    	String linha = null;
 	    	while((linha = req.getReader().readLine()) != null) {	    
@@ -50,9 +51,7 @@ public class MessageBO extends HttpServlet {
 	    	Message message = new Gson().fromJson(sb.toString(), Message.class);
 
 			//String data = "1006474774230201001c0000";
-			String data = "10017335000001700017A508";
-			message.setData(data);
-			
+			String data = "10017335000001700017A508";			
 			String dataVersion = message.getData().substring(0, 2);
 	        String dataMeterPosition = message.getData().substring(2, 4);
 	        String dataVolume = message.getData().substring(4, 12);
@@ -98,7 +97,7 @@ public class MessageBO extends HttpServlet {
 			
 			message.setIdMessage(0l);
 			message.setIdUser(4l);
-			message.setDevice("3DE435");
+			//message.setDevice();
 			message.setData(data);
 			message.setVersion(biVersion.toString(10));
 			message.setMeterPosition(Long.parseLong(biMeterPosition.toString(10)));
@@ -178,6 +177,9 @@ public class MessageBO extends HttpServlet {
 			if(connection != null) {
 				try {connection.close();} catch (SQLException ex) {}
 			}
+//			if(sb != null) {
+//				sb.delete(0, sb.toString().length());
+//			}
 		}
     }
 }
