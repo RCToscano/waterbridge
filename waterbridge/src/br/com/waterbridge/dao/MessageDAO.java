@@ -27,10 +27,13 @@ public class MessageDAO {
             "INSERT INTO TB_MESSAGE ( " +
     		//"       ID_MESSAGE, " +
     		"       ID_USER, " +
+    		"       DEVICE, " +
     		"       DATA, " +
     		"       VERSION, " +
-    		"       METERID, " +
+    		"       METERPOSITION, " +
     		"       VOLUME, " +
+    		"       PRESSURE, " +
+    		"       FLOW, " +
     		"       TEMPERATURE, " +
     		"       BATTERY, " +
     		"       ALARM, " +
@@ -39,21 +42,24 @@ public class MessageDAO {
     		"       DTINSERT " +
             ") VALUES ( " +
             "       ?,?,?,?,?,?,?,?,?,?, " +
-            "       ? " +
+            "       ?,?,?,? " +
             ") ");
             
             //stmt.setObject(1, message.getIdMessage());
             stmt.setObject(1, message.getIdUser());
-            stmt.setObject(2, message.getData());
-            stmt.setObject(3, message.getVersion());
-            stmt.setObject(4, message.getMeterId());
-            stmt.setObject(5, message.getVolume());
-            stmt.setObject(6, message.getTemperature());
-            stmt.setObject(7, message.getBattery());
-            stmt.setObject(8, message.getAlarm());
-            stmt.setObject(9, message.getConsumo());
-            stmt.setObject(10, message.getVazao());
-            stmt.setObject(11, message.getDtInsert());
+            stmt.setObject(2, message.getDevice());
+            stmt.setObject(3, message.getData());
+            stmt.setObject(4, message.getVersion());
+            stmt.setObject(5, message.getMeterPosition());
+            stmt.setObject(6, message.getVolume());
+            stmt.setObject(7, message.getPressure());
+    		stmt.setObject(8, message.getFlow());
+            stmt.setObject(9, message.getTemperature());
+            stmt.setObject(10, message.getBattery());
+            stmt.setObject(11, message.getAlarm());
+            stmt.setObject(12, message.getConsumo());
+            stmt.setObject(13, message.getVazao());
+            stmt.setObject(14, message.getDtInsert());
 
             stmt.executeUpdate();
         }
@@ -70,7 +76,7 @@ public class MessageDAO {
         }
     }
     
-    public Message buscarUltimoPorMeterId(Long meterId) throws SQLException {
+    public Message buscarUltimo(String device, Long meterPosition) throws SQLException {
 
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -79,25 +85,29 @@ public class MessageDAO {
         try {
             
             stmt = connection.prepareStatement(
-    		"SELECT TB_MESSAGE.ID_MESSAGE, " +
-        	"       TB_MESSAGE.ID_USER, " +
-        	"	    TB_MESSAGE.DATA, " +
-        	"       TB_MESSAGE.VERSION, " +
-        	"       TB_MESSAGE.METERID, " +
-        	"       TB_MESSAGE.VOLUME, " +
-        	"       TB_MESSAGE.TEMPERATURE, " +
-        	"       TB_MESSAGE.BATTERY, " +
-        	"       TB_MESSAGE.ALARM, " +
-        	"       TB_MESSAGE.CONSUMO, " +
-        	"       TB_MESSAGE.VAZAO, " +
-        	"       TB_MESSAGE.DTINSERT " +
+    		"SELECT ID_MESSAGE, " +
+    		"       ID_USER, " +
+    		"       DEVICE, " +
+    		"       DATA, " +
+    		"       VERSION, " +
+    		"       METERPOSITION, " +
+    		"       VOLUME, " +
+    		"       PRESSURE, " +
+    		"       FLOW, " +
+    		"       TEMPERATURE, " +
+    		"       BATTERY, " +
+    		"       ALARM, " +
+    		"       CONSUMO, " +
+    		"       VAZAO, " +
+    		"       DTINSERT " +
         	"FROM   TB_MESSAGE " +
-        	"WHERE  TB_MESSAGE.ID_MESSAGE = ( " +
-        	"  SELECT MAX(ID_MESSAGE) FROM TB_MESSAGE WHERE METERID = ? " +
+        	"WHERE  ID_MESSAGE = ( " +
+        	"  SELECT MAX(ID_MESSAGE) FROM TB_MESSAGE WHERE DEVICE = ? AND METERPOSITION = ? " +
         	") "
     		);
             
-            stmt.setObject(1, meterId);
+            stmt.setObject(1, device);
+            stmt.setObject(2, meterPosition);
             
             rs = stmt.executeQuery();
 
@@ -106,15 +116,18 @@ public class MessageDAO {
             	message = new Message();
             	message.setIdMessage(rs.getLong("ID_MESSAGE"));
             	message.setIdUser(rs.getLong("ID_USER"));
+            	message.setDevice(rs.getString("DEVICE"));
             	message.setData(rs.getString("DATA"));
             	message.setVersion(rs.getString("VERSION"));
-            	message.setMeterId(rs.getLong("METERID"));
-            	message.setVolume(rs.getLong("VOLUME"));
+            	message.setMeterPosition(rs.getLong("METERPOSITION"));
+            	message.setVolume(rs.getDouble("VOLUME"));
+            	message.setPressure(rs.getDouble("PRESSURE"));
+            	message.setFlow(rs.getLong("FLOW"));
             	message.setTemperature(rs.getLong("TEMPERATURE"));
             	message.setBattery(rs.getDouble("BATTERY"));
             	message.setAlarm(rs.getLong("ALARM"));
-            	message.setConsumo(rs.getLong("CONSUMO"));
-            	message.setVazao(rs.getLong("VAZAO"));
+            	message.setConsumo(rs.getDouble("CONSUMO"));
+            	message.setVazao(rs.getDouble("VAZAO"));
             	message.setDtInsert(rs.getString("DTINSERT"));
             }
 
@@ -145,32 +158,38 @@ public class MessageDAO {
             
             stmt = connection.prepareStatement(
     		"UPDATE TB_MESSAGE SET " +
-        	"       ID_USER = ?, " +
-        	"	    DATA = ?, " +
-        	"       VERSION = ?, " +
-        	"       METERID = ?, " +
-        	"       VOLUME = ?, " +
-        	"       TEMPERATURE = ?, " +
-        	"       BATTERY = ?, " +
-        	"       ALARM = ?, " +
-        	"       CONSUMO = ?, " +
-        	"       VAZAO = ?, " +
-        	"       DTINSERT = ? " +
+			"       ID_USER = ?, " +
+			"       DEVICE = ?, " +
+			"       DATA = ?, " +
+			"       VERSION = ?, " +
+			"       METERPOSITION = ?, " +
+			"       VOLUME = ?, " +
+			"       PRESSURE = ?, " +
+			"       FLOW = ?, " +
+			"       TEMPERATURE = ?, " +
+			"       BATTERY = ?, " +
+			"       ALARM = ?, " +
+			"       CONSUMO = ?, " +
+			"       VAZAO = ?, " +
+			"       DTINSERT = ? " +
         	"WHERE  ID_MESSAGE = ? " 
     		);
             
             stmt.setObject(1, message.getIdUser());
-            stmt.setObject(2, message.getData());
-            stmt.setObject(3, message.getVersion());
-            stmt.setObject(4, message.getMeterId());
-            stmt.setObject(5, message.getVolume());
-            stmt.setObject(6, message.getTemperature());
-            stmt.setObject(7, message.getBattery());
-            stmt.setObject(8, message.getAlarm());
-            stmt.setObject(9, message.getConsumo());
-            stmt.setObject(10, message.getVazao());
-            stmt.setObject(11, message.getDtInsert());
-            stmt.setObject(12, message.getIdMessage());
+            stmt.setObject(2, message.getDevice());
+            stmt.setObject(3, message.getData());
+            stmt.setObject(4, message.getVersion());
+            stmt.setObject(5, message.getMeterPosition());
+            stmt.setObject(6, message.getVolume());
+            stmt.setObject(7, message.getPressure());
+            stmt.setObject(8, message.getFlow());
+            stmt.setObject(9, message.getTemperature());
+            stmt.setObject(10, message.getBattery());
+            stmt.setObject(11, message.getAlarm());
+            stmt.setObject(12, message.getConsumo());
+            stmt.setObject(13, message.getVazao());
+            stmt.setObject(14, message.getDtInsert());
+            stmt.setObject(15, message.getIdMessage());
             
             stmt.executeUpdate();
         }

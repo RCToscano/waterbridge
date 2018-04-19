@@ -4,15 +4,18 @@ public class Message {
 
 	private Long idMessage;
 	private Long idUser;
+	private String device;
 	private String data;
 	private String version;
-	private Long meterId;
-	private Long volume;
+	private Long meterPosition;
+	private Double volume;
+	private Double pressure;
+	private Long flow;
 	private Long temperature;
 	private Double battery;
 	private Long alarm;
-	private Long consumo;
-	private Long vazao;
+	private Double consumo;
+	private Double vazao;
 	private String dtInsert;
 	
 	public Long getIdMessage() {
@@ -27,6 +30,12 @@ public class Message {
 	public void setIdUser(Long idUser) {
 		this.idUser = idUser;
 	}
+	public String getDevice() {
+		return device;
+	}
+	public void setDevice(String device) {
+		this.device = device;
+	}
 	public String getData() {
 		return data;
 	}
@@ -39,17 +48,29 @@ public class Message {
 	public void setVersion(String version) {
 		this.version = version;
 	}
-	public Long getMeterId() {
-		return meterId;
+	public Long getMeterPosition() {
+		return meterPosition;
 	}
-	public void setMeterId(Long meterId) {
-		this.meterId = meterId;
+	public void setMeterPosition(Long meterPosition) {
+		this.meterPosition = meterPosition;
 	}
-	public Long getVolume() {
+	public Double getVolume() {
 		return volume;
 	}
-	public void setVolume(Long volume) {
+	public void setVolume(Double volume) {
 		this.volume = volume;
+	}
+	public Double getPressure() {
+		return pressure;
+	}
+	public void setPressure(Double pressure) {
+		this.pressure = pressure;
+	}
+	public Long getFlow() {
+		return flow;
+	}
+	public void setFlow(Long flow) {
+		this.flow = flow;
 	}
 	public Long getTemperature() {
 		return temperature;
@@ -69,16 +90,16 @@ public class Message {
 	public void setAlarm(Long alarm) {
 		this.alarm = alarm;
 	}
-	public Long getConsumo() {
+	public Double getConsumo() {
 		return consumo;
 	}
-	public void setConsumo(Long consumo) {
+	public void setConsumo(Double consumo) {
 		this.consumo = consumo;
 	}
-	public Long getVazao() {
+	public Double getVazao() {
 		return vazao;
 	}
-	public void setVazao(Long vazao) {
+	public void setVazao(Double vazao) {
 		this.vazao = vazao;
 	}
 	public String getDtInsert() {

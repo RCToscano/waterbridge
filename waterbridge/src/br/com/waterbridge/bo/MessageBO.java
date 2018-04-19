@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -46,40 +48,113 @@ public class MessageBO extends HttpServlet {
 	    	
 	    	Message message = new Gson().fromJson(sb.toString(), Message.class);
 
-	        String dataVersion = message.getData().substring(0, 2);
-	        String dataMeterId = message.getData().substring(2, 10);
-	        //ROTACIONAR METER ID
-	        dataMeterId = dataMeterId.substring(6, 8) +
-	                      dataMeterId.substring(4, 6) +
-	                      dataMeterId.substring(2, 4) +
-	                      dataMeterId.substring(0, 2) ;
-	        String dataVolume = message.getData().substring(10, 18);
-	        //ROTACIONAR VOLUME
+			//String data = "1006474774230201001c0000";
+			String data = "10017335000001700017A508";
+			message.setData(data);
+			
+			String dataVersion = message.getData().substring(0, 2);
+	        String dataMeterPosition = message.getData().substring(2, 4);
+	        String dataVolume = message.getData().substring(4, 12);
+	        //ROTACIONAR VOLUME        
 	        dataVolume = dataVolume.substring(6, 8) +
 	                     dataVolume.substring(4, 6) +
 	                     dataVolume.substring(2, 4) +
 	                     dataVolume.substring(0, 2) ;
+	        String dataPressure = message.getData().substring(12, 16);
+	        //ROTACIONAR PRESSAO        
+	        dataPressure = dataPressure.substring(2, 4) +
+	        		       dataPressure.substring(0, 2) ;        
+	        String dataFlow = message.getData().substring(16, 18);        
 	        String dataTemperature = message.getData().substring(18, 20);
 	        String dataBattery = message.getData().substring(20, 22);
 	        String dataAlarme = message.getData().substring(22, 24);
-	    	
-	    	message.setIdMessage(0l);
-	    	message.setIdUser(4l);
-	    	//message.setData(data);
-	    	//message.setConsumo(consumo);
-	    	//message.setVazao(vazao);
-	    	message.setBiVersion(new BigInteger(dataVersion));
-	    	message.setBiMeterId(new BigInteger(dataMeterId));
-	    	message.setBiVolume(new BigInteger(dataVolume));//RECEBE VOLUME HEXA ROTACIONADO
-	    	message.setBiVolume(new BigInteger(message.getBiVolume().toString(10)));//CONVERTE VOLUME DECIMAL
-	    	message.setBiVolume(message.getBiVolume().divide(new BigInteger("1000")));//COMVERTE VOLUME EM LITROS	       
-	    	message.setBiTemperature(new BigInteger(dataTemperature));
-	    	message.setBiBattery(new BigInteger(dataBattery));
-	    	message.setBiAlarme(new BigInteger(dataAlarme));
-	    	message.setDtInsert(null);
+	        
+	        System.out.println("dataVersion " + dataVersion);
+			System.out.println("dataMeterPosition " + dataMeterPosition);
+			System.out.println("dataVolume " + dataVolume);
+			System.out.println("dataPressure " + dataPressure);
+			System.out.println("dataFlow " + dataFlow);
+			System.out.println("dataTemperature " + dataTemperature);
+			System.out.println("dataBattery " + dataBattery);
+			System.out.println("dataAlarme " + dataAlarme);
+			
+			BigInteger biVersion = new BigInteger(dataVersion, 16);
+			BigInteger biMeterPosition = new BigInteger(dataMeterPosition, 16);
+			BigInteger biVolume = new BigInteger(dataVolume, 16);		
+			biVolume = new BigInteger(biVolume.toString(10));//CONVERTE VOLUME DECIMAL
+			BigInteger biPressure = new BigInteger(dataPressure, 16);
+			BigInteger biFlow = new BigInteger(dataFlow, 16);
+			BigInteger biTemperature = new BigInteger(dataTemperature, 16);
+			BigInteger biBattery = new BigInteger(dataBattery, 16);
+			BigInteger biAlarme = new BigInteger(dataAlarme, 16);
+			
+			Connection connection = ConnectionFactory.getConnection();
+			MessageDAO messageDAO = new MessageDAO(connection);
+			
+			DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+			dfs.setDecimalSeparator('.');
+			DecimalFormat df = new DecimalFormat("0.##", dfs);
+			
+			message.setIdMessage(0l);
+			message.setIdUser(4l);
+			message.setDevice("3DE435");
+			message.setData(data);
+			message.setVersion(biVersion.toString(10));
+			message.setMeterPosition(Long.parseLong(biMeterPosition.toString(10)));
+			message.setVolume(Double.parseDouble(biVolume.toString(10)));
+			message.setVolume(message.getVolume() / 1000);
+			message.setVolume(Double.parseDouble(df.format(message.getVolume())));
+			message.setPressure(Double.parseDouble(biPressure.toString(10)));
+			message.setPressure(message.getPressure() / 900);
+			message.setPressure(Double.parseDouble(df.format(message.getPressure())));
+			message.setFlow(Long.parseLong(biFlow.toString(10)));
+			message.setTemperature(Long.parseLong(biTemperature.toString(10)));
+			message.setBattery(Double.parseDouble(biBattery.toString(10)));
+			message.setBattery(message.getBattery() / 50);
+			message.setBattery(Double.parseDouble(df.format(message.getBattery())));
+			message.setAlarm(Long.parseLong(biAlarme.toString(10)));
+			message.setConsumo(0D);
+			message.setVazao(0D);
+			message.setDtInsert(messageDAO.dataHoraMinSeg());		
+			
+			System.out.println("");
+			System.out.println("getIdMessage " + message.getIdMessage());
+			System.out.println("getIdUser " + message.getIdUser());
+			System.out.println("getData " + message.getData());
+			System.out.println("getVersion " + message.getVersion());
+			System.out.println("getMeterPosition " + message.getMeterPosition());
+			System.out.println("getVolume " + message.getVolume());
+			System.out.println("getPressure " + message.getPressure());
+			System.out.println("getFlow " + message.getFlow());
+			System.out.println("getTemperature " + message.getTemperature());
+			System.out.println("getBattery " + message.getBattery());
+			System.out.println("getAlarm " + message.getAlarm());
+			System.out.println("getConsumo " + message.getConsumo());
+			System.out.println("getVazao " + message.getVazao());
+			System.out.println("getDtInsert " + message.getDtInsert());
 
-	    	MessageDAO messageDAO = new MessageDAO(connection);
-	    	messageDAO.inserir(message);
+			//BUSCA MENSAGEM ANTERIOR
+			//Message messageAnt = messageDAO.buscarUltimoPorMeterId(message.getMeterId());
+			Message messageAnt = messageDAO.buscarUltimo(message.getDevice(), message.getMeterPosition());
+
+			//CALCULA CONSUMO
+			if(messageAnt != null) {
+				message.setConsumo(message.getVolume() - messageAnt.getVolume());
+				message.setConsumo(Double.parseDouble(df.format(message.getConsumo())));
+			}
+			
+			//CALCULA VAZAO
+			if(messageAnt != null) {
+				Long qtdeMinutos = messageDAO.difDataEmMinutos(messageAnt.getDtInsert(), message.getDtInsert());
+				Double vazao = 0D;
+				if(message.getConsumo().longValue() > 0 && qtdeMinutos > 0) {
+					vazao = message.getConsumo() / qtdeMinutos;
+					message.setVazao(Double.parseDouble(df.format(vazao)));
+				}
+			}
+			
+			//INSERIR
+			messageDAO.inserir(message);
 			
             String json = "ok";
             
