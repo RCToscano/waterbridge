@@ -47,12 +47,9 @@ public class MessageBO extends HttpServlet {
 	    	while((linha = req.getReader().readLine()) != null) {	    
 	    		sb.append(linha);
 	    	}
-	    	
-	    	//String data = "1006474774230201001c0000";
-			String data = "10017335000001700017A508";
-	    	
+	    		    	
 	    	Message message = new Gson().fromJson(sb.toString(), Message.class);
-	    	message.setData(data);
+	    	message.setData("10017335000001700017A508");//SOBREPONDO O DATA ATE QUE O FELIPE ALTERE O FRAME ENVIADO
 
 			String dataVersion = message.getData().substring(0, 2);
 	        String dataMeterPosition = message.getData().substring(2, 4);
@@ -100,7 +97,7 @@ public class MessageBO extends HttpServlet {
 			message.setIdMessage(0l);
 			message.setIdUser(4l);
 			//message.setDevice();
-			message.setData(data);
+			//message.setData(data);
 			message.setVersion(biVersion.toString(10));
 			message.setMeterPosition(Long.parseLong(biMeterPosition.toString(10)));
 			message.setVolume(Double.parseDouble(biVolume.toString(10)));
