@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import br.com.waterbridge.connection.ConnectionFactory;
+import br.com.waterbridge.dao.LogSqlDAO;
 import br.com.waterbridge.dao.MessageDAO;
 import br.com.waterbridge.modelo.Message;
 
@@ -23,6 +24,7 @@ public class MessageBO extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private Connection connection;
+	StringBuilder sb = new StringBuilder();
 	
 	@Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -39,8 +41,7 @@ public class MessageBO extends HttpServlet {
 //            }  
             
 			connection = ConnectionFactory.getConnection();
-			
-	    	StringBuilder sb = new StringBuilder();
+	    	
 	    	String linha = null;
 	    	while((linha = req.getReader().readLine()) != null) {	    
 	    		sb.append(linha);
@@ -163,13 +164,12 @@ public class MessageBO extends HttpServlet {
             res.getWriter().write(json); 
         }
         catch (Exception e) {
-        	
-        	Message message = new Message();
-	    	message.setTexto(e.toString());
-	    	
-	    	MessageDAO messageDAO = new MessageDAO(connection);
-	    	try {messageDAO.inserir(message);} catch (SQLException e1) {}
-        	
+        	if(e.toString().length() > 1000) {
+        		try {new LogSqlDAO(connection).inserir(4l, e.toString().substring(0, 999), sb.toString());} catch (SQLException e1) {e1.printStackTrace();}
+        	}
+        	else {
+        		try {new LogSqlDAO(connection).inserir(4l, e.toString(), sb.toString());} catch (SQLException e1) {e1.printStackTrace();}
+        	}
         	res.setContentType("application/json");
             res.setCharacterEncoding("UTF-8");
             res.getWriter().write("erro");
