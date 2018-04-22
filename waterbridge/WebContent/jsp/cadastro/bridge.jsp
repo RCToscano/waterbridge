@@ -44,14 +44,14 @@
 <%-- 			</c:if> --%>
 			
 			<div class="row">
-				<div class="col-md-7 col-md-offset-2">
+				<div class="col-md-8 col-md-offset-2">
 					<form action="" method="post">
 						<fieldset>
 							<legend class="text-left">Cadastro de Bridge's</legend>
 							
 							<div class="col-sm-3">
 								<div class="form-group">
-									<label class="control-label" for="name">Dispositivo N&deg;:</label>
+									<label class="control-label" for="name">Device N&deg;:</label>
 									<input type="text" class="form-control" id="device" name="device" value="" required/>
 								</div>
 							</div>
@@ -119,6 +119,13 @@
 									<input type="text" class="form-control" id="taxa" name="taxa" value="" required/>
 								</div>
 							</div>
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label class="control-label" for="descricao">Descri&ccedil;&atilde;o:</label>
+									<textarea class="form-control" rows="3" name="descricao" id="descricao"></textarea>
+								</div>
+							</div>
+							
 							
 	    					<div class="col-sm-12">
 								<div class="form-group">

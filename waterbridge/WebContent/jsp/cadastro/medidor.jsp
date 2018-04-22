@@ -44,7 +44,7 @@
 <%-- 			</c:if> --%>
 			
 			<div class="row">
-				<div class="col-md-7 col-md-offset-2">
+				<div class="col-md-8 col-md-offset-2">
 					<form action="" method="post">
 						<fieldset>
 							<legend class="text-left">Cadastro de Medidor (Hidrômetro)</legend>
@@ -65,7 +65,7 @@
 							
 							<div class="col-sm-4">
 								<div class="form-group">
-									<label class="control-label" for="name">N&deg; Série:</label>
+									<label class="control-label" for="name">N&deg; S&eacute;rie:</label>
 									<input type="text" class="form-control" id="serie" name="serie" value="" required/>
 								</div>
 							</div>
@@ -91,10 +91,10 @@
 								</div>
 							</div>
 							
-							<div class="col-sm-8">
+							<div class="col-sm-12">
 								<div class="form-group">
-									<label class="control-label" for="name">Informações Adicionais:</label>
-									<input type="text" class="form-control" id="informacoes" name="informacoes" value=""/>
+									<label class="control-label" for="descricao">Informa&ccedil;&atilde;es Adicionais:</label>
+									<textarea class="form-control" rows="3" name="descricao" id="descricao"></textarea>
 								</div>
 							</div>
 							
