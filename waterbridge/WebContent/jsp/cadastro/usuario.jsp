@@ -14,9 +14,13 @@
         <script src="./js/jquery-1.11.3.min.js"></script>
         <script src="./js/jquery.mask.min.js" type="text/javascript"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+		<script type="text/javascript" src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
         <script>
             $(function () {
-                $("#telefone").mask("(99) 99999-9999");
+                $("#telefoneResidencial").mask("(99) 9999-9999");
+                $("#telefoneComercial").mask("(99) 9999-9999");
+                $("#telefoneCelular").mask("(99) 99999-9999");
                 $("#cpf").mask("999.999.999-99");
                 $("#cnpj").mask("99.999.999/9999-99");
             });
@@ -28,7 +32,7 @@
         	<ul class="breadcrumb">
 			    <li><a href="HomeBO?acao=home">Home</a></li>
 			    <li class="active">Cadastro</li>
-			    <li class="active">Consumidor</li>
+			    <li class="active">Usuário</li>
 			</ul>
 			
 <%-- 			<c:if test="${aviso != ''}"> --%>
@@ -47,7 +51,9 @@
 				<div class="col-md-7 col-md-offset-2">
 					<form action="" method="post">
 						<fieldset>
-							<legend class="text-left">Cadastro de Consumidor</legend>
+							<legend class="text-left">Cadastro de Usuário</legend>
+							
+							<div class="col-sm-12"></div>
 							
 							<div class="col-sm-6">
 								<div class="form-group">
@@ -56,10 +62,69 @@
 								</div>
 							</div>
 							
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="control-label">Perfil do Usuário:</label>
+									<select class="form-control" name="perfil" id="perfil" required>
+										<option value="" selected>Selecione...</option>
+										<option value="1">Gerente</option>
+										<option value="2">Consumidor</option>
+										<option value="3">Condomínio</option>
+									</select>
+								</div>
+							</div>
+							
+							<div class="col-sm-12"></div>
+							
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label>Sexo: </label>
+									<label class="radio-inline">
+										<input type="radio" name="radioSexo" id="sexoMasculino" value="" >Masculino</input>
+									</label>
+									<label class="radio-inline">
+										<input type="radio" name="radioSexo" id="sexoFeminino" value="" >Feminino</input>
+									</label>
+								</div>
+							</div>
+							
 							<div class="col-sm-4">
 								<div class="form-group">
-									<label class="control-label">Telefone:</label>
-									<input type="text" class="form-control" id="telefone" name="telefone" value="" required/>
+									<label class="control-label">Data de Nascimento:</label>
+									<div class='input-group date' id='datetimepicker1'>
+										<input type="text" class="form-control" id="dtNascimento" name="dtNascimento" data-date-format="DD/MM/YYYY" placeholder="dd/mm/aaaa" value=""/>
+										<span class="input-group-addon">
+											<span class="glyphicon glyphicon-calendar"></span>
+										</span>
+										<script type="text/javascript">
+										    $(function () {
+										        $('#datetimepicker1').datetimepicker({
+										            format: 'DD/MM/YYYY'
+										        });
+										    });
+										</script>
+									</div>
+								</div>
+							</div>
+							
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label class="control-label">Telefone Residencial:</label>
+									<input type="text" class="form-control" id="telefoneResidencial" name="telefoneResidencial" placeholder="(XX) XXXX-XXXX" value=""/>
+								</div>
+							</div>
+							
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label class="control-label">Telefone Comercial:</label>
+									<input type="text" class="form-control" id="telefoneComercial" name="telefoneComercial" placeholder="(XX) XXXX-XXXX" value=""/>
+								</div>
+							</div>
+							
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label class="control-label">Telefone Celular:</label>
+									<input type="text" class="form-control" id="telefoneCelular" name="telefoneCelular" placeholder="(XX) XXXXX-XXXX" value=""/>
 								</div>
 							</div>
 							
@@ -204,5 +269,11 @@
 				</p>
 			</div>
 		</footer>
+		
+		<script type="text/javascript">
+            $(function () {
+                $('#dtNascimento').datetimepicker();
+            });
+        </script>
     </body>
 </html>
