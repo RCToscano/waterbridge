@@ -40,11 +40,9 @@
                 <li>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Cadastros <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="CadastroBO?acao=representante">Representantes</a></li>
+                        <li><a href="CadastroBO?acao=usuario">Usuários</a></li>
                          <li class="divider"></li>
                         <li><a href="CadastroBO?acao=bridge">Bridge's</a></li>
-                         <li class="divider"></li>
-                        <li><a href="CadastroBO?acao=consumidor">Consumidor</a></li>
                          <li class="divider"></li>
                         <li><a href="CadastroBO?acao=condominio">Condomínios</a></li>
                          <li class="divider"></li>
