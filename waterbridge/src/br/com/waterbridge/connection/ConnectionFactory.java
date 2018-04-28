@@ -8,7 +8,6 @@ import java.sql.SQLException;
 public class ConnectionFactory {
     
     //CONEXAO REMOTA
-	
 //	//private static final String url = "jdbc:mysql://www.waterbridge.com.br:3306/waterbri_001";
 //    private static final String url = "jdbc:mysql://localhost:3306/waterbri_001";
 //    private static final String driver = "com.mysql.jdbc.Driver";
