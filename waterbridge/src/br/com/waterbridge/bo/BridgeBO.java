@@ -43,10 +43,8 @@ public class BridgeBO extends HttpServlet {
 				BridgeTpAlimDAO bridgeTpAlimDAO = new BridgeTpAlimDAO(connection);
 				List<BridgeTpAlim> listBridgeTpAlim = bridgeTpAlimDAO.listar();
 
-				req.setAttribute("acao", "2");
-				req.setAttribute("btsubmit", "Cadastrar");
 				req.setAttribute("listBridgeTpAlim", listBridgeTpAlim);				
-				req.getRequestDispatcher("/jsp/cadastro/cadastrobridge.jsp").forward(req, res);
+				req.getRequestDispatcher("/jsp/bridge/cadastrobridge.jsp").forward(req, res);
 			}
 	        catch (Exception e) {
 	            req.setAttribute("erro", e.toString());
@@ -94,15 +92,21 @@ public class BridgeBO extends HttpServlet {
 					
 					bridgeDAO.inserir(bridge);
 				
-					req.setAttribute("aviso", "<div class='alert alert-success'>Cadastro realizado com sucesso!</div>");
+					req.setAttribute("aviso", 
+					"<div class='alert alert-success'>" +
+					"    Cadastro realizado com sucesso!" +
+					"    &emsp;&emsp;" +
+					"    <a href='BridgeBO?acao=3&deviceNum=" + bridge.getDeviceNum() + "'>" + bridge.getDeviceNum() + "</a>" +		
+					"</div>"
+					);
 					req.setAttribute("listBridgeTpAlim", listBridgeTpAlim);
-					req.getRequestDispatcher("/jsp/cadastro/cadastrobridge.jsp").forward(req, res);
+					req.getRequestDispatcher("/jsp/bridge/cadastrobridge.jsp").forward(req, res);
 				}
 				else {
 					
 					req.setAttribute("aviso", 
 					"<div class='alert alert-danger'>" +
-					"    Não foi possível cadastrar.! Cadastro realizado em " + bridge.getDtInsert() +
+					"    Não foi possível cadastrar.! O cadastro já foi realizado em " + bridge.getDtInsert() +
 					"    &emsp;&emsp;" +
 					"    <a href='BridgeBO?acao=3&deviceNum=" + bridge.getDeviceNum() + "'>" + bridge.getDeviceNum() + "</a>" +
 					"</div>"
@@ -111,7 +115,7 @@ public class BridgeBO extends HttpServlet {
 					req.setAttribute("btsubmit", "Cadastrar");
 					req.setAttribute("listBridgeTpAlim", listBridgeTpAlim);
 					req.setAttribute("idBridge", bridge.getIdBridge().toString());
-					req.getRequestDispatcher("/jsp/cadastro/cadastrobridge.jsp").forward(req, res);
+					req.getRequestDispatcher("/jsp/bridge/cadastrobridge.jsp").forward(req, res);
 				}
 			}
 	        catch (Exception e) {
@@ -140,11 +144,64 @@ public class BridgeBO extends HttpServlet {
 				BridgeDAO bridgeDAO = new BridgeDAO(connection);
 				Bridge bridge = bridgeDAO.buscarPorDeviceNum(req.getParameter("deviceNum").trim().toUpperCase()); 
 				
-				req.setAttribute("acao", "3");
-				req.setAttribute("btsubmit", "Alterar");
 				req.setAttribute("listBridgeTpAlim", listBridgeTpAlim);
 				req.setAttribute("bridge", bridge);
-				req.getRequestDispatcher("/jsp/cadastro/cadastrobridge.jsp").forward(req, res);
+				req.getRequestDispatcher("/jsp/bridge/alteracaobridge.jsp").forward(req, res);
+			}
+	        catch (Exception e) {
+	            req.setAttribute("erro", e.toString());
+	            req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
+	        }
+			finally {
+				if(connection != null) {
+					try {connection.close();} catch (SQLException e) {}
+				}
+			}	
+        }
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("4")) {
+
+			Connection connection = null;
+			HttpSession session = req.getSession(true);
+            User user = (User) session.getValue("user");
+			
+			try {
+			
+				connection = ConnectionFactory.getConnection();
+
+				BridgeTpAlim bridgeTpAlim = new BridgeTpAlim();
+				bridgeTpAlim.setIdBridgeTpAlim(Long.parseLong(req.getParameter("tpAlimentacao")));
+
+				Bridge bridge = new Bridge();
+				bridge.setIdBridge(Long.parseLong(req.getParameter("idBridge")));
+				bridge.setIdUser(user.getIdUser());
+				bridge.setDeviceNum(req.getParameter("deviceNum").trim().toUpperCase());
+				bridge.setDtAtivacao(req.getParameter("dtAtivacao"));
+				bridge.setValidadeToken(req.getParameter("validadeToken"));
+				bridge.setBridgeTpAlim(bridgeTpAlim);
+				bridge.setCustoMensal(Double.parseDouble(req.getParameter("custoMensal").replace(".", "").replace(",", ".")));
+				bridge.setTaxaEnvio(Long.parseLong(req.getParameter("taxaEnvio")));
+				bridge.setDescricao(Auxiliar.removerCaracteres(req.getParameter("descricao")).toUpperCase());
+				bridge.setSituacao(req.getParameter("situacao"));
+				bridge.setDtInsert(null);
+				
+				BridgeDAO bridgeDAO = new BridgeDAO(connection);
+				bridgeDAO.alterar(bridge);
+
+				BridgeTpAlimDAO bridgeTpAlimDAO = new BridgeTpAlimDAO(connection);
+				List<BridgeTpAlim> listBridgeTpAlim = bridgeTpAlimDAO.listar();
+				
+				bridge = bridgeDAO.buscarPorDeviceNum(req.getParameter("deviceNum").trim().toUpperCase()); 
+
+				req.setAttribute("aviso", 
+				"<div class='alert alert-success'>" +
+				"    Alteração realizada com sucesso!" +
+				"    &emsp;&emsp;" +
+				"    <a href='BridgeBO?acao=3&deviceNum=" + bridge.getDeviceNum() + "'>" + bridge.getDeviceNum() + "</a>" +		
+				"</div>"
+				);
+				req.setAttribute("listBridgeTpAlim", listBridgeTpAlim);
+				req.setAttribute("bridge", bridge);
+				req.getRequestDispatcher("/jsp/bridge/alteracaobridge.jsp").forward(req, res);
 			}
 	        catch (Exception e) {
 	            req.setAttribute("erro", e.toString());

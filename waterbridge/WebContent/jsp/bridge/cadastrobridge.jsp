@@ -10,7 +10,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<script src="./js/cadastrobridge.js" type="text/javascript"></script>
+	<script src="./js/bridge/cadastrobridge.js" type="text/javascript"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="http://code.jquery.com/jquery-2.2.4.js" ></script>	
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -39,15 +39,15 @@
 		<div class="col-sm-8" style="float: none; margin: 0 auto;">
 			<h3>Cadastro de Bridge</h3>
 			<div id="divAviso">${aviso}</div>
-			<form role="form" id="formCadBridge" action="BridgeBO?acao=${acao}" method="POST" class="form-horizontal" accept-charset="iso-8859-1,utf-8" style="margin-top: 30px;" onsubmit="return cadastrarBridge()">
+			<form role="form" id="formCadBridge" action="BridgeBO?acao=2" method="POST" class="form-horizontal" accept-charset="iso-8859-1,utf-8" style="margin-top: 30px;" onsubmit="return cadastrarBridge()">
 				<div class="form-group">
 				    <div class="col-sm-4">
 						<label>N&deg; Device</label>
-						<input type="text" class="form-control" id="deviceNum" name="deviceNum" value="${bridge.deviceNum}" maxlength="20"/>
+						<input type="text" class="form-control" id="deviceNum" name="deviceNum" value="" maxlength="20"/>
 					</div>
 					<div class="col-sm-4">
 						<label>Data de Ativa&ccedil;&atilde;o</label>
-						<input type='text' class="form-control" id='dtAtivacao' name='dtAtivacao' value="${bridge.dtAtivacao}" />
+						<input type='text' class="form-control" id='dtAtivacao' name='dtAtivacao' value="" />
 	                    <script type="text/javascript">
 	                        $(function () {
 	                            $('#dtAtivacao').datetimepicker({
@@ -59,7 +59,7 @@
 					</div>
 					<div class="col-sm-4">
 		            	<label>Validade do Token</label>
-	                    <input type='text' class="form-control" id='validadeToken' name='validadeToken' value="${bridge.validadeToken}" />
+	                    <input type='text' class="form-control" id='validadeToken' name='validadeToken' value="" />
 	                    <script type="text/javascript">
 	                        $(function () {
 	                            $('#validadeToken').datetimepicker({
@@ -77,58 +77,34 @@
 						<select class="form-control" id="tpAlimentacao" name="tpAlimentacao">
 							<option value="0" selected>Selecione...</option>
 							<c:forEach var="bridgeTpAlim" items="${listBridgeTpAlim}">
-                         		<c:choose>
-									<c:when test="${bridgeTpAlim.idBridgeTpAlim == bridge.bridgeTpAlim.idBridgeTpAlim}">
-										<option value="${bridgeTpAlim.idBridgeTpAlim}" selected="selected">${bridgeTpAlim.tpAlimentacao}</option>
-									</c:when>
-									<c:otherwise>
-										<option value="${bridgeTpAlim.idBridgeTpAlim}">${bridgeTpAlim.tpAlimentacao}</option>
-									</c:otherwise>
-								</c:choose>
+                         		<option value="${bridgeTpAlim.idBridgeTpAlim}">${bridgeTpAlim.tpAlimentacao}</option>                         		
 	                     	</c:forEach>
 						</select>
 					</div>
 					<div class="col-sm-4">						
 						<label>Custo Mensal</label>
 						<fmt:setLocale value="pt-BR" />
-						<input type="text" class="form-control" id="custoMensal" name="custoMensal" value="<fmt:formatNumber value="${bridge.custoMensal}" type="currency" currencySymbol=""/>" maxlength="15"/>
-                        <script>
-                            $(function() {
-                                $("#custoMensal").maskMoney({prefix:'R$ ', allowNegative: true, thousands:'.', decimal:',', affixesStay: false});
-                            });
-                        </script>
+						<input type="text" class="form-control" id="custoMensal" name="custoMensal" value="" maxlength="15"/>
 					</div>
 					<div class="col-sm-4">
 						<label>Taxa de Envio Di&aacute;rio</label>
-						<input type="text" class="form-control" id="taxaEnvio" name="taxaEnvio" value="${bridge.taxaEnvio}" maxlength="4"/>
+						<input type="text" class="form-control" id="taxaEnvio" name="taxaEnvio" value="" maxlength="4"/>
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="col-sm-4">
 						<label>Situa&ccedil;&atilde;o</label> 
 						<select class="form-control" id="situacao" name="situacao">
-							<option value="0" selected>Selecione...</option>
-							<c:choose>
-								<c:when test="${bridge.situacao eq 'A'}">
-									<option value="A" selected="selected">Ativo</option>
-									<option value="I">Inativo</option>
-								</c:when>
-								<c:when test="${bridge.situacao eq 'I'}">
-									<option value="A">Ativo</option>
-									<option value="I" selected="selected">Inativo</option>
-								</c:when>
-								<c:otherwise>
-									<option value="A">Ativo</option>
-									<option value="I">Inativo</option>
-								</c:otherwise>
-							</c:choose>
+							<option value="0">Selecione...</option>
+							<option value="A">Ativo</option>
+							<option value="I">Inativo</option>							
 						</select>
 					</div>					
 				</div>
 				<div class="form-group">
 					<div class="col-sm-12">
 						<label>Descri&ccedil;&atilde;o</label>
-						<textarea class="form-control" rows="3" id="descricao" name="descricao" >${bridge.descricao}</textarea>
+						<textarea class="form-control" rows="3" id="descricao" name="descricao" ></textarea>
 						<script type="text/javascript">
 							$('#descricao').keyup(function () {
 								var maxLength = 140;
@@ -143,7 +119,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-12 text-center">
-						<button type="submit" class="btn btn-primary">${btsubmit}</button>
+						<button type="submit" class="btn btn-primary">Cadastrar</button>
 					</div>
 				</div>
 			</form>

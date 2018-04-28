@@ -95,14 +95,14 @@ public class BridgeDAO {
             stmt.setObject(1, bridge.getBridgeTpAlim().getIdBridgeTpAlim());
             stmt.setObject(2, bridge.getIdUser());
             stmt.setObject(3, bridge.getDeviceNum());
-            stmt.setObject(4, Auxiliar.formataDtTelaHr(bridge.getDtAtivacao()));
-            stmt.setObject(5, Auxiliar.formataDtTela(bridge.getValidadeToken()));
+            stmt.setObject(4, Auxiliar.formataDtBancoHr(bridge.getDtAtivacao()));
+            stmt.setObject(5, Auxiliar.formataDtBanco(bridge.getValidadeToken()));
             stmt.setObject(6, bridge.getDescricao());
             stmt.setObject(7, bridge.getCustoMensal());
             stmt.setObject(8, bridge.getTaxaEnvio());
             stmt.setObject(9, bridge.getSituacao());
             //stmt.setObject(10, bridge.getDtInsert());
-            stmt.setObject(1, bridge.getIdBridge());
+            stmt.setObject(10, bridge.getIdBridge());
 
             stmt.execute();
         }

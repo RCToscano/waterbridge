@@ -129,9 +129,3 @@ function exibirAviso(texto) {
 	var divAviso = document.getElementById("divAviso");
 	divAviso.innerHTML = "<div class='alert alert-danger'>" + texto + "</div>";
 }
-
-function exibirModal(texto) {
-
-    $('#modalValida').find('p').html('<span">' + texto + '</span>');
-    $("#modalValida").modal();
-}
