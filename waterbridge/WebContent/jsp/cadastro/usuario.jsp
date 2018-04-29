@@ -8,21 +8,24 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
 		<title>WaterBridge</title>
 		<link rel="icon" type="image/png" href="./images/favicon.ico"/>
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
-        <link href="./css/menucustomcolor.css" rel="stylesheet"/>
-        <link href="./css/footercustom.css" rel="stylesheet"/>
-        <script src="./js/jquery-1.11.3.min.js"></script>
-        <script src="./js/jquery.mask.min.js" type="text/javascript"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
-		<script type="text/javascript" src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+	    <script src="http://code.jquery.com/jquery-2.2.4.js" ></script>	
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="./js/jquery.mask.min.js" type="text/javascript"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
+	    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/locale/pt-br.js"></script>
+	    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
+	    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+	    
+	    <link href="./css/menucustomcolor.css" rel="stylesheet"/>
+	    <link href="./css/footercustom.css" rel="stylesheet"/>
         <script>
             $(function () {
                 $("#telefoneResidencial").mask("(99) 9999-9999");
-                $("#telefoneComercial").mask("(99) 9999-9999");
                 $("#telefoneCelular").mask("(99) 99999-9999");
                 $("#cpf").mask("999.999.999-99");
-                $("#cnpj").mask("99.999.999/9999-99");
             });
         </script>
     </head>
@@ -35,11 +38,11 @@
 			    <li class="active">Usuário</li>
 			</ul>
 			
-<%-- 			<c:if test="${aviso != ''}"> --%>
-<!-- 				<div class="alert alert-danger"> -->
-<%-- 					<strong><c:out value="${aviso}"/></strong> --%>
-<!-- 				</div> -->
-<%-- 			</c:if> --%>
+			<c:if test="${not empty aviso}">
+				<div class="alert alert-danger">
+					<strong><c:out value="${aviso}"/></strong>
+				</div>
+			</c:if>
 			
 <%-- 			<c:if test="${sucesso != ''}"> --%>
 <!-- 				<div class="alert alert-success"> -->
@@ -55,13 +58,21 @@
 							
 							<div class="col-sm-12"></div>
 							
-							
-							
 							<div class="col-sm-4">
 								<div class="form-group">
 									<label class="control-label">Perfil do Usu&aacute;rio:</label>
 									<select class="form-control" name="perfil" id="perfil" required>
 										<option value="" selected>Selecione...</option>
+										<c:forEach var="listaPerfil" items="${listaPerfil}">
+	                                    	<c:choose>
+		                                        <c:when test="${usuario.idPerfil == listaPerfil.idPerfil}">
+		                                            <option value="${listaPerfil.idPerfil}" selected="true">${listaPerfil.perfil}</option>
+		                                        </c:when>
+		                                        <c:otherwise>
+		                                        	<option value="${listaPerfil.idPerfil}" >${listaPerfil.perfil}</option>
+		                                        </c:otherwise>
+	                                        </c:choose>
+	                                    </c:forEach>
 										<option value="1">Gerente</option>
 										<option value="1">Representante</option>
 										<option value="3">Condomínio</option>
@@ -69,19 +80,10 @@
 									</select>
 								</div>
 							</div>
+
 							<div class="col-sm-4">
 								<div class="form-group">
-									<label class="control-label">Tipo de Usu&aacute;rio:</label>
-									<select class="form-control" name="perfil" id="perfil" required>
-										<option value="" selected>Selecione...</option>
-										<option value="M">F&iacute;sica</option>
-										<option value="F">Jur&iacute;dica</option>
-									</select>
-								</div>
-							</div>
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label class="control-label">CPF / CNPJ:</label>
+									<label class="control-label">CPF:</label>
 									<input type="text" class="form-control" id="cpf" name="cpf" placeholder="999.999.999-99" value="" required/>
 								</div>
 							</div>
@@ -90,7 +92,7 @@
 							
 							<div class="col-sm-6">
 								<div class="form-group">
-									<label class="control-label">Nome/Raz&atilde;o Social:</label>
+									<label class="control-label">Nome:</label>
 									<input type="text" class="form-control" id="name" name="name" value="" required/>
 								</div>
 							</div>							
@@ -241,12 +243,13 @@
 	                                <input class="form-control" type="text" name="cep" id="postal_code" value="" maxlength="9" value="" required/>
 	                            </div>
 	                        </div>
-	                        <div class="col-sm-3">
-	                        	<div class="form-group">
-	                                <label>País</label>
-	                                <input class="form-control" type="text" name="pais" id="country" value="${colaborador.municipio.pais}" maxlength="50"></input>
-                               	</div>
-	                        </div>
+	                        
+<!-- 	                        <div class="col-sm-3"> -->
+<!-- 	                        	<div class="form-group"> -->
+<!-- 	                                <label>País</label> -->
+<%-- 	                                <input class="form-control" type="text" name="pais" id="country" value="${colaborador.municipio.pais}" maxlength="50"></input> --%>
+<!--                                	</div> -->
+<!-- 	                        </div> -->
 <!-- 							<div class="col-sm-4"> -->
 <!-- 								<div class="form-group"> -->
 <!-- 									<label class="control-label">Latitute:</label> -->
@@ -314,7 +317,6 @@
                     route: 'long_name',
                     locality: 'long_name',
                     administrative_area_level_1: 'short_name',
-                    country: 'long_name',
                     postal_code: 'short_name'
                 };
 

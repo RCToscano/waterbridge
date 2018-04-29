@@ -12,83 +12,192 @@ public class User {
     private String email;
     private String sexo;
     private String dtNasc;
+    private String telRes;
+    private String telCel;
+    private String cpf;
+    private String endereco;
+    private Long numero;
+    private String compl;
+    private String municipio;
+    private String uf;
+    private String cep;
+	private String coordx;
+    private String coordy;
+    private String responsavel;
     private String dtInsert;
     private String situacao;
     List<Permissao> listPermissao;
 
+
     public Long getIdUser() {
-        return idUser;
-    }
+		return idUser;
+	}
 
-    public void setIdUser(Long idUser) {
-        this.idUser = idUser;
-    }
+	public void setIdUser(Long idUser) {
+		this.idUser = idUser;
+	}
 
-    public Perfil getPerfil() {
-        return perfil;
-    }
+	public Perfil getPerfil() {
+		return perfil;
+	}
 
-    public void setPerfil(Perfil perfil) {
-        this.perfil = perfil;
-    }
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
+	}
 
-    public Pass getPass() {
-        return pass;
-    }
+	public Pass getPass() {
+		return pass;
+	}
 
-    public void setPass(Pass pass) {
-        this.pass = pass;
-    }
+	public void setPass(Pass pass) {
+		this.pass = pass;
+	}
 
-    public String getNome() {
-        return nome;
-    }
+	public String getNome() {
+		return nome;
+	}
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public String getSexo() {
-        return sexo;
-    }
+	public String getSexo() {
+		return sexo;
+	}
 
-    public void setSexo(String sexo) {
-        this.sexo = sexo;
-    }
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
+	}
 
-    public String getDtNasc() {
-        return dtNasc;
-    }
+	public String getDtNasc() {
+		return dtNasc;
+	}
 
-    public void setDtNasc(String dtNasc) {
-        this.dtNasc = dtNasc;
-    }
+	public void setDtNasc(String dtNasc) {
+		this.dtNasc = dtNasc;
+	}
 
-    public String getDtInsert() {
-        return dtInsert;
-    }
+	public String getTelRes() {
+		return telRes;
+	}
 
-    public void setDtInsert(String dtInsert) {
-        this.dtInsert = dtInsert;
-    }
+	public void setTelRes(String telRes) {
+		this.telRes = telRes;
+	}
 
-    public String getSituacao() {
-        return situacao;
-    }
+	public String getCpf() {
+		return cpf;
+	}
 
-    public void setSituacao(String situacao) {
-        this.situacao = situacao;
-    }    
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
 
-    public List<Permissao> getListPermissao() {
+	public String getCep() {
+		return cep;
+	}
+
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
+
+	public String getTelCel() {
+		return telCel;
+	}
+
+	public void setTelCel(String telCel) {
+		this.telCel = telCel;
+	}
+
+	public String getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
+	}
+
+	public Long getNumero() {
+		return numero;
+	}
+
+	public void setNumero(Long numero) {
+		this.numero = numero;
+	}
+
+	public String getCompl() {
+		return compl;
+	}
+
+	public void setCompl(String compl) {
+		this.compl = compl;
+	}
+
+	public String getMunicipio() {
+		return municipio;
+	}
+
+	public void setMunicipio(String municipio) {
+		this.municipio = municipio;
+	}
+
+	public String getUf() {
+		return uf;
+	}
+
+	public void setUf(String uf) {
+		this.uf = uf;
+	}
+
+	public String getCoordx() {
+		return coordx;
+	}
+
+	public void setCoordx(String coordx) {
+		this.coordx = coordx;
+	}
+
+	public String getCoordy() {
+		return coordy;
+	}
+
+	public void setCoordy(String coordy) {
+		this.coordy = coordy;
+	}
+
+	public String getResponsavel() {
+		return responsavel;
+	}
+
+	public void setResponsavel(String responsavel) {
+		this.responsavel = responsavel;
+	}
+
+	public String getDtInsert() {
+		return dtInsert;
+	}
+
+	public void setDtInsert(String dtInsert) {
+		this.dtInsert = dtInsert;
+	}
+
+	public String getSituacao() {
+		return situacao;
+	}
+
+	public void setSituacao(String situacao) {
+		this.situacao = situacao;
+	}
+
+	public List<Permissao> getListPermissao() {
         return listPermissao;
     }
 
