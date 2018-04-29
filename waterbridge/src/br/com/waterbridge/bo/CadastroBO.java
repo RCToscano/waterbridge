@@ -27,7 +27,7 @@ public class CadastroBO extends HttpServlet {
             if (relat.equals("home")) {
                 req.getRequestDispatcher("/jsp/home.jsp").forward(req, res);
             } 
-            else if (relat.equals("usuario")) {
+            else if (relat.equals("cadUsuario")) {
             	req.getRequestDispatcher("/jsp/cadastro/usuario.jsp").forward(req, res);
             } 
             else if (relat.equals("bridge")) {

@@ -28,9 +28,6 @@ public class HomeBO extends HttpServlet {
             if (relat.equals("home")) {
                 req.getRequestDispatcher("/jsp/home.jsp").forward(req, res);
             } 
-            else if (relat.equals("censo")) {
-            	req.getRequestDispatcher("/jsp/servico/consulta.jsp").forward(req, res);
-            } 
             else if (relat.equals("logout")) {
                 HttpSession session = req.getSession(true);
                 session.putValue("user", null);
