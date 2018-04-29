@@ -47,7 +47,7 @@
   <servlet-mapping>
     <servlet-name>BridgeBO</servlet-name>
     <url-pattern>/BridgeBO</url-pattern>
-  </servlet-mapping>  
+  </servlet-mapping>
   <session-config>
     <session-timeout>30</session-timeout>
   </session-config>

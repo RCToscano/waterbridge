@@ -42,7 +42,7 @@
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="CadastroBO?acao=usuario">Usuários</a></li>
                          <li class="divider"></li>
-                        <li><a href="CadastroBO?acao=bridge">Bridge's</a></li>
+                        <li><a href="BridgeBO?acao=1">Bridge</a></li>
                          <li class="divider"></li>
                         <li><a href="CadastroBO?acao=condominio">Condomínios</a></li>
                          <li class="divider"></li>
