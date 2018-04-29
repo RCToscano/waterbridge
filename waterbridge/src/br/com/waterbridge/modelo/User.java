@@ -8,11 +8,12 @@ public class User {
     private Long idUser;
     private Perfil perfil;
     private Pass pass;
+    private String usuario;
     private String nome;
     private String email;
     private String sexo;
     private String dtNasc;
-    private String telRes;
+    private String telFixo;
     private String telCel;
     private String cpf;
     private String endereco;
@@ -23,13 +24,11 @@ public class User {
     private String cep;
 	private String coordx;
     private String coordy;
-    private String responsavel;
     private String dtInsert;
     private String situacao;
     List<Permissao> listPermissao;
 
-
-    public Long getIdUser() {
+	public Long getIdUser() {
 		return idUser;
 	}
 
@@ -51,6 +50,14 @@ public class User {
 
 	public void setPass(Pass pass) {
 		this.pass = pass;
+	}
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
 
 	public String getNome() {
@@ -85,28 +92,12 @@ public class User {
 		this.dtNasc = dtNasc;
 	}
 
-	public String getTelRes() {
-		return telRes;
+	public String getTelFixo() {
+		return telFixo;
 	}
 
-	public void setTelRes(String telRes) {
-		this.telRes = telRes;
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-
-	public String getCep() {
-		return cep;
-	}
-
-	public void setCep(String cep) {
-		this.cep = cep;
+	public void setTelFixo(String telFixo) {
+		this.telFixo = telFixo;
 	}
 
 	public String getTelCel() {
@@ -115,6 +106,14 @@ public class User {
 
 	public void setTelCel(String telCel) {
 		this.telCel = telCel;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 	public String getEndereco() {
@@ -157,6 +156,14 @@ public class User {
 		this.uf = uf;
 	}
 
+	public String getCep() {
+		return cep;
+	}
+
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
+
 	public String getCoordx() {
 		return coordx;
 	}
@@ -171,14 +178,6 @@ public class User {
 
 	public void setCoordy(String coordy) {
 		this.coordy = coordy;
-	}
-
-	public String getResponsavel() {
-		return responsavel;
-	}
-
-	public void setResponsavel(String responsavel) {
-		this.responsavel = responsavel;
 	}
 
 	public String getDtInsert() {

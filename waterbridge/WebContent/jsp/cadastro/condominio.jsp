@@ -123,13 +123,6 @@
 								</div>
 							</div>
 							
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label class="control-label">Volume Macro Medidor:</label>
-									<input type="text" class="form-control" id="volume" name="volume" value="" />
-								</div>
-							</div>
-							
 							<div class="col-sm-12"></div>
 							
 							<div class="col-sm-7">
