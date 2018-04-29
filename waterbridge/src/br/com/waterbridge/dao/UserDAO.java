@@ -21,14 +21,10 @@ public class UserDAO {
     }
 
     public User login(String email, String senha) throws SQLException {
-
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
         User user = null;
-
         try {
-            
             stmt = connection.prepareStatement(
             "SELECT    TB_USER.ID_USER, " +
             "          TB_USER.NOME, " +
@@ -57,7 +53,6 @@ public class UserDAO {
             rs = stmt.executeQuery();
 
             if (rs.next()) {
-                
                 Perfil perfil = new Perfil();
                 perfil.setIdPerfil(rs.getLong("ID_PERFIL"));
                 perfil.setPerfil(rs.getString("PERFIL"));
@@ -84,11 +79,9 @@ public class UserDAO {
             return user;
         } 
         catch (Exception e) {
-            
             throw e;
         } 
         finally {
-          
             if (stmt != null) {
                 stmt.close();
             }
@@ -211,6 +204,85 @@ public class UserDAO {
             }
         }
         return list;
+    }
+    
+    public void inserir(User user) throws Exception {
+    	PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+        	stmt = connection.prepareStatement(
+    				" INSERT INTO TB_USER ( " +
+					"ID_PERFIL, " +
+					"NOME, " +
+					"EMAIL, " +
+					"SEXO, " +
+					"DTNASC, " +
+					"SITUACAO, " +
+					"USUARIO, " +
+					"CPF, " +
+					"TELFIXO, " +
+					"ENDERECO, " +
+					"NUMERO, " +
+					"COMPL, " +
+					"MUNICIPIO, " +
+					"UF, " +
+					"CEP, " +
+					"TELCEL, " +
+					"DTINSERT " +
+					")" +
+    				" VALUES ( " +
+            		"?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " + 
+					"?, ?, ?, ?, ?, ?, sysdate() ) " 
+    				);
+            		
+            stmt.setObject(1, user.getPerfil().getIdPerfil());
+            stmt.setObject(2, user.getNome());
+            stmt.setObject(3, user.getEmail());
+            stmt.setObject(4, user.getSexo());
+            stmt.setObject(5, user.getDtNasc());
+            stmt.setObject(6, "1");
+            stmt.setObject(7, user.getUsuario());
+            stmt.setObject(8, user.getCpf());
+            stmt.setObject(9, user.getTelFixo());
+            stmt.setObject(10, user.getEndereco());
+            stmt.setObject(11, user.getNumero());
+            stmt.setObject(12, user.getCompl());
+            stmt.setObject(13, user.getMunicipio());
+            stmt.setObject(14, user.getUf());
+            stmt.setObject(15, user.getCep());
+            stmt.setObject(16, user.getTelCel());
+            stmt.executeUpdate();
+		} 
+        finally {
+            if(stmt != null)
+                stmt.close();
+            if(rs != null)
+                rs.close();
+        }
+    }
+    
+    public User buscarUltimo() throws Exception {
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = connection.prepareStatement(
+            "SELECT    MAX(TB_USER.ID_USER) AS ID_USER " +
+            "FROM      TB_USER "
+            );
+            rs = stmt.executeQuery();
+
+            User user = new User();
+            if(rs.next()) {
+            	user.setIdUser(rs.getLong("ID_USER"));
+            }
+            return user;
+        }
+        finally {
+            if(stmt != null)
+                stmt.close();
+            if(rs != null)
+                rs.close();
+        }
     }
 
 //    public static void main(String[] args) throws SQLException {

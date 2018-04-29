@@ -26,7 +26,7 @@
   </servlet>
   <servlet>
     <servlet-name>UsuarioBO</servlet-name>
-    <servlet-class>br.com.waterbridge.bo.UsuarioeBO</servlet-class>
+    <servlet-class>br.com.waterbridge.bo.UsuarioBO</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>Login</servlet-name>

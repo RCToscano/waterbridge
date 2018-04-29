@@ -18,9 +18,9 @@
 	    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
 	    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
 	    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
-	    
 	    <link href="./css/menucustomcolor.css" rel="stylesheet"/>
 	    <link href="./css/footercustom.css" rel="stylesheet"/>
+	    <script src='./js/usuario/usuario.js'></script>
         <script>
             $(function () {
                 $("#telefoneResidencial").mask("(99) 9999-9999");
@@ -34,15 +34,13 @@
         <div class="container">
         	<ul class="breadcrumb">
 			    <li><a href="HomeBO?acao=home">Home</a></li>
-			    <li class="active">Cadastro</li>
 			    <li class="active">Usuário</li>
+			    <li class="active">Cadastro</li>
 			</ul>
 			
-			<c:if test="${not empty aviso}">
-				<div class="alert alert-danger">
-					<strong><c:out value="${aviso}"/></strong>
-				</div>
-			</c:if>
+			<div id="divAviso" name="divAviso" class="alert alert-danger" style="display:${display};">
+				<strong><label id='aviso' name='aviso'/>${aviso}</strong>
+			</div>
 			
 			<c:if test="${not empty sucesso}">
 				<div class="alert alert-success">
@@ -52,7 +50,7 @@
 			
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2">
-					<form action="" method="post">
+					<form action="UsuarioBO?acao=inserir" method="post" accept-charset="iso-8859-1,utf-8" onSubmit="return validaForm()">
 						<fieldset>
 							<legend class="text-left">Cadastro de Usu&aacute;rio</legend>
 							
@@ -73,10 +71,6 @@
 		                                        </c:otherwise>
 	                                        </c:choose>
 	                                    </c:forEach>
-										<option value="1">Gerente</option>
-										<option value="1">Representante</option>
-										<option value="3">Condomínio</option>
-										<option value="2">Consumidor</option>
 									</select>
 								</div>
 							</div>
@@ -137,7 +131,7 @@
 							<div class="col-sm-3">
 								<div class="form-group">
 									<label class="control-label">Telefone Fixo:</label>
-									<input type="text" class="form-control" id="telefoneResidencial" name="telefoneResidencial" placeholder="(XX) XXXX-XXXX" value="${usuario.telRes}"/>
+									<input type="text" class="form-control" id="telefoneFixo" name="telefoneFixo" placeholder="(XX) XXXX-XXXX" value="${usuario.telRes}"/>
 								</div>
 							</div>
 							

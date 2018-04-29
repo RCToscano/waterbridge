@@ -31,10 +31,12 @@ public class PerfilDAO {
 
             while (rs.next()) {
             	Perfil perfil = new Perfil();
-            	perfil.setIdPerfil(rs.getLong(""));
-            	perfil.setPerfil(rs.getString(""));
-            	perfil.setMenu(rs.getString(""));
-                list.add(perfil);
+            	perfil.setIdPerfil(rs.getLong("ID_PERFIL"));
+            	perfil.setPerfil(rs.getString("PERFIL"));
+            	perfil.setMenu(rs.getString("MENU"));
+            	
+            	if(!perfil.getPerfil().equals("PROGRAMADOR"))
+            		list.add(perfil);
             }
             return list;
         } 
