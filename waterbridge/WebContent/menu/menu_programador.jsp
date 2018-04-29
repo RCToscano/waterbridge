@@ -47,7 +47,7 @@
                         <li><a href="CadastroBO?acao=condominio">Condomínios</a></li>
                          <li class="divider"></li>
                         <li><a href="CadastroBO?acao=medidor">Medidores</a></li>
-<!--                         <li><a href="ServicoBO?acao=cadastrar"></a></li> -->
+						<li class="divider"></li>
                     </ul>
                 </li>
             </ul>
