@@ -32,6 +32,57 @@
 			$("#custoMensal").maskMoney({prefix:'R$ ', allowNegative: true, thousands:'.', decimal:',', affixesStay: false});
 		});
     </script>
+    
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <style>
+        .ui-autocomplete-loading {
+            background: white url("images/ui-anim_basic_16x16.gif") right center no-repeat;
+        }
+    </style>
+    <script>
+            $(function () {
+                $("#deviceNum").autocomplete({                	
+                    source: function (request, response) {
+                        $.ajax({
+                            url: "BridgeBO?acao=5",
+                            dataType: "json",
+                            data: {
+                            	deviceNum: $("#deviceNum").val()
+                            },
+                            success: function (data, textStatus, jqXHR) {
+
+                                listBridge = data;                               
+                                var texto = '';
+                                if(listBridge != null && listBridge.length > 0) {
+                                	
+                                	for(i = 0; i < listBridge.length; i++){
+                                        
+                                        var bridge = listBridge[i];                    
+                                        texto += '"' + String(bridge.idBridge) + '":"' + String(bridge.deviceNum) + '"';
+                                        if(i + 1 < listBridge.length) {
+                                        	texto += ', '
+                                        }
+                                    }
+                                }
+                                var obj = JSON.parse("{" + texto + "}");
+                                response(obj);
+
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                console.log(textStatus);
+                            }
+                        });
+                    },
+                    //minLength: 2,
+                    select: function (event, ui) {
+                    	
+                    }
+                });
+            });
+    </script>
+    
+    
 </head>
 <body>
 	<jsp:include page="/menu/${sessionScope.user.perfil.menu}" ></jsp:include>
@@ -43,7 +94,8 @@
 				<div class="form-group">
 				    <div class="col-sm-4">
 						<label>N&deg; Device</label>
-						<input type="text" class="form-control" id="deviceNum" name="deviceNum" value="" maxlength="20"/>
+<!-- 						<input type="text" class="form-control" id="deviceNum" name="deviceNum" value="" maxlength="20"/> -->
+						<input type='text' class="form-control" name='deviceNum' id='deviceNum' value=""></input>
 					</div>
 					<div class="col-sm-4">
 						<label>Data de Ativa&ccedil;&atilde;o</label>

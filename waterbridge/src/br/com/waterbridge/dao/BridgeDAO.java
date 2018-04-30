@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.modelo.Bridge;
@@ -263,6 +265,72 @@ public class BridgeDAO {
             }
             
             return bridge;
+        }
+        catch(SQLException e) {
+            
+            throw e;
+        }
+        finally {
+
+            if(stmt != null) {
+                
+                stmt.close();
+            }
+            if(rs != null) {
+                
+                rs.close();
+            }
+        }
+    }
+    
+    public List<Bridge> listarPorDeviceNum(String deviceNum) throws SQLException {
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Bridge> listBridge = new ArrayList<Bridge>();
+        
+        try {
+            
+            stmt = connection.prepareStatement(
+    		"SELECT ID_BRIDGE, " +
+            "       ID_BRIDGETPALIM, " +
+            "       ID_USER, " +
+            "	    DEVICENUM, " +
+            "       ATIVATIONDATE, " +
+            "       TOKENVALID, " +
+            "       DESCRICAO, " +
+            "       CUSTOMENSAL, " +
+            "       TAXAENVIO, " +
+            "       SITUACAO, " +
+            " 	    DTINSERT " +
+            "FROM   TB_BRIDGE " +
+            "WHERE  UPPER(DEVICENUM) LIKE '%" + deviceNum.toUpperCase() + "%' "
+            );
+
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+            	
+            	BridgeTpAlim bridgeTpAlim = new BridgeTpAlim();
+            	bridgeTpAlim = new BridgeTpAlimDAO(connection).buscar(rs.getLong("ID_BRIDGETPALIM"));
+            	
+            	Bridge bridge = new Bridge();
+            	bridge.setIdBridge(rs.getLong("ID_BRIDGE"));
+                bridge.setBridgeTpAlim(bridgeTpAlim);
+                bridge.setIdUser(rs.getLong("ID_USER"));
+                bridge.setDeviceNum(rs.getString("DEVICENUM"));
+                bridge.setDtAtivacao(Auxiliar.formataDtTelaHr(rs.getString("ATIVATIONDATE")));
+                bridge.setValidadeToken(Auxiliar.formataDtTela(rs.getString("TOKENVALID")));
+                bridge.setDescricao(rs.getString("DESCRICAO"));
+                bridge.setCustoMensal(rs.getDouble("CUSTOMENSAL"));
+                bridge.setTaxaEnvio(rs.getLong("TAXAENVIO"));
+                bridge.setSituacao(rs.getString("SITUACAO"));
+                bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));        
+                
+                listBridge.add(bridge);
+            }
+            
+            return listBridge;
         }
         catch(SQLException e) {
             
