@@ -26,6 +26,7 @@
                 $("#telefoneFixo").mask("(99) 9999-9999");
                 $("#telefoneCelular").mask("(99) 99999-9999");
                 $("#cpf").mask("999.999.999-99");
+                $("#postal_code").mask("99999-999");
             });
         </script>
     </head>
@@ -133,14 +134,14 @@
 							<div class="col-sm-3">
 								<div class="form-group">
 									<label class="control-label">Telefone Fixo</label>
-									<input type="text" class="form-control" id="telefoneFixo" name="telefoneFixo" placeholder="(XX) XXXX-XXXX" value="${usuario.telFixo}"/>
+									<input type="tel" class="form-control" id="telefoneFixo" name="telefoneFixo" placeholder="(XX) XXXX-XXXX" value="${usuario.telFixo}"/>
 								</div>
 							</div>
 							
 							<div class="col-sm-3">
 								<div class="form-group">
 									<label class="control-label">Telefone Celular</label>
-									<input type="text" class="form-control" id="telefoneCelular" name="telefoneCelular" placeholder="(XX) XXXXX-XXXX" value="${usuario.telCel}"/>
+									<input type="tel" class="form-control" id="telefoneCelular" name="telefoneCelular" placeholder="(XX) XXXXX-XXXX" value="${usuario.telCel}"/>
 								</div>
 							</div>
 							<div class="col-sm-6">
@@ -244,12 +245,6 @@
 			</div>
 		</footer>
 		
-		<script type="text/javascript">
-            $(function () {
-                $('#dtNascimento').datetimepicker();
-            });
-        </script>
-        
         <!--BUSCA ENDERECO GOOGLE FUNCAO DIEGO-->
             <script>
                 // This example displays an address form, using the autocomplete feature
