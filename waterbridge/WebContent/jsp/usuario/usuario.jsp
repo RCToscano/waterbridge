@@ -23,7 +23,7 @@
 	    <script src='./js/usuario/usuario.js'></script>
         <script>
             $(function () {
-                $("#telefoneResidencial").mask("(99) 9999-9999");
+                $("#telefoneFixo").mask("(99) 9999-9999");
                 $("#telefoneCelular").mask("(99) 99999-9999");
                 $("#cpf").mask("999.999.999-99");
             });
@@ -35,7 +35,7 @@
         	<ul class="breadcrumb">
 			    <li><a href="HomeBO?acao=home">Home</a></li>
 			    <li class="active">Usuário</li>
-			    <li class="active">Cadastro</li>
+			    <li class="active">${titulo}</li>
 			</ul>
 			
 			<div id="divAviso" name="divAviso" class="alert alert-danger" style="display:${display};">
@@ -51,19 +51,21 @@
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2">
 					<form action="UsuarioBO?acao=inserir" method="post" accept-charset="iso-8859-1,utf-8" onSubmit="return validaForm()">
+						<input type="hidden" id="id" name="id" value="${usuario.idUser}" />
+						
 						<fieldset>
-							<legend class="text-left">Cadastro de Usu&aacute;rio</legend>
+							<legend class="text-left">${titulo} de Usu&aacute;rio</legend>
 							
 							<div class="col-sm-12"></div>
 							
 							<div class="col-sm-4">
 								<div class="form-group">
-									<label class="control-label">Perfil do Usu&aacute;rio:</label>
+									<label class="control-label">Perfil do Usu&aacute;rio</label>
 									<select class="form-control" name="perfil" id="perfil" required>
 										<option value="" selected>Selecione...</option>
 										<c:forEach var="listaPerfil" items="${listaPerfil}">
 	                                    	<c:choose>
-		                                        <c:when test="${usuario.idPerfil == listaPerfil.idPerfil}">
+		                                        <c:when test="${usuario.perfil.idPerfil == listaPerfil.idPerfil}">
 		                                            <option value="${listaPerfil.idPerfil}" selected="true">${listaPerfil.perfil}</option>
 		                                        </c:when>
 		                                        <c:otherwise>
@@ -77,7 +79,7 @@
 
 							<div class="col-sm-4">
 								<div class="form-group">
-									<label class="control-label">CPF:</label>
+									<label class="control-label">CPF</label>
 									<input type="text" class="form-control" id="cpf" name="cpf" placeholder="999.999.999-99" value="${usuario.cpf}" required/>
 								</div>
 							</div>
@@ -86,14 +88,14 @@
 							
 							<div class="col-sm-6">
 								<div class="form-group">
-									<label class="control-label">Nome:</label>
+									<label class="control-label">Nome</label>
 									<input type="text" class="form-control" id="name" name="name" value="${usuario.nome}" required/>
 								</div>
 							</div>							
 							
 							<div class="col-sm-3">
 								<div class="form-group">
-									<label class="control-label">Data de Nascimento:</label>
+									<label class="control-label">Data de Nascimento</label>
 									<div class='input-group date' id='datetimepicker1'>
 										<input type="text" class="form-control" id="dtNascimento" name="dtNascimento" data-date-format="DD/MM/YYYY" placeholder="dd/mm/aaaa" value="${usuario.dtNasc}"/>
 										<span class="input-group-addon">
@@ -111,8 +113,8 @@
 							</div>
 							<div class="col-sm-3">
 								<div class="form-group">
-									<label class="control-label">Sexo:</label>
-									<select class="form-control" name="perfil" id="perfil" required>
+									<label class="control-label">Sexo</label>
+									<select class="form-control" name="sexo" id="sexo" required>
 										<option value="" selected>Selecione...</option>
 										<c:forEach items="${listaSexo}" var="total">
 											<c:choose>
@@ -130,21 +132,21 @@
 							
 							<div class="col-sm-3">
 								<div class="form-group">
-									<label class="control-label">Telefone Fixo:</label>
-									<input type="text" class="form-control" id="telefoneFixo" name="telefoneFixo" placeholder="(XX) XXXX-XXXX" value="${usuario.telRes}"/>
+									<label class="control-label">Telefone Fixo</label>
+									<input type="text" class="form-control" id="telefoneFixo" name="telefoneFixo" placeholder="(XX) XXXX-XXXX" value="${usuario.telFixo}"/>
 								</div>
 							</div>
 							
 							<div class="col-sm-3">
 								<div class="form-group">
-									<label class="control-label">Telefone Celular:</label>
+									<label class="control-label">Telefone Celular</label>
 									<input type="text" class="form-control" id="telefoneCelular" name="telefoneCelular" placeholder="(XX) XXXXX-XXXX" value="${usuario.telCel}"/>
 								</div>
 							</div>
 							<div class="col-sm-6">
 								<div class="form-group">
 									<label class="control-label">Email:</label>
-									<input type="text" class="form-control" id="email" name="email" placeholder="Email" value="" required/>
+									<input type="text" class="form-control" id="email" name="email" value="${usuario.email}" required/>
 								</div>
 							</div>
 							
@@ -174,7 +176,7 @@
                             <div class="col-sm-7">
 								<div class="form-group">
 	                                <label>Endere&ccedil;o</label>
-	                                <input class="form-control" type="text" name="endereco" id="route" value="" maxlength="100" value="${usuario.endereco}" required/>
+	                                <input class="form-control" type="text" name="endereco" id="route" maxlength="100" value="${usuario.endereco}" required/>
 	                            </div>
                             </div>
 	                            
@@ -188,14 +190,14 @@
                             <div class="col-sm-3">
                             	<div class="form-group">
 	                                <label>Complemento</label>
-	                                <input class="form-control" type="text" name="compl" id="locality" type="text" maxlength="50" value="${usuario.compl}" required/>
+	                                <input class="form-control" type="text" name="compl" id="locality" type="text" maxlength="50" value="${usuario.compl}"/>
 	                            </div>
 	                        </div>
 	                        
                             <div class="col-sm-5">
 	                        	<div class="form-group">
 	                                <label>Munic&iacute;pio</label>
-	                                <input class="form-control" type="text" name="municipio" id="municipio"  maxlength="100" value="${usuario.municipio}" required/>
+	                                <input class="form-control" type="text" name="municipio" id="municipio" maxlength="100" value="${usuario.municipio}"/>
 	                            </div>
                             </div>
 	                        
@@ -212,13 +214,20 @@
 	                                <input class="form-control" type="text" name="cep" id="postal_code" maxlength="9" value="${usuario.cep}" required/>
 	                            </div>
 	                        </div>
+
+							<c:if test="${botao == 'Alterar'}">
+		                        <div class="col-sm-5">
+		                        	<div class="form-group">
+		                                <label>Senha</label>
+		                                <input class="form-control" type="text" name="senha" id="senha" maxlength="50" value="${usuario.pass.pass}" required/>
+		                            </div>
+		                        </div>
+	                        </c:if>
 	                        
-							<div class="col-sm-12"></div>
-							
 	    					<div class="col-sm-12">
 								<div class="form-group">
 									<div class="col-md-12 text-center">
-										<button type="submit" class="btn btn-primary">Cadastrar</button>
+										<button type="submit" class="btn btn-primary">${botao}</button>
 									</div>
 								</div>
 							</div>

@@ -38,5 +38,27 @@ public class PassDAO {
                 rs.close();
         }
     }
+    
+    public void alterar(Pass pass) throws Exception {
+    	PreparedStatement stmt = null;
+    	ResultSet rs = null;
+    	try {
+    		stmt = connection.prepareStatement(
+    				" UPDATE TB_PASS SET " +
+					" PASS = ? " + 
+					" WHERE ID_USER = ? " 
+    				);
+    		
+    		stmt.setObject(1, pass.getPass());
+    		stmt.setObject(2, pass.getIdUser());
+    		stmt.executeUpdate();
+    	} 
+    	finally {
+    		if(stmt != null)
+    			stmt.close();
+    		if(rs != null)
+    			rs.close();
+    	}
+    }
 
 }

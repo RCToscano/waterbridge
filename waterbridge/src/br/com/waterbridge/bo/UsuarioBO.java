@@ -36,24 +36,26 @@ public class UsuarioBO extends HttpServlet {
 		String relat = "";
 		Connection connection = null;
         try {
+        	connection = ConnectionFactory.getConnection();
+        	
             if (req.getParameter("acao") != null) {
                 relat = req.getParameter("acao");
             }
 
             if (relat.equals("cadUsuario")) {
-            	connection = ConnectionFactory.getConnection();
             	PerfilDAO perfilDAO = new PerfilDAO(connection);
             	List<Perfil> listaPerfil = perfilDAO.listarTodos();
         		List<SexoEnum> listaSexo = SexoEnum.listCodigos();
         		req.setAttribute("listaSexo", listaSexo);
         		req.setAttribute("listaPerfil", listaPerfil);
         		req.setAttribute("display", "none");
+        		req.setAttribute("titulo", "Cadastro");
+        		req.setAttribute("botao", "Cadastrar");
         		req.getRequestDispatcher("/jsp/usuario/usuario.jsp").forward(req, res);
             } 
             else if (relat.equals("inserir")) {
             	SimpleDateFormat formatoBanco = new SimpleDateFormat("yyyy-MM-dd");
         		SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
-        		connection = ConnectionFactory.getConnection();
         		User user = new User();
             	try {
             		Perfil perfil = new Perfil();
@@ -74,26 +76,54 @@ public class UsuarioBO extends HttpServlet {
             		user.setUf(req.getParameter("estado"));
             		user.setCep(req.getParameter("cep"));
             		
-            		UserDAO userDAO = new UserDAO(connection);
-            		userDAO.inserir(user);
-            		
-            		User user2 = userDAO.buscarUltimo();
-            		user.setIdUser(user2.getIdUser());
-            		
-            		Pass pass = new Pass();
-            		pass.setPass("waterBridge"+new Random().nextInt(50));
-            		pass.setIdUser(user.getIdUser());
-            		
-            		PassDAO passDAO = new PassDAO(connection);
-            		passDAO.inserir(pass);
-            		
-            		
-            		PerfilDAO perfilDAO = new PerfilDAO(connection);
-                	List<Perfil> listaPerfil = perfilDAO.listarTodos();
-            		List<SexoEnum> listaSexo = SexoEnum.listCodigos();
-            		req.setAttribute("listaSexo", listaSexo);
-            		req.setAttribute("listaPerfil", listaPerfil);
-            		req.setAttribute("sucesso", "Usuário "+user.getNome()+" cadastrado com sucesso!");
+            		if(req.getParameter("id") != null && !req.getParameter("id").isEmpty()) {
+            			user.setIdUser(Long.valueOf(req.getParameter("id")));
+            			UserDAO userDAO = new UserDAO(connection);
+            			userDAO.alterar(user);
+            			
+            			Pass pass = new Pass();
+	            		pass.setPass(req.getParameter("senha"));
+	            		pass.setIdUser(user.getIdUser());
+	            		
+	            		PassDAO passDAO = new PassDAO(connection);
+	            		passDAO.alterar(pass);
+	            		user.setPass(pass);
+	            		
+	            		user.setDtNasc(formatoData.format(formatoBanco.parse(user.getDtNasc())));
+	            		
+	            		PerfilDAO perfilDAO = new PerfilDAO(connection);
+	                	List<Perfil> listaPerfil = perfilDAO.listarTodos();
+	            		List<SexoEnum> listaSexo = SexoEnum.listCodigos();
+	            		req.setAttribute("listaSexo", listaSexo);
+	            		req.setAttribute("listaPerfil", listaPerfil);
+	            		req.setAttribute("usuario", user);
+	            		req.setAttribute("titulo", "Alteração");
+	            		req.setAttribute("botao", "Alterar");
+	            		req.setAttribute("sucesso", "Usuário "+user.getNome()+" alterado com sucesso!");
+            		}
+            		else {
+	            		UserDAO userDAO = new UserDAO(connection);
+	            		userDAO.inserir(user);
+	            		
+	            		User user2 = userDAO.buscarUltimo();
+	            		user.setIdUser(user2.getIdUser());
+	            		
+	            		Pass pass = new Pass();
+	            		pass.setPass("waterBridge"+new Random().nextInt(100));
+	            		pass.setIdUser(user.getIdUser());
+	            		
+	            		PassDAO passDAO = new PassDAO(connection);
+	            		passDAO.inserir(pass);
+	            		
+	            		PerfilDAO perfilDAO = new PerfilDAO(connection);
+	                	List<Perfil> listaPerfil = perfilDAO.listarTodos();
+	            		List<SexoEnum> listaSexo = SexoEnum.listCodigos();
+	            		req.setAttribute("listaSexo", listaSexo);
+	            		req.setAttribute("listaPerfil", listaPerfil);
+	            		req.setAttribute("titulo", "Cadastro");
+	            		req.setAttribute("botao", "Cadastrar");
+	            		req.setAttribute("sucesso", "Usuário "+user.getNome()+" cadastrado com sucesso!");
+            		}
             		req.setAttribute("display", "none");
             		req.getRequestDispatcher("/jsp/usuario/usuario.jsp").forward(req, res);
 				} 
@@ -103,6 +133,109 @@ public class UsuarioBO extends HttpServlet {
             		req.setAttribute("display", "block");
             		req.getRequestDispatcher("/jsp/usuario/usuario.jsp").forward(req, res);
 				}
+            }
+            else if (relat.equals("consulta")) {
+            	UserDAO userDAO = new UserDAO(connection);
+            	List<User> listaUsuarios = userDAO.listarTodosAtivos();
+            	
+            	req.setAttribute("listaUsuarios", listaUsuarios);
+            	req.setAttribute("display", "none");
+            	req.getRequestDispatcher("/jsp/usuario/consulta.jsp").forward(req, res);
+            }
+            else if (relat.equals("pesquisar")) {
+            	try {
+	            	if(req.getParameter("usuario") != null && !req.getParameter("usuario").isEmpty()) {
+	            		UserDAO userDAO = new UserDAO(connection);
+	            		User user = userDAO.buscarPorId(req.getParameter("usuario"));
+	            		
+	            		PerfilDAO perfilDAO = new PerfilDAO(connection);
+	                	List<Perfil> listaPerfil = perfilDAO.listarTodos();
+	            		List<SexoEnum> listaSexo = SexoEnum.listCodigos();
+	            		
+	            		req.setAttribute("listaSexo", listaSexo);
+	            		req.setAttribute("listaPerfil", listaPerfil);
+	            		req.setAttribute("usuario", user);
+	            		req.setAttribute("display", "none");
+	            		req.setAttribute("titulo", "Alteração");
+	            		req.setAttribute("botao", "Alterar");
+	            		req.getRequestDispatcher("/jsp/usuario/usuario.jsp").forward(req, res);
+	            	}
+	            	else if(req.getParameter("cpf") != null && !req.getParameter("cpf").isEmpty()) {
+	            		UserDAO userDAO = new UserDAO(connection);
+	            		User user = userDAO.buscarPorCpf(req.getParameter("cpf"));
+	            		
+	            		if(user == null) {
+	                    	List<User> listaUsuarios = userDAO.listarTodosAtivos();
+	                    	
+	                    	req.setAttribute("listaUsuarios", listaUsuarios);
+	            			
+	            			req.setAttribute("aviso", "");
+		            		req.setAttribute("display", "none");
+		            		req.setAttribute("informacao", "Nenhum resultado encontrado!");
+		            		req.getRequestDispatcher("/jsp/usuario/consulta.jsp").forward(req, res);
+	            		}
+	            		else {
+	            			PerfilDAO perfilDAO = new PerfilDAO(connection);
+	            			List<Perfil> listaPerfil = perfilDAO.listarTodos();
+	            			List<SexoEnum> listaSexo = SexoEnum.listCodigos();
+	            			
+	            			req.setAttribute("listaSexo", listaSexo);
+	            			req.setAttribute("listaPerfil", listaPerfil);
+	            			req.setAttribute("usuario", user);
+	            			req.setAttribute("display", "none");
+	            			req.setAttribute("titulo", "Alteração");
+	            			req.setAttribute("botao", "Alterar");
+	            			req.getRequestDispatcher("/jsp/usuario/usuario.jsp").forward(req, res);
+	            		}
+	            	}
+	            	else {
+	            		UserDAO userDAO = new UserDAO(connection);
+	            		List<User> listaUser = userDAO.buscarPorEndereco(req.getParameter("endereco"));
+	            		
+	            		if(listaUser.isEmpty()) {
+	                    	List<User> listaUsuarios = userDAO.listarTodosAtivos();
+	                    	
+	                    	req.setAttribute("listaUsuarios", listaUsuarios);
+	            			
+	            			req.setAttribute("aviso", "");
+		            		req.setAttribute("display", "none");
+		            		req.setAttribute("informacao", "Nenhum resultado encontrado!");
+		            		req.getRequestDispatcher("/jsp/usuario/consulta.jsp").forward(req, res);
+	            		}
+	            		else {
+	            			req.setAttribute("listaUsuarios", listaUser);
+	            			req.setAttribute("display", "none");
+	            			req.getRequestDispatcher("/jsp/usuario/lista.jsp").forward(req, res);
+	            		}
+	            	}
+            	} 
+            	catch (Exception e) {
+            		System.out.println(e);
+            		
+            		UserDAO userDAO = new UserDAO(ConnectionFactory.getConnection());
+                	List<User> listaUsuarios = userDAO.listarTodosAtivos();
+                	
+                	req.setAttribute("listaUsuarios", listaUsuarios);
+                	req.setAttribute("aviso", "Não foi possível realizar a operação, contate o suporte!");
+                	req.setAttribute("display", "block");
+                	req.getRequestDispatcher("/jsp/usuario/consulta.jsp").forward(req, res);
+            	}
+            }
+            else if (relat.equals("detalhe")) {
+            	UserDAO userDAO = new UserDAO(connection);
+        		User user = userDAO.buscarPorId(req.getParameter("id"));
+        		
+        		PerfilDAO perfilDAO = new PerfilDAO(connection);
+            	List<Perfil> listaPerfil = perfilDAO.listarTodos();
+        		List<SexoEnum> listaSexo = SexoEnum.listCodigos();
+        		
+        		req.setAttribute("listaSexo", listaSexo);
+        		req.setAttribute("listaPerfil", listaPerfil);
+        		req.setAttribute("usuario", user);
+        		req.setAttribute("display", "none");
+        		req.setAttribute("titulo", "Alteração");
+        		req.setAttribute("botao", "Alterar");
+        		req.getRequestDispatcher("/jsp/usuario/usuario.jsp").forward(req, res);
             }
         }
         catch (Exception e) {
