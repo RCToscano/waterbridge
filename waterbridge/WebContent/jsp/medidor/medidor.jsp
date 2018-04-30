@@ -16,6 +16,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
 		<script type="text/javascript" src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
+        <script src='./js/funcoes.auxiliares.js'></script>
         <script>
             $(function () {
                 $("#telefone").mask("(99) 99999-9999");
@@ -43,56 +44,56 @@
 			
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2">
-					<form action="" method="post">
+					<form action="MedidorBO?acao=inserir" method="post" accept-charset="iso-8859-1,utf-8">
 						<fieldset>
 							<legend class="text-left">${titulo} de Medidor (Hidrômetro)</legend>
 							
 							<div class="col-sm-4">
 								<div class="form-group">
 									<label class="control-label" for="name">Fabricante:</label>
-									<input type="text" class="form-control" id="fabricante" name="fabricante" value="" required/>
+									<input type="text" class="form-control" id="fabricante" name="fabricante" maxlength="100" value="${medidor.fabricante}" required/>
 								</div>
 							</div>
 							
 							<div class="col-sm-4">
 								<div class="form-group">
 									<label class="control-label" for="name">Modelo:</label>
-									<input type="text" class="form-control" id="modelo" name="modelo" value="" required/>
+									<input type="text" class="form-control" id="modelo" name="modelo" maxlength="100" value="${medidor.modelo}" required/>
 								</div>
 							</div>
 							
 							<div class="col-sm-4">
 								<div class="form-group">
 									<label class="control-label" for="name">N&deg; S&eacute;rie:</label>
-									<input type="text" class="form-control" id="serie" name="serie" value="" required/>
+									<input type="text" class="form-control" id="serie" name="serie" maxlength="100" value="${medidor.serie}" required/>
 								</div>
 							</div>
 							
 							<div class="col-sm-4">
 								<div class="form-group">
 									<label class="control-label" for="name">Tipo:</label>
-									<input type="text" class="form-control" id="tipo" name="tipo" value="" required/>
+									<input type="text" class="form-control" id="tipo" name="tipo" maxlength="100" value="${medidor.tipo}" required/>
 								</div>
 							</div>
 							
 							<div class="col-sm-4">
 								<div class="form-group">
 									<label class="control-label" for="name">Chave de Decriptografia:</label>
-									<input type="text" class="form-control" id="chave" name="chave" value="" required/>
+									<input type="text" class="form-control" id="chave" name="chave" maxlength="100" value="${medidor.chaveDeCripto}" required/>
 								</div>
 							</div>
 							
 							<div class="col-sm-4">
 								<div class="form-group">
 									<label class="control-label" for="name">Validade Bateria:</label>
-									<input type="text" class="form-control" id="bateria" name="bateria" value="" required/>
+									<input type="number" class="form-control" id="bateria" name="bateria" maxlength="2" value="${medidor.validBateria}" onKeyPress="validaTamanho(this,2)" required/>
 								</div>
 							</div>
 							
 							<div class="col-sm-12">
 								<div class="form-group">
 									<label class="control-label" for="descricao">Informa&ccedil;&atilde;es Adicionais:</label>
-									<textarea class="form-control" rows="3" name="descricao" id="descricao"></textarea>
+									<textarea class="form-control" rows="3" name="descricao" id="descricao" style="resize:none;" onKeyPress="validaTamanho(this,150)">${medidor.obs}</textarea>
 								</div>
 							</div>
 							

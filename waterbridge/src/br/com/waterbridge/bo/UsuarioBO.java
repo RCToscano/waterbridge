@@ -77,6 +77,9 @@ public class UsuarioBO extends HttpServlet {
             		user.setCep(req.getParameter("cep"));
             		
             		if(req.getParameter("id") != null && !req.getParameter("id").isEmpty()) {
+            			req.setAttribute("titulo", "Alteração");
+	            		req.setAttribute("botao", "Alterar");
+            			
             			user.setIdUser(Long.valueOf(req.getParameter("id")));
             			UserDAO userDAO = new UserDAO(connection);
             			userDAO.alterar(user);
@@ -97,11 +100,12 @@ public class UsuarioBO extends HttpServlet {
 	            		req.setAttribute("listaSexo", listaSexo);
 	            		req.setAttribute("listaPerfil", listaPerfil);
 	            		req.setAttribute("usuario", user);
-	            		req.setAttribute("titulo", "Alteração");
-	            		req.setAttribute("botao", "Alterar");
 	            		req.setAttribute("sucesso", "Usuário "+user.getNome()+" alterado com sucesso!");
             		}
             		else {
+            			req.setAttribute("titulo", "Cadastro");
+	            		req.setAttribute("botao", "Cadastrar");
+            			
 	            		UserDAO userDAO = new UserDAO(connection);
 	            		userDAO.inserir(user);
 	            		
@@ -120,8 +124,6 @@ public class UsuarioBO extends HttpServlet {
 	            		List<SexoEnum> listaSexo = SexoEnum.listCodigos();
 	            		req.setAttribute("listaSexo", listaSexo);
 	            		req.setAttribute("listaPerfil", listaPerfil);
-	            		req.setAttribute("titulo", "Cadastro");
-	            		req.setAttribute("botao", "Cadastrar");
 	            		req.setAttribute("sucesso", "Usuário "+user.getNome()+" cadastrado com sucesso!");
             		}
             		req.setAttribute("display", "none");

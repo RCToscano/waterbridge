@@ -92,6 +92,16 @@ function numerico(input) {
         }
     }
 }
+function validaTamanho(campo, tamanho) {
+	if ((campo.value.length+1) <= tamanho) {
+		return true;
+	}
+	else {
+		var input = campo.value;
+		input = input.substring(0, (campo.value.length-1));
+		campo.value = input;
+	}
+}
 
 function mascaraCpf(input){
     
