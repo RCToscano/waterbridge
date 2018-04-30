@@ -29,6 +29,15 @@
                 $("#postal_code").mask("99999-999");
             });
         </script>
+        <script>
+            $(document).ready(function () {
+                $('input').keypress(function (e) {
+                    var code = null;
+                    code = (e.keyCode ? e.keyCode : e.which);
+                    return (code == 13) ? false : true;
+                });
+            });
+        </script>
     </head>
     <body>
         <jsp:include page="/menu/${sessionScope.user.perfil.menu}" ></jsp:include>

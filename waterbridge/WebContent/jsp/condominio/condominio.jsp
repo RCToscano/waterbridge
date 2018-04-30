@@ -27,8 +27,8 @@
         <div class="container">
         	<ul class="breadcrumb">
 			    <li><a href="HomeBO?acao=home">Home</a></li>
-			    <li class="active">Cadastro</li>
 			    <li class="active">Condomínio</li>
+			    <li class="active">Cadastro</li>
 			</ul>
 			
 <%-- 			<c:if test="${aviso != ''}"> --%>

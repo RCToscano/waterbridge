@@ -27,27 +27,25 @@
         <div class="container">
         	<ul class="breadcrumb">
 			    <li><a href="HomeBO?acao=home">Home</a></li>
-			    <li class="active">Cadastro</li>
 			    <li class="active">Medidor</li>
+			    <li class="active">${titulo}</li>
 			</ul>
 			
-<%-- 			<c:if test="${aviso != ''}"> --%>
-<!-- 				<div class="alert alert-danger"> -->
-<%-- 					<strong><c:out value="${aviso}"/></strong> --%>
-<!-- 				</div> -->
-<%-- 			</c:if> --%>
+			<div id="divAviso" name="divAviso" class="alert alert-danger" style="display:${display};">
+				<strong><label id='aviso' name='aviso'/>${aviso}</strong>
+			</div>
 			
-<%-- 			<c:if test="${sucesso != ''}"> --%>
-<!-- 				<div class="alert alert-success"> -->
-<%-- 					<strong><c:out value="${sucesso}"/></strong> --%>
-<!-- 				</div> -->
-<%-- 			</c:if> --%>
+			<c:if test="${not empty sucesso}">
+				<div class="alert alert-success">
+					<strong><c:out value="${sucesso}"/></strong>
+				</div>
+			</c:if>
 			
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2">
 					<form action="" method="post">
 						<fieldset>
-							<legend class="text-left">Cadastro de Medidor (Hidrômetro)</legend>
+							<legend class="text-left">${titulo} de Medidor (Hidrômetro)</legend>
 							
 							<div class="col-sm-4">
 								<div class="form-group">
@@ -101,7 +99,7 @@
 	    					<div class="col-sm-12">
 								<div class="form-group">
 									<div class="col-md-12 text-center">
-										<button type="submit" class="btn btn-primary">Cadastrar</button>
+										<button type="submit" class="btn btn-primary">${botao}</button>
 									</div>
 								</div>
 							</div>

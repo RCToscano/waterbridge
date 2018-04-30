@@ -28,6 +28,14 @@
     <servlet-name>UsuarioBO</servlet-name>
     <servlet-class>br.com.waterbridge.bo.UsuarioBO</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>MedidorBO</servlet-name>
+    <servlet-class>br.com.waterbridge.bo.MedidorBO</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>CondominioBO</servlet-name>
+    <servlet-class>br.com.waterbridge.bo.CondominioBO</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
     <url-pattern>/Login</url-pattern>
@@ -55,6 +63,14 @@
   <servlet-mapping>
     <servlet-name>UsuarioBO</servlet-name>
     <url-pattern>/UsuarioBO</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>MedidorBO</servlet-name>
+    <url-pattern>/MedidorBO</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>CondominioBO</servlet-name>
+    <url-pattern>/CondominioBO</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>30</session-timeout>
