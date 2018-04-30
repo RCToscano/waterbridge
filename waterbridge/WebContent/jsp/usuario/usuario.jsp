@@ -197,7 +197,7 @@
                             <div class="col-sm-5">
 	                        	<div class="form-group">
 	                                <label>Munic&iacute;pio</label>
-	                                <input class="form-control" type="text" name="municipio" id="municipio" maxlength="100" value="${usuario.municipio}"/>
+	                                <input class="form-control" type="text" name="municipio" id="locality" maxlength="100" value="${usuario.municipio}"/>
 	                            </div>
                             </div>
 	                        
@@ -243,12 +243,7 @@
 				</p>
 			</div>
 		</footer>
-		
-		<script type="text/javascript">
-            $(function () {
-                $('#dtNascimento').datetimepicker();
-            });
-        </script>
+
         
         <!--BUSCA ENDERECO GOOGLE FUNCAO DIEGO-->
             <script>

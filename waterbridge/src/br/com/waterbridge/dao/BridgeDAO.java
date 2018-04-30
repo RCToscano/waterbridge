@@ -130,7 +130,7 @@ public class BridgeDAO {
             stmt = connection.prepareStatement(
             "INSERT INTO TB_BRIDGELOG " +
             "SELECT * " +
-            "FROM   TB_BRIDGELOG " +
+            "FROM   TB_BRIDGE " +
             "WHERE  ID_BRIDGE = ? "
             );
 
