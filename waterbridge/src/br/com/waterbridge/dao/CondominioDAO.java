@@ -25,7 +25,7 @@ public class CondominioDAO {
         try {
         
             stmt = connection.prepareStatement(
-            "INSERT INTO TB_BRIDGE ( " +
+            "INSERT INTO TB_CONDOMINIO ( " +
     		//"       ID_CONDOMINIO, " +
     		"       ID_USER, " +
     		"       ID_CNPTP, " +
