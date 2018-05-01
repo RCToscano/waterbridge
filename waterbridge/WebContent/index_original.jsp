@@ -22,8 +22,7 @@
 			}
 		</style>
     </head>
-<!--     <body background="./images/bg_login.jpg"> -->
-    <body>
+    <body background="./images/bg_login.jpg">
         <%@include file="./menu/menu_login.jsp" %>
         <c:choose>
             <c:when test="${!empty loginErro}">
@@ -42,24 +41,24 @@
                 </script>
             </c:otherwise>
         </c:choose>   
-        <div class="container-fluid" style="margin-top: 60px; padding: 0px;">
-            <img class="img-responsive" src="./images/bg_login_1.jpg" alt="">
-<!--         	<div class="form-group"> -->
-<!--         		<div class="col-sm-12 text-right"> -->
-<!--         			<label style='color: #595959; font-size: 10pt;'>Qualquer tecnologia suficientemente avan&ccedil;ada &eacute; indistingu&iacute;vel de magia.<br/>Arthur C. Clark</label> -->
-<!--         		</div> -->
-<!--         	</div> -->
-<!--         	<br/><br/><br/><br/> -->
-<!--         	<div class="form-group"> -->
-<!--         		<div class="col-sm-6"> -->
-<!--         			<img src="./images/logo_waterbridge.png" alt=""> -->
-<!--         		</div> -->
-<!--         		<div class="col-sm-6"> -->
-<!--         			<label style="font-size: 32pt;">Sistema de medi&ccedil;&atilde;o<br/>individualizada de &aacute;gua</label> -->
-<!--         		</div> -->
-<!--         	</div> -->
+        <div class="container-fluid" style="margin-top: 60px;">
+<!--             <img class="img-responsive" src="./images/bg_login.jpg" alt=""> -->
+        	<div class="form-group">
+        		<div class="col-sm-12 text-right">
+        			<label style='color: #595959; font-size: 10pt;'>Qualquer tecnologia suficientemente avan&ccedil;ada &eacute; indistingu&iacute;vel de magia.<br/>Arthur C. Clark</label>
+        		</div>
+        	</div>
+        	<br/><br/><br/><br/>
+        	<div class="form-group">
+        		<div class="col-sm-6">
+        			<img src="./images/logo_waterbridge.png" alt="">
+        		</div>
+        		<div class="col-sm-6">
+        			<label style="font-size: 32pt;">Sistema de medi&ccedil;&atilde;o<br/>individualizada de &aacute;gua</label>
+        		</div>
+        	</div>
         </div>
-        <footer class="footer" style="background-color: #000;">
+        <footer class="footer" style="background: #fff;">
             <div class="container text-center" style="background: #fff; width: 100%">
                 <p class="text-muted">
 					Todos os direitos reservados&emsp;&emsp;-&emsp;&emsp;<label>Desenvolvido por Desoltec Engenharia</label>&emsp;&emsp;<img src="./images/logo_desoltec_rodape.png" alt="" style="margin: 0px;">
