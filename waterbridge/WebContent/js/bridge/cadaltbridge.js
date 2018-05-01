@@ -1,7 +1,7 @@
 
 var colorRed = '#e52213';
 
-function cadastrarBridge() {
+function validarForm() {
     
 	var divAviso = document.getElementById("divAviso");
 	var deviceNum = document.getElementById("deviceNum");

@@ -10,7 +10,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<script src="./js/bridge/alteracaobridge.js" type="text/javascript"></script>
+	<script src="./js/bridge/cadaltbridge.js" type="text/javascript"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="http://code.jquery.com/jquery-2.2.4.js" ></script>	
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -36,19 +36,26 @@
 <body>
 	<jsp:include page="/menu/${sessionScope.user.perfil.menu}" ></jsp:include>
 	<div class="container">
+		<ul class="breadcrumb">
+		    <li><a href="HomeBO?acao=home">Home</a></li>
+		    <li class="active">Bridge</li>
+		    <li class="active">Cadastro</li>
+		</ul>
 		<div class="col-sm-8" style="float: none; margin: 0 auto;">
-			<h3>Atera&ccedil;&atilde;o Bridge</h3>
+			<fieldset>
+			    <legend>${tituloTela}</legend>
+		  	</fieldset>
 			<div id="divAviso">${aviso}</div>
-			<form role="form" id="formCadBridge" action="BridgeBO?acao=4" method="POST" class="form-horizontal" accept-charset="iso-8859-1,utf-8" style="margin-top: 30px;" onsubmit="return cadastrarBridge()">
+			<form role="form" id="formCadBridge" action="${acao}" method="POST" class="form-horizontal" accept-charset="iso-8859-1,utf-8" onsubmit="return validarForm()">
+				<input type="hidden" id="idBridge" name="idBridge" value="${bridge.idBridge}" />
 				<div class="form-group">
 				    <div class="col-sm-4">
 						<label>N&deg; Device</label>
-						<input type="text" class="form-control" id="deviceNum" name="deviceNum" value="${bridge.deviceNum}" maxlength="20" readonly="readonly"/>
-						<input type="hidden" id="idBridge" name="idBridge" value="${bridge.idBridge}" />
+						<input type="text" class="form-control" id="deviceNum" name="deviceNum" value="${bridge.deviceNum}" maxlength="20" ${devicereadonly} required />			
 					</div>
 					<div class="col-sm-4">
 						<label>Data de Ativa&ccedil;&atilde;o</label>
-						<input type='text' class="form-control" id='dtAtivacao' name='dtAtivacao' value="${bridge.dtAtivacao}" />
+						<input type='text' class="form-control" id='dtAtivacao' name='dtAtivacao' value="${bridge.dtAtivacao}" required />
 	                    <script type="text/javascript">
 	                        $(function () {
 	                            $('#dtAtivacao').datetimepicker({
@@ -60,7 +67,7 @@
 					</div>
 					<div class="col-sm-4">
 		            	<label>Validade do Token</label>
-	                    <input type='text' class="form-control" id='validadeToken' name='validadeToken' value="${bridge.validadeToken}" />
+	                    <input type='text' class="form-control" id='validadeToken' name='validadeToken' value="${bridge.validadeToken}" required/>
 	                    <script type="text/javascript">
 	                        $(function () {
 	                            $('#validadeToken').datetimepicker({
@@ -75,8 +82,8 @@
 				<div class="form-group">
 					<div class="col-sm-4">
 						<label>Tipo de Alimenta&ccedil;&atilde;o</label> 
-						<select class="form-control" id="tpAlimentacao" name="tpAlimentacao">
-							<option value="0" selected>Selecione...</option>
+						<select class="form-control" id="tpAlimentacao" name="tpAlimentacao" required>
+							<option value="" selected>Selecione...</option>
 							<c:forEach var="bridgeTpAlim" items="${listBridgeTpAlim}">
                          		<c:choose>
 									<c:when test="${bridgeTpAlim.idBridgeTpAlim == bridge.bridgeTpAlim.idBridgeTpAlim}">
@@ -92,7 +99,7 @@
 					<div class="col-sm-4">						
 						<label>Custo Mensal</label>
 						<fmt:setLocale value="pt-BR" />
-						<input type="text" class="form-control" id="custoMensal" name="custoMensal" value="<fmt:formatNumber value="${bridge.custoMensal}" type="currency" currencySymbol=""/>" maxlength="15"/>
+						<input type="text" class="form-control" id="custoMensal" name="custoMensal" value="<fmt:formatNumber value="${bridge.custoMensal}" type="currency" currencySymbol=""/>" maxlength="15" required/>
                         <script>
                             $(function() {
                                 $("#custoMensal").maskMoney({prefix:'R$ ', allowNegative: true, thousands:'.', decimal:',', affixesStay: false});
@@ -101,35 +108,31 @@
 					</div>
 					<div class="col-sm-4">
 						<label>Taxa de Envio Di&aacute;rio</label>
-						<input type="text" class="form-control" id="taxaEnvio" name="taxaEnvio" value="${bridge.taxaEnvio}" maxlength="4"/>
+						<input type="text" class="form-control" id="taxaEnvio" name="taxaEnvio" value="${bridge.taxaEnvio}" maxlength="4" required/>
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="col-sm-4">
 						<label>Situa&ccedil;&atilde;o</label> 
-						<select class="form-control" id="situacao" name="situacao">
-							<option value="0" selected>Selecione...</option>
-							<c:choose>
-								<c:when test="${bridge.situacao eq 'A'}">
-									<option value="A" selected="selected">Ativo</option>
-									<option value="I">Inativo</option>
-								</c:when>
-								<c:when test="${bridge.situacao eq 'I'}">
-									<option value="A">Ativo</option>
-									<option value="I" selected="selected">Inativo</option>
-								</c:when>
-								<c:otherwise>
-									<option value="A">Ativo</option>
-									<option value="I">Inativo</option>
-								</c:otherwise>
-							</c:choose>
-						</select>
+						<select class="form-control" id="situacao" name="situacao" required >
+							<option value="" selected>Selecione...</option>
+							<c:forEach var="situacao" items="${listSituacao}">
+                     		        <c:choose>
+                                   	<c:when test="${situacao.situacao eq bridge.situacao}">
+                                   		<option value="${situacao.situacao}" selected="true">${situacao.descricao}</option> 
+                                     	</c:when>
+                                     	<c:otherwise>
+                                     		<option value="${situacao.situacao}">${situacao.descricao}</option>
+                                     	</c:otherwise>
+                                    </c:choose>
+	                     	</c:forEach>
+						</select>					
 					</div>					
 				</div>
 				<div class="form-group">
 					<div class="col-sm-12">
 						<label>Descri&ccedil;&atilde;o</label>
-						<textarea class="form-control" rows="3" id="descricao" name="descricao" >${bridge.descricao}</textarea>
+						<textarea class="form-control" rows="3" id="descricao" name="descricao" required>${bridge.descricao}</textarea>
 						<script type="text/javascript">
 							$('#descricao').keyup(function () {
 								var maxLength = 140;
@@ -144,7 +147,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-12 text-center">
-						<button type="submit" class="btn btn-primary">Alterar</button>
+						<button type="submit" class="btn btn-primary">${btNome}</button>
 					</div>
 				</div>
 			</form>

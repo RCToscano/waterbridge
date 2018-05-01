@@ -18,8 +18,10 @@ import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.BridgeDAO;
 import br.com.waterbridge.dao.BridgeTpAlimDAO;
+import br.com.waterbridge.dao.SituacaoDAO;
 import br.com.waterbridge.modelo.Bridge;
 import br.com.waterbridge.modelo.BridgeTpAlim;
+import br.com.waterbridge.modelo.Situacao;
 import br.com.waterbridge.modelo.User;
 
 public class BridgeBO extends HttpServlet {
@@ -44,9 +46,17 @@ public class BridgeBO extends HttpServlet {
 				
 				BridgeTpAlimDAO bridgeTpAlimDAO = new BridgeTpAlimDAO(connection);
 				List<BridgeTpAlim> listBridgeTpAlim = bridgeTpAlimDAO.listar();
-
-				req.setAttribute("listBridgeTpAlim", listBridgeTpAlim);				
-				req.getRequestDispatcher("/jsp/bridge/cadastrobridge.jsp").forward(req, res);
+				
+				SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
+				List<Situacao> listSituacao = situacaoDAO.listar();
+				
+				req.setAttribute("tituloTela", "Cadastro de Bridge");
+				req.setAttribute("acao", "BridgeBO?acao=2");
+				req.setAttribute("devicereadonly", "");
+				req.setAttribute("btNome", "Cadastrar");
+				req.setAttribute("listBridgeTpAlim", listBridgeTpAlim);
+				req.setAttribute("listSituacao", listSituacao);
+				req.getRequestDispatcher("/jsp/bridge/cadaltbridge.jsp").forward(req, res);
 			}
 	        catch (Exception e) {
 	            req.setAttribute("erro", e.toString());
@@ -70,6 +80,9 @@ public class BridgeBO extends HttpServlet {
 				
 				BridgeTpAlimDAO bridgeTpAlimDAO = new BridgeTpAlimDAO(connection);
 				List<BridgeTpAlim> listBridgeTpAlim = bridgeTpAlimDAO.listar();
+				
+				SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
+				List<Situacao> listSituacao = situacaoDAO.listar();
 				
 				BridgeDAO bridgeDAO = new BridgeDAO(connection);
 				Bridge bridge = bridgeDAO.buscarPorDeviceNum(req.getParameter("deviceNum").trim().toUpperCase()); 
@@ -101,8 +114,6 @@ public class BridgeBO extends HttpServlet {
 					"    <a href='BridgeBO?acao=3&deviceNum=" + bridge.getDeviceNum() + "'>" + bridge.getDeviceNum() + "</a>" +		
 					"</div>"
 					);
-					req.setAttribute("listBridgeTpAlim", listBridgeTpAlim);
-					req.getRequestDispatcher("/jsp/bridge/cadastrobridge.jsp").forward(req, res);
 				}
 				else {
 					
@@ -113,12 +124,14 @@ public class BridgeBO extends HttpServlet {
 					"    <a href='BridgeBO?acao=3&deviceNum=" + bridge.getDeviceNum() + "'>" + bridge.getDeviceNum() + "</a>" +
 					"</div>"
 					);
-					req.setAttribute("acao", "2");
-					req.setAttribute("btsubmit", "Cadastrar");
-					req.setAttribute("listBridgeTpAlim", listBridgeTpAlim);
-					req.setAttribute("idBridge", bridge.getIdBridge().toString());
-					req.getRequestDispatcher("/jsp/bridge/cadastrobridge.jsp").forward(req, res);
 				}
+				req.setAttribute("tituloTela", "Cadastro de Bridge");
+				req.setAttribute("acao", "BridgeBO?acao=2");
+				req.setAttribute("devicereadonly", "");
+				req.setAttribute("btNome", "Cadastrar");
+				req.setAttribute("listBridgeTpAlim", listBridgeTpAlim);
+				req.setAttribute("listSituacao", listSituacao);
+				req.getRequestDispatcher("/jsp/bridge/cadaltbridge.jsp").forward(req, res);				
 			}
 	        catch (Exception e) {
 	            req.setAttribute("erro", e.toString());
@@ -143,12 +156,20 @@ public class BridgeBO extends HttpServlet {
 				BridgeTpAlimDAO bridgeTpAlimDAO = new BridgeTpAlimDAO(connection);
 				List<BridgeTpAlim> listBridgeTpAlim = bridgeTpAlimDAO.listar();
 				
+				SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
+				List<Situacao> listSituacao = situacaoDAO.listar();
+				
 				BridgeDAO bridgeDAO = new BridgeDAO(connection);
 				Bridge bridge = bridgeDAO.buscarPorDeviceNum(req.getParameter("deviceNum").trim().toUpperCase()); 
 				
+				req.setAttribute("tituloTela", "Atera&ccedil;&atilde;o Bridge");
+				req.setAttribute("acao", "BridgeBO?acao=4");
+				req.setAttribute("devicereadonly", "readonly='readonly'");
+				req.setAttribute("btNome", "Alterar");
 				req.setAttribute("listBridgeTpAlim", listBridgeTpAlim);
+				req.setAttribute("listSituacao", listSituacao);
 				req.setAttribute("bridge", bridge);
-				req.getRequestDispatcher("/jsp/bridge/alteracaobridge.jsp").forward(req, res);
+				req.getRequestDispatcher("/jsp/bridge/cadaltbridge.jsp").forward(req, res);
 			}
 	        catch (Exception e) {
 	            req.setAttribute("erro", e.toString());
@@ -192,18 +213,24 @@ public class BridgeBO extends HttpServlet {
 				BridgeTpAlimDAO bridgeTpAlimDAO = new BridgeTpAlimDAO(connection);
 				List<BridgeTpAlim> listBridgeTpAlim = bridgeTpAlimDAO.listar();
 				
+				SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
+				List<Situacao> listSituacao = situacaoDAO.listar();
+				
 				bridge = bridgeDAO.buscarPorDeviceNum(req.getParameter("deviceNum").trim().toUpperCase()); 
 
 				req.setAttribute("aviso", 
 				"<div class='alert alert-success'>" +
-				"    Alteração realizada com sucesso!" +
-				"    &emsp;&emsp;" +
-				"    <a href='BridgeBO?acao=3&deviceNum=" + bridge.getDeviceNum() + "'>" + bridge.getDeviceNum() + "</a>" +		
+				"    Alteração realizada com sucesso!" +		
 				"</div>"
 				);
+				req.setAttribute("tituloTela", "Atera&ccedil;&atilde;o Bridge");
+				req.setAttribute("acao", "BridgeBO?acao=4");
+				req.setAttribute("devicereadonly", "readonly='readonly'");
+				req.setAttribute("btNome", "Alterar");
 				req.setAttribute("listBridgeTpAlim", listBridgeTpAlim);
+				req.setAttribute("listSituacao", listSituacao);
 				req.setAttribute("bridge", bridge);
-				req.getRequestDispatcher("/jsp/bridge/alteracaobridge.jsp").forward(req, res);
+				req.getRequestDispatcher("/jsp/bridge/cadaltbridge.jsp").forward(req, res);
 			}
 	        catch (Exception e) {
 	            req.setAttribute("erro", e.toString());

@@ -151,7 +151,7 @@ public class BridgeDAO {
         }
     }
     
-    public Bridge buscar(Long idBridge) throws SQLException {
+    public Bridge buscarPorId(Long idBridge) throws SQLException {
 
         PreparedStatement stmt = null;
         ResultSet rs = null;

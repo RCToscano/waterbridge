@@ -50,8 +50,8 @@
         <div class="container">
         	<ul class="breadcrumb">
 			    <li><a href="HomeBO?acao=home">Home</a></li>
-			    <li class="active">Cadastro</li>
 			    <li class="active">Condomínio</li>
+			    <li class="active">Cadastro</li>
 			</ul>
 			<div class="col-sm-9" style="float: none; margin: 0 auto;">
 				<fieldset>
