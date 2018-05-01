@@ -470,7 +470,7 @@ public class UserDAO {
         }
     }
     
-    public List<User> listarTodosAtivos() throws Exception {
+    public List<User> listarTodos() throws Exception {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         List<User> list = new ArrayList<>();
@@ -481,8 +481,7 @@ public class UserDAO {
                     "     FROM TB_USER " +
                     "LEFT JOIN TB_PERFIL " +
 					"       ON TB_USER.ID_PERFIL = TB_PERFIL.ID_PERFIL " +
-                    "    WHERE TB_USER.SITUACAO = 1 " +
-                    "      AND TB_PERFIL.PERFIL <> 'PROGRAMADOR' " +
+                    "    WHERE TB_PERFIL.PERFIL <> 'PROGRAMADOR' " +
                     " ORDER BY TB_USER.NOME "
             );
             rs = stmt.executeQuery();

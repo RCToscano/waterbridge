@@ -21,80 +21,64 @@
 	    <link href="./css/menucustomcolor.css" rel="stylesheet"/>
 	    <link href="./css/footercustom.css" rel="stylesheet"/>
 	    <script src='./js/usuario/consulta.js'></script>
-        <script>
-            $(function () {
-                $("#cpf").mask("999.999.999-99");
-            });
-        </script>
     </head>
     <body>
         <jsp:include page="/menu/${sessionScope.user.perfil.menu}" ></jsp:include>
         <div class="container">
         	<ul class="breadcrumb">
 			    <li><a href="HomeBO?acao=home">Home</a></li>
-			    <li class="active">Usuário</li>
-			    <li class="active">Consulta</li>
+			    <li class="active">Medidor</li>
+			    <li class="active">Lista</li>
 			</ul>
 			
 			<div id="divAviso" name="divAviso" class="alert alert-danger" style="display:${display};">
 				<strong><label id='aviso' name='aviso'/>${aviso}</strong>
 			</div>
 			
-			<c:if test="${not empty sucesso}">
-				<div class="alert alert-success">
-					<strong><c:out value="${sucesso}"/></strong>
-				</div>
-			</c:if>
-			
-			<c:if test="${not empty informacao}">
-				<div class="alert alert-warning">
-					<strong><c:out value="${informacao}"/></strong>
-				</div>
-			</c:if>
-			
-			<div class="row">
-				<div class="col-md-8 col-md-offset-2">
-					<form action="UsuarioBO?acao=pesquisar" method="post" accept-charset="iso-8859-1,utf-8" onSubmit="return validaForm()">
-						<fieldset>
-							<legend class="text-left">Consulta de Usu&aacute;rio</legend>
-							
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label>Usuários:</label>
-									<select class="form-control" name="usuario" id="usuario" onChange="verificaUsuario()">
-				                        <option value="" selected>Selecione...</option>
-				                        <c:forEach var="listaUsuarios" items="${listaUsuarios}">
-	                             			<option value="${listaUsuarios.idUser}" >${listaUsuarios.nome}</option>
-				                        </c:forEach>
-				                    </select>
-								</div>
-							</div>
-							
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label class="control-label">CPF:</label>
-									<input type="tel" class="form-control" id="cpf" name="cpf" placeholder="999.999.999-99" value="${cpf}"  onKeyPress="verificaUsuario()" onBlur="verificaUsuario()"/>
-								</div>
-							</div>
-							
-							<div class="col-sm-7">
-								<div class="form-group">
-	                                <label>Endere&ccedil;o</label>
-	                                <input class="form-control" type="text" name="endereco" id="endereco" maxlength="100" value="${endereco}" onKeyPress="verificaUsuario()" onBlur="verificaUsuario()"/>
-	                            </div>
-                            </div>
-                            
-                            <div class="col-sm-12">
-								<div class="form-group">
-									<div class="col-md-12 text-center">
-										<button type="submit" class="btn btn-primary">Consultar</button>
-									</div>
-								</div>
-							</div>
-							
-						</fieldset>
-					</form>
-				</div>
+			<div class="col-md-10 col-md-offset-1">
+			<input class="form-control" id="myInput" type="text" placeholder="Utilize para procurar..."></input> <br />
+			<div class="table-responsive" id="divTable">
+				<table class="table table-hover table-striped">
+					<thead>
+						<tr>
+							<th style="width:1%;">Nº</th>
+							<th style="width:15%;">Fabricante</th>
+							<th style="width:15%;">Modelo</th>
+							<th style="width:15%;">Nº Série</th>
+							<th style="width:15%;">Tipo</th>
+							<th style="width:15%;">Chave</th>
+							<th style="width:15%;">Bateria</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody id="myTable">
+						<% int cont = 1;%>
+						<c:forEach items="${listaMedidor}" var="total">
+							<c:url value="MedidorBO" var="link">
+	                            <c:param name="acao" value="detalhe"/>
+	                            <c:param name="id" value="${total.idMedidor}"/>
+	                        </c:url>
+							<tr>
+								<td><%=cont%></td>
+								<td><small>${total.fabricante}</small></td>
+								<td><small>${total.modelo}</small></td>
+								<td><small>${total.serie}</small></td>
+								<td><small>${total.tipo}</small></td>
+								<td><small>${total.chaveDeCripto}</small></td>
+								<td><small>${total.validBateria}</small></td>
+								<td>
+									<a href="${link}">
+										<button type="button" class="btn btn-info btn-sm" title="Clique para visualizar o detalhe do Medidor">
+											<span class="glyphicon glyphicon-search"></span>
+										</button>
+									</a>
+								</td>
+							</tr>
+							<%cont++;%>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
 			</div>
 		</div>
         <footer class="footer">
@@ -104,5 +88,25 @@
 				</p>
 			</div>
 		</footer>
+		<script>
+        	$(document).ready(function(){
+			  $("#myInput").on("keyup", function() {
+			    var value = $(this).val().toLowerCase();
+			    $("#myTable tr").filter(function() {
+			      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+			    });
+			  });
+			});
+        
+	        jQuery(document).ready(function($) {
+	            $(".clickable-row").click(function() {
+	                window.location = $(this).data("href");
+	            });
+	        });
+	        
+	        $(document).ready(function(){
+	            $('[data-toggle="tooltip"]').tooltip(); 
+	        });
+		</script>
     </body>
 </html>

@@ -17,11 +17,6 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
 		<script type="text/javascript" src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
         <script src='./js/funcoes.auxiliares.js'></script>
-        <script>
-            $(function () {
-                $("#telefone").mask("(99) 99999-9999");
-            });
-        </script>
     </head>
     <body>
         <jsp:include page="/menu/${sessionScope.user.perfil.menu}" ></jsp:include>
@@ -45,6 +40,8 @@
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2">
 					<form action="MedidorBO?acao=inserir" method="post" accept-charset="iso-8859-1,utf-8">
+						<input type="hidden" id="id" name="id" value="${medidor.idMedidor}" />
+						
 						<fieldset>
 							<legend class="text-left">${titulo} de Medidor (Hidrômetro)</legend>
 							

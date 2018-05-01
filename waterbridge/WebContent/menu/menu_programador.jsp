@@ -54,6 +54,7 @@
                         <li><a href="BridgeBO?acao=1">Cadastro</a></li>
                         <li class="divider"></li>
                         <li><a href="BridgeBO?acao=1">Consulta</a></li>
+                        <li class="divider"></li>
                     </ul>
                 </li>
             </ul>
@@ -74,8 +75,8 @@
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="MedidorBO?acao=cadastro">Cadastro</a></li>
                          <li class="divider"></li>
-<!--                         <li><a href="UsuarioBO?acao=consulta">Consulta</a></li> -->
-<!--                          <li class="divider"></li> -->
+                        <li><a href="MedidorBO?acao=consulta">Consulta</a></li>
+                         <li class="divider"></li>
                     </ul>
                 </li>
             </ul>

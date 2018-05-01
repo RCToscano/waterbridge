@@ -3,6 +3,7 @@ package br.com.waterbridge.bo;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -34,13 +35,16 @@ public class MedidorBO extends HttpServlet {
                 relat = req.getParameter("acao");
             }
 
+            //Cadastro
             if (relat.equals("cadastro")) {
         		req.setAttribute("display", "none");
         		req.setAttribute("titulo", "Cadastro");
         		req.setAttribute("botao", "Cadastrar");
         		req.getRequestDispatcher("/jsp/medidor/medidor.jsp").forward(req, res);
             } 
-            if (relat.equals("inserir")) {
+            
+            //Cadastro e Alteracao
+            else if (relat.equals("inserir")) {
             	Medidor medidor = new Medidor();
             	try {
             		medidor.setFabricante(req.getParameter("fabricante"));
@@ -51,19 +55,32 @@ public class MedidorBO extends HttpServlet {
             		medidor.setValidBateria(Auxiliar.converteInteger(req.getParameter("bateria")));
             		medidor.setObs(req.getParameter("descricao"));
             		
+            		MedidorDAO medidorDAO = new MedidorDAO(connection);
+
+            		//Alteracao
             		if(req.getParameter("id") != null && !req.getParameter("id").isEmpty()) {
-            			//Alteracao
+            			req.setAttribute("titulo", "Alteração");
+            			req.setAttribute("botao", "Alterar");
+            			
+            			medidor.setIdMedidor(Long.valueOf(req.getParameter("id")));
+            			medidorDAO.alterar(medidor);
+            			
+            			req.setAttribute("medidor", medidor);
+            			req.setAttribute("display", "none");
+	            		req.setAttribute("sucesso", "Medidor alterado com sucesso!");
             		}
+            		//Cadastro
             		else {
             			req.setAttribute("titulo", "Cadastro");
             			req.setAttribute("botao", "Cadastrar");
 
-            			MedidorDAO medidorDAO = new MedidorDAO(connection);
             			medidorDAO.inserir(medidor);
+            			
             			req.setAttribute("display", "none");
 	            		req.setAttribute("sucesso", "Medidor cadastrado com sucesso!");
-	            		req.getRequestDispatcher("/jsp/medidor/medidor.jsp").forward(req, res);
             		}
+
+            		req.getRequestDispatcher("/jsp/medidor/medidor.jsp").forward(req, res);
 				} 
             	catch (Exception e) {
             		System.out.println(e);
@@ -72,6 +89,65 @@ public class MedidorBO extends HttpServlet {
             		req.getRequestDispatcher("/jsp/medidor/medidor.jsp").forward(req, res);
 				}
             }
+            
+            //Consulta
+            else if (relat.equals("consulta")) {
+            	MedidorDAO medidorDAO = new MedidorDAO(connection);
+            	List<Medidor> listaMedidor = medidorDAO.listarTodos();
+            	
+            	req.setAttribute("listaMedidor", listaMedidor);
+            	req.setAttribute("display", "none");
+            	req.getRequestDispatcher("/jsp/medidor/consulta.jsp").forward(req, res);
+            }
+            
+            //Lista de Medidor
+            else if (relat.equals("pesquisar")) {
+            	try {
+            		if(req.getParameter("medidor").equals("todos")) {
+            			MedidorDAO medidorDAO = new MedidorDAO(connection);
+    	            	List<Medidor> listaMedidor = medidorDAO.listarTodos();
+            		
+    	            	req.setAttribute("listaMedidor", listaMedidor);
+            			req.setAttribute("display", "none");
+            			req.getRequestDispatcher("/jsp/medidor/lista.jsp").forward(req, res);
+            		}
+            		else {
+            			MedidorDAO medidorDAO = new MedidorDAO(connection);
+            			Medidor medidor = medidorDAO.buscarPorId(req.getParameter("medidor"));
+            			
+            			req.setAttribute("medidor", medidor);
+            			req.setAttribute("display", "none");
+            			req.setAttribute("titulo", "Alteração");
+            			req.setAttribute("botao", "Alterar");
+            			req.getRequestDispatcher("/jsp/medidor/medidor.jsp").forward(req, res);
+            		}
+            	} 
+            	catch (Exception e) {
+					System.out.println(e);
+					
+					MedidorDAO medidorDAO = new MedidorDAO(connection);
+	            	List<Medidor> listaMedidor = medidorDAO.listarTodos();
+	            	
+	            	req.setAttribute("listaMedidor", listaMedidor);
+	            	req.setAttribute("aviso", "Não foi possível realizar a operação, contate o suporte!");
+            		req.setAttribute("display", "block");
+	            	req.getRequestDispatcher("/jsp/medidor/consulta.jsp").forward(req, res);
+				}
+            } 
+            
+            //Detalhe do Medidor
+            else if (relat.equals("detalhe")) {
+            	MedidorDAO medidorDAO = new MedidorDAO(connection);
+    			Medidor medidor = medidorDAO.buscarPorId(req.getParameter("id"));
+    			
+    			req.setAttribute("medidor", medidor);
+    			req.setAttribute("display", "none");
+    			req.setAttribute("titulo", "Alteração");
+    			req.setAttribute("botao", "Alterar");
+    			req.getRequestDispatcher("/jsp/medidor/medidor.jsp").forward(req, res);
+            }
+            
+            
         }
         catch (Exception e) {
             req.setAttribute("erro", e.toString());

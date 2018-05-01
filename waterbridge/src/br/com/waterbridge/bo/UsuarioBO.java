@@ -76,6 +76,7 @@ public class UsuarioBO extends HttpServlet {
             		user.setUf(req.getParameter("estado"));
             		user.setCep(req.getParameter("cep"));
             		
+            		//Alteracao
             		if(req.getParameter("id") != null && !req.getParameter("id").isEmpty()) {
             			req.setAttribute("titulo", "Alteração");
 	            		req.setAttribute("botao", "Alterar");
@@ -102,6 +103,7 @@ public class UsuarioBO extends HttpServlet {
 	            		req.setAttribute("usuario", user);
 	            		req.setAttribute("sucesso", "Usuário "+user.getNome()+" alterado com sucesso!");
             		}
+            		//Cadastro
             		else {
             			req.setAttribute("titulo", "Cadastro");
 	            		req.setAttribute("botao", "Cadastrar");
@@ -138,7 +140,7 @@ public class UsuarioBO extends HttpServlet {
             }
             else if (relat.equals("consulta")) {
             	UserDAO userDAO = new UserDAO(connection);
-            	List<User> listaUsuarios = userDAO.listarTodosAtivos();
+            	List<User> listaUsuarios = userDAO.listarTodos();
             	
             	req.setAttribute("listaUsuarios", listaUsuarios);
             	req.setAttribute("display", "none");
@@ -167,7 +169,7 @@ public class UsuarioBO extends HttpServlet {
 	            		User user = userDAO.buscarPorCpf(req.getParameter("cpf"));
 	            		
 	            		if(user == null) {
-	                    	List<User> listaUsuarios = userDAO.listarTodosAtivos();
+	                    	List<User> listaUsuarios = userDAO.listarTodos();
 	                    	
 	                    	req.setAttribute("listaUsuarios", listaUsuarios);
 	            			
@@ -195,7 +197,7 @@ public class UsuarioBO extends HttpServlet {
 	            		List<User> listaUser = userDAO.buscarPorEndereco(req.getParameter("endereco"));
 	            		
 	            		if(listaUser.isEmpty()) {
-	                    	List<User> listaUsuarios = userDAO.listarTodosAtivos();
+	                    	List<User> listaUsuarios = userDAO.listarTodos();
 	                    	
 	                    	req.setAttribute("listaUsuarios", listaUsuarios);
 	            			
@@ -215,7 +217,7 @@ public class UsuarioBO extends HttpServlet {
             		System.out.println(e);
             		
             		UserDAO userDAO = new UserDAO(ConnectionFactory.getConnection());
-                	List<User> listaUsuarios = userDAO.listarTodosAtivos();
+                	List<User> listaUsuarios = userDAO.listarTodos();
                 	
                 	req.setAttribute("listaUsuarios", listaUsuarios);
                 	req.setAttribute("aviso", "Não foi possível realizar a operação, contate o suporte!");

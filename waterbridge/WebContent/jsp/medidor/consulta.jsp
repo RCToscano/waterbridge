@@ -20,19 +20,14 @@
 	    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
 	    <link href="./css/menucustomcolor.css" rel="stylesheet"/>
 	    <link href="./css/footercustom.css" rel="stylesheet"/>
-	    <script src='./js/usuario/consulta.js'></script>
-        <script>
-            $(function () {
-                $("#cpf").mask("999.999.999-99");
-            });
-        </script>
+	    <script src='./js/medidor/consulta.js'></script>
     </head>
     <body>
         <jsp:include page="/menu/${sessionScope.user.perfil.menu}" ></jsp:include>
         <div class="container">
         	<ul class="breadcrumb">
 			    <li><a href="HomeBO?acao=home">Home</a></li>
-			    <li class="active">Usuário</li>
+			    <li class="active">Medidor</li>
 			    <li class="active">Consulta</li>
 			</ul>
 			
@@ -54,36 +49,30 @@
 			
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2">
-					<form action="UsuarioBO?acao=pesquisar" method="post" accept-charset="iso-8859-1,utf-8" onSubmit="return validaForm()">
+					<form action="MedidorBO?acao=pesquisar" method="post" accept-charset="iso-8859-1,utf-8" onSubmit="return validaForm()">
 						<fieldset>
-							<legend class="text-left">Consulta de Usu&aacute;rio</legend>
+							<legend class="text-left">Consulta de Medidor</legend>
 							
-							<div class="col-sm-4">
+							<div class="col-sm-6">
 								<div class="form-group">
-									<label>Usuários:</label>
-									<select class="form-control" name="usuario" id="usuario" onChange="verificaUsuario()">
+									<label>Medidor:</label>
+									<select class="form-control" name="medidor" id="medidor" onChange="verificaUsuario()" required>
 				                        <option value="" selected>Selecione...</option>
-				                        <c:forEach var="listaUsuarios" items="${listaUsuarios}">
-	                             			<option value="${listaUsuarios.idUser}" >${listaUsuarios.nome}</option>
+				                        <option value="todos">TODOS</option>
+				                        <c:forEach var="listaMedidor" items="${listaMedidor}">
+	                             			<option value="${listaMedidor.idMedidor}" >${listaMedidor.fabricante} - ${listaMedidor.modelo}</option>
 				                        </c:forEach>
 				                    </select>
 								</div>
 							</div>
 							
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label class="control-label">CPF:</label>
-									<input type="tel" class="form-control" id="cpf" name="cpf" placeholder="999.999.999-99" value="${cpf}"  onKeyPress="verificaUsuario()" onBlur="verificaUsuario()"/>
-								</div>
-							</div>
+<!-- 							<div class="col-sm-4"> -->
+<!-- 								<div class="form-group"> -->
+<!-- 									<label class="control-label">CPF:</label> -->
+<%-- 									<input type="text" class="form-control" id="cpf" name="cpf" placeholder="999.999.999-99" value="${cpf}"  onKeyPress="verificaUsuario()" onBlur="verificaUsuario()"/> --%>
+<!-- 								</div> -->
+<!-- 							</div> -->
 							
-							<div class="col-sm-7">
-								<div class="form-group">
-	                                <label>Endere&ccedil;o</label>
-	                                <input class="form-control" type="text" name="endereco" id="endereco" maxlength="100" value="${endereco}" onKeyPress="verificaUsuario()" onBlur="verificaUsuario()"/>
-	                            </div>
-                            </div>
-                            
                             <div class="col-sm-12">
 								<div class="form-group">
 									<div class="col-md-12 text-center">

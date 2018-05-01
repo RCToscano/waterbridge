@@ -90,7 +90,7 @@
 							<div class="col-sm-4">
 								<div class="form-group">
 									<label class="control-label">CPF</label>
-									<input type="text" class="form-control" id="cpf" name="cpf" placeholder="999.999.999-99" value="${usuario.cpf}" required/>
+									<input type="tel" class="form-control" id="cpf" name="cpf" placeholder="999.999.999-99" value="${usuario.cpf}" required/>
 								</div>
 							</div>
 							
@@ -156,7 +156,7 @@
 							<div class="col-sm-6">
 								<div class="form-group">
 									<label class="control-label">Email:</label>
-									<input type="text" class="form-control" id="email" name="email" value="${usuario.email}" required/>
+									<input type="email" class="form-control" id="email" name="email" value="${usuario.email}" required/>
 								</div>
 							</div>
 							
@@ -221,7 +221,7 @@
 	                        <div class="col-sm-3">
 	                        	<div class="form-group">
 	                                <label>CEP</label>
-	                                <input class="form-control" type="text" name="cep" id="postal_code" maxlength="9" value="${usuario.cep}" required/>
+	                                <input class="form-control" type="tel" name="cep" id="postal_code" maxlength="9" value="${usuario.cep}" required/>
 	                            </div>
 	                        </div>
 

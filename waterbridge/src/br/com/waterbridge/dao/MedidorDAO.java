@@ -3,7 +3,10 @@ package br.com.waterbridge.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
+import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.modelo.Medidor;
 
 public class MedidorDAO {
@@ -65,7 +68,7 @@ public class MedidorDAO {
 					"CHAVEDECRIPTO = ?, " +
 					"VALIDBATERIA = ?, " +
 					"OBS = ?, " +
-					"SITUACAO = ? " +
+					"SITUACAO = ?, " +
 					"DTINSERT = sysdate() " +
 					"WHERE ID_MEDIDOR = ? "
     				);
@@ -77,7 +80,7 @@ public class MedidorDAO {
     		stmt.setObject(5, medidor.getChaveDeCripto());
     		stmt.setObject(6, medidor.getValidBateria());
     		stmt.setObject(7, medidor.getObs());
-    		stmt.setObject(8, "1");
+    		stmt.setObject(8, medidor.getSituacao());
     		stmt.setObject(9, medidor.getIdMedidor());
     		stmt.executeUpdate();
     	} 
@@ -87,6 +90,79 @@ public class MedidorDAO {
     		if(rs != null)
     			rs.close();
     	}
+    }
+    
+    public Medidor buscarPorId(String idMedidor) throws Exception {
+    	PreparedStatement stmt = null;
+    	ResultSet rs = null;
+    	try {
+    		stmt = connection.prepareStatement(
+    				"SELECT TB_MEDIDOR.* " +
+		            "  FROM TB_MEDIDOR " +
+		            " WHERE TB_MEDIDOR.ID_MEDIDOR = ? "
+		            );
+    		
+    		stmt.setObject(1, idMedidor);
+            
+            rs = stmt.executeQuery();
+    		
+    		Medidor medidor = new Medidor();
+            if (rs.next()) {
+            	medidor.setIdMedidor(rs.getLong("ID_MEDIDOR"));
+            	medidor.setFabricante(rs.getString("FABRICANTE"));
+        		medidor.setModelo(rs.getString("MODELO"));
+        		medidor.setSerie(rs.getString("SERIE"));
+        		medidor.setTipo(rs.getString("TIPO"));
+        		medidor.setChaveDeCripto(rs.getString("CHAVEDECRIPTO"));
+        		medidor.setValidBateria(Auxiliar.converteInteger(rs.getString("VALIDBATERIA")));
+        		medidor.setObs(rs.getString("OBS"));
+        		medidor.setSituacao(rs.getString("SITUACAO"));
+        		medidor.setDtInsert(rs.getString("DTINSERT"));
+            }
+            return medidor;
+    	} 
+    	finally {
+    		if(stmt != null)
+    			stmt.close();
+    		if(rs != null)
+    			rs.close();
+    	}
+    }
+    
+    public List<Medidor> listarTodos() throws Exception {
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Medidor> list = new ArrayList<>();
+        try {
+            stmt = connection.prepareStatement(
+            		"SELECT TB_MEDIDOR.* " +
+		            "  FROM TB_MEDIDOR "
+		            );
+            
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+            	Medidor medidor = new Medidor();
+            	medidor.setIdMedidor(rs.getLong("ID_MEDIDOR"));
+            	medidor.setFabricante(rs.getString("FABRICANTE"));
+        		medidor.setModelo(rs.getString("MODELO"));
+        		medidor.setSerie(rs.getString("SERIE"));
+        		medidor.setTipo(rs.getString("TIPO"));
+        		medidor.setChaveDeCripto(rs.getString("CHAVEDECRIPTO"));
+        		medidor.setValidBateria(rs.getInt("VALIDBATERIA"));
+        		medidor.setObs(rs.getString("OBS"));
+        		medidor.setSituacao(rs.getString("SITUACAO"));
+        		medidor.setDtInsert(rs.getString("DTINSERT"));
+                list.add(medidor);
+            }
+            return list;
+        } 
+        finally {
+            if (stmt != null)
+                stmt.close();
+            if (rs != null)
+                rs.close();
+        }
     }
 
 }
