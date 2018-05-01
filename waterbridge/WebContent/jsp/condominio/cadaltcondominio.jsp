@@ -54,9 +54,11 @@
 			    <li class="active">Condomínio</li>
 			</ul>
 			<div class="col-sm-9" style="float: none; margin: 0 auto;">
-				<h3>${tituloTela}</h3>
+				<fieldset>
+				    <legend>${tituloTela}</legend>
+			  	</fieldset>
 				<div id="divAviso">${aviso}</div>
-				<form role="form" id="formCadBridge" action="${acao}" method="POST" class="form-horizontal" accept-charset="iso-8859-1,utf-8" style="margin-top: 30px;" onsubmit="return validarForm()">
+				<form role="form" id="formCadBridge" action="${acao}" method="POST" class="form-horizontal" accept-charset="iso-8859-1,utf-8" onsubmit="return validarForm()">
 					<input type="hidden" id="idCondominio" name="idCondominio" value="${condominio.idCondominio}"/>
 					<div class="form-group">
 						<div class="col-sm-6">

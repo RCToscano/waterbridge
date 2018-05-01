@@ -79,40 +79,63 @@ public class CondominioBO extends HttpServlet {
 			
 				connection = ConnectionFactory.getConnection();
 				
-				CnpTp cnpTp = new CnpTp();
-				cnpTp.setIdCnpTp(Long.parseLong(req.getParameter("cnpTp")));
-			
-				Condominio condominio = new Condominio();		
-				condominio.setIdCondominio(0l);
-				condominio.setIdUser(user.getIdUser());
-				condominio.setCnpTp(cnpTp);
-				condominio.setNome(Auxiliar.removerCaracteres(req.getParameter("nome").trim().toUpperCase()));
-				condominio.setCnp(req.getParameter("cnp"));
-				condominio.setTelFixo(req.getParameter("telFixo"));
-				condominio.setTelCel(req.getParameter("telCel"));
-				condominio.setEmail(req.getParameter("email"));
-				condominio.setEndereco(Auxiliar.removerCaracteres(req.getParameter("endereco").trim().toUpperCase()));
-				condominio.setNumero(Long.parseLong(req.getParameter("numero")));
-				condominio.setCompl(Auxiliar.removerCaracteres(req.getParameter("compl").trim().toUpperCase()));
-				condominio.setMunicipio(Auxiliar.removerCaracteres(req.getParameter("municipio").trim().toUpperCase()));
-				condominio.setUf(req.getParameter("estado").trim().toUpperCase());
-				condominio.setCep(req.getParameter("cep").trim().toUpperCase());
-				if(req.getParameter("latitude").trim().equals("")) {
-					condominio.setCoordX("0.0");
-					condominio.setCoordY("0.0");
+				CondominioDAO condominioDAO = new CondominioDAO(connection);
+				Condominio condominio = condominioDAO.buscarPorCnp(req.getParameter("cnp"));
+				
+				if(condominio == null) {
+					
+					CnpTp cnpTp = new CnpTp();
+					cnpTp.setIdCnpTp(Long.parseLong(req.getParameter("cnpTp")));
+				
+					condominio = new Condominio();		
+					condominio.setIdCondominio(0l);
+					condominio.setIdUser(user.getIdUser());
+					condominio.setCnpTp(cnpTp);
+					condominio.setNome(Auxiliar.removerCaracteres(req.getParameter("nome").trim().toUpperCase()));
+					condominio.setCnp(req.getParameter("cnp"));
+					condominio.setTelFixo(req.getParameter("telFixo"));
+					condominio.setTelCel(req.getParameter("telCel"));
+					condominio.setEmail(req.getParameter("email"));
+					condominio.setEndereco(Auxiliar.removerCaracteres(req.getParameter("endereco").trim().toUpperCase()));
+					condominio.setNumero(Long.parseLong(req.getParameter("numero")));
+					condominio.setCompl(Auxiliar.removerCaracteres(req.getParameter("compl").trim().toUpperCase()));
+					condominio.setMunicipio(Auxiliar.removerCaracteres(req.getParameter("municipio").trim().toUpperCase()));
+					condominio.setUf(req.getParameter("estado").trim().toUpperCase());
+					condominio.setCep(req.getParameter("cep").trim().toUpperCase());
+					if(req.getParameter("latitude").trim().equals("")) {
+						condominio.setCoordX("0.0");
+						condominio.setCoordY("0.0");
+					}
+					else {
+						condominio.setCoordX(req.getParameter("latitude"));
+						condominio.setCoordY(req.getParameter("longitude"));
+					}
+					condominio.setResponsavel(Auxiliar.removerCaracteres(req.getParameter("responsavel").trim().toUpperCase()));
+					condominio.setContratoNum(req.getParameter("contratoNum"));
+					condominio.setContaCiclo(Long.parseLong(req.getParameter("contaCiclo")));
+					condominio.setSituacao(req.getParameter("situacao"));
+					condominio.setDtInsert(null);
+					
+					condominioDAO.inserir(condominio);
+					
+					req.setAttribute("aviso", 
+					"<div class='alert alert-success'>" +
+					"    Cadastro realizado com sucesso!" +
+					"    &emsp;&emsp;" +
+					"    <a href='CondominioBO?acao=3&idCondominio=" + condominio.getIdCondominio() + "'>" + condominio.getNome() + "</a>" +		
+					"</div>"
+					);
 				}
 				else {
-					condominio.setCoordX(req.getParameter("latitude"));
-					condominio.setCoordY(req.getParameter("longitude"));
+
+					req.setAttribute("aviso",
+					"<div class='alert alert-danger'>" +
+					"    Não foi possível cadastrar.! O cadastro já foi realizado em " + condominio.getDtInsert() +
+					"    &emsp;&emsp;" +
+					"    <a href='CondominioBO?acao=3&idCondominio=" + condominio.getIdCondominio() + "'>" + condominio.getNome() + "</a>" +
+					"</div>"
+					);
 				}
-				condominio.setResponsavel(Auxiliar.removerCaracteres(req.getParameter("responsavel").trim().toUpperCase()));
-				condominio.setContratoNum(req.getParameter("contratoNum"));
-				condominio.setContaCiclo(Long.parseLong(req.getParameter("contaCiclo")));
-				condominio.setSituacao(req.getParameter("situacao"));
-				condominio.setDtInsert(null);
-				
-				CondominioDAO condominioDAO = new CondominioDAO(connection);
-				condominioDAO.inserir(condominio);
 
 				CnpTpDAO cnpTpDAO = new CnpTpDAO(connection);
 				List<CnpTp> listCnpTp = cnpTpDAO.listar();
@@ -120,13 +143,6 @@ public class CondominioBO extends HttpServlet {
 				SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
 				List<Situacao> listSituacao = situacaoDAO.listar();
 
-				req.setAttribute("aviso", 
-				"<div class='alert alert-success'>" +
-				"    Cadastro realizado com sucesso!" +
-				"    &emsp;&emsp;" +
-				"    <a href='CondominioBO?acao=3&idCondominio=" + condominio.getIdCondominio() + "'>" + condominio.getNome() + "</a>" +		
-				"</div>"
-				);
 				req.setAttribute("tituloTela", "Cadastro de Condom&iacute;nio");
 				req.setAttribute("acao", "CondominioBO?acao=2");
 				req.setAttribute("btNome", "Cadastrar");
@@ -161,7 +177,7 @@ public class CondominioBO extends HttpServlet {
 				List<Situacao> listSituacao = situacaoDAO.listar();
 				
 				CondominioDAO condominioDAO = new CondominioDAO(connection);
-				Condominio condominio = condominioDAO.buscar(Long.parseLong(req.getParameter("idCondominio")));
+				Condominio condominio = condominioDAO.buscarPorId(Long.parseLong(req.getParameter("idCondominio")));
 				
 				req.setAttribute("tituloTela", "Altera&ccedil;&atilde;o de Condom&iacute;nio");
 				req.setAttribute("acao", "CondominioBO?acao=4");
@@ -229,7 +245,7 @@ public class CondominioBO extends HttpServlet {
 				CnpTpDAO cnpTpDAO = new CnpTpDAO(connection);
 				List<CnpTp> listCnpTp = cnpTpDAO.listar();
 
-				condominio = condominioDAO.buscar(Long.parseLong(req.getParameter("idCondominio")));
+				condominio = condominioDAO.buscarPorId(Long.parseLong(req.getParameter("idCondominio")));
 				
 				SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
 				List<Situacao> listSituacao = situacaoDAO.listar();

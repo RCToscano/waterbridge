@@ -209,11 +209,6 @@ function validarForm() {
     }
 }
 
-function exibirAviso(texto) {
-	var divAviso = document.getElementById("divAviso");
-	divAviso.innerHTML = "<div class='alert alert-danger'>" + texto + "</div>";
-}
-
 function mascaraCnp() {
 	var cnpTp = document.getElementById("cnpTp");
 	if(cnpTp.value == 1) {
@@ -226,4 +221,20 @@ function mascaraCnp() {
 		$("#cnp").attr("placeholder", "99.999.999/9999-99");
 		$("#cnp").mask("99.999.999/9999-99");	
 	}
+}
+
+function abrirMapa() {
+    
+    var latitude = document.getElementById("latitude");
+    var longitude = document.getElementById("longitude");
+    
+    if(latitude.value.trim() != '' && longitude.value.trim() != '') {
+        
+        window.open('https://www.google.com/maps?q=loc:' + latitude.value + '+' + longitude.value, '_blank');
+    }
+}
+
+function exibirAviso(texto) {
+	var divAviso = document.getElementById("divAviso");
+	divAviso.innerHTML = "<div class='alert alert-danger'>" + texto + "</div>";
 }
