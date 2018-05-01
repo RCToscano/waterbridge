@@ -31,11 +31,11 @@
 			    <li class="active">Lista</li>
 			</ul>
 			
+			
 			<div id="divAviso" name="divAviso" class="alert alert-danger" style="display:${display};">
 				<strong><label id='aviso' name='aviso'/>${aviso}</strong>
 			</div>
-			
-			<div class="col-md-10 col-md-offset-1">
+		
 			<input class="form-control" id="myInput" type="text" placeholder="Utilize para procurar..."></input> <br />
 			<div class="table-responsive" id="divTable">
 				<table class="table table-hover table-striped">
@@ -44,10 +44,12 @@
 							<th style="width:1%;">Nº</th>
 							<th style="width:15%;">Fabricante</th>
 							<th style="width:15%;">Modelo</th>
+							<th style="width:15%;">Número</th>
 							<th style="width:15%;">Nº Série</th>
-							<th style="width:15%;">Tipo</th>
+							<th style="width:8%;">Tipo</th>
 							<th style="width:15%;">Chave</th>
-							<th style="width:15%;">Bateria</th>
+							<th style="width:8%;">Bateria</th>
+							<th style="width:15%;">Bridge</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -62,10 +64,12 @@
 								<td><%=cont%></td>
 								<td><small>${total.fabricante}</small></td>
 								<td><small>${total.modelo}</small></td>
+								<td><small>${total.numero}</small></td>
 								<td><small>${total.serie}</small></td>
 								<td><small>${total.tipo}</small></td>
 								<td><small>${total.chaveDeCripto}</small></td>
 								<td><small>${total.validBateria}</small></td>
+								<td><small>${total.deviceNum}</small></td>
 								<td>
 									<a href="${link}">
 										<button type="button" class="btn btn-info btn-sm" title="Clique para visualizar o detalhe do Medidor">
@@ -78,7 +82,6 @@
 						</c:forEach>
 					</tbody>
 				</table>
-			</div>
 			</div>
 		</div>
         <footer class="footer">

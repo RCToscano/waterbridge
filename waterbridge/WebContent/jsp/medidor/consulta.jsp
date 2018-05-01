@@ -31,24 +31,25 @@
 			    <li class="active">Consulta</li>
 			</ul>
 			
-			<div id="divAviso" name="divAviso" class="alert alert-danger" style="display:${display};">
-				<strong><label id='aviso' name='aviso'/>${aviso}</strong>
-			</div>
-			
-			<c:if test="${not empty sucesso}">
-				<div class="alert alert-success">
-					<strong><c:out value="${sucesso}"/></strong>
-				</div>
-			</c:if>
-			
-			<c:if test="${not empty informacao}">
-				<div class="alert alert-warning">
-					<strong><c:out value="${informacao}"/></strong>
-				</div>
-			</c:if>
-			
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2">
+				
+					<div id="divAviso" name="divAviso" class="alert alert-danger" style="display:${display};">
+						<strong><label id='aviso' name='aviso'/>${aviso}</strong>
+					</div>
+					
+					<c:if test="${not empty sucesso}">
+						<div class="alert alert-success">
+							<strong><c:out value="${sucesso}"/></strong>
+						</div>
+					</c:if>
+					
+					<c:if test="${not empty informacao}">
+						<div class="alert alert-warning">
+							<strong><c:out value="${informacao}"/></strong>
+						</div>
+					</c:if>
+				
 					<form action="MedidorBO?acao=pesquisar" method="post" accept-charset="iso-8859-1,utf-8" onSubmit="return validaForm()">
 						<fieldset>
 							<legend class="text-left">Consulta de Medidor</legend>
@@ -60,7 +61,7 @@
 				                        <option value="" selected>Selecione...</option>
 				                        <option value="todos">TODOS</option>
 				                        <c:forEach var="listaMedidor" items="${listaMedidor}">
-	                             			<option value="${listaMedidor.idMedidor}" >${listaMedidor.fabricante} - ${listaMedidor.modelo}</option>
+	                             			<option value="${listaMedidor.idMedidor}" >${listaMedidor.fabricante} - ${listaMedidor.numero}</option>
 				                        </c:forEach>
 				                    </select>
 								</div>

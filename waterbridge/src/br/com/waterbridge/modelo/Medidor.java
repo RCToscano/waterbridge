@@ -3,18 +3,46 @@ package br.com.waterbridge.modelo;
 public class Medidor {
 	
 	private Long idMedidor;
+	private Long idBridge;
+	private String deviceNum;
 	private String fabricante;
 	private String modelo;
 	private String serie;
 	private String tipo;
 	private String chaveDeCripto;
 	private int validBateria;
+	private String numero;
+	private int meterPosition;
 	private String obs;
 	private String situacao;
 	private String dtInsert;
 	
 	
 	
+	public String getDeviceNum() {
+		return deviceNum;
+	}
+	public void setDeviceNum(String deviceNum) {
+		this.deviceNum = deviceNum;
+	}
+	public Long getIdBridge() {
+		return idBridge;
+	}
+	public void setIdBridge(Long idBridge) {
+		this.idBridge = idBridge;
+	}
+	public int getMeterPosition() {
+		return meterPosition;
+	}
+	public void setMeterPosition(int meterPosition) {
+		this.meterPosition = meterPosition;
+	}
+	public String getNumero() {
+		return numero;
+	}
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
 	public Long getIdMedidor() {
 		return idMedidor;
 	}

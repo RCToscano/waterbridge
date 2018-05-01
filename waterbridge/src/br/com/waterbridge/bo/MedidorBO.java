@@ -12,8 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.connection.ConnectionFactory;
+import br.com.waterbridge.dao.BridgeDAO;
 import br.com.waterbridge.dao.MedidorDAO;
+import br.com.waterbridge.dao.SituacaoDAO;
+import br.com.waterbridge.modelo.Bridge;
 import br.com.waterbridge.modelo.Medidor;
+import br.com.waterbridge.modelo.Situacao;
 
 public class MedidorBO extends HttpServlet {
 
@@ -37,6 +41,14 @@ public class MedidorBO extends HttpServlet {
 
             //Cadastro
             if (relat.equals("cadastro")) {
+            	SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
+				List<Situacao> listSituacao = situacaoDAO.listar();
+				
+				BridgeDAO bridgeDAO = new BridgeDAO(connection);
+				List<Bridge> listaBridge = bridgeDAO.listarTodos();
+            	
+				req.setAttribute("listaBridge", listaBridge);
+				req.setAttribute("listSituacao", listSituacao);
         		req.setAttribute("display", "none");
         		req.setAttribute("titulo", "Cadastro");
         		req.setAttribute("botao", "Cadastrar");
@@ -53,6 +65,17 @@ public class MedidorBO extends HttpServlet {
             		medidor.setTipo(req.getParameter("tipo"));
             		medidor.setChaveDeCripto(req.getParameter("chave"));
             		medidor.setValidBateria(Auxiliar.converteInteger(req.getParameter("bateria")));
+            		medidor.setNumero(req.getParameter("numero"));
+            		
+            		String split[] = req.getParameter("bridge").split(";");
+            		Long idBridge = Long.valueOf(split[0]);
+					String deviceNum = split[1];
+            		
+            		medidor.setIdBridge(idBridge);
+            		medidor.setDeviceNum(deviceNum);
+            		medidor.setMeterPosition(Auxiliar.converteInteger(req.getParameter("posicao")));
+            		
+            		medidor.setSituacao(req.getParameter("situacao"));
             		medidor.setObs(req.getParameter("descricao"));
             		
             		MedidorDAO medidorDAO = new MedidorDAO(connection);
@@ -79,15 +102,24 @@ public class MedidorBO extends HttpServlet {
             			req.setAttribute("display", "none");
 	            		req.setAttribute("sucesso", "Medidor cadastrado com sucesso!");
             		}
-
-            		req.getRequestDispatcher("/jsp/medidor/medidor.jsp").forward(req, res);
+            		
 				} 
             	catch (Exception e) {
             		System.out.println(e);
             		req.setAttribute("aviso", "Não foi possível realizar a operação, contate o suporte!");
             		req.setAttribute("display", "block");
-            		req.getRequestDispatcher("/jsp/medidor/medidor.jsp").forward(req, res);
 				}
+            	finally {
+            		SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
+    				List<Situacao> listSituacao = situacaoDAO.listar();
+    				
+    				BridgeDAO bridgeDAO = new BridgeDAO(connection);
+    				List<Bridge> listaBridge = bridgeDAO.listarTodos();
+                	
+    				req.setAttribute("listaBridge", listaBridge);
+    				req.setAttribute("listSituacao", listSituacao);
+    				req.getRequestDispatcher("/jsp/medidor/medidor.jsp").forward(req, res);
+            	}
             }
             
             //Consulta
@@ -140,7 +172,15 @@ public class MedidorBO extends HttpServlet {
             	MedidorDAO medidorDAO = new MedidorDAO(connection);
     			Medidor medidor = medidorDAO.buscarPorId(req.getParameter("id"));
     			
-    			req.setAttribute("medidor", medidor);
+    			SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
+				List<Situacao> listSituacao = situacaoDAO.listar();
+				
+				BridgeDAO bridgeDAO = new BridgeDAO(connection);
+				List<Bridge> listaBridge = bridgeDAO.listarTodos();
+            	
+				req.setAttribute("medidor", medidor);
+				req.setAttribute("listaBridge", listaBridge);
+				req.setAttribute("listSituacao", listSituacao);
     			req.setAttribute("display", "none");
     			req.setAttribute("titulo", "Alteração");
     			req.setAttribute("botao", "Alterar");

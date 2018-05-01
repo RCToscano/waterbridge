@@ -31,10 +31,15 @@ public class MedidorDAO {
 					"VALIDBATERIA, " +
 					"OBS, " +
 					"SITUACAO, " +
+					"METERID, " +
+					"ID_BRIDGE, " +
+					"DEVICENUM, " +
+					"METERPOSITION, " +
 					"DTINSERT " +
 					")" +
     				" VALUES ( " +
-            		"?, ?, ?, ?, ?, ?, ?, ?, sysdate() ) " 
+            		"?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " +
+            		"?, ?, sysdate() ) " 
     				);
             		
             stmt.setObject(1, medidor.getFabricante());
@@ -44,7 +49,11 @@ public class MedidorDAO {
             stmt.setObject(5, medidor.getChaveDeCripto());
             stmt.setObject(6, medidor.getValidBateria());
             stmt.setObject(7, medidor.getObs());
-            stmt.setObject(8, "1");
+            stmt.setObject(8, medidor.getSituacao());
+            stmt.setObject(9, medidor.getNumero());
+            stmt.setObject(10, medidor.getIdBridge());
+            stmt.setObject(11, medidor.getDeviceNum());
+            stmt.setObject(12, medidor.getMeterPosition());
             stmt.executeUpdate();
 		} 
         finally {
@@ -69,6 +78,10 @@ public class MedidorDAO {
 					"VALIDBATERIA = ?, " +
 					"OBS = ?, " +
 					"SITUACAO = ?, " +
+					"METERID = ?, " +
+					"ID_BRIDGE = ?, " +
+					"DEVICENUM = ?, " +
+					"METERPOSITION = ?, " +
 					"DTINSERT = sysdate() " +
 					"WHERE ID_MEDIDOR = ? "
     				);
@@ -81,7 +94,11 @@ public class MedidorDAO {
     		stmt.setObject(6, medidor.getValidBateria());
     		stmt.setObject(7, medidor.getObs());
     		stmt.setObject(8, medidor.getSituacao());
-    		stmt.setObject(9, medidor.getIdMedidor());
+    		stmt.setObject(9, medidor.getNumero());
+    		stmt.setObject(10, medidor.getIdBridge());
+    		stmt.setObject(11, medidor.getDeviceNum());
+    		stmt.setObject(12, medidor.getMeterPosition());
+    		stmt.setObject(13, medidor.getIdMedidor());
     		stmt.executeUpdate();
     	} 
     	finally {
@@ -115,9 +132,14 @@ public class MedidorDAO {
         		medidor.setTipo(rs.getString("TIPO"));
         		medidor.setChaveDeCripto(rs.getString("CHAVEDECRIPTO"));
         		medidor.setValidBateria(Auxiliar.converteInteger(rs.getString("VALIDBATERIA")));
+        		medidor.setNumero(rs.getString("METERID"));
+        		medidor.setIdBridge(rs.getLong("ID_BRIDGE"));
+        		medidor.setDeviceNum(rs.getString("DEVICENUM"));
+        		medidor.setMeterPosition(rs.getInt("METERPOSITION"));
         		medidor.setObs(rs.getString("OBS"));
         		medidor.setSituacao(rs.getString("SITUACAO"));
         		medidor.setDtInsert(rs.getString("DTINSERT"));
+        		
             }
             return medidor;
     	} 
@@ -150,6 +172,10 @@ public class MedidorDAO {
         		medidor.setTipo(rs.getString("TIPO"));
         		medidor.setChaveDeCripto(rs.getString("CHAVEDECRIPTO"));
         		medidor.setValidBateria(rs.getInt("VALIDBATERIA"));
+        		medidor.setNumero(rs.getString("METERID"));
+        		medidor.setIdBridge(rs.getLong("ID_BRIDGE"));
+        		medidor.setDeviceNum(rs.getString("DEVICENUM"));
+        		medidor.setMeterPosition(rs.getInt("METERPOSITION"));
         		medidor.setObs(rs.getString("OBS"));
         		medidor.setSituacao(rs.getString("SITUACAO"));
         		medidor.setDtInsert(rs.getString("DTINSERT"));
