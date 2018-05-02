@@ -4,6 +4,7 @@ public class Medidor {
 	
 	private Long idMedidor;
 	private Long idBridge;
+	private Long idUser;
 	private String deviceNum;
 	private String fabricante;
 	private String modelo;
@@ -19,6 +20,12 @@ public class Medidor {
 	
 	
 	
+	public Long getIdUser() {
+		return idUser;
+	}
+	public void setIdUser(Long idUser) {
+		this.idUser = idUser;
+	}
 	public String getDeviceNum() {
 		return deviceNum;
 	}

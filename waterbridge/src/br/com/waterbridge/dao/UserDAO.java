@@ -372,7 +372,7 @@ public class UserDAO {
             stmt.setObject(3, user.getEmail());
             stmt.setObject(4, user.getSexo());
             stmt.setObject(5, user.getDtNasc());
-            stmt.setObject(6, "1");
+            stmt.setObject(6, user.getSituacao());
             stmt.setObject(7, user.getUsuario());
             stmt.setObject(8, user.getCpf());
             stmt.setObject(9, user.getTelFixo());
@@ -424,9 +424,9 @@ public class UserDAO {
     		stmt.setObject(3, user.getEmail());
     		stmt.setObject(4, user.getSexo());
     		stmt.setObject(5, user.getDtNasc());
-    		stmt.setObject(6, "1");
+    		stmt.setObject(6, user.getSituacao());
     		stmt.setObject(7, user.getCpf());
-    		stmt.setObject(8, user.getCpf());
+    		stmt.setObject(8, user.getUsuario());
     		stmt.setObject(9, user.getTelFixo());
     		stmt.setObject(10, user.getEndereco());
     		stmt.setObject(11, user.getNumero());

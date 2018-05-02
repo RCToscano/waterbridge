@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.connection.ConnectionFactory;
@@ -18,6 +19,7 @@ import br.com.waterbridge.dao.SituacaoDAO;
 import br.com.waterbridge.modelo.Bridge;
 import br.com.waterbridge.modelo.Medidor;
 import br.com.waterbridge.modelo.Situacao;
+import br.com.waterbridge.modelo.User;
 
 public class MedidorBO extends HttpServlet {
 
@@ -59,6 +61,10 @@ public class MedidorBO extends HttpServlet {
             else if (relat.equals("inserir")) {
             	Medidor medidor = new Medidor();
             	try {
+            		HttpSession session = req.getSession(true);
+                    User user = (User) session.getValue("user");
+            		
+                    medidor.setIdUser(user.getIdUser());
             		medidor.setFabricante(req.getParameter("fabricante"));
             		medidor.setModelo(req.getParameter("modelo"));
             		medidor.setSerie(req.getParameter("serie"));
@@ -147,6 +153,14 @@ public class MedidorBO extends HttpServlet {
             			MedidorDAO medidorDAO = new MedidorDAO(connection);
             			Medidor medidor = medidorDAO.buscarPorId(req.getParameter("medidor"));
             			
+            			SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
+        				List<Situacao> listSituacao = situacaoDAO.listar();
+        				
+        				BridgeDAO bridgeDAO = new BridgeDAO(connection);
+        				List<Bridge> listaBridge = bridgeDAO.listarTodos();
+                    	
+        				req.setAttribute("listaBridge", listaBridge);
+        				req.setAttribute("listSituacao", listSituacao);
             			req.setAttribute("medidor", medidor);
             			req.setAttribute("display", "none");
             			req.setAttribute("titulo", "Alteração");

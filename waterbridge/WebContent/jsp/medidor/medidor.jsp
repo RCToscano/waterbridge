@@ -97,13 +97,6 @@
 							
 							<div class="col-sm-4">
 								<div class="form-group">
-									<label class="control-label" for="name">Posição:</label>
-									<input type="number" class="form-control" id="posicao" name="posicao" maxlength="2" value="${medidor.meterPosition}" onKeyPress="validaTamanho(this,2)" required/>
-								</div>
-							</div>
-							
-							<div class="col-sm-4">
-								<div class="form-group">
 									<label class="control-label">Bridge</label>
 									<select class="form-control" name="bridge" id="bridge" required>
 										<option value="" selected>Selecione...</option>
@@ -120,11 +113,19 @@
 									</select>
 								</div>
 							</div>
+
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label class="control-label" for="name">Posição:</label>
+									<input type="number" class="form-control" id="posicao" name="posicao" maxlength="2" value="${medidor.meterPosition}" onKeyPress="validaTamanho(this,2)" required/>
+								</div>
+							</div>
 							
 							<div class="col-sm-3">
 								<div class="form-group">
 									<label class="control-label">Situação</label>
 									<select class="form-control" name="situacao" id="situacao" required>
+										<option value="" selected>Selecione...</option>
 										<c:forEach var="situacao" items="${listSituacao}">
 		                      		        <c:choose>
 		                                    	<c:when test="${situacao.situacao eq medidor.situacao}">

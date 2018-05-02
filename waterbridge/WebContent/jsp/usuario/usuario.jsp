@@ -48,18 +48,19 @@
 			    <li class="active">${titulo}</li>
 			</ul>
 			
-			<div id="divAviso" name="divAviso" class="alert alert-danger" style="display:${display};">
-				<strong><label id='aviso' name='aviso'/>${aviso}</strong>
-			</div>
-			
-			<c:if test="${not empty sucesso}">
-				<div class="alert alert-success">
-					<strong><c:out value="${sucesso}"/></strong>
-				</div>
-			</c:if>
-			
 			<div class="row">
 				<div class="col-md-8 col-md-offset-2">
+				
+					<div id="divAviso" name="divAviso" class="alert alert-danger" style="display:${display};">
+						<strong><label id='aviso' name='aviso'/>${aviso}</strong>
+					</div>
+					
+					<c:if test="${not empty sucesso}">
+						<div class="alert alert-success">
+							<strong><c:out value="${sucesso}"/></strong>
+						</div>
+					</c:if>
+				
 					<form action="UsuarioBO?acao=inserir" method="post" accept-charset="iso-8859-1,utf-8" onSubmit="return validaForm()">
 						<input type="hidden" id="id" name="id" value="${usuario.idUser}" />
 						
@@ -94,7 +95,24 @@
 								</div>
 							</div>
 							
-							<div class="col-sm-12"></div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label class="control-label">Situação</label>
+									<select class="form-control" name="situacao" id="situacao" required>
+										<option value="" selected>Selecione...</option>
+										<c:forEach var="situacao" items="${listSituacao}">
+		                      		        <c:choose>
+		                                    	<c:when test="${situacao.situacao eq usuario.situacao}">
+		                                    		<option value="${situacao.situacao}" selected>${situacao.descricao}</option> 
+		                                      	</c:when>
+		                                      	<c:otherwise>
+		                                      		<option value="${situacao.situacao}">${situacao.descricao}</option>
+		                                      	</c:otherwise>
+		                                     </c:choose>
+				                     	</c:forEach>
+									</select>
+								</div>
+							</div>
 							
 							<div class="col-sm-6">
 								<div class="form-group">

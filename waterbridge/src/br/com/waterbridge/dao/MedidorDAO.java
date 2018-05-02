@@ -35,11 +35,12 @@ public class MedidorDAO {
 					"ID_BRIDGE, " +
 					"DEVICENUM, " +
 					"METERPOSITION, " +
+					"ID_USER, " +
 					"DTINSERT " +
 					")" +
     				" VALUES ( " +
             		"?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " +
-            		"?, ?, sysdate() ) " 
+            		"?, ?, ?, sysdate() ) " 
     				);
             		
             stmt.setObject(1, medidor.getFabricante());
@@ -54,6 +55,7 @@ public class MedidorDAO {
             stmt.setObject(10, medidor.getIdBridge());
             stmt.setObject(11, medidor.getDeviceNum());
             stmt.setObject(12, medidor.getMeterPosition());
+            stmt.setObject(13, medidor.getIdUser());
             stmt.executeUpdate();
 		} 
         finally {
@@ -82,6 +84,7 @@ public class MedidorDAO {
 					"ID_BRIDGE = ?, " +
 					"DEVICENUM = ?, " +
 					"METERPOSITION = ?, " +
+					"ID_USER = ?, " +
 					"DTINSERT = sysdate() " +
 					"WHERE ID_MEDIDOR = ? "
     				);
@@ -98,7 +101,8 @@ public class MedidorDAO {
     		stmt.setObject(10, medidor.getIdBridge());
     		stmt.setObject(11, medidor.getDeviceNum());
     		stmt.setObject(12, medidor.getMeterPosition());
-    		stmt.setObject(13, medidor.getIdMedidor());
+    		stmt.setObject(13, medidor.getIdUser());
+    		stmt.setObject(14, medidor.getIdMedidor());
     		stmt.executeUpdate();
     	} 
     	finally {

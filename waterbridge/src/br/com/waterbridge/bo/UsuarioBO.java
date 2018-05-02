@@ -16,10 +16,12 @@ import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.PassDAO;
 import br.com.waterbridge.dao.PerfilDAO;
+import br.com.waterbridge.dao.SituacaoDAO;
 import br.com.waterbridge.dao.UserDAO;
 import br.com.waterbridge.enuns.SexoEnum;
 import br.com.waterbridge.modelo.Pass;
 import br.com.waterbridge.modelo.Perfil;
+import br.com.waterbridge.modelo.Situacao;
 import br.com.waterbridge.modelo.User;
 
 public class UsuarioBO extends HttpServlet {
@@ -46,6 +48,11 @@ public class UsuarioBO extends HttpServlet {
             	PerfilDAO perfilDAO = new PerfilDAO(connection);
             	List<Perfil> listaPerfil = perfilDAO.listarTodos();
         		List<SexoEnum> listaSexo = SexoEnum.listCodigos();
+        		
+        		SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
+				List<Situacao> listSituacao = situacaoDAO.listar();
+        		
+        		req.setAttribute("listSituacao", listSituacao);
         		req.setAttribute("listaSexo", listaSexo);
         		req.setAttribute("listaPerfil", listaPerfil);
         		req.setAttribute("display", "none");
@@ -63,6 +70,7 @@ public class UsuarioBO extends HttpServlet {
             		user.setPerfil(perfil);
             		
             		user.setCpf(req.getParameter("cpf"));
+            		user.setUsuario(req.getParameter("cpf"));
             		user.setNome(req.getParameter("name").trim().toUpperCase());
             		user.setDtNasc(formatoBanco.format(formatoData.parse(req.getParameter("dtNascimento"))));
             		user.setSexo(req.getParameter("sexo"));
@@ -75,6 +83,7 @@ public class UsuarioBO extends HttpServlet {
             		user.setMunicipio(req.getParameter("municipio"));
             		user.setUf(req.getParameter("estado"));
             		user.setCep(req.getParameter("cep"));
+            		user.setSituacao(req.getParameter("situacao"));
             		
             		//Alteracao
             		if(req.getParameter("id") != null && !req.getParameter("id").isEmpty()) {
@@ -98,6 +107,9 @@ public class UsuarioBO extends HttpServlet {
 	            		PerfilDAO perfilDAO = new PerfilDAO(connection);
 	                	List<Perfil> listaPerfil = perfilDAO.listarTodos();
 	            		List<SexoEnum> listaSexo = SexoEnum.listCodigos();
+	            		SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
+	    				List<Situacao> listSituacao = situacaoDAO.listar();
+	            		req.setAttribute("listSituacao", listSituacao);
 	            		req.setAttribute("listaSexo", listaSexo);
 	            		req.setAttribute("listaPerfil", listaPerfil);
 	            		req.setAttribute("usuario", user);
@@ -115,7 +127,7 @@ public class UsuarioBO extends HttpServlet {
 	            		user.setIdUser(user2.getIdUser());
 	            		
 	            		Pass pass = new Pass();
-	            		pass.setPass("waterBridge"+new Random().nextInt(100));
+	            		pass.setPass("waterBridge"+new Random().nextInt(1000));
 	            		pass.setIdUser(user.getIdUser());
 	            		
 	            		PassDAO passDAO = new PassDAO(connection);
@@ -124,6 +136,9 @@ public class UsuarioBO extends HttpServlet {
 	            		PerfilDAO perfilDAO = new PerfilDAO(connection);
 	                	List<Perfil> listaPerfil = perfilDAO.listarTodos();
 	            		List<SexoEnum> listaSexo = SexoEnum.listCodigos();
+	            		SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
+	    				List<Situacao> listSituacao = situacaoDAO.listar();
+	            		req.setAttribute("listSituacao", listSituacao);
 	            		req.setAttribute("listaSexo", listaSexo);
 	            		req.setAttribute("listaPerfil", listaPerfil);
 	            		req.setAttribute("sucesso", "Usuário "+user.getNome()+" cadastrado com sucesso!");
@@ -155,7 +170,9 @@ public class UsuarioBO extends HttpServlet {
 	            		PerfilDAO perfilDAO = new PerfilDAO(connection);
 	                	List<Perfil> listaPerfil = perfilDAO.listarTodos();
 	            		List<SexoEnum> listaSexo = SexoEnum.listCodigos();
-	            		
+	            		SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
+	    				List<Situacao> listSituacao = situacaoDAO.listar();
+	            		req.setAttribute("listSituacao", listSituacao);
 	            		req.setAttribute("listaSexo", listaSexo);
 	            		req.setAttribute("listaPerfil", listaPerfil);
 	            		req.setAttribute("usuario", user);
@@ -182,7 +199,9 @@ public class UsuarioBO extends HttpServlet {
 	            			PerfilDAO perfilDAO = new PerfilDAO(connection);
 	            			List<Perfil> listaPerfil = perfilDAO.listarTodos();
 	            			List<SexoEnum> listaSexo = SexoEnum.listCodigos();
-	            			
+	            			SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
+	        				List<Situacao> listSituacao = situacaoDAO.listar();
+	                		req.setAttribute("listSituacao", listSituacao);
 	            			req.setAttribute("listaSexo", listaSexo);
 	            			req.setAttribute("listaPerfil", listaPerfil);
 	            			req.setAttribute("usuario", user);
@@ -232,7 +251,9 @@ public class UsuarioBO extends HttpServlet {
         		PerfilDAO perfilDAO = new PerfilDAO(connection);
             	List<Perfil> listaPerfil = perfilDAO.listarTodos();
         		List<SexoEnum> listaSexo = SexoEnum.listCodigos();
-        		
+        		SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
+				List<Situacao> listSituacao = situacaoDAO.listar();
+        		req.setAttribute("listSituacao", listSituacao);
         		req.setAttribute("listaSexo", listaSexo);
         		req.setAttribute("listaPerfil", listaPerfil);
         		req.setAttribute("usuario", user);
