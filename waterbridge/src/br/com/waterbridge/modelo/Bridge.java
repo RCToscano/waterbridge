@@ -4,6 +4,7 @@ public class Bridge {
 	
 	private Long idBridge;
 	private Long idUser;
+	private Long idCondominio;
 	private String deviceNum;
 	private String dtAtivacao;
 	private String validadeToken;
@@ -25,6 +26,12 @@ public class Bridge {
 	}
 	public void setIdUser(Long idUser) {
 		this.idUser = idUser;
+	}
+	public Long getIdCondominio() {
+		return idCondominio;
+	}
+	public void setIdCondominio(Long idCondominio) {
+		this.idCondominio = idCondominio;
 	}
 	public String getDeviceNum() {
 		return deviceNum;
@@ -80,5 +87,5 @@ public class Bridge {
 	public void setDtInsert(String dtInsert) {
 		this.dtInsert = dtInsert;
 	}
-
+	
 }

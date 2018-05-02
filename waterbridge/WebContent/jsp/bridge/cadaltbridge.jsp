@@ -112,6 +112,24 @@
 					</div>
 				</div>
 				<div class="form-group">
+					<div class="col-sm-12">
+						<label>Condomínio</label> 
+						<select class="form-control" id="idCondominio" name="idCondominio" required >
+							<option value="" selected>Selecione...</option>
+							<c:forEach var="condominio" items="${listCondominio}">
+                   		        <c:choose>
+                                  	<c:when test="${condominio.idCondominio == bridge.idCondominio}">
+                                 		<option value="${condominio.idCondominio}" selected="true">${condominio.nome} - ${condominio.endereco} ${condominio.numero} ${condominio.compl}</option> 
+                                   	</c:when>
+                                   	<c:otherwise>
+                                   		<option value="${condominio.idCondominio}">${condominio.nome} - ${condominio.endereco} ${condominio.numero} ${condominio.compl}</option>
+                                   	</c:otherwise>
+                            	</c:choose>
+	                     	</c:forEach>
+						</select>					
+					</div>
+				</div>
+				<div class="form-group">
 					<div class="col-sm-4">
 						<label>Situa&ccedil;&atilde;o</label> 
 						<select class="form-control" id="situacao" name="situacao" required >

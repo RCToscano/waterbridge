@@ -31,6 +31,7 @@ public class BridgeDAO {
     		//"       ID_BRIDGE, " +
     		"       ID_BRIDGETPALIM, " +
     		"       ID_USER, " +
+    		"       ID_CONDOMINIO, " +
     		"       DEVICENUM, " +
     		"       ATIVATIONDATE, " +
     		"       TOKENVALID, " +
@@ -40,20 +41,21 @@ public class BridgeDAO {
     		"       SITUACAO, " +
     		"       DTINSERT " +
             ") VALUES ( " +
-            "       ?,?,?,?,?,?,?,?,?, " +
+            "       ?,?,?,?,?,?,?,?,?,?, " +
             "       SYSDATE() " +
             ")");
             
             //stmt.setObject(1, bridge.getIdBridge());
             stmt.setObject(1, bridge.getBridgeTpAlim().getIdBridgeTpAlim());
             stmt.setObject(2, bridge.getIdUser());
-            stmt.setObject(3, bridge.getDeviceNum());
-            stmt.setObject(4, Auxiliar.formataDtBancoHr(bridge.getDtAtivacao()));
-            stmt.setObject(5, Auxiliar.formataDtBanco(bridge.getValidadeToken()));
-            stmt.setObject(6, bridge.getDescricao());
-            stmt.setObject(7, bridge.getCustoMensal());
-            stmt.setObject(8, bridge.getTaxaEnvio());
-            stmt.setObject(9, bridge.getSituacao());
+            stmt.setObject(3, bridge.getIdCondominio());
+            stmt.setObject(4, bridge.getDeviceNum());
+            stmt.setObject(5, Auxiliar.formataDtBancoHr(bridge.getDtAtivacao()));
+            stmt.setObject(6, Auxiliar.formataDtBanco(bridge.getValidadeToken()));
+            stmt.setObject(7, bridge.getDescricao());
+            stmt.setObject(8, bridge.getCustoMensal());
+            stmt.setObject(9, bridge.getTaxaEnvio());
+            stmt.setObject(10, bridge.getSituacao());
             //stmt.setObject(10, bridge.getDtInsert());
             
             stmt.execute();
@@ -84,6 +86,7 @@ public class BridgeDAO {
             "UPDATE TB_BRIDGE SET " +
     		"       ID_BRIDGETPALIM = ?, " +
     		"       ID_USER = ?, " +
+    		"       ID_CONDOMINIO = ?, " +
     		"       DEVICENUM = ?, " +
     		"       ATIVATIONDATE = ?, " +
     		"       TOKENVALID = ?, " +
@@ -96,15 +99,16 @@ public class BridgeDAO {
             
             stmt.setObject(1, bridge.getBridgeTpAlim().getIdBridgeTpAlim());
             stmt.setObject(2, bridge.getIdUser());
-            stmt.setObject(3, bridge.getDeviceNum());
-            stmt.setObject(4, Auxiliar.formataDtBancoHr(bridge.getDtAtivacao()));
-            stmt.setObject(5, Auxiliar.formataDtBanco(bridge.getValidadeToken()));
-            stmt.setObject(6, bridge.getDescricao());
-            stmt.setObject(7, bridge.getCustoMensal());
-            stmt.setObject(8, bridge.getTaxaEnvio());
-            stmt.setObject(9, bridge.getSituacao());
+            stmt.setObject(3, bridge.getIdCondominio());
+            stmt.setObject(4, bridge.getDeviceNum());
+            stmt.setObject(5, Auxiliar.formataDtBancoHr(bridge.getDtAtivacao()));
+            stmt.setObject(6, Auxiliar.formataDtBanco(bridge.getValidadeToken()));
+            stmt.setObject(7, bridge.getDescricao());
+            stmt.setObject(8, bridge.getCustoMensal());
+            stmt.setObject(9, bridge.getTaxaEnvio());
+            stmt.setObject(10, bridge.getSituacao());
             //stmt.setObject(10, bridge.getDtInsert());
-            stmt.setObject(10, bridge.getIdBridge());
+            stmt.setObject(11, bridge.getIdBridge());
 
             stmt.execute();
         }
@@ -163,6 +167,7 @@ public class BridgeDAO {
     		"SELECT ID_BRIDGE, " +
             "       ID_BRIDGETPALIM, " +
             "       ID_USER, " +
+            "       ID_CONDOMINIO, " +
             "	    DEVICENUM, " +
             "       ATIVATIONDATE, " +
             "       TOKENVALID, " +
@@ -188,6 +193,7 @@ public class BridgeDAO {
             	bridge.setIdBridge(rs.getLong("ID_BRIDGE"));
                 bridge.setBridgeTpAlim(bridgeTpAlim);
                 bridge.setIdUser(rs.getLong("ID_USER"));
+                bridge.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
                 bridge.setDeviceNum(rs.getString("DEVICENUM"));
                 bridge.setDtAtivacao(Auxiliar.formataDtTelaHr(rs.getString("ATIVATIONDATE")));
                 bridge.setValidadeToken(Auxiliar.formataDtTela(rs.getString("TOKENVALID")));
@@ -229,6 +235,7 @@ public class BridgeDAO {
     		"SELECT ID_BRIDGE, " +
             "       ID_BRIDGETPALIM, " +
             "       ID_USER, " +
+            "       ID_CONDOMINIO, " +
             "	    DEVICENUM, " +
             "       ATIVATIONDATE, " +
             "       TOKENVALID, " +
@@ -254,6 +261,7 @@ public class BridgeDAO {
             	bridge.setIdBridge(rs.getLong("ID_BRIDGE"));
                 bridge.setBridgeTpAlim(bridgeTpAlim);
                 bridge.setIdUser(rs.getLong("ID_USER"));
+                bridge.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
                 bridge.setDeviceNum(rs.getString("DEVICENUM"));
                 bridge.setDtAtivacao(Auxiliar.formataDtTelaHr(rs.getString("ATIVATIONDATE")));
                 bridge.setValidadeToken(Auxiliar.formataDtTela(rs.getString("TOKENVALID")));
@@ -295,6 +303,7 @@ public class BridgeDAO {
     		"SELECT ID_BRIDGE, " +
             "       ID_BRIDGETPALIM, " +
             "       ID_USER, " +
+            "       ID_CONDOMINIO, " +
             "	    DEVICENUM, " +
             "       ATIVATIONDATE, " +
             "       TOKENVALID, " +
@@ -318,6 +327,7 @@ public class BridgeDAO {
             	bridge.setIdBridge(rs.getLong("ID_BRIDGE"));
                 bridge.setBridgeTpAlim(bridgeTpAlim);
                 bridge.setIdUser(rs.getLong("ID_USER"));
+                bridge.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
                 bridge.setDeviceNum(rs.getString("DEVICENUM"));
                 bridge.setDtAtivacao(Auxiliar.formataDtTelaHr(rs.getString("ATIVATIONDATE")));
                 bridge.setValidadeToken(Auxiliar.formataDtTela(rs.getString("TOKENVALID")));
@@ -350,6 +360,7 @@ public class BridgeDAO {
     }
     
     public List<Bridge> listarTodos() throws Exception {
+    	
     	PreparedStatement stmt = null;
     	ResultSet rs = null;
     	List<Bridge> listBridge = new ArrayList<Bridge>();
@@ -359,6 +370,7 @@ public class BridgeDAO {
     				"SELECT ID_BRIDGE, " +
 					"       ID_BRIDGETPALIM, " +
 					"       ID_USER, " +
+					"       ID_CONDOMINIO, " +
 					"	    DEVICENUM, " +
 					"       ATIVATIONDATE, " +
 					"       TOKENVALID, " +
@@ -380,6 +392,7 @@ public class BridgeDAO {
     			bridge.setIdBridge(rs.getLong("ID_BRIDGE"));
     			bridge.setBridgeTpAlim(bridgeTpAlim);
     			bridge.setIdUser(rs.getLong("ID_USER"));
+    			bridge.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
     			bridge.setDeviceNum(rs.getString("DEVICENUM"));
     			bridge.setDtAtivacao(Auxiliar.formataDtTelaHr(rs.getString("ATIVATIONDATE")));
     			bridge.setValidadeToken(Auxiliar.formataDtTela(rs.getString("TOKENVALID")));

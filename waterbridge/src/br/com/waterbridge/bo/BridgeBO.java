@@ -18,9 +18,11 @@ import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.BridgeDAO;
 import br.com.waterbridge.dao.BridgeTpAlimDAO;
+import br.com.waterbridge.dao.CondominioDAO;
 import br.com.waterbridge.dao.SituacaoDAO;
 import br.com.waterbridge.modelo.Bridge;
 import br.com.waterbridge.modelo.BridgeTpAlim;
+import br.com.waterbridge.modelo.Condominio;
 import br.com.waterbridge.modelo.Situacao;
 import br.com.waterbridge.modelo.User;
 
@@ -50,12 +52,16 @@ public class BridgeBO extends HttpServlet {
 				SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
 				List<Situacao> listSituacao = situacaoDAO.listar();
 				
+				CondominioDAO condominioDAO = new CondominioDAO(connection);
+				List<Condominio> listCondominio = condominioDAO.listar();
+				
 				req.setAttribute("tituloTela", "Cadastro de Bridge");
 				req.setAttribute("acao", "BridgeBO?acao=2");
 				req.setAttribute("devicereadonly", "");
 				req.setAttribute("btNome", "Cadastrar");
 				req.setAttribute("listBridgeTpAlim", listBridgeTpAlim);
 				req.setAttribute("listSituacao", listSituacao);
+				req.setAttribute("listCondominio", listCondominio);
 				req.getRequestDispatcher("/jsp/bridge/cadaltbridge.jsp").forward(req, res);
 			}
 	        catch (Exception e) {
@@ -84,6 +90,9 @@ public class BridgeBO extends HttpServlet {
 				SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
 				List<Situacao> listSituacao = situacaoDAO.listar();
 				
+				CondominioDAO condominioDAO = new CondominioDAO(connection);
+				List<Condominio> listCondominio = condominioDAO.listar();
+				
 				BridgeDAO bridgeDAO = new BridgeDAO(connection);
 				Bridge bridge = bridgeDAO.buscarPorDeviceNum(req.getParameter("deviceNum").trim().toUpperCase()); 
 				
@@ -95,6 +104,7 @@ public class BridgeBO extends HttpServlet {
 					bridge = new Bridge();
 					bridge.setIdBridge(0l);
 					bridge.setIdUser(user.getIdUser());
+					bridge.setIdCondominio(Long.parseLong(req.getParameter("idCondominio")));
 					bridge.setDeviceNum(req.getParameter("deviceNum").trim().toUpperCase());
 					bridge.setDtAtivacao(req.getParameter("dtAtivacao"));
 					bridge.setValidadeToken(req.getParameter("validadeToken"));
@@ -131,6 +141,7 @@ public class BridgeBO extends HttpServlet {
 				req.setAttribute("btNome", "Cadastrar");
 				req.setAttribute("listBridgeTpAlim", listBridgeTpAlim);
 				req.setAttribute("listSituacao", listSituacao);
+				req.setAttribute("listCondominio", listCondominio);
 				req.getRequestDispatcher("/jsp/bridge/cadaltbridge.jsp").forward(req, res);				
 			}
 	        catch (Exception e) {
@@ -159,6 +170,9 @@ public class BridgeBO extends HttpServlet {
 				SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
 				List<Situacao> listSituacao = situacaoDAO.listar();
 				
+				CondominioDAO condominioDAO = new CondominioDAO(connection);
+				List<Condominio> listCondominio = condominioDAO.listar();
+				
 				BridgeDAO bridgeDAO = new BridgeDAO(connection);
 				Bridge bridge = bridgeDAO.buscarPorDeviceNum(req.getParameter("deviceNum").trim().toUpperCase()); 
 				
@@ -168,6 +182,7 @@ public class BridgeBO extends HttpServlet {
 				req.setAttribute("btNome", "Alterar");
 				req.setAttribute("listBridgeTpAlim", listBridgeTpAlim);
 				req.setAttribute("listSituacao", listSituacao);
+				req.setAttribute("listCondominio", listCondominio);
 				req.setAttribute("bridge", bridge);
 				req.getRequestDispatcher("/jsp/bridge/cadaltbridge.jsp").forward(req, res);
 			}
@@ -197,6 +212,7 @@ public class BridgeBO extends HttpServlet {
 				Bridge bridge = new Bridge();
 				bridge.setIdBridge(Long.parseLong(req.getParameter("idBridge")));
 				bridge.setIdUser(user.getIdUser());
+				bridge.setIdCondominio(Long.parseLong(req.getParameter("idCondominio")));
 				bridge.setDeviceNum(req.getParameter("deviceNum").trim().toUpperCase());
 				bridge.setDtAtivacao(req.getParameter("dtAtivacao"));
 				bridge.setValidadeToken(req.getParameter("validadeToken"));
@@ -212,6 +228,9 @@ public class BridgeBO extends HttpServlet {
 
 				BridgeTpAlimDAO bridgeTpAlimDAO = new BridgeTpAlimDAO(connection);
 				List<BridgeTpAlim> listBridgeTpAlim = bridgeTpAlimDAO.listar();
+				
+				CondominioDAO condominioDAO = new CondominioDAO(connection);
+				List<Condominio> listCondominio = condominioDAO.listar();
 				
 				SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
 				List<Situacao> listSituacao = situacaoDAO.listar();
@@ -229,6 +248,7 @@ public class BridgeBO extends HttpServlet {
 				req.setAttribute("btNome", "Alterar");
 				req.setAttribute("listBridgeTpAlim", listBridgeTpAlim);
 				req.setAttribute("listSituacao", listSituacao);
+				req.setAttribute("listCondominio", listCondominio);
 				req.setAttribute("bridge", bridge);
 				req.getRequestDispatcher("/jsp/bridge/cadaltbridge.jsp").forward(req, res);
 			}

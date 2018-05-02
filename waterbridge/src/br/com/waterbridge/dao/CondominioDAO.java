@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.modelo.CnpTp;
@@ -360,4 +362,93 @@ public class CondominioDAO {
             }
         }
     } 
+    
+    public List<Condominio> listar() throws SQLException {
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Condominio> listCondominio = new ArrayList<Condominio>();
+        
+        try {
+            
+            stmt = connection.prepareStatement(
+	    	"SELECT   ID_CONDOMINIO, " +
+	    	"         ID_USER, " +
+	    	"         ID_CNPTP, " +
+	    	"         NOME, " +
+	    	"         CNP, " +
+	    	"         TELFIXO, " +
+	    	"         TELCEL, " +
+	    	"         EMAIL, " +
+	    	"         ENDERECO, " +
+	    	"         NUMERO, " +
+	    	"         COMPL, " +
+	    	"         MUNICIPIO, " +
+	        "         UF, " +
+	    	"         CEP, " +
+	    	"         COORDX, " +
+	    	"         COORDY, " +
+	    	"         RESPONSAVEL, " +
+	    	"         CONTRNUM, " +
+	    	"         CONTACICLO, " +
+	    	"         SITUACAO, " +
+	    	"         DTINSERT " +
+	    	"FROM     TB_CONDOMINIO " +		
+	    	"ORDER BY NOME, " +
+	    	"         ENDERECO, " + 
+	    	"         NUMERO, " +
+	    	"         COMPL "   	
+            );
+
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+            	
+            	CnpTp cnpTp = new CnpTp();
+            	cnpTp = new CnpTpDAO(connection).buscar(rs.getLong("ID_CNPTP"));
+            	
+            	Condominio condominio = new Condominio();
+            	condominio.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
+            	condominio.setIdUser(rs.getLong("ID_USER"));
+            	condominio.setCnpTp(cnpTp);
+            	condominio.setNome(rs.getString("NOME"));
+            	condominio.setCnp(rs.getString("CNP"));
+            	condominio.setTelFixo(rs.getString("TELFIXO"));
+            	condominio.setTelCel(rs.getString("TELCEL"));
+            	condominio.setEmail(rs.getString("EMAIL"));
+            	condominio.setEndereco(rs.getString("ENDERECO"));
+            	condominio.setNumero(rs.getLong("NUMERO"));
+            	condominio.setCompl(rs.getString("COMPL"));
+            	condominio.setMunicipio(rs.getString("MUNICIPIO"));
+            	condominio.setUf(rs.getString("UF"));
+            	condominio.setCep(rs.getString("CEP"));
+            	condominio.setCoordX(rs.getString("COORDX"));
+            	condominio.setCoordY(rs.getString("COORDY"));
+            	condominio.setResponsavel(rs.getString("RESPONSAVEL"));
+            	condominio.setContratoNum(rs.getString("CONTRNUM"));
+            	condominio.setContaCiclo(rs.getLong("CONTACICLO"));
+            	condominio.setSituacao(rs.getString("SITUACAO"));
+            	condominio.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));     
+            	
+            	listCondominio.add(condominio);
+            }
+            
+            return listCondominio;
+        }
+        catch(SQLException e) {
+            
+            throw e;
+        }
+        finally {
+
+            if(stmt != null) {
+                
+                stmt.close();
+            }
+            if(rs != null) {
+                
+                rs.close();
+            }
+        }
+    }    
 }
