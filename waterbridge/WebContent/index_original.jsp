@@ -52,10 +52,7 @@
         	<div class="form-group">
         		<div class="col-sm-6">
         			<img src="./images/logo_waterbridge.png" alt="">
-        		</div>
-        		<div class="col-sm-6">
-        			<label style="font-size: 32pt;">Sistema de medi&ccedil;&atilde;o<br/>individualizada de &aacute;gua</label>
-        		</div>
+        		</div>        		
         	</div>
         </div>
         <footer class="footer" style="background: #fff;">

@@ -49,23 +49,23 @@
             </ul>
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Bridge <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="BridgeBO?acao=1">Cadastro</a></li>
-                        <li class="divider"></li>
-                        <li><a href="BridgeBO?acao=1">Consulta</a></li>
-                        <li class="divider"></li>
-                    </ul>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav">
-                <li>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Condomínio <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="CondominioBO?acao=1">Cadastro</a></li>
                          <li class="divider"></li>
 <!--                         <li><a href="UsuarioBO?acao=consulta">Consulta</a></li> -->
 <!--                          <li class="divider"></li> -->
+                    </ul>
+                </li>
+            </ul>            
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Bridge <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="BridgeBO?acao=1">Cadastro</a></li>
+                        <li class="divider"></li>
+<!--                         <li><a href="BridgeBO?acao=1">Consulta</a></li> -->
+<!--                         <li class="divider"></li> -->
                     </ul>
                 </li>
             </ul>

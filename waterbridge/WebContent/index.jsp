@@ -74,11 +74,6 @@
         				<img class="img-responsive center-block" src="./images/logo_waterbridge.png" alt="">
         			</div>
         		</div>
-        		<div class="col-sm-6 text-center">
-        			<div class="form-group">
-        				<label id="labelbody">Sistema de medi&ccedil;&atilde;o individualizada de &aacute;gua</label>
-        			</div>
-        		</div>
         	</div>
         </div>
         <footer class="footer" style="background-color: #fff">

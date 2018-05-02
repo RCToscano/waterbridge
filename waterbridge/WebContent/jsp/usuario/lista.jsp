@@ -79,13 +79,13 @@
 				</table>
 			</div>
 		</div>
-        <footer class="footer">
-			<div class="container text-center">
-				<p class="text-muted">
-					Todos os direitos reservados&emsp;&emsp;-&emsp;&emsp;<label>Desenvolvido por Desoltec Engenharia</label>&emsp;&emsp;<img src="./images/logo_desoltec_rodape.png" alt="" style="margin: 0px;">
-				</p>
-			</div>
-		</footer>
+        <footer class="footer" style="background-color: #fff">
+            <div class="container-fluid text-center" style="background-color: #fff; padding: 10px">
+            	<div class="col-sm-4 text-center"><p class="text-muted">Todos os direitos reservados</p></div>
+            	<div class="col-sm-4 text-center"><p class="text-muted"><label>Desenvolvido por Desoltec Engenharia</label></p></div>
+            	<div class="col-sm-4 text-center"><img class="img-responsive center-block" src="./images/logo_desoltec_rodape.png" alt=""></div>
+            </div>
+        </footer>
 		<script>
         	$(document).ready(function(){
 			  $("#myInput").on("keyup", function() {
