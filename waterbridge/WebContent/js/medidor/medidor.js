@@ -1,4 +1,27 @@
 
+function validaForm() {
+
+	var divAviso = document.getElementById('divAviso');
+	var aviso = document.getElementById('aviso');
+	var posicao = document.getElementById('posicao');
+	
+	divAviso.style.display = "none";
+	aviso.innerHTML = "";
+	
+	if(posicao.value.trim() == '') {
+		
+		divAviso.style.display = "block";
+		aviso.innerHTML = "Informe a posição do medidor";
+		return false;
+	}
+	else if(Number(posicao.value) < 1 || Number(posicao.value) > 64 ) {
+		
+		divAviso.style.display = "block";
+		aviso.innerHTML = "A posição do medidor só pode ser de 1 a 64";
+		return false;
+	}
+}
+
 function listarBridgeCadastro() {
 
     var idCondominio = document.getElementById('idCondominio');

@@ -402,7 +402,7 @@ public class CondominioDAO {
 
             rs = stmt.executeQuery();
 
-            if (rs.next()) {
+            while (rs.next()) {
             	
             	CnpTp cnpTp = new CnpTp();
             	cnpTp = new CnpTpDAO(connection).buscar(rs.getLong("ID_CNPTP"));
@@ -488,7 +488,7 @@ public class CondominioDAO {
 
             rs = stmt.executeQuery();
 
-            if (rs.next()) {
+            while (rs.next()) {
             	
             	CnpTp cnpTp = new CnpTp();
             	cnpTp = new CnpTpDAO(connection).buscar(rs.getLong("ID_CNPTP"));

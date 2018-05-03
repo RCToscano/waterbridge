@@ -121,8 +121,8 @@ public class CondominioBO extends HttpServlet {
 					req.setAttribute("aviso", 
 					"<div class='alert alert-success'>" +
 					"    Cadastro realizado com sucesso!" +
-					"    &emsp;&emsp;" +
-					"    <a href='CondominioBO?acao=3&idCondominio=" + condominio.getIdCondominio() + "'>" + condominio.getNome() + "</a>" +		
+//					"    &emsp;&emsp;" +
+//					"    <a href='CondominioBO?acao=3&idCondominio=" + condominio.getIdCondominio() + "'>" + condominio.getNome() + "</a>" +		
 					"</div>"
 					);
 				}

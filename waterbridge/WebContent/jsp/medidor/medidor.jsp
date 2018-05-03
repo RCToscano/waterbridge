@@ -45,7 +45,7 @@
 						</div>
 					</c:if>
 				
-					<form action="MedidorBO?acao=inserir" method="post" accept-charset="iso-8859-1,utf-8">
+					<form action="MedidorBO?acao=inserir" method="post" accept-charset="iso-8859-1,utf-8" onsubmit="return validaForm()">
 						<input type="hidden" id="id" name="id" value="${medidor.idMedidor}" />
 						
 						<fieldset>
