@@ -10,6 +10,7 @@ function validarForm() {
 	var tpAlimentacao = document.getElementById("tpAlimentacao");
 	var custoMensal = document.getElementById("custoMensal");
 	var taxaEnvio = document.getElementById("taxaEnvio");
+	var idCondominio = document.getElementById("idCondominio");
 	var situacao = document.getElementById("situacao");
 	var descricao = document.getElementById("descricao");
     
@@ -44,7 +45,7 @@ function validarForm() {
         validadeToken.focus();
         return false;
     }
-    else if(tpAlimentacao.value.trim() == '0') {
+    else if(tpAlimentacao.value.trim() == '') {
 
     	tpAlimentacao.style.borderColor = colorRed;
     	exibirAviso('Informe o tipo de alimentação');
@@ -72,7 +73,14 @@ function validarForm() {
         taxaEnvio.focus();
         return false;
     }
-    else if(situacao.value.trim() == '0') {
+    else if(idCondominio.value.trim() == '') {
+
+    	situacao.style.borderColor = colorRed;
+    	exibirAviso('Selecione o condomínio');
+        situacao.focus();
+        return false;
+    }
+    else if(situacao.value.trim() == '') {
 
     	situacao.style.borderColor = colorRed;
     	exibirAviso('Selecione a situação');

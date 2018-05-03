@@ -8,15 +8,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
 		<title>WaterBridge</title>
 		<link rel="icon" type="image/png" href="./images/favicon.ico"/>
+		<script src="./js/medidor/medidor.js" type="text/javascript"></script>
+        <script src='./js/funcoes.auxiliares.js'></script>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="./css/menucustomcolor.css" rel="stylesheet"/>
         <link href="./css/footercustom.css" rel="stylesheet"/>
-        <script src="./js/jquery-1.11.3.min.js"></script>
+<!--         <script src="./js/jquery-1.11.3.min.js"></script> -->
+		<script src="http://code.jquery.com/jquery-2.2.4.js" ></script>	
         <script src="./js/jquery.mask.min.js" type="text/javascript"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
 		<script type="text/javascript" src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
-        <script src='./js/funcoes.auxiliares.js'></script>
+		
+		<script src="http://malsup.github.io/jquery.blockUI.js"></script>
+
     </head>
     <body>
         <jsp:include page="/menu/${sessionScope.user.perfil.menu}" ></jsp:include>
@@ -97,32 +102,6 @@
 							
 							<div class="col-sm-4">
 								<div class="form-group">
-									<label class="control-label">Bridge</label>
-									<select class="form-control" name="bridge" id="bridge" required>
-										<option value="" selected>Selecione...</option>
-										<c:forEach var="bridge" items="${listaBridge}">
-		                      		        <c:choose>
-		                                    	<c:when test="${bridge.idBridge eq medidor.idBridge}">
-		                                    		<option value="${bridge.idBridge};${bridge.deviceNum}" selected>${bridge.deviceNum}</option> 
-		                                      	</c:when>
-		                                      	<c:otherwise>
-		                                      		<option value="${bridge.idBridge};${bridge.deviceNum}">${bridge.deviceNum}</option>
-		                                      	</c:otherwise>
-		                                     </c:choose>
-				                     	</c:forEach>
-									</select>
-								</div>
-							</div>
-
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label class="control-label" for="name">Posição:</label>
-									<input type="number" class="form-control" id="posicao" name="posicao" maxlength="2" value="${medidor.meterPosition}" onKeyPress="validaTamanho(this,2)" required/>
-								</div>
-							</div>
-							
-							<div class="col-sm-3">
-								<div class="form-group">
 									<label class="control-label">Situação</label>
 									<select class="form-control" name="situacao" id="situacao" required>
 										<option value="" selected>Selecione...</option>
@@ -137,6 +116,41 @@
 		                                     </c:choose>
 				                     	</c:forEach>
 									</select>
+								</div>
+							</div>
+							
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label>Condomínio</label> 
+									<select class="form-control" id="idCondominio" name="idCondominio" onchange="listarBridge()" required >
+										<option value="" selected>Selecione...</option>
+										<c:forEach var="condominio" items="${listCondominio}">
+			                   		        <c:choose>
+			                                  	<c:when test="${condominio.idCondominio == bridge.idCondominio}">
+			                                 		<option value="${condominio.idCondominio}" selected="true">${condominio.nome} - ${condominio.endereco} ${condominio.numero} ${condominio.compl}</option> 
+			                                   	</c:when>
+			                                   	<c:otherwise>
+			                                   		<option value="${condominio.idCondominio}">${condominio.nome} - ${condominio.endereco} ${condominio.numero} ${condominio.compl}</option>
+			                                   	</c:otherwise>
+			                            	</c:choose>
+				                     	</c:forEach>
+									</select>	
+								</div>					
+							</div>
+							
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label class="control-label">Bridge</label>
+									<select class="form-control" name="bridge" id="bridge" required>
+										<option value="" selected>Selecione...</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label class="control-label" for="name">Posição:</label>
+									<input type="number" class="form-control" id="posicao" name="posicao" maxlength="2" value="${medidor.meterPosition}" onKeyPress="validaTamanho(this,2)" required/>
 								</div>
 							</div>
 

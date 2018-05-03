@@ -11,12 +11,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+
 import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.BridgeDAO;
+import br.com.waterbridge.dao.CondominioDAO;
 import br.com.waterbridge.dao.MedidorDAO;
 import br.com.waterbridge.dao.SituacaoDAO;
 import br.com.waterbridge.modelo.Bridge;
+import br.com.waterbridge.modelo.Condominio;
 import br.com.waterbridge.modelo.Medidor;
 import br.com.waterbridge.modelo.Situacao;
 import br.com.waterbridge.modelo.User;
@@ -46,15 +50,48 @@ public class MedidorBO extends HttpServlet {
             	SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
 				List<Situacao> listSituacao = situacaoDAO.listar();
 				
+				CondominioDAO condominioDAO = new CondominioDAO(connection);
+				List<Condominio> listCondominio = condominioDAO.listar();
+				
 				BridgeDAO bridgeDAO = new BridgeDAO(connection);
 				List<Bridge> listaBridge = bridgeDAO.listarTodos();
             	
 				req.setAttribute("listaBridge", listaBridge);
 				req.setAttribute("listSituacao", listSituacao);
+				req.setAttribute("listCondominio", listCondominio);
         		req.setAttribute("display", "none");
         		req.setAttribute("titulo", "Cadastro");
         		req.setAttribute("botao", "Cadastrar");
         		req.getRequestDispatcher("/jsp/medidor/medidor.jsp").forward(req, res);
+            } 
+            
+            //Listar Bridge
+            if (relat.equals("listarbridge")) {
+            	
+            	try {
+
+            		BridgeDAO bridgeDAO = new BridgeDAO(connection);
+                	List<Bridge> listBridge = bridgeDAO.listarPorIdCondominio(Long.parseLong(req.getParameter("idCondominio")));
+                	
+                	String json = new Gson().toJson(listBridge);
+                	
+                	res.setContentType("application/json");
+                	res.setCharacterEncoding("UTF-8");
+                	res.getWriter().write(json); 
+            	}
+                catch (Exception e) {
+
+                	String json = new Gson().toJson("");
+                	
+                	res.setContentType("application/json");
+                	res.setCharacterEncoding("UTF-8");
+                	res.getWriter().write(json);   
+                }
+                finally {
+                    if(connection != null) {
+                        try {connection.close();} catch (SQLException ex) {}
+                    }
+                }
             } 
             
             //Cadastro e Alteracao
