@@ -8,18 +8,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
 		<title>WaterBridge</title>
 		<link rel="icon" type="image/png" href="./images/favicon.ico"/>
-        
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-	    <script src="http://code.jquery.com/jquery-2.2.4.js" ></script>	
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-		<script src="./js/jquery.mask.min.js" type="text/javascript"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
-	    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/locale/pt-br.js"></script>
-	    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
-	    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
-	    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
-	    <link href="./css/menucustomcolor.css" rel="stylesheet"/>
-	    <link href="./css/footercustom.css" rel="stylesheet"/>
+
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="./css/menucustomcolor.css" rel="stylesheet"/>
+        <link href="./css/footercustom.css" rel="stylesheet"/>
+
+		<script src="http://code.jquery.com/jquery-2.2.4.js" ></script>	
+        <script src="./js/jquery.mask.min.js" type="text/javascript"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+		<script type="text/javascript" src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
+		
+		<script src="http://malsup.github.io/jquery.blockUI.js"></script>
+	    
+        <script src='./js/funcoes.auxiliares.js'></script>
 	    <script src='./js/usuario/usuario.js'></script>
         <script>
             $(function () {

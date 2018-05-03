@@ -3,6 +3,7 @@ package br.com.waterbridge.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,6 +73,10 @@ public class MedidorDAO {
     	PreparedStatement stmt = null;
     	ResultSet rs = null;
     	try {
+    		
+    		//LOGA REGISTRO ANTES DE ALTERAR
+            logar(medidor.getIdMedidor());
+    		
     		stmt = connection.prepareStatement(
     				" UPDATE TB_MEDIDOR SET " +
 					"FABRICANTE = ?, " +
@@ -117,6 +122,25 @@ public class MedidorDAO {
     	}
     }
     
+    public void logar(Long idMedidor) throws Exception {
+        PreparedStatement stmt = null;
+        try {
+            stmt = connection.prepareStatement(
+            "INSERT INTO TB_MEDIDORLOG " +
+            "SELECT * " +
+            "FROM   TB_MEDIDOR " +
+            "WHERE  ID_MEDIDOR = ? "
+            );
+
+            stmt.setLong(1, idMedidor);
+            stmt.executeUpdate();
+        }
+        finally {
+            if(stmt != null)
+                stmt.close();
+        }
+    }
+    
     public Medidor buscarPorId(String idMedidor) throws Exception {
     	PreparedStatement stmt = null;
     	ResultSet rs = null;
@@ -151,6 +175,98 @@ public class MedidorDAO {
         		
             }
             return medidor;
+    	} 
+    	finally {
+    		if(stmt != null)
+    			stmt.close();
+    		if(rs != null)
+    			rs.close();
+    	}
+    }
+    
+    public Medidor buscarPorBridgePosicao(Long idBridge, int posicao) throws Exception {
+    	PreparedStatement stmt = null;
+    	ResultSet rs = null;
+    	try {
+    		stmt = connection.prepareStatement(
+    				"SELECT TB_MEDIDOR.* " +
+					"  FROM TB_MEDIDOR " +
+					" WHERE TB_MEDIDOR.ID_BRIDGE = ? " +
+					"   AND TB_MEDIDOR.METERPOSITION = ? "
+    				);
+    		
+    		stmt.setObject(1, idBridge);
+    		stmt.setObject(2, posicao);
+    		
+    		rs = stmt.executeQuery();
+    		
+    		Medidor medidor = null;
+    		if (rs.next()) {
+    			medidor = new Medidor();
+    			medidor.setIdMedidor(rs.getLong("ID_MEDIDOR"));
+    			medidor.setFabricante(rs.getString("FABRICANTE"));
+    			medidor.setModelo(rs.getString("MODELO"));
+    			medidor.setSerie(rs.getString("SERIE"));
+    			medidor.setTipo(rs.getString("TIPO"));
+    			medidor.setChaveDeCripto(rs.getString("CHAVEDECRIPTO"));
+    			medidor.setValidBateria(Auxiliar.converteInteger(rs.getString("VALIDBATERIA")));
+    			medidor.setNumero(rs.getString("METERID"));
+    			medidor.setIdBridge(rs.getLong("ID_BRIDGE"));
+    			medidor.setDeviceNum(rs.getString("DEVICENUM"));
+    			medidor.setMeterPosition(rs.getInt("METERPOSITION"));
+    			medidor.setObs(rs.getString("OBS"));
+    			medidor.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
+    			medidor.setSituacao(rs.getString("SITUACAO"));
+    			medidor.setDtInsert(rs.getString("DTINSERT"));
+    			
+    		}
+    		return medidor;
+    	} 
+    	finally {
+    		if(stmt != null)
+    			stmt.close();
+    		if(rs != null)
+    			rs.close();
+    	}
+    }
+    
+    public Medidor buscarPorFabricanteNumero(String fabricante, String numero) throws Exception {
+    	PreparedStatement stmt = null;
+    	ResultSet rs = null;
+    	try {
+    		stmt = connection.prepareStatement(
+    				"SELECT TB_MEDIDOR.* " +
+					"  FROM TB_MEDIDOR " +
+					" WHERE TB_MEDIDOR.FABRICANTE = ? " +
+					"   AND TB_MEDIDOR.METERID = ? "
+    				);
+    		
+    		stmt.setObject(1, fabricante);
+    		stmt.setObject(2, numero);
+    		
+    		rs = stmt.executeQuery();
+    		
+    		Medidor medidor = null;
+    		if (rs.next()) {
+    			medidor = new Medidor();
+    			medidor.setIdMedidor(rs.getLong("ID_MEDIDOR"));
+    			medidor.setFabricante(rs.getString("FABRICANTE"));
+    			medidor.setModelo(rs.getString("MODELO"));
+    			medidor.setSerie(rs.getString("SERIE"));
+    			medidor.setTipo(rs.getString("TIPO"));
+    			medidor.setChaveDeCripto(rs.getString("CHAVEDECRIPTO"));
+    			medidor.setValidBateria(Auxiliar.converteInteger(rs.getString("VALIDBATERIA")));
+    			medidor.setNumero(rs.getString("METERID"));
+    			medidor.setIdBridge(rs.getLong("ID_BRIDGE"));
+    			medidor.setDeviceNum(rs.getString("DEVICENUM"));
+    			medidor.setMeterPosition(rs.getInt("METERPOSITION"));
+    			medidor.setObs(rs.getString("OBS"));
+    			medidor.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
+    			medidor.setSituacao(rs.getString("SITUACAO"));
+    			medidor.setDtInsert(rs.getString("DTINSERT"));
+    			
+    		}
+    		return medidor;
     	} 
     	finally {
     		if(stmt != null)
