@@ -11,7 +11,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		
 		<script src="./js/funcoes.auxiliares.js" type="text/javascript"></script>
-		<script src="./js/condominio/cadaltcondominio.js" type="text/javascript"></script>
+	
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	    <script src="http://code.jquery.com/jquery-2.2.4.js" ></script>	
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -31,8 +31,6 @@
         <script>
             $(function () {
                 $("#telFixo").mask("(99) 9999-9999");
-                $("#telCel").mask("(99) 99999-9999");
-                $("#postal_code").mask("99999-999");
             });
         </script>
         <script>
@@ -58,22 +56,21 @@
 				    <legend>${tituloTela}</legend>
 			  	</fieldset>
 				<div id="divAviso">${aviso}</div>
-				<form role="form" id="formCadBridge" action="${acao}" method="POST" class="form-horizontal" accept-charset="iso-8859-1,utf-8" onsubmit="return validarForm()">
-					<input type="hidden" id="idCondominio" name="idCondominio" value="${condominio.idCondominio}"/>
+				<form role="form" id="formCadBridge" action="CondominioBO?acao=6" method="POST" class="form-horizontal" accept-charset="iso-8859-1,utf-8">
 					<div class="form-group">
 						<div class="col-sm-4">
 							<label class="control-label">Nome/Razão Social:</label>
-							<input type="text" class="form-control" id="nome" name="nome" value="${condominio.nome}" maxlength="100" required/>
+							<input type="text" class="form-control" id="nome" name="nome" value="" maxlength="100"/>
 						</div>
 						<div class="col-sm-4">
 	                        <label class="control-label">Endere&ccedil;o</label>
-	                        <input class="form-control" type="text" name="endereco" id="route" value="${condominio.endereco}" maxlength="100" required/>
+	                        <input class="form-control" type="text" name="endereco" id="route" value="" maxlength="100"/>
                         </div>
                         <div class="col-sm-4 text-center">
 			            	<label class="control-label">Período Cadastro</label>
 			            	<div class="col-sm-12" style="padding: 0px;">
 			            		<div class="col-sm-6">
-				            		<input type='text' class="form-control" id='dtInicio' name='dtInicio' value="${bridge.validadeToken}" required/>
+				            		<input type='text' class="form-control" id='dtInicio' name='dtInicio' value=""/>
 				                    <script type="text/javascript">
 				                        $(function () {
 				                            $('#dtInicio').datetimepicker({
@@ -85,7 +82,7 @@
 				                    </script>
 			            		</div>
 			            		<div class="col-sm-6">
-			            			<input type='text' class="form-control" id='dtFim' name='dtFim' value="${bridge.validadeToken}" required/>
+			            			<input type='text' class="form-control" id='dtFim' name='dtFim' value=""/>
 				                    <script type="text/javascript">
 				                        $(function () {
 				                            $('#dtFim').datetimepicker({
@@ -105,7 +102,7 @@
 						</div>
 					</div>
 				</form>			
-				<c:if test = "${listCondominio != null}">
+				<c:if test = "${fn:length(listCondominio) > 0}">
 					<div class="form-group">
 						<div class="col-sm-12">
 							<input class="form-control" id="myInput" type="text" placeholder="Utilize para procurar..."></input> <br />
@@ -124,16 +121,25 @@
 									</thead>
 									<tbody id="myTable">
 										<% int cont = 1;%>
-										<c:forEach items="${condominio}" var="listCondominio">
+										<c:forEach var="condominio" items="${listCondominio}">
 											<tr>
-												<td><%=cont%></td>
+												<td><small><%=cont%></small></td>
 												<td><small>${condominio.nome}</small></td>
 												<td><small>${condominio.cnp}</small></td>
 												<td><small>${condominio.endereco} ${condominio.numero} ${condominio.compl}</small></td>
 												<td><small>${condominio.responsavel}</small></td>
-												<td><small>${condominio.coordX} ${condominio.coordY}</small></td>
 												<td>
-													<a href="${link}">
+													<c:choose>
+		                                                <c:when test="${condominio.coordX != null && condominio.coordX != '' && condominio.coordX != '0.0'}">
+		                                                    <small><a href="https://www.google.com/maps?q=loc:${condominio.coordX}+${condominio.coordY}"  target="_blank">${condominio.coordX} ${condominio.coordY}</a></small>
+		                                                </c:when>
+		                                                <c:otherwise>
+		                                                    <small>${condominio.coordX} ${condominio.coordY}</small>
+		                                                </c:otherwise>
+		                                            </c:choose>
+												</td>
+												<td>
+													<a href="CondominioBO?acao=3&idCondominio=${condominio.idCondominio}">
 														<button type="button" class="btn btn-info btn-sm" title="Clique para visualizar o detalhe do Medidor">
 															<span class="glyphicon glyphicon-search"></span>
 														</button>

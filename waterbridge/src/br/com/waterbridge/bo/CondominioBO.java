@@ -300,15 +300,41 @@ public class CondominioBO extends HttpServlet {
 			Connection connection = null;
 			HttpSession session = req.getSession(true);
             User user = (User) session.getValue("user");
-			
+            String sql = "WHERE  ID_CONDOMINIO > 0 ";
+            
 			try {
-			
+				
 				connection = ConnectionFactory.getConnection();
+				
+				if(req.getParameter("nome") != null && !req.getParameter("nome").trim().equals("")) {
+					sql += "AND UPPER(NOME) LIKE '%" + req.getParameter("nome").toUpperCase() + "%' "; 
+				}
+				if(req.getParameter("endereco") != null && !req.getParameter("endereco").trim().equals("")) {
+					sql += "AND UPPER(ENDERECO) LIKE '%" + req.getParameter("endereco").toUpperCase() + "%' ";
+				}				
+				if(req.getParameter("dtInicio") != null 
+						&& req.getParameter("dtInicio").trim().length() == 10
+						&& req.getParameter("dtFim") != null 
+						&& req.getParameter("dtFim").trim().length() == 10) {
+					sql += "AND      DTINSERT >= '" + Auxiliar.formataDtBanco(req.getParameter("dtInicio")) + " 00:00:00' AND    DTINSERT <= '" + Auxiliar.formataDtBanco(req.getParameter("dtFim")) + " 23:59:00' ";
+				}
+				sql += "ORDER BY NOME, " +
+					   "ENDERECO, " +
+					   "NUMERO, " +
+					   "COMPL " ;
 				
 				CondominioDAO condominioDAO = new CondominioDAO(connection);
 				
-				List<Condominio> listCondominio = condominioDAO.listar();
-				
+				List<Condominio> listCondominio = condominioDAO.listar(sql);				
+				if(listCondominio.size() == 0) {
+					req.setAttribute("aviso",
+					"<div class='col-sm-12 text-center'>" +
+					"	<div class='alert alert-danger'>" +
+					"		NENHUM REGISTRO LOCALIZADO" +
+					"	</div>" +
+					"</div>"
+					);
+				}
 				req.setAttribute("listCondominio", listCondominio);
 				req.getRequestDispatcher("/jsp/condominio/listacondominio.jsp").forward(req, res);
 			}
