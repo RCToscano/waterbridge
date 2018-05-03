@@ -3,6 +3,7 @@ package br.com.waterbridge.modelo;
 public class Medidor {
 	
 	private Long idMedidor;
+	private Long idCondominio;
 	private Long idBridge;
 	private Long idUser;
 	private String deviceNum;
@@ -18,8 +19,24 @@ public class Medidor {
 	private String situacao;
 	private String dtInsert;
 	
-	
-	
+	public Long getIdMedidor() {
+		return idMedidor;
+	}
+	public void setIdMedidor(Long idMedidor) {
+		this.idMedidor = idMedidor;
+	}
+	public Long getIdCondominio() {
+		return idCondominio;
+	}
+	public void setIdCondominio(Long idCondominio) {
+		this.idCondominio = idCondominio;
+	}
+	public Long getIdBridge() {
+		return idBridge;
+	}
+	public void setIdBridge(Long idBridge) {
+		this.idBridge = idBridge;
+	}
 	public Long getIdUser() {
 		return idUser;
 	}
@@ -31,30 +48,6 @@ public class Medidor {
 	}
 	public void setDeviceNum(String deviceNum) {
 		this.deviceNum = deviceNum;
-	}
-	public Long getIdBridge() {
-		return idBridge;
-	}
-	public void setIdBridge(Long idBridge) {
-		this.idBridge = idBridge;
-	}
-	public int getMeterPosition() {
-		return meterPosition;
-	}
-	public void setMeterPosition(int meterPosition) {
-		this.meterPosition = meterPosition;
-	}
-	public String getNumero() {
-		return numero;
-	}
-	public void setNumero(String numero) {
-		this.numero = numero;
-	}
-	public Long getIdMedidor() {
-		return idMedidor;
-	}
-	public void setIdMedidor(Long idMedidor) {
-		this.idMedidor = idMedidor;
 	}
 	public String getFabricante() {
 		return fabricante;
@@ -92,6 +85,18 @@ public class Medidor {
 	public void setValidBateria(int validBateria) {
 		this.validBateria = validBateria;
 	}
+	public String getNumero() {
+		return numero;
+	}
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
+	public int getMeterPosition() {
+		return meterPosition;
+	}
+	public void setMeterPosition(int meterPosition) {
+		this.meterPosition = meterPosition;
+	}
 	public String getObs() {
 		return obs;
 	}
@@ -110,4 +115,5 @@ public class Medidor {
 	public void setDtInsert(String dtInsert) {
 		this.dtInsert = dtInsert;
 	}
+	
 }

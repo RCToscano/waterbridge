@@ -36,11 +36,12 @@ public class MedidorDAO {
 					"DEVICENUM, " +
 					"METERPOSITION, " +
 					"ID_USER, " +
+					"ID_CONDOMINIO, " +
 					"DTINSERT " +
 					")" +
     				" VALUES ( " +
             		"?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " +
-            		"?, ?, ?, sysdate() ) " 
+            		"?, ?, ?, ?, sysdate() ) " 
     				);
             		
             stmt.setObject(1, medidor.getFabricante());
@@ -56,6 +57,7 @@ public class MedidorDAO {
             stmt.setObject(11, medidor.getDeviceNum());
             stmt.setObject(12, medidor.getMeterPosition());
             stmt.setObject(13, medidor.getIdUser());
+            stmt.setObject(14, medidor.getIdCondominio());
             stmt.executeUpdate();
 		} 
         finally {
@@ -85,6 +87,7 @@ public class MedidorDAO {
 					"DEVICENUM = ?, " +
 					"METERPOSITION = ?, " +
 					"ID_USER = ?, " +
+					"ID_CONDOMINIO = ?, " +
 					"DTINSERT = sysdate() " +
 					"WHERE ID_MEDIDOR = ? "
     				);
@@ -102,7 +105,8 @@ public class MedidorDAO {
     		stmt.setObject(11, medidor.getDeviceNum());
     		stmt.setObject(12, medidor.getMeterPosition());
     		stmt.setObject(13, medidor.getIdUser());
-    		stmt.setObject(14, medidor.getIdMedidor());
+    		stmt.setObject(14, medidor.getIdCondominio());
+    		stmt.setObject(15, medidor.getIdMedidor());
     		stmt.executeUpdate();
     	} 
     	finally {
@@ -141,6 +145,7 @@ public class MedidorDAO {
         		medidor.setDeviceNum(rs.getString("DEVICENUM"));
         		medidor.setMeterPosition(rs.getInt("METERPOSITION"));
         		medidor.setObs(rs.getString("OBS"));
+        		medidor.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
         		medidor.setSituacao(rs.getString("SITUACAO"));
         		medidor.setDtInsert(rs.getString("DTINSERT"));
         		
@@ -181,6 +186,7 @@ public class MedidorDAO {
         		medidor.setDeviceNum(rs.getString("DEVICENUM"));
         		medidor.setMeterPosition(rs.getInt("METERPOSITION"));
         		medidor.setObs(rs.getString("OBS"));
+        		medidor.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
         		medidor.setSituacao(rs.getString("SITUACAO"));
         		medidor.setDtInsert(rs.getString("DTINSERT"));
                 list.add(medidor);

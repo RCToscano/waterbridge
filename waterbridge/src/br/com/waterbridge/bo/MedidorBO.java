@@ -52,11 +52,7 @@ public class MedidorBO extends HttpServlet {
 				
 				CondominioDAO condominioDAO = new CondominioDAO(connection);
 				List<Condominio> listCondominio = condominioDAO.listar();
-				
-				BridgeDAO bridgeDAO = new BridgeDAO(connection);
-				List<Bridge> listaBridge = bridgeDAO.listarTodos();
             	
-				req.setAttribute("listaBridge", listaBridge);
 				req.setAttribute("listSituacao", listSituacao);
 				req.setAttribute("listCondominio", listCondominio);
         		req.setAttribute("display", "none");
@@ -102,13 +98,13 @@ public class MedidorBO extends HttpServlet {
                     User user = (User) session.getValue("user");
             		
                     medidor.setIdUser(user.getIdUser());
-            		medidor.setFabricante(req.getParameter("fabricante"));
-            		medidor.setModelo(req.getParameter("modelo"));
-            		medidor.setSerie(req.getParameter("serie"));
-            		medidor.setTipo(req.getParameter("tipo"));
+            		medidor.setFabricante(Auxiliar.removerCaracteres(req.getParameter("fabricante").trim().toUpperCase()));
+            		medidor.setModelo(Auxiliar.removerCaracteres(req.getParameter("modelo").trim().toUpperCase()));
+            		medidor.setSerie(Auxiliar.removerCaracteres(req.getParameter("serie").trim().toUpperCase()));
+            		medidor.setTipo(Auxiliar.removerCaracteres(req.getParameter("tipo").trim().toUpperCase()));
             		medidor.setChaveDeCripto(req.getParameter("chave"));
             		medidor.setValidBateria(Auxiliar.converteInteger(req.getParameter("bateria")));
-            		medidor.setNumero(req.getParameter("numero"));
+            		medidor.setNumero(Auxiliar.removerCaracteres(req.getParameter("numero").trim().toUpperCase()));
             		
             		String split[] = req.getParameter("bridge").split(";");
             		Long idBridge = Long.valueOf(split[0]);
@@ -116,10 +112,11 @@ public class MedidorBO extends HttpServlet {
             		
             		medidor.setIdBridge(idBridge);
             		medidor.setDeviceNum(deviceNum);
+            		medidor.setIdCondominio(Long.parseLong(req.getParameter("idCondominio")));
             		medidor.setMeterPosition(Auxiliar.converteInteger(req.getParameter("posicao")));
             		
             		medidor.setSituacao(req.getParameter("situacao"));
-            		medidor.setObs(req.getParameter("descricao"));
+            		medidor.setObs(Auxiliar.removerCaracteres(req.getParameter("descricao").trim().toUpperCase()));
             		
             		MedidorDAO medidorDAO = new MedidorDAO(connection);
 
@@ -156,10 +153,10 @@ public class MedidorBO extends HttpServlet {
             		SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
     				List<Situacao> listSituacao = situacaoDAO.listar();
     				
-    				BridgeDAO bridgeDAO = new BridgeDAO(connection);
-    				List<Bridge> listaBridge = bridgeDAO.listarTodos();
+    				CondominioDAO condominioDAO = new CondominioDAO(connection);
+    				List<Condominio> listCondominio = condominioDAO.listar();
                 	
-    				req.setAttribute("listaBridge", listaBridge);
+    				req.setAttribute("listCondominio", listCondominio);
     				req.setAttribute("listSituacao", listSituacao);
     				req.getRequestDispatcher("/jsp/medidor/medidor.jsp").forward(req, res);
             	}
@@ -193,10 +190,10 @@ public class MedidorBO extends HttpServlet {
             			SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
         				List<Situacao> listSituacao = situacaoDAO.listar();
         				
-        				BridgeDAO bridgeDAO = new BridgeDAO(connection);
-        				List<Bridge> listaBridge = bridgeDAO.listarTodos();
+        				CondominioDAO condominioDAO = new CondominioDAO(connection);
+        				List<Condominio> listCondominio = condominioDAO.listar();
                     	
-        				req.setAttribute("listaBridge", listaBridge);
+        				req.setAttribute("listCondominio", listCondominio);
         				req.setAttribute("listSituacao", listSituacao);
             			req.setAttribute("medidor", medidor);
             			req.setAttribute("display", "none");
@@ -226,11 +223,11 @@ public class MedidorBO extends HttpServlet {
     			SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
 				List<Situacao> listSituacao = situacaoDAO.listar();
 				
-				BridgeDAO bridgeDAO = new BridgeDAO(connection);
-				List<Bridge> listaBridge = bridgeDAO.listarTodos();
+				CondominioDAO condominioDAO = new CondominioDAO(connection);
+				List<Condominio> listCondominio = condominioDAO.listar();
             	
 				req.setAttribute("medidor", medidor);
-				req.setAttribute("listaBridge", listaBridge);
+				req.setAttribute("listCondominio", listCondominio);
 				req.setAttribute("listSituacao", listSituacao);
     			req.setAttribute("display", "none");
     			req.setAttribute("titulo", "Alteração");

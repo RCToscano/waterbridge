@@ -122,12 +122,15 @@
 							<div class="col-sm-12">
 								<div class="form-group">
 									<label>Condomínio</label> 
-									<select class="form-control" id="idCondominio" name="idCondominio" onchange="listarBridge()" required >
+									<select class="form-control" id="idCondominio" name="idCondominio" onchange="listarBridgeCadastro()" required >
 										<option value="" selected>Selecione...</option>
 										<c:forEach var="condominio" items="${listCondominio}">
 			                   		        <c:choose>
-			                                  	<c:when test="${condominio.idCondominio == bridge.idCondominio}">
-			                                 		<option value="${condominio.idCondominio}" selected="true">${condominio.nome} - ${condominio.endereco} ${condominio.numero} ${condominio.compl}</option> 
+			                                  	<c:when test="${condominio.idCondominio == medidor.idCondominio}">
+			                                 		<option value="${condominio.idCondominio}" selected="true">${condominio.nome} - ${condominio.endereco} ${condominio.numero} ${condominio.compl}</option>
+			                                 		<script>
+			                                 			listarBridgeAlteracao(${medidor.idBridge});
+			                                 		</script> 
 			                                   	</c:when>
 			                                   	<c:otherwise>
 			                                   		<option value="${condominio.idCondominio}">${condominio.nome} - ${condominio.endereco} ${condominio.numero} ${condominio.compl}</option>
@@ -143,10 +146,9 @@
 									<label class="control-label">Bridge</label>
 									<select class="form-control" name="bridge" id="bridge" required>
 										<option value="" selected>Selecione...</option>
-									</select>
+									</select>																		
 								</div>
 							</div>
-
 							<div class="col-sm-4">
 								<div class="form-group">
 									<label class="control-label" for="name">Posição:</label>
