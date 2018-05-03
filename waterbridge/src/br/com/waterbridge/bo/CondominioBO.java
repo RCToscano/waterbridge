@@ -273,7 +273,7 @@ public class CondominioBO extends HttpServlet {
 				}
 			}	
         }
-		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("5")) {
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("5")) {//TELA CONSULTA / LISTA ENTRADA MENU
 
 			Connection connection = null;
 			HttpSession session = req.getSession(true);
@@ -282,17 +282,37 @@ public class CondominioBO extends HttpServlet {
 			try {
 			
 				connection = ConnectionFactory.getConnection();
-				BridgeDAO bridgeDAO = new BridgeDAO(connection);
-				List<Bridge> listBridge = bridgeDAO.listarPorDeviceNum(req.getParameter("deviceNum"));
 				
-				String json = new Gson().toJson(listBridge);
-				
-				res.setContentType("application/json");
-                res.setCharacterEncoding("UTF-8");
-                res.getWriter().write(json); 
+				req.getRequestDispatcher("/jsp/condominio/listacondominio.jsp").forward(req, res);
 			}
 	        catch (Exception e) {
+	            req.setAttribute("erro", e.toString());
+	            req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
+	        }
+			finally {
+				if(connection != null) {
+					try {connection.close();} catch (SQLException e) {}
+				}
+			}	
+        }
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("6")) {//TELA CONSULTA LISTAR CONDOMINIOS
 
+			Connection connection = null;
+			HttpSession session = req.getSession(true);
+            User user = (User) session.getValue("user");
+			
+			try {
+			
+				connection = ConnectionFactory.getConnection();
+				
+				CondominioDAO condominioDAO = new CondominioDAO(connection);
+				
+				List<Condominio> listCondominio = condominioDAO.listar();
+				
+				req.setAttribute("listCondominio", listCondominio);
+				req.getRequestDispatcher("/jsp/condominio/listacondominio.jsp").forward(req, res);
+			}
+	        catch (Exception e) {
 	            req.setAttribute("erro", e.toString());
 	            req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
 	        }

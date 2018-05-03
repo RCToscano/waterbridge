@@ -53,8 +53,8 @@
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="CondominioBO?acao=1">Cadastro</a></li>
                          <li class="divider"></li>
-<!--                         <li><a href="UsuarioBO?acao=consulta">Consulta</a></li> -->
-<!--                          <li class="divider"></li> -->
+                        <li><a href="CondominioBO?acao=5">Consulta</a></li>
+                         <li class="divider"></li>
                     </ul>
                 </li>
             </ul>            

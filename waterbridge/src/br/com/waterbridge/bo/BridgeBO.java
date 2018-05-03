@@ -262,35 +262,6 @@ public class BridgeBO extends HttpServlet {
 				}
 			}	
         }
-		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("5")) {
-
-			Connection connection = null;
-			HttpSession session = req.getSession(true);
-            User user = (User) session.getValue("user");
-			
-			try {
-			
-				connection = ConnectionFactory.getConnection();
-				BridgeDAO bridgeDAO = new BridgeDAO(connection);
-				List<Bridge> listBridge = bridgeDAO.listarPorDeviceNum(req.getParameter("deviceNum"));
-				
-				String json = new Gson().toJson(listBridge);
-				
-				res.setContentType("application/json");
-                res.setCharacterEncoding("UTF-8");
-                res.getWriter().write(json); 
-			}
-	        catch (Exception e) {
-
-	            req.setAttribute("erro", e.toString());
-	            req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
-	        }
-			finally {
-				if(connection != null) {
-					try {connection.close();} catch (SQLException e) {}
-				}
-			}	
-        }
     }
 }
 
