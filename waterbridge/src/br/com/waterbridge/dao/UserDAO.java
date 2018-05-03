@@ -170,18 +170,18 @@ public class UserDAO {
     	try {
     		stmt = connection.prepareStatement(
     				"SELECT    TB_USER.*, " +
-    						"          TB_PERFIL.ID_PERFIL, " +
-    						"          TB_PERFIL.PERFIL, " +
-    						"          TB_PERFIL.MENU, " +
-    						"          TB_PASS.ID_PASS, " +
-    						"          TB_PASS.PASS " +
-    						"FROM      TB_USER " +
-    						"LEFT JOIN TB_PERFIL " +
-    						"ON        TB_USER.ID_PERFIL = TB_PERFIL.ID_PERFIL " +
-    						"LEFT JOIN TB_PASS " +
-    						"ON        TB_USER.ID_USER = TB_PASS.ID_USER " +
-    						"WHERE     TB_USER.CPF = ? " +
-    						"      AND TB_PERFIL.PERFIL <> 'PROGRAMADOR' "
+					"          TB_PERFIL.ID_PERFIL, " +
+					"          TB_PERFIL.PERFIL, " +
+					"          TB_PERFIL.MENU, " +
+					"          TB_PASS.ID_PASS, " +
+					"          TB_PASS.PASS " +
+					"FROM      TB_USER " +
+					"LEFT JOIN TB_PERFIL " +
+					"ON        TB_USER.ID_PERFIL = TB_PERFIL.ID_PERFIL " +
+					"LEFT JOIN TB_PASS " +
+					"ON        TB_USER.ID_USER = TB_PASS.ID_USER " +
+					"WHERE     TB_USER.CPF = ? " +
+					"      AND TB_PERFIL.PERFIL <> 'PROGRAMADOR' "
     				);
     		
     		stmt.setString(1, cpf);
@@ -397,6 +397,10 @@ public class UserDAO {
     	PreparedStatement stmt = null;
     	ResultSet rs = null;
     	try {
+    		
+    		//LOGA REGISTRO ANTES DE ALTERAR
+            logar(user.getIdUser());
+    		
     		stmt = connection.prepareStatement(
     					" UPDATE TB_USER SET " +
 						"ID_PERFIL = ?, " +
@@ -444,6 +448,25 @@ public class UserDAO {
     		if(rs != null)
     			rs.close();
     	}
+    }
+    
+    public void logar(Long idUser) throws Exception {
+        PreparedStatement stmt = null;
+        try {
+            stmt = connection.prepareStatement(
+            "INSERT INTO TB_USERLOG " +
+            "SELECT * " +
+            "FROM   TB_USER " +
+            "WHERE  ID_USER = ? "
+            );
+
+            stmt.setLong(1, idUser);
+            stmt.executeUpdate();
+        }
+        finally {
+            if(stmt != null)
+                stmt.close();
+        }
     }
     
     public User buscarUltimo() throws Exception {

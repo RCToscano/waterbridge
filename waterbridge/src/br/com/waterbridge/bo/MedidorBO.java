@@ -9,7 +9,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
@@ -94,8 +93,7 @@ public class MedidorBO extends HttpServlet {
             else if (relat.equals("inserir")) {
             	Medidor medidor = new Medidor();
             	try {
-            		HttpSession session = req.getSession(true);
-                    User user = (User) session.getValue("user");
+            		User user = (User) req.getSession().getAttribute("user");
             		
                     medidor.setIdUser(user.getIdUser());
             		medidor.setFabricante(Auxiliar.removerCaracteres(req.getParameter("fabricante").trim().toUpperCase()));
@@ -136,11 +134,24 @@ public class MedidorBO extends HttpServlet {
             		else {
             			req.setAttribute("titulo", "Cadastro");
             			req.setAttribute("botao", "Cadastrar");
-
-            			medidorDAO.inserir(medidor);
             			
-            			req.setAttribute("display", "none");
-	            		req.setAttribute("sucesso", "Medidor cadastrado com sucesso!");
+						if (medidorDAO.buscarPorBridgePosicao(medidor.getIdBridge(),
+								medidor.getMeterPosition()) != null) {
+							req.setAttribute("display", "block");
+							req.setAttribute("aviso", "Medidor já cadastrado para o Bridge " + medidor.getDeviceNum()
+									+ " na posição " + medidor.getMeterPosition() + " !");
+						}
+						else if(medidorDAO.buscarPorFabricanteNumero(medidor.getFabricante(), medidor.getNumero()) != null) {
+							req.setAttribute("display", "block");
+							req.setAttribute("aviso", "Medidor Número: " + medidor.getNumero() + ", Fabricante: "
+									+ medidor.getFabricante() + " já cadastrado!");
+						}
+						else {
+							medidorDAO.inserir(medidor);
+							
+							req.setAttribute("display", "none");
+							req.setAttribute("sucesso", "Medidor cadastrado com sucesso!");
+						}
             		}
             		
 				} 

@@ -71,17 +71,17 @@ public class UsuarioBO extends HttpServlet {
             		
             		user.setCpf(req.getParameter("cpf"));
             		user.setUsuario(req.getParameter("cpf"));
-            		user.setNome(req.getParameter("name").trim().toUpperCase());
+            		user.setNome(Auxiliar.removerCaracteres(req.getParameter("name").trim().toUpperCase()));
             		user.setDtNasc(formatoBanco.format(formatoData.parse(req.getParameter("dtNascimento"))));
             		user.setSexo(req.getParameter("sexo"));
             		user.setTelFixo(req.getParameter("telefoneFixo"));
             		user.setTelCel(req.getParameter("telefoneCelular"));
             		user.setEmail(req.getParameter("email"));
-            		user.setEndereco(req.getParameter("endereco"));
+            		user.setEndereco(Auxiliar.removerCaracteres(req.getParameter("endereco").trim().toUpperCase()));
             		user.setNumero(Auxiliar.converteLong(req.getParameter("numero")));
-            		user.setCompl(req.getParameter("compl"));
-            		user.setMunicipio(req.getParameter("municipio"));
-            		user.setUf(req.getParameter("estado"));
+            		user.setCompl(Auxiliar.removerCaracteres(req.getParameter("compl").trim().toUpperCase()));
+            		user.setMunicipio(Auxiliar.removerCaracteres(req.getParameter("municipio").trim().toUpperCase()));
+            		user.setUf(Auxiliar.removerCaracteres(req.getParameter("estado").trim().toUpperCase()));
             		user.setCep(req.getParameter("cep"));
             		user.setSituacao(req.getParameter("situacao"));
             		
@@ -113,6 +113,7 @@ public class UsuarioBO extends HttpServlet {
 	            		req.setAttribute("listaSexo", listaSexo);
 	            		req.setAttribute("listaPerfil", listaPerfil);
 	            		req.setAttribute("usuario", user);
+	            		req.setAttribute("display", "none");
 	            		req.setAttribute("sucesso", "Usuário "+user.getNome()+" alterado com sucesso!");
             		}
             		//Cadastro
@@ -121,17 +122,28 @@ public class UsuarioBO extends HttpServlet {
 	            		req.setAttribute("botao", "Cadastrar");
             			
 	            		UserDAO userDAO = new UserDAO(connection);
-	            		userDAO.inserir(user);
 	            		
-	            		User user2 = userDAO.buscarUltimo();
-	            		user.setIdUser(user2.getIdUser());
-	            		
-	            		Pass pass = new Pass();
-	            		pass.setPass("waterBridge"+new Random().nextInt(1000));
-	            		pass.setIdUser(user.getIdUser());
-	            		
-	            		PassDAO passDAO = new PassDAO(connection);
-	            		passDAO.inserir(pass);
+	            		//Ja cadastrado
+	            		if(userDAO.buscarPorCpf(user.getCpf()) != null) {
+	            			req.setAttribute("display", "block");
+	            			req.setAttribute("aviso", "Usuário com CPF "+user.getCpf()+" já cadastrado!");
+	            		}
+	            		else {
+	            			userDAO.inserir(user);
+	            			
+	            			User user2 = userDAO.buscarUltimo();
+	            			user.setIdUser(user2.getIdUser());
+	            			
+	            			Pass pass = new Pass();
+	            			pass.setPass("waterBridge"+new Random().nextInt(1000));
+	            			pass.setIdUser(user.getIdUser());
+	            			
+	            			PassDAO passDAO = new PassDAO(connection);
+	            			passDAO.inserir(pass);
+	            			
+	            			req.setAttribute("display", "none");
+	            			req.setAttribute("sucesso", "Usuário "+user.getNome()+" cadastrado com sucesso!");
+	            		}
 	            		
 	            		PerfilDAO perfilDAO = new PerfilDAO(connection);
 	                	List<Perfil> listaPerfil = perfilDAO.listarTodos();
@@ -141,9 +153,9 @@ public class UsuarioBO extends HttpServlet {
 	            		req.setAttribute("listSituacao", listSituacao);
 	            		req.setAttribute("listaSexo", listaSexo);
 	            		req.setAttribute("listaPerfil", listaPerfil);
-	            		req.setAttribute("sucesso", "Usuário "+user.getNome()+" cadastrado com sucesso!");
+	            		
             		}
-            		req.setAttribute("display", "none");
+            		
             		req.getRequestDispatcher("/jsp/usuario/usuario.jsp").forward(req, res);
 				} 
             	catch (Exception e) {
