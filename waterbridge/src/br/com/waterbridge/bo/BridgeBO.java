@@ -262,6 +262,88 @@ public class BridgeBO extends HttpServlet {
 				}
 			}	
         }
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("5")) {//TELA CONSULTA / LISTA ENTRADA MENU
+
+			Connection connection = null;
+			HttpSession session = req.getSession(true);
+            User user = (User) session.getValue("user");
+			
+			try {
+				
+				connection = ConnectionFactory.getConnection();
+				
+				CondominioDAO condominioDAO = new CondominioDAO(connection);
+				List<Condominio> listCondominio = condominioDAO.listar();
+				
+				req.setAttribute("tituloTela", "Consulta Bridge");
+				req.setAttribute("listCondominio", listCondominio);
+				req.getRequestDispatcher("/jsp/bridge/listabridge.jsp").forward(req, res);
+			}
+	        catch (Exception e) {
+	            req.setAttribute("erro", e.toString());
+	            req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
+	        }
+			finally {
+				if(connection != null) {
+					try {connection.close();} catch (SQLException e) {}
+				}
+			}	
+        }
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("6")) {//TELA CONSULTA LISTAR BRIDGE
+
+			Connection connection = null;
+			HttpSession session = req.getSession(true);
+            User user = (User) session.getValue("user");
+            String sql = "WHERE  ID_BRIDGE > 0 ";
+            
+			try {
+				
+				if(req.getParameter("deviceNum") != null && !req.getParameter("deviceNum").trim().equals("")) {
+					sql += "AND UPPER(DEVICENUM) = '" + req.getParameter("deviceNum").toUpperCase() + "' "; 
+				}
+				if(req.getParameter("idCondominio") != null && !req.getParameter("idCondominio").trim().equals("")) {
+					sql += "AND ID_CONDOMINIO = '" + req.getParameter("idCondominio") + "' ";
+				}				
+				if(req.getParameter("dtInicio") != null 
+						&& req.getParameter("dtInicio").trim().length() == 10
+						&& req.getParameter("dtFim") != null 
+						&& req.getParameter("dtFim").trim().length() == 10) {
+					sql += "AND      DTINSERT >= '" + Auxiliar.formataDtBanco(req.getParameter("dtInicio")) + " 00:00:00' AND    DTINSERT <= '" + Auxiliar.formataDtBanco(req.getParameter("dtFim")) + " 23:59:00' ";
+				}
+				sql += "ORDER BY DEVICENUM, " +
+					   "         ATIVATIONDATE " ;
+				
+				connection = ConnectionFactory.getConnection();
+				
+				CondominioDAO condominioDAO = new CondominioDAO(connection);
+				List<Condominio> listCondominio = condominioDAO.listar();
+				
+				BridgeDAO bridgeDAO = new BridgeDAO(connection);
+				List<Bridge> listBridge = bridgeDAO.listar(sql);				
+				if(listBridge.size() == 0) {
+					req.setAttribute("aviso",
+					"<div class='col-sm-12 text-center'>" +
+					"	<div class='alert alert-danger'>" +
+					"		NENHUM REGISTRO LOCALIZADO" +
+					"	</div>" +
+					"</div>"
+					);
+				}
+				req.setAttribute("tituloTela", "Consulta Bridge");
+				req.setAttribute("listCondominio", listCondominio);
+				req.setAttribute("listBridge", listBridge);
+				req.getRequestDispatcher("/jsp/bridge/listabridge.jsp").forward(req, res);
+			}
+	        catch (Exception e) {
+	            req.setAttribute("erro", e.toString());
+	            req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
+	        }
+			finally {
+				if(connection != null) {
+					try {connection.close();} catch (SQLException e) {}
+				}
+			}	
+        }
     }
 }
 

@@ -280,9 +280,8 @@ public class CondominioBO extends HttpServlet {
             User user = (User) session.getValue("user");
 			
 			try {
-			
-				connection = ConnectionFactory.getConnection();
 				
+				req.setAttribute("tituloTela", "Consulta Condomínio");
 				req.getRequestDispatcher("/jsp/condominio/listacondominio.jsp").forward(req, res);
 			}
 	        catch (Exception e) {
@@ -304,8 +303,6 @@ public class CondominioBO extends HttpServlet {
             
 			try {
 				
-				connection = ConnectionFactory.getConnection();
-				
 				if(req.getParameter("nome") != null && !req.getParameter("nome").trim().equals("")) {
 					sql += "AND UPPER(NOME) LIKE '%" + req.getParameter("nome").toUpperCase() + "%' "; 
 				}
@@ -319,12 +316,13 @@ public class CondominioBO extends HttpServlet {
 					sql += "AND      DTINSERT >= '" + Auxiliar.formataDtBanco(req.getParameter("dtInicio")) + " 00:00:00' AND    DTINSERT <= '" + Auxiliar.formataDtBanco(req.getParameter("dtFim")) + " 23:59:00' ";
 				}
 				sql += "ORDER BY NOME, " +
-					   "ENDERECO, " +
-					   "NUMERO, " +
-					   "COMPL " ;
+					   "         ENDERECO, " +
+					   "         NUMERO, " +
+					   "         COMPL " ;
+				
+				connection = ConnectionFactory.getConnection();
 				
 				CondominioDAO condominioDAO = new CondominioDAO(connection);
-				
 				List<Condominio> listCondominio = condominioDAO.listar(sql);				
 				if(listCondominio.size() == 0) {
 					req.setAttribute("aviso",
@@ -335,6 +333,7 @@ public class CondominioBO extends HttpServlet {
 					"</div>"
 					);
 				}
+				req.setAttribute("tituloTela", "Consulta Condomínio");
 				req.setAttribute("listCondominio", listCondominio);
 				req.getRequestDispatcher("/jsp/condominio/listacondominio.jsp").forward(req, res);
 			}

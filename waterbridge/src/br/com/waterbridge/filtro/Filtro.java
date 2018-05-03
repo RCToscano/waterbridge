@@ -33,7 +33,7 @@ public class Filtro implements Filter {
 
         if(user == null) {
             
-            req.setAttribute("loginErro", "Usu√°rio n√£o esta logado no sistema");
+            req.setAttribute("loginErro", "Usuario n„o est· logado no sistema");
             req.getRequestDispatcher("/index.jsp").forward(req, res);
         }
         else {

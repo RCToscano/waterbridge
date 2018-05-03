@@ -64,8 +64,8 @@
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="BridgeBO?acao=1">Cadastro</a></li>
                         <li class="divider"></li>
-<!--                         <li><a href="BridgeBO?acao=1">Consulta</a></li> -->
-<!--                         <li class="divider"></li> -->
+                        <li><a href="BridgeBO?acao=5">Consulta</a></li>
+                        <li class="divider"></li>
                     </ul>
                 </li>
             </ul>

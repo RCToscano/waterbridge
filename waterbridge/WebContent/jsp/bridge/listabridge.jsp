@@ -48,7 +48,7 @@
         <div class="container">
         	<ul class="breadcrumb">
 			    <li><a href="HomeBO?acao=home">Home</a></li>
-			    <li class="active">Condomínio</li>
+			    <li class="active">Bridge</li>
 			    <li class="active">Consulta</li>
 			</ul>
 			<div class="col-sm-12" style="float: none; margin: 0 auto;">
@@ -56,16 +56,21 @@
 				    <legend>${tituloTela}</legend>
 			  	</fieldset>
 				<div id="divAviso">${aviso}</div>
-				<form role="form" id="formCadBridge" action="CondominioBO?acao=6" method="POST" class="form-horizontal" accept-charset="iso-8859-1,utf-8">
+				<form role="form" id="formConsultaBridge" action="BridgeBO?acao=6" method="POST" class="form-horizontal" accept-charset="iso-8859-1,utf-8">
 					<div class="form-group">
-						<div class="col-sm-4">
-							<label class="control-label">Nome/Razão Social:</label>
-							<input type="text" class="form-control" id="nome" name="nome" value="" maxlength="100"/>
+						<div class="col-sm-2">
+							<label class="control-label">N&deg; Device</label>
+							<input type="text" class="form-control" id="deviceNum" name="deviceNum" value="" maxlength="20" />			
 						</div>
-						<div class="col-sm-4">
-	                        <label class="control-label">Endere&ccedil;o</label>
-	                        <input class="form-control" type="text" name="endereco" id="route" value="" maxlength="100"/>
-                        </div>
+						<div class="col-sm-6">
+							<label class="control-label">Condomínio</label> 
+							<select class="form-control" id="idCondominio" name="idCondominio">
+								<option value="" selected>Selecione...</option>
+								<c:forEach var="condominio" items="${listCondominio}">
+									<option value="${condominio.idCondominio}">${condominio.nome} - ${condominio.endereco} ${condominio.numero} ${condominio.compl}</option>
+		                     	</c:forEach>
+							</select>					
+						</div>
                         <div class="col-sm-4 text-center">
 			            	<label class="control-label">Período Cadastro</label>
 			            	<div class="col-sm-12" style="padding: 0px;">
@@ -102,45 +107,39 @@
 						</div>
 					</div>
 				</form>			
-				<c:if test = "${fn:length(listCondominio) > 0}">
+				<c:if test = "${fn:length(listBridge) > 0}">
 					<div class="form-group">
 						<div class="col-sm-12">
 							<input class="form-control" id="myInput" type="text" placeholder="Utilize para procurar..."></input> <br />
+							<fmt:setLocale value="pt-BR" />
 							<div class="table-responsive" id="divTable">
 								<table class="table table-hover table-striped">
 									<thead>
 										<tr>
 											<th>Nº</th>
-											<th>Nome/Razão Social</th>
-											<th>CPF / CNPJ</th>
-											<th>Endere&ccedil;o</th>
-											<th>Nome do Responsável</th>
-											<th>Coordenadas</th>
+											<th>N° Device</th>
+											<th>Data de Ativação</th>
+											<th>Validade do Token</th>
+											<th>Tipo de Alimentação</th>
+											<th>Custo Mensal</th>
+											<th>Taxa de Envio Diário</th>
 											<th></th>
 										</tr>
 									</thead>
 									<tbody id="myTable">
 										<% int cont = 1;%>
-										<c:forEach var="condominio" items="${listCondominio}">
+										<c:forEach var="bridge" items="${listBridge}">
 											<tr>
 												<td><small><%=cont%></small></td>
-												<td><small>${condominio.nome}</small></td>
-												<td><small>${condominio.cnp}</small></td>
-												<td><small>${condominio.endereco} ${condominio.numero} ${condominio.compl}</small></td>
-												<td><small>${condominio.responsavel}</small></td>
+												<td><small>${bridge.deviceNum}</small></td>
+												<td><small>${bridge.dtAtivacao}</small></td>
+												<td><small>${bridge.validadeToken}</small></td>
+												<td><small>${bridge.bridgeTpAlim.tpAlimentacao}</small></td>
+												<td><small><fmt:formatNumber value="${bridge.custoMensal}" type="currency" currencySymbol=""/></small></td>
+												<td><small>${bridge.taxaEnvio}</small></td>
 												<td>
-													<c:choose>
-		                                                <c:when test="${condominio.coordX != null && condominio.coordX != '' && condominio.coordX != '0.0'}">
-		                                                    <small><a href="https://www.google.com/maps?q=loc:${condominio.coordX}+${condominio.coordY}"  target="_blank">${condominio.coordX} ${condominio.coordY}</a></small>
-		                                                </c:when>
-		                                                <c:otherwise>
-		                                                    <small>${condominio.coordX} ${condominio.coordY}</small>
-		                                                </c:otherwise>
-		                                            </c:choose>
-												</td>
-												<td>
-													<a href="CondominioBO?acao=3&idCondominio=${condominio.idCondominio}">
-														<button type="button" class="btn btn-info btn-sm" title="Clique para visualizar o detalhe do Condomínio">
+													<a href="BridgeBO?acao=3&deviceNum=${bridge.deviceNum}">
+														<button type="button" class="btn btn-info btn-sm" title="Clique para visualizar o detalhe do Bridge">
 															<span class="glyphicon glyphicon-search"></span>
 														</button>
 													</a>
