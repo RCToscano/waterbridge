@@ -299,6 +299,145 @@ public class UserDAO {
         }
     }
     
+    public List<User> buscarPorNome(String nome) throws Exception {
+    	PreparedStatement stmt = null;
+    	ResultSet rs = null;
+    	User user = null;
+    	SimpleDateFormat formatoBanco = new SimpleDateFormat("yyyy-MM-dd");
+    	SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
+    	
+    	List<User> lista = new ArrayList<>();
+    	try {
+    		stmt = connection.prepareStatement(
+    				"SELECT    TB_USER.*, " +
+					"          TB_PERFIL.ID_PERFIL, " +
+					"          TB_PERFIL.PERFIL, " +
+					"          TB_PERFIL.MENU, " +
+					"          TB_PASS.ID_PASS, " +
+					"          TB_PASS.PASS " +
+					"FROM      TB_USER " +
+					"LEFT JOIN TB_PERFIL " +
+					"ON        TB_USER.ID_PERFIL = TB_PERFIL.ID_PERFIL " +
+					"LEFT JOIN TB_PASS " +
+					"ON        TB_USER.ID_USER = TB_PASS.ID_USER " +
+					"WHERE     TB_USER.NOME LIKE '%"+nome+"%' " + 
+					"      AND TB_PERFIL.PERFIL <> 'PROGRAMADOR' "
+    				);
+    		
+    		rs = stmt.executeQuery();
+    		
+    		while(rs.next()) {
+    			Perfil perfil = new Perfil();
+    			perfil.setIdPerfil(rs.getLong("ID_PERFIL"));
+    			perfil.setPerfil(rs.getString("PERFIL"));
+    			perfil.setMenu(rs.getString("MENU"));
+    			
+    			Pass pass = new Pass();
+    			pass.setIdPass(rs.getLong("ID_PASS"));
+    			pass.setIdUser(rs.getLong("ID_USER"));
+    			pass.setPass(rs.getString("PASS"));
+    			
+    			user = new User();
+    			user.setIdUser(rs.getLong("ID_USER"));
+    			user.setCpf(rs.getString("CPF"));
+    			user.setNome(rs.getString("NOME"));
+    			user.setDtNasc(formatoData.format(formatoBanco.parse(rs.getString("DTNASC"))));
+    			user.setSexo(rs.getString("SEXO"));
+    			user.setTelFixo(rs.getString("TELFIXO"));
+    			user.setTelCel(rs.getString("TELCEL"));
+    			user.setEmail(rs.getString("EMAIL"));
+    			user.setEndereco(rs.getString("ENDERECO") + Auxiliar.isNull(rs.getString("NUMERO")));
+    			user.setCompl(rs.getString("COMPL"));
+    			user.setMunicipio(rs.getString("MUNICIPIO"));
+    			user.setUf(rs.getString("UF"));
+    			user.setCep(rs.getString("CEP"));
+    			user.setDtInsert(rs.getString("DTINSERT"));
+    			user.setSituacao(rs.getString("SITUACAO"));
+    			
+    			user.setPerfil(perfil);
+    			user.setPass(pass);
+    			lista.add(user);
+    		}
+    		return lista;
+    	} 
+    	finally {
+    		if(stmt != null)
+    			stmt.close();
+    		if(rs != null)
+    			rs.close();
+    	}
+    }
+    
+    
+    public List<User> buscarPorPerfil(String idPerfil) throws Exception {
+    	PreparedStatement stmt = null;
+    	ResultSet rs = null;
+    	User user = null;
+    	SimpleDateFormat formatoBanco = new SimpleDateFormat("yyyy-MM-dd");
+    	SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
+    	
+    	List<User> lista = new ArrayList<>();
+    	try {
+    		stmt = connection.prepareStatement(
+    				"SELECT    TB_USER.*, " +
+					"          TB_PERFIL.ID_PERFIL, " +
+					"          TB_PERFIL.PERFIL, " +
+					"          TB_PERFIL.MENU, " +
+					"          TB_PASS.ID_PASS, " +
+					"          TB_PASS.PASS " +
+					"FROM      TB_USER " +
+					"LEFT JOIN TB_PERFIL " +
+					"ON        TB_USER.ID_PERFIL = TB_PERFIL.ID_PERFIL " +
+					"LEFT JOIN TB_PASS " +
+					"ON        TB_USER.ID_USER = TB_PASS.ID_USER " +
+					"WHERE     TB_PERFIL.ID_PERFIL = "+idPerfil+" " + 
+					"      AND TB_PERFIL.PERFIL <> 'PROGRAMADOR' "
+    				);
+    		
+    		rs = stmt.executeQuery();
+    		
+    		while(rs.next()) {
+    			Perfil perfil = new Perfil();
+    			perfil.setIdPerfil(rs.getLong("ID_PERFIL"));
+    			perfil.setPerfil(rs.getString("PERFIL"));
+    			perfil.setMenu(rs.getString("MENU"));
+    			
+    			Pass pass = new Pass();
+    			pass.setIdPass(rs.getLong("ID_PASS"));
+    			pass.setIdUser(rs.getLong("ID_USER"));
+    			pass.setPass(rs.getString("PASS"));
+    			
+    			user = new User();
+    			user.setIdUser(rs.getLong("ID_USER"));
+    			user.setCpf(rs.getString("CPF"));
+    			user.setNome(rs.getString("NOME"));
+    			user.setDtNasc(formatoData.format(formatoBanco.parse(rs.getString("DTNASC"))));
+    			user.setSexo(rs.getString("SEXO"));
+    			user.setTelFixo(rs.getString("TELFIXO"));
+    			user.setTelCel(rs.getString("TELCEL"));
+    			user.setEmail(rs.getString("EMAIL"));
+    			user.setEndereco(rs.getString("ENDERECO") + Auxiliar.isNull(rs.getString("NUMERO")));
+    			user.setCompl(rs.getString("COMPL"));
+    			user.setMunicipio(rs.getString("MUNICIPIO"));
+    			user.setUf(rs.getString("UF"));
+    			user.setCep(rs.getString("CEP"));
+    			user.setDtInsert(rs.getString("DTINSERT"));
+    			user.setSituacao(rs.getString("SITUACAO"));
+    			
+    			user.setPerfil(perfil);
+    			user.setPass(pass);
+    			lista.add(user);
+    		}
+    		return lista;
+    	} 
+    	finally {
+    		if(stmt != null)
+    			stmt.close();
+    		if(rs != null)
+    			rs.close();
+    	}
+    }
+    
     public List<User> listarNome(String q) throws SQLException {
 
         PreparedStatement stmt = null;

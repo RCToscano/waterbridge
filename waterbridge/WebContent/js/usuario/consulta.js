@@ -9,7 +9,8 @@ function validaForm(){
 
     if (document.getElementById("usuario").value == ""
 		&& document.getElementById("cpf").value == ""
-		&& document.getElementById("endereco").value == "") {
+		&& document.getElementById("endereco").value == ""
+    	&& document.getElementById("perfil").value == "") {
 
     	texto = "Informe pelo menos um campo para consultar!";
 		focar = document.getElementById("usuario");
