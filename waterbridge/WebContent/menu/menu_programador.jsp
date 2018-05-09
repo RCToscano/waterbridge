@@ -55,6 +55,8 @@
                          <li class="divider"></li>
                         <li><a href="CondominioBO?acao=5">Consulta</a></li>
                          <li class="divider"></li>
+                         <li><a href="CondominioBO?acao=consumo">Consumo</a></li>
+                         <li class="divider"></li>
                     </ul>
                 </li>
             </ul>            
