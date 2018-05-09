@@ -57,7 +57,7 @@
     <url-pattern>/CadastroBO</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-	<servlet-name>BridgeBO</servlet-name>
+    <servlet-name>BridgeBO</servlet-name>
     <url-pattern>/BridgeBO</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
