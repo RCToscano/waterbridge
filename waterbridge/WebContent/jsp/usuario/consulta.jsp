@@ -2,6 +2,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
@@ -36,67 +37,124 @@
 			    <li class="active">Consulta</li>
 			</ul>
 			
-			<div class="row">
-				<div class="col-md-8 col-md-offset-2">
 				
-					<div id="divAviso" name="divAviso" class="alert alert-danger" style="display:${display};">
-						<strong><label id='aviso' name='aviso'/>${aviso}</strong>
-					</div>
-					
-					<c:if test="${not empty sucesso}">
-						<div class="alert alert-success">
-							<strong><c:out value="${sucesso}"/></strong>
-						</div>
-					</c:if>
-					
-					<c:if test="${not empty informacao}">
-						<div class="alert alert-warning">
-							<strong><c:out value="${informacao}"/></strong>
-						</div>
-					</c:if>
-				
-					<form action="UsuarioBO?acao=pesquisar" method="post" accept-charset="iso-8859-1,utf-8" onSubmit="return validaForm()">
-						<fieldset>
-							<legend class="text-left">Consulta de Usu&aacute;rio</legend>
-							
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label>Usuários:</label>
-									<select class="form-control" name="usuario" id="usuario" onChange="verificaUsuario()">
-				                        <option value="" selected>Selecione...</option>
-				                        <c:forEach var="listaUsuarios" items="${listaUsuarios}">
-	                             			<option value="${listaUsuarios.idUser}" >${listaUsuarios.nome}</option>
-				                        </c:forEach>
-				                    </select>
-								</div>
-							</div>
-							
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label class="control-label">CPF:</label>
-									<input type="tel" class="form-control" id="cpf" name="cpf" placeholder="999.999.999-99" value="${cpf}"  onKeyPress="verificaUsuario()" onBlur="verificaUsuario()"/>
-								</div>
-							</div>
-							
-							<div class="col-sm-7">
-								<div class="form-group">
-	                                <label>Endere&ccedil;o</label>
-	                                <input class="form-control" type="text" name="endereco" id="endereco" maxlength="100" value="${endereco}" onKeyPress="verificaUsuario()" onBlur="verificaUsuario()"/>
-	                            </div>
-                            </div>
-                            
-                            <div class="col-sm-12">
-								<div class="form-group">
-									<div class="col-md-12 text-center">
-										<button type="submit" class="btn btn-primary">Consultar</button>
-									</div>
-								</div>
-							</div>
-							
-						</fieldset>
-					</form>
-				</div>
+			<div id="divAviso" name="divAviso" class="alert alert-danger" style="display:${display};">
+				<strong><label id='aviso' name='aviso'/>${aviso}</strong>
 			</div>
+			
+			<c:if test="${not empty sucesso}">
+				<div class="alert alert-success">
+					<strong><c:out value="${sucesso}"/></strong>
+				</div>
+			</c:if>
+			
+			<c:if test="${not empty informacao}">
+				<div class="alert alert-warning">
+					<strong><c:out value="${informacao}"/></strong>
+				</div>
+			</c:if>
+		
+			<div class="form-group">
+				<form action="UsuarioBO?acao=pesquisar" method="post" accept-charset="iso-8859-1,utf-8" onSubmit="return validaForm()">
+					<fieldset>
+						<legend class="text-left">Consulta de Usu&aacute;rio</legend>
+						
+						<div class="col-sm-4">
+							<div class="form-group">
+	                               <label>Nome Usuário:</label>
+	                               <input class="form-control" type="text" name="usuario" id="usuario" maxlength="100" value="${usuario}" onKeyPress="verificaUsuario()" onBlur="verificaUsuario()"/>
+							</div>
+						</div>
+						
+						<div class="col-sm-2">
+							<div class="form-group">
+								<label class="control-label">CPF:</label>
+								<input type="tel" class="form-control" id="cpf" name="cpf" placeholder="999.999.999-99" value="${cpf}"  onKeyPress="verificaUsuario()" onBlur="verificaUsuario()"/>
+							</div>
+						</div>
+						
+						<div class="col-sm-6">
+							<div class="form-group">
+	                               <label>Endere&ccedil;o</label>
+	                               <input class="form-control" type="text" name="endereco" id="endereco" maxlength="100" value="${endereco}" onKeyPress="verificaUsuario()" onBlur="verificaUsuario()"/>
+							</div>
+						</div>
+						
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>Perfil:</label>
+								<select class="form-control" name="perfil" id="perfil" onChange="verificaUsuario()">
+			                        <option value="" selected>Selecione...</option>
+			                        <c:forEach var="listaPerfil" items="${listaPerfil}">
+	                            			<option value="${listaPerfil.idPerfil}" >${listaPerfil.perfil}</option>
+			                        </c:forEach>
+			                    </select>
+							</div>
+						</div>
+	                         
+						<div class="form-group">
+							<div class="col-md-12 text-center">
+								<button type="submit" class="btn btn-primary">Consultar</button>
+							</div>
+						</div>
+						
+					</fieldset>
+				</form>
+			</div>
+			
+			<c:if test="${not empty lista}">
+				<div class="col-sm-12">
+					<div class="form-group">
+						<input class="form-control" id="myInput" type="text" placeholder="Utilize para procurar..."></input> <br />
+						<div class="table-responsive" id="divTable">
+							<table class="table table-hover table-striped">
+								<thead>
+									<tr>
+										<th style="width:0.5%;">Nº</th>
+										<th style="width:20%;">Nome</th>
+										<th style="width:11%;">CPF</th>
+										<th style="width:11%;">Perfil</th>
+										<th style="width:15%;">E-mail</th>
+										<th style="width:10%;">Celular</th>
+										<th style="width:30%;">Endere&ccedil;o</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody id="myTable">
+									<% int cont = 1;%>
+									<c:forEach items="${lista}" var="total">
+										<c:url value="UsuarioBO" var="link">
+				                            <c:param name="acao" value="detalhe"/>
+				                            <c:param name="id" value="${total.idUser}"/>
+				                        </c:url>
+										<tr>
+											<td><%=cont%></td>
+											<td><small>${total.nome}</small></td>
+											<td><small>${total.cpf}</small></td>
+											<td><small>${total.perfil.perfil}</small></td>
+											<td><small>${total.email}</small></td>
+											<td><small>${total.telCel}</small></td>
+											<td><small>${total.endereco}</small></td>
+											<td>
+												<a href="${link}">
+													<button type="button" class="btn btn-info btn-sm" title="Clique para visualizar o perfil do usuário">
+														<span class="glyphicon glyphicon-search"></span>
+													</button>
+												</a>
+											</td>
+										</tr>
+										<%cont++;%>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</c:if>
+				
+				
+				
+				
 		</div>
         <footer class="footer" style="background-color: #fff">
             <div class="container-fluid text-center" style="background-color: #fff; padding: 10px">
