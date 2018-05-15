@@ -3,11 +3,11 @@ package br.com.waterbridge.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.waterbridge.auxiliar.Auxiliar;
+import br.com.waterbridge.modelo.FabricMedidor;
 import br.com.waterbridge.modelo.Medidor;
 
 public class MedidorDAO {
@@ -38,11 +38,20 @@ public class MedidorDAO {
 					"METERPOSITION, " +
 					"ID_USER, " +
 					"ID_CONDOMINIO, " +
+					"ENDERECO, " +
+					"NUMERO, " +
+					"COMPL, " +
+					"MUNICIPIO, " +
+					"UF, " +
+					"CEP, " +
+					"COORDX, " +
+					"COORDY, " +
 					"DTINSERT " +
 					")" +
     				" VALUES ( " +
             		"?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " +
-            		"?, ?, ?, ?, sysdate() ) " 
+            		"?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " +
+            		"?, ?, sysdate() ) " 
     				);
             		
             stmt.setObject(1, medidor.getIdFabricMedidor());
@@ -53,12 +62,20 @@ public class MedidorDAO {
             stmt.setObject(6, medidor.getValidBateria());
             stmt.setObject(7, medidor.getObs());
             stmt.setObject(8, medidor.getSituacao());
-            stmt.setObject(9, medidor.getNumero());
+            stmt.setObject(9, medidor.getNumeroMedidor());
             stmt.setObject(10, medidor.getIdBridge());
             stmt.setObject(11, medidor.getDeviceNum());
             stmt.setObject(12, medidor.getMeterPosition());
             stmt.setObject(13, medidor.getIdUser());
             stmt.setObject(14, medidor.getIdCondominio());
+            stmt.setObject(15, medidor.getEndereco());
+            stmt.setObject(16, medidor.getNumero());
+            stmt.setObject(17, medidor.getCompl());
+            stmt.setObject(18, medidor.getMunicipio());
+            stmt.setObject(19, medidor.getUf());
+            stmt.setObject(20, medidor.getCep());
+            stmt.setObject(21, medidor.getCoordX());
+            stmt.setObject(22, medidor.getCoordY());
             stmt.executeUpdate();
 		} 
         finally {
@@ -93,6 +110,14 @@ public class MedidorDAO {
 					"METERPOSITION = ?, " +
 					"ID_USER = ?, " +
 					"ID_CONDOMINIO = ?, " +
+					"ENDERECO = ?, " +
+					"NUMERO = ?, " +
+					"COMPL = ?, " +
+					"MUNICIPIO = ?, " +
+					"UF = ?, " +
+					"CEP = ?, " +
+					"COORDX = ?, " +
+					"COORDY = ?, " +
 					"DTINSERT = sysdate() " +
 					"WHERE ID_MEDIDOR = ? "
     				);
@@ -105,13 +130,21 @@ public class MedidorDAO {
     		stmt.setObject(6, medidor.getValidBateria());
     		stmt.setObject(7, medidor.getObs());
     		stmt.setObject(8, medidor.getSituacao());
-    		stmt.setObject(9, medidor.getNumero());
+    		stmt.setObject(9, medidor.getNumeroMedidor());
     		stmt.setObject(10, medidor.getIdBridge());
     		stmt.setObject(11, medidor.getDeviceNum());
     		stmt.setObject(12, medidor.getMeterPosition());
     		stmt.setObject(13, medidor.getIdUser());
     		stmt.setObject(14, medidor.getIdCondominio());
-    		stmt.setObject(15, medidor.getIdMedidor());
+    		stmt.setObject(15, medidor.getEndereco());
+            stmt.setObject(16, medidor.getNumero());
+            stmt.setObject(17, medidor.getCompl());
+            stmt.setObject(18, medidor.getMunicipio());
+            stmt.setObject(19, medidor.getUf());
+            stmt.setObject(20, medidor.getCep());
+            stmt.setObject(21, medidor.getCoordX());
+            stmt.setObject(22, medidor.getCoordY());
+    		stmt.setObject(23, medidor.getIdMedidor());
     		stmt.executeUpdate();
     	} 
     	finally {
@@ -164,12 +197,20 @@ public class MedidorDAO {
         		medidor.setTipo(rs.getString("TIPO"));
         		medidor.setChaveDeCripto(rs.getString("CHAVEDECRIPTO"));
         		medidor.setValidBateria(Auxiliar.converteInteger(rs.getString("VALIDBATERIA")));
-        		medidor.setNumero(rs.getString("METERID"));
+        		medidor.setNumeroMedidor(rs.getString("METERID"));
         		medidor.setIdBridge(rs.getLong("ID_BRIDGE"));
         		medidor.setDeviceNum(rs.getString("DEVICENUM"));
         		medidor.setMeterPosition(rs.getInt("METERPOSITION"));
         		medidor.setObs(rs.getString("OBS"));
         		medidor.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
+        		medidor.setEndereco(rs.getString("ENDERECO"));
+        		medidor.setNumero(Auxiliar.converteLong(rs.getString("NUMERO")));
+        		medidor.setCompl(rs.getString("COMPL"));
+        		medidor.setMunicipio(rs.getString("MUNICIPIO"));
+        		medidor.setUf(rs.getString("UF"));
+        		medidor.setCep(rs.getString("CEP"));
+        		medidor.setCoordX(rs.getString("COORDX"));
+        		medidor.setCoordY(rs.getString("COORDY"));
         		medidor.setSituacao(rs.getString("SITUACAO"));
         		medidor.setDtInsert(rs.getString("DTINSERT"));
         		
@@ -210,12 +251,20 @@ public class MedidorDAO {
     			medidor.setTipo(rs.getString("TIPO"));
     			medidor.setChaveDeCripto(rs.getString("CHAVEDECRIPTO"));
     			medidor.setValidBateria(Auxiliar.converteInteger(rs.getString("VALIDBATERIA")));
-    			medidor.setNumero(rs.getString("METERID"));
+    			medidor.setNumeroMedidor(rs.getString("METERID"));
     			medidor.setIdBridge(rs.getLong("ID_BRIDGE"));
     			medidor.setDeviceNum(rs.getString("DEVICENUM"));
     			medidor.setMeterPosition(rs.getInt("METERPOSITION"));
     			medidor.setObs(rs.getString("OBS"));
     			medidor.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
+    			medidor.setEndereco(rs.getString("ENDERECO"));
+    			medidor.setNumero(Auxiliar.converteLong(rs.getString("NUMERO")));
+        		medidor.setCompl(rs.getString("COMPL"));
+        		medidor.setMunicipio(rs.getString("MUNICIPIO"));
+        		medidor.setUf(rs.getString("UF"));
+        		medidor.setCep(rs.getString("CEP"));
+        		medidor.setCoordX(rs.getString("COORDX"));
+        		medidor.setCoordY(rs.getString("COORDY"));
     			medidor.setSituacao(rs.getString("SITUACAO"));
     			medidor.setDtInsert(rs.getString("DTINSERT"));
     			
@@ -230,18 +279,18 @@ public class MedidorDAO {
     	}
     }
     
-    public Medidor buscarPorFabricanteNumero(String fabricante, String numero) throws Exception {
+    public Medidor buscarPorFabricanteNumero(Long idfabricMedidor, String numero) throws Exception {
     	PreparedStatement stmt = null;
     	ResultSet rs = null;
     	try {
     		stmt = connection.prepareStatement(
     				"SELECT TB_MEDIDOR.* " +
 					"  FROM TB_MEDIDOR " +
-					" WHERE TB_MEDIDOR.FABRICANTE = ? " +
+					" WHERE TB_MEDIDOR.ID_FABRICMEDIDOR = ? " +
 					"   AND TB_MEDIDOR.METERID = ? "
     				);
     		
-    		stmt.setObject(1, fabricante);
+    		stmt.setObject(1, idfabricMedidor);
     		stmt.setObject(2, numero);
     		
     		rs = stmt.executeQuery();
@@ -256,12 +305,20 @@ public class MedidorDAO {
     			medidor.setTipo(rs.getString("TIPO"));
     			medidor.setChaveDeCripto(rs.getString("CHAVEDECRIPTO"));
     			medidor.setValidBateria(Auxiliar.converteInteger(rs.getString("VALIDBATERIA")));
-    			medidor.setNumero(rs.getString("METERID"));
+    			medidor.setNumeroMedidor(rs.getString("METERID"));
     			medidor.setIdBridge(rs.getLong("ID_BRIDGE"));
     			medidor.setDeviceNum(rs.getString("DEVICENUM"));
     			medidor.setMeterPosition(rs.getInt("METERPOSITION"));
     			medidor.setObs(rs.getString("OBS"));
     			medidor.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
+    			medidor.setEndereco(rs.getString("ENDERECO"));
+    			medidor.setNumero(Auxiliar.converteLong(rs.getString("NUMERO")));
+        		medidor.setCompl(rs.getString("COMPL"));
+        		medidor.setMunicipio(rs.getString("MUNICIPIO"));
+        		medidor.setUf(rs.getString("UF"));
+        		medidor.setCep(rs.getString("CEP"));
+        		medidor.setCoordX(rs.getString("COORDX"));
+        		medidor.setCoordY(rs.getString("COORDY"));
     			medidor.setSituacao(rs.getString("SITUACAO"));
     			medidor.setDtInsert(rs.getString("DTINSERT"));
     			
@@ -282,8 +339,11 @@ public class MedidorDAO {
         List<Medidor> list = new ArrayList<>();
         try {
             stmt = connection.prepareStatement(
-            		"SELECT TB_MEDIDOR.* " +
-		            "  FROM TB_MEDIDOR "
+            		"   SELECT TB_MEDIDOR.*, " +
+            		"          TB_FABRICMEDIDOR.FABRICANTE " +
+		            "     FROM TB_MEDIDOR " +
+            		"LEFT JOIN TB_FABRICMEDIDOR " +
+		            "       ON TB_FABRICMEDIDOR.ID_FABRICMEDIDOR = TB_MEDIDOR.ID_FABRICMEDIDOR "
 		            );
             
             rs = stmt.executeQuery();
@@ -297,14 +357,28 @@ public class MedidorDAO {
         		medidor.setTipo(rs.getString("TIPO"));
         		medidor.setChaveDeCripto(rs.getString("CHAVEDECRIPTO"));
         		medidor.setValidBateria(rs.getInt("VALIDBATERIA"));
-        		medidor.setNumero(rs.getString("METERID"));
+        		medidor.setNumeroMedidor(rs.getString("METERID"));
         		medidor.setIdBridge(rs.getLong("ID_BRIDGE"));
         		medidor.setDeviceNum(rs.getString("DEVICENUM"));
         		medidor.setMeterPosition(rs.getInt("METERPOSITION"));
         		medidor.setObs(rs.getString("OBS"));
         		medidor.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
+        		medidor.setEndereco(rs.getString("ENDERECO"));
+        		medidor.setNumero(Auxiliar.converteLong(rs.getString("NUMERO")));
+        		medidor.setCompl(rs.getString("COMPL"));
+        		medidor.setMunicipio(rs.getString("MUNICIPIO"));
+        		medidor.setUf(rs.getString("UF"));
+        		medidor.setCep(rs.getString("CEP"));
+        		medidor.setCoordX(rs.getString("COORDX"));
+        		medidor.setCoordY(rs.getString("COORDY"));
         		medidor.setSituacao(rs.getString("SITUACAO"));
         		medidor.setDtInsert(rs.getString("DTINSERT"));
+        		
+        		FabricMedidor fabricMedidor = new FabricMedidor();
+        		fabricMedidor.setIdFabricMedidor(rs.getLong("ID_FABRICMEDIDOR"));
+        		fabricMedidor.setFabricante(rs.getString("FABRICANTE"));
+        		medidor.setFabricMedidor(fabricMedidor);
+        		
                 list.add(medidor);
             }
             return list;

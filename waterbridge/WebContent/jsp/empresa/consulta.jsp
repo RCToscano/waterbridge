@@ -20,14 +20,23 @@
 	    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
 	    <link href="./css/menucustomcolor.css" rel="stylesheet"/>
 	    <link href="./css/footercustom.css" rel="stylesheet"/>
-	    <script src='./js/medidor/consulta.js'></script>
+	    <script src='./js/empresa/consulta.js'></script>
+	    
+	    <script>
+            $(function () {
+                $("#telefoneFixo").mask("(99) 9999-9999");
+                $("#telefoneCelular").mask("(99) 99999-9999");
+                $("#cnpj").mask("99.999.999/9999-99");	
+                $("#postal_code").mask("99999-999");
+            });
+        </script>
     </head>
     <body>
         <jsp:include page="/menu/${sessionScope.user.perfil.menu}" ></jsp:include>
         <div class="container">
         	<ul class="breadcrumb">
 			    <li><a href="HomeBO?acao=home">Home</a></li>
-			    <li class="active">Medidor</li>
+			    <li class="active">Empresa</li>
 			    <li class="active">Consulta</li>
 			</ul>
 				
@@ -48,20 +57,27 @@
 			</c:if>
 			
 			<div class="form-group">
-				<form action="MedidorBO?acao=pesquisar" method="post" accept-charset="iso-8859-1,utf-8" onSubmit="return validaForm()">
+				<form action="EmpresaBO?acao=pesquisar" method="post" accept-charset="iso-8859-1,utf-8" onSubmit="return validaForm()">
 					<fieldset>
-						<legend class="text-left">Consulta de Medidor</legend>
+						<legend class="text-left">Consulta de Empresa</legend>
 						
 						<div class="col-sm-6">
 							<div class="form-group">
-								<label>Medidor:</label>
-								<select class="form-control" name="medidor" id="medidor" onChange="verificaUsuario()" required>
+								<label>Empresa:</label>
+								<select class="form-control" name="empresa" id="empresa" onChange="validaForm()">
 			                        <option value="" selected>Selecione...</option>
 			                        <option value="todos">TODOS</option>
-			                        <c:forEach var="listaMedidor" items="${listaMedidor}">
-                             			<option value="${listaMedidor.idMedidor}" >${listaMedidor.fabricMedidor.fabricante} - ${listaMedidor.numeroMedidor}</option>
+			                        <c:forEach var="listaEmpresa" items="${listEmpresa}">
+                             			<option value="${listaEmpresa.idEmpresa}" >${listaEmpresa.nome} - ${listaEmpresa.cnpj}</option>
 			                        </c:forEach>
 			                    </select>
+							</div>
+						</div>
+						
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label class="control-label">CNPJ</label>
+								<input type="tel" class="form-control" id="cnpj" name="cnpj" placeholder="99.999.999/9999-99" value="${empresa.cnpj}" maxlength="20" required/>
 							</div>
 						</div>
 						

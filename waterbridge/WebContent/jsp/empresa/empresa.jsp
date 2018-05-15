@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
 		<title>WaterBridge</title>
 		<link rel="icon" type="image/png" href="./images/favicon.ico"/>
-		
+
         <script src='./js/funcoes.auxiliares.js'></script>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="./css/menucustomcolor.css" rel="stylesheet"/>
@@ -21,13 +21,21 @@
 		<script type="text/javascript" src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
 		<script src="http://malsup.github.io/jquery.blockUI.js"></script>
 		<script src="./js/medidor/medidor.js" type="text/javascript"></script>
+		<script>
+            $(function () {
+                $("#telefoneFixo").mask("(99) 9999-9999");
+                $("#telefoneCelular").mask("(99) 99999-9999");
+                $("#cnpj").mask("99.999.999/9999-99");	
+                $("#postal_code").mask("99999-999");
+            });
+        </script>
     </head>
     <body>
         <jsp:include page="/menu/${sessionScope.user.perfil.menu}" ></jsp:include>
         <div class="container">
         	<ul class="breadcrumb">
 			    <li><a href="HomeBO?acao=home">Home</a></li>
-			    <li class="active">Medidor</li>
+			    <li class="active">Empresa</li>
 			    <li class="active">${titulo}</li>
 			</ul>
 			
@@ -44,74 +52,54 @@
 						</div>
 					</c:if>
 				
-					<form action="MedidorBO?acao=inserir" method="post" accept-charset="iso-8859-1,utf-8" onsubmit="return validaForm()">
+					<form action="EmpresaBO?acao=inserir" method="post" accept-charset="iso-8859-1,utf-8" onsubmit="return validaForm()">
 						<input type="hidden" id="id" name="id" value="${medidor.idMedidor}" />
 						
 						<fieldset>
-							<legend class="text-left">${titulo} de Medidor (Hidrômetro)</legend>
+							<legend class="text-left">${titulo} de Empresa</legend>
 							
-							<div class="col-sm-4">
+							<div class="col-sm-6">
 								<div class="form-group">
-									<label class="control-label">Fabricante</label>
-									<select class="form-control" name="fabricante" id="fabricante" required>
-										<option value="" selected>Selecione...</option>
-										<c:forEach var="fabricante" items="${listFabricante}">
-		                      		        <c:choose>
-		                                    	<c:when test="${fabricante.idFabricMedidor eq medidor.idFabricMedidor}">
-		                                    		<option value="${fabricante.idFabricMedidor}" selected>${fabricante.fabricante}</option> 
-		                                      	</c:when>
-		                                      	<c:otherwise>
-		                                      		<option value="${fabricante.idFabricMedidor}">${fabricante.fabricante}</option>
-		                                      	</c:otherwise>
-		                                     </c:choose>
-				                     	</c:forEach>
-									</select>
+									<label class="control-label">Nome/Razão Social:</label>
+									<input type="text" class="form-control" id="nome" name="nome" value="${empresa.nome}" maxlength="100" required/>
 								</div>
 							</div>
 							
-							<div class="col-sm-4">
+							<div class="col-sm-3">
 								<div class="form-group">
-									<label class="control-label" for="name">Modelo:</label>
-									<input type="text" class="form-control" id="modelo" name="modelo" maxlength="100" value="${medidor.modelo}" required/>
+									<label class="control-label">CNPJ:</label>
+									<input type="tel" class="form-control" id="cnpj" name="cnpj" placeholder="99.999.999/9999-99" value="${empresa.cnpj}" maxlength="20" required/>
 								</div>
 							</div>
 							
-							<div class="col-sm-4">
+							<div class="col-sm-6">
 								<div class="form-group">
-									<label class="control-label" for="name">N&deg; S&eacute;rie:</label>
-									<input type="text" class="form-control" id="serie" name="serie" maxlength="100" value="${medidor.serie}" required/>
+									<label class="control-label">Nome do Responsável:</label>
+									<input type="text" class="form-control" id="responsavel" name="responsavel" value="${empresa.responsavel}" maxlength="100" required/>
 								</div>
 							</div>
 							
-							<div class="col-sm-4">
+							<div class="col-sm-3">
 								<div class="form-group">
-									<label class="control-label" for="name">Tipo:</label>
-									<input type="text" class="form-control" id="tipo" name="tipo" maxlength="100" value="${medidor.tipo}" required/>
+									<label class="control-label">Telefone Fixo</label>
+									<input type="tel" class="form-control" id="telefoneFixo" name="telefoneFixo" placeholder="(XX) XXXX-XXXX" value="${empresa.telFixo}"/>
 								</div>
 							</div>
 							
-							<div class="col-sm-4">
+							<div class="col-sm-3">
 								<div class="form-group">
-									<label class="control-label" for="name">Chave de Decriptografia:</label>
-									<input type="text" class="form-control" id="chave" name="chave" maxlength="100" value="${medidor.chaveDeCripto}" required/>
+									<label class="control-label">Telefone Celular</label>
+									<input type="tel" class="form-control" id="telefoneCelular" name="telefoneCelular" placeholder="(XX) XXXXX-XXXX" value="${empresa.telCel}"/>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="control-label">Email:</label>
+									<input type="email" class="form-control" id="email" name="email" value="${empresa.email}" required/>
 								</div>
 							</div>
 							
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label class="control-label" for="name">Validade Bateria:</label>
-									<input type="number" class="form-control" id="bateria" name="bateria" maxlength="2" value="${medidor.validBateria}" onKeyPress="validaTamanho(this,2)" required/>
-								</div>
-							</div>
-							
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label class="control-label" for="name">Número:</label>
-									<input type="text" class="form-control" id="numeroMedidor" name="numeroMedidor" maxlength="15" value="${medidor.numeroMedidor}" required/>
-								</div>
-							</div>
-							
-							<div class="col-sm-4">
+							<div class="col-sm-3">
 								<div class="form-group">
 									<label class="control-label">Situação</label>
 									<select class="form-control" name="situacao" id="situacao" required>
@@ -130,43 +118,6 @@
 								</div>
 							</div>
 							
-							<div class="col-sm-12">
-								<div class="form-group"> 
-									<label>Condomínio</label> 
-									<select class="form-control" id="idCondominio" name="idCondominio" onchange="listarBridgeCadastro()" required >
-										<option value="" selected>Selecione...</option>
-										<c:forEach var="condominio" items="${listCondominio}">
-			                   		        <c:choose>
-			                                  	<c:when test="${condominio.idCondominio == medidor.idCondominio}">
-			                                 		<option value="${condominio.idCondominio}" selected="true">${condominio.nome} - ${condominio.endereco} ${condominio.numero} ${condominio.compl}</option>
-			                                 		<script>
-			                                 			listarBridgeAlteracao(${medidor.idBridge});
-			                                 		</script> 
-			                                   	</c:when>
-			                                   	<c:otherwise>
-			                                   		<option value="${condominio.idCondominio}">${condominio.nome} - ${condominio.endereco} ${condominio.numero} ${condominio.compl}</option>
-			                                   	</c:otherwise>
-			                            	</c:choose>
-				                     	</c:forEach>
-									</select>	
-								</div>					
-							</div>
-							
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label class="control-label">Bridge</label>
-									<select class="form-control" name="bridge" id="bridge" required>
-										<option value="" selected>Selecione...</option>
-									</select>																		
-								</div>
-							</div>
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label class="control-label" for="name">Posição:</label>
-									<input type="number" class="form-control" id="posicao" name="posicao" maxlength="2" value="${medidor.meterPosition}" onKeyPress="validaTamanho(this,2)" required/>
-								</div>
-							</div>
-							
 							<div class="col-sm-12"></div>
 							
 							<div class="col-sm-7">
@@ -181,8 +132,8 @@
 	                                <label>Coordenadas</label>
 	                                <div class="input-group">
                                         <input class="form-control" type="text" name="coordenadas" id="coordenadas" value="" readonly></input>
-	                                    <input class="form-control" type="hidden" name="latitude" id="latitude" value="${medidor.coordX}"></input>
-	                                    <input class="form-control" type="hidden" name="longitude" id="longitude" value="${medidor.coordY}"></input>
+	                                    <input class="form-control" type="hidden" name="latitude" id="latitude" value="${empresa.coordX}"></input>
+	                                    <input class="form-control" type="hidden" name="longitude" id="longitude" value="${empresa.coordY}"></input>
 	                                    <span class="input-group-btn"><!-- Append button addon using class input-group-lg -->
 	                                        <button class="btn btn-default" type="button" onclick="abrirMapa()">Mapa <span class="glyphicon glyphicon-map-marker text-danger"></span></button>
 	                                    </span>
@@ -193,49 +144,49 @@
                             <div class="col-sm-7">
 								<div class="form-group">
 	                                <label>Endere&ccedil;o</label>
-	                                <input class="form-control" type="text" name="endereco" id="route" maxlength="100" value="${medidor.endereco}" required/>
+	                                <input class="form-control" type="text" name="endereco" id="route" maxlength="100" value="${empresa.endereco}" required/>
 	                            </div>
                             </div>
 	                            
                             <div class="col-sm-2">
                             	<div class="form-group">
 	                                <label>N&uacute;mero</label>
-	                                <input class="form-control" type="number" name="numero" id="street_number" maxlength="6" value="${medidor.numero}" onKeyPress="validaTamanho(this,6)" required/>
+	                                <input class="form-control" type="number" name="numero" id="street_number" maxlength="6" value="${empresa.numero}" onKeyPress="validaTamanho(this,6)" required/>
 	                            </div>
                             </div>
 	                            
                             <div class="col-sm-3">
                             	<div class="form-group">
 	                                <label>Complemento</label>
-	                                <input class="form-control" type="text" name="compl" id="locality" type="text" maxlength="50" value="${medidor.compl}"/>
+	                                <input class="form-control" type="text" name="compl" id="locality" type="text" maxlength="50" value="${empresa.compl}"/>
 	                            </div>
 	                        </div>
 	                        
                             <div class="col-sm-5">
 	                        	<div class="form-group">
 	                                <label>Munic&iacute;pio</label>
-	                                <input class="form-control" type="text" name="municipio" id="municipio" maxlength="100" value="${medidor.municipio}"/>
+	                                <input class="form-control" type="text" name="municipio" id="municipio" maxlength="100" value="${empresa.municipio}"/>
 	                            </div>
                             </div>
 	                        
                             <div class="col-sm-4">
 	                        	<div class="form-group">
 	                                <label>Estado</label>
-	                                <input class="form-control" type="text" name="estado" id="administrative_area_level_1" maxlength="2" value="${medidor.uf}" required/>
+	                                <input class="form-control" type="text" name="estado" id="administrative_area_level_1" maxlength="2" value="${empresa.uf}" required/>
 	                            </div>
                             </div>
 	                            
 	                        <div class="col-sm-3">
 	                        	<div class="form-group">
 	                                <label>CEP</label>
-	                                <input class="form-control" type="tel" name="cep" id="postal_code" maxlength="9" value="${medidor.cep}" required/>
+	                                <input class="form-control" type="tel" name="cep" id="postal_code" maxlength="9" value="${empresa.cep}" required/>
 	                            </div>
 	                        </div>
 
 							<div class="col-sm-12">
 								<div class="form-group">
 									<label class="control-label" for="descricao">Informa&ccedil;&atilde;es Adicionais:</label>
-									<textarea class="form-control" rows="3" name="descricao" id="descricao" style="resize:none;" onKeyPress="validaTamanho(this,150)">${medidor.obs}</textarea>
+									<textarea class="form-control" rows="3" name="descricao" id="descricao" style="resize:none;" onKeyPress="validaTamanho(this,150)">${empresa.obs}</textarea>
 								</div>
 							</div>
 							

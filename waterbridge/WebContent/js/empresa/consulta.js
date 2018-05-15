@@ -7,23 +7,13 @@ function validaForm(){
     var valida = true;
     
 
-    if (document.getElementById("usuario").value == ""
-		&& document.getElementById("cpf").value == ""
-		&& document.getElementById("endereco").value == ""
-    	&& document.getElementById("perfil").value == "") {
+    if (document.getElementById("empresa").value == ""
+		&& document.getElementById("cnpj").value == "") {
 
     	texto = "Por favor, informe pelo menos um campo para consultar!";
-		focar = document.getElementById("usuario");
+		focar = document.getElementById("empresa");
 		valida = false;
 	}
-    
-    else if(document.getElementById("cpf").value != "") {
-    	if(!consistenciaCPF(document.getElementById("cpf").value)) {
-    		texto = "CPF informado inv&aacute;lido!";
-    		focar = document.getElementById("cpf");
-    		valida = false;
-    	}
-    }
     
     if (valida == false) {
     	divAviso.style.display = "block";

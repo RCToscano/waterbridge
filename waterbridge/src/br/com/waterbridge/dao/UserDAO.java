@@ -368,7 +368,6 @@ public class UserDAO {
     	}
     }
     
-    
     public List<User> buscarPorPerfil(String idPerfil) throws Exception {
     	PreparedStatement stmt = null;
     	ResultSet rs = null;
@@ -421,6 +420,8 @@ public class UserDAO {
     			user.setMunicipio(rs.getString("MUNICIPIO"));
     			user.setUf(rs.getString("UF"));
     			user.setCep(rs.getString("CEP"));
+    			user.setCoordx(rs.getString("COORDX"));
+    			user.setCoordy(rs.getString("COORDY"));
     			user.setDtInsert(rs.getString("DTINSERT"));
     			user.setSituacao(rs.getString("SITUACAO"));
     			
@@ -499,6 +500,8 @@ public class UserDAO {
 					"UF, " +
 					"CEP, " +
 					"TELCEL, " +
+					"COORDX, " +
+					"COORDY, " +
 					"DTINSERT " +
 					")" +
     				" VALUES ( " +
@@ -522,6 +525,8 @@ public class UserDAO {
             stmt.setObject(14, user.getUf());
             stmt.setObject(15, user.getCep());
             stmt.setObject(16, user.getTelCel());
+            stmt.setObject(17, user.getCoordx());
+            stmt.setObject(18, user.getCoordy());
             stmt.executeUpdate();
 		} 
         finally {
@@ -558,6 +563,8 @@ public class UserDAO {
 						"UF = ?, " +
 						"CEP = ?, " +
 						"TELCEL = ?, " +
+						"COORDX = ?, " +
+						"COORDY = ?, " +
 						"DTINSERT = sysdate() " +
 						"WHERE ID_USER = ? "
     				);
@@ -578,7 +585,9 @@ public class UserDAO {
     		stmt.setObject(14, user.getUf());
     		stmt.setObject(15, user.getCep());
     		stmt.setObject(16, user.getTelCel());
-    		stmt.setObject(17, user.getIdUser());
+    		stmt.setObject(17, user.getCoordx());
+    		stmt.setObject(18, user.getCoordy());
+    		stmt.setObject(19, user.getIdUser());
     		stmt.executeUpdate();
     	} 
     	finally {

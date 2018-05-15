@@ -13,13 +13,16 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import br.com.waterbridge.auxiliar.Auxiliar;
+import br.com.waterbridge.auxiliar.Constantes;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.BridgeDAO;
 import br.com.waterbridge.dao.CondominioDAO;
+import br.com.waterbridge.dao.FabricMedidorDAO;
 import br.com.waterbridge.dao.MedidorDAO;
 import br.com.waterbridge.dao.SituacaoDAO;
 import br.com.waterbridge.modelo.Bridge;
 import br.com.waterbridge.modelo.Condominio;
+import br.com.waterbridge.modelo.FabricMedidor;
 import br.com.waterbridge.modelo.Medidor;
 import br.com.waterbridge.modelo.Situacao;
 import br.com.waterbridge.modelo.User;
@@ -51,9 +54,13 @@ public class MedidorBO extends HttpServlet {
 				
 				CondominioDAO condominioDAO = new CondominioDAO(connection);
 				List<Condominio> listCondominio = condominioDAO.listar();
+				
+				FabricMedidorDAO fabricMedidorDAO = new FabricMedidorDAO(connection);
+				List<FabricMedidor> listFabricante = fabricMedidorDAO.listar();
             	
 				req.setAttribute("listSituacao", listSituacao);
 				req.setAttribute("listCondominio", listCondominio);
+				req.setAttribute("listFabricante", listFabricante);
         		req.setAttribute("display", "none");
         		req.setAttribute("titulo", "Cadastro");
         		req.setAttribute("botao", "Cadastrar");
@@ -102,7 +109,22 @@ public class MedidorBO extends HttpServlet {
             		medidor.setTipo(Auxiliar.removerCaracteres(req.getParameter("tipo").trim().toUpperCase()));
             		medidor.setChaveDeCripto(req.getParameter("chave"));
             		medidor.setValidBateria(Auxiliar.converteInteger(req.getParameter("bateria")));
-            		medidor.setNumero(Auxiliar.removerCaracteres(req.getParameter("numero").trim().toUpperCase()));
+            		medidor.setNumeroMedidor(Auxiliar.removerCaracteres(req.getParameter("numeroMedidor").trim().toUpperCase()));
+            		medidor.setEndereco(Auxiliar.removerCaracteres(req.getParameter("endereco").trim().toUpperCase()));
+            		medidor.setNumero(Long.parseLong(req.getParameter("numero")));
+            		medidor.setCompl(Auxiliar.removerCaracteres(req.getParameter("compl").trim().toUpperCase()));
+            		medidor.setMunicipio(Auxiliar.removerCaracteres(req.getParameter("municipio").trim().toUpperCase()));
+            		medidor.setUf(req.getParameter("estado").trim().toUpperCase());
+            		medidor.setCep(req.getParameter("cep").trim().toUpperCase());
+					if(req.getParameter("latitude").trim().equals("")) {
+						medidor.setCoordX("0.0");
+						medidor.setCoordY("0.0");
+					}
+					else {
+						medidor.setCoordX(req.getParameter("latitude"));
+						medidor.setCoordY(req.getParameter("longitude"));
+					}
+            		
             		
             		String split[] = req.getParameter("bridge").split(";");
             		Long idBridge = Long.valueOf(split[0]);
@@ -137,15 +159,22 @@ public class MedidorBO extends HttpServlet {
             			
 						if (medidorDAO.buscarPorBridgePosicao(medidor.getIdBridge(),
 								medidor.getMeterPosition()) != null) {
+							req.setAttribute("medidor", medidor);
 							req.setAttribute("display", "block");
 							req.setAttribute("aviso", "Medidor já cadastrado para o Bridge " + medidor.getDeviceNum()
-									+ " na posição " + medidor.getMeterPosition() + " !");
+									+ " na posição " + medidor.getMeterPosition() + "!");
 						}
-//						else if(medidorDAO.buscarPorFabricanteNumero(medidor.getFabricante(), medidor.getNumero()) != null) {
-//							req.setAttribute("display", "block");
-//							req.setAttribute("aviso", "Medidor Número: " + medidor.getNumero() + ", Fabricante: "
-//									+ medidor.getFabricante() + " já cadastrado!");
-//						}
+						else if (medidorDAO.buscarPorFabricanteNumero(medidor.getIdFabricMedidor(),
+								medidor.getNumeroMedidor()) != null) {
+							
+							FabricMedidorDAO fabricMedidorDAO = new FabricMedidorDAO(connection);
+							FabricMedidor fabricMedidor = fabricMedidorDAO.buscar(medidor.getIdFabricMedidor());
+							
+							req.setAttribute("medidor", medidor);
+							req.setAttribute("display", "block");
+							req.setAttribute("aviso", "Medidor Número: " + medidor.getNumero() + ", Fabricante: "
+									+ fabricMedidor.getFabricante() + " já cadastrado!");
+						}
 						else {
 							medidorDAO.inserir(medidor);
 							
@@ -157,7 +186,8 @@ public class MedidorBO extends HttpServlet {
 				} 
             	catch (Exception e) {
             		System.out.println(e);
-            		req.setAttribute("aviso", "Não foi possível realizar a operação, contate o suporte!");
+            		req.setAttribute("medidor", medidor);
+            		req.setAttribute("aviso", Constantes.CONTATO_SUPORTE);
             		req.setAttribute("display", "block");
 				}
             	finally {
@@ -166,9 +196,13 @@ public class MedidorBO extends HttpServlet {
     				
     				CondominioDAO condominioDAO = new CondominioDAO(connection);
     				List<Condominio> listCondominio = condominioDAO.listar();
+    				
+    				FabricMedidorDAO fabricMedidorDAO = new FabricMedidorDAO(connection);
+    				List<FabricMedidor> listFabricante = fabricMedidorDAO.listar();
                 	
-    				req.setAttribute("listCondominio", listCondominio);
     				req.setAttribute("listSituacao", listSituacao);
+    				req.setAttribute("listCondominio", listCondominio);
+    				req.setAttribute("listFabricante", listFabricante);
     				req.getRequestDispatcher("/jsp/medidor/medidor.jsp").forward(req, res);
             	}
             }
@@ -190,9 +224,17 @@ public class MedidorBO extends HttpServlet {
             			MedidorDAO medidorDAO = new MedidorDAO(connection);
     	            	List<Medidor> listaMedidor = medidorDAO.listarTodos();
             		
-    	            	req.setAttribute("listaMedidor", listaMedidor);
-            			req.setAttribute("display", "none");
-            			req.getRequestDispatcher("/jsp/medidor/lista.jsp").forward(req, res);
+    	            	if(listaMedidor.isEmpty()) {
+    	            		req.setAttribute("display", "none");
+		            		req.setAttribute("informacao", "Nenhum resultado encontrado!");
+		            		req.getRequestDispatcher("/jsp/medidor/consulta.jsp").forward(req, res);
+    	            	}
+    	            	else {
+    	            		req.setAttribute("listaMedidor", listaMedidor);
+    	            		req.setAttribute("lista", listaMedidor);
+    	            		req.setAttribute("display", "none");
+    	            		req.getRequestDispatcher("/jsp/medidor/consulta.jsp").forward(req, res);
+    	            	}
             		}
             		else {
             			MedidorDAO medidorDAO = new MedidorDAO(connection);
@@ -203,9 +245,13 @@ public class MedidorBO extends HttpServlet {
         				
         				CondominioDAO condominioDAO = new CondominioDAO(connection);
         				List<Condominio> listCondominio = condominioDAO.listar();
+        				
+        				FabricMedidorDAO fabricMedidorDAO = new FabricMedidorDAO(connection);
+        				List<FabricMedidor> listFabricante = fabricMedidorDAO.listar();
                     	
-        				req.setAttribute("listCondominio", listCondominio);
         				req.setAttribute("listSituacao", listSituacao);
+        				req.setAttribute("listCondominio", listCondominio);
+        				req.setAttribute("listFabricante", listFabricante);
             			req.setAttribute("medidor", medidor);
             			req.setAttribute("display", "none");
             			req.setAttribute("titulo", "Alteração");
@@ -220,7 +266,7 @@ public class MedidorBO extends HttpServlet {
 	            	List<Medidor> listaMedidor = medidorDAO.listarTodos();
 	            	
 	            	req.setAttribute("listaMedidor", listaMedidor);
-	            	req.setAttribute("aviso", "Não foi possível realizar a operação, contate o suporte!");
+	            	req.setAttribute("aviso", Constantes.CONTATO_SUPORTE);
             		req.setAttribute("display", "block");
 	            	req.getRequestDispatcher("/jsp/medidor/consulta.jsp").forward(req, res);
 				}
@@ -236,10 +282,14 @@ public class MedidorBO extends HttpServlet {
 				
 				CondominioDAO condominioDAO = new CondominioDAO(connection);
 				List<Condominio> listCondominio = condominioDAO.listar();
+				
+				FabricMedidorDAO fabricMedidorDAO = new FabricMedidorDAO(connection);
+				List<FabricMedidor> listFabricante = fabricMedidorDAO.listar();
             	
-				req.setAttribute("medidor", medidor);
-				req.setAttribute("listCondominio", listCondominio);
 				req.setAttribute("listSituacao", listSituacao);
+				req.setAttribute("listCondominio", listCondominio);
+				req.setAttribute("listFabricante", listFabricante);
+				req.setAttribute("medidor", medidor);
     			req.setAttribute("display", "none");
     			req.setAttribute("titulo", "Alteração");
     			req.setAttribute("botao", "Alterar");

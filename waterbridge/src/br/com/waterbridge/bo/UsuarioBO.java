@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import br.com.waterbridge.auxiliar.Auxiliar;
+import br.com.waterbridge.auxiliar.Constantes;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.PassDAO;
 import br.com.waterbridge.dao.PerfilDAO;
@@ -83,6 +84,14 @@ public class UsuarioBO extends HttpServlet {
             		user.setMunicipio(Auxiliar.removerCaracteres(req.getParameter("municipio").trim().toUpperCase()));
             		user.setUf(Auxiliar.removerCaracteres(req.getParameter("estado").trim().toUpperCase()));
             		user.setCep(req.getParameter("cep"));
+            		if(req.getParameter("latitude").trim().equals("")) {
+            			user.setCoordx("0.0");
+            			user.setCoordy("0.0");
+					}
+					else {
+						user.setCoordx(req.getParameter("latitude"));
+						user.setCoordy(req.getParameter("longitude"));
+					}
             		user.setSituacao(req.getParameter("situacao"));
             		
             		//Alteracao
@@ -160,7 +169,8 @@ public class UsuarioBO extends HttpServlet {
 				} 
             	catch (Exception e) {
             		System.out.println(e);
-            		req.setAttribute("aviso", "Não foi possível realizar a operação, contate o suporte!");
+            		req.setAttribute("usuario", user);
+            		req.setAttribute("aviso", Constantes.CONTATO_SUPORTE);
             		req.setAttribute("display", "block");
             		req.getRequestDispatcher("/jsp/usuario/usuario.jsp").forward(req, res);
 				}
@@ -267,7 +277,7 @@ public class UsuarioBO extends HttpServlet {
                 	List<User> listaUsuarios = userDAO.listarTodos();
                 	
                 	req.setAttribute("listaUsuarios", listaUsuarios);
-                	req.setAttribute("aviso", "Não foi possível realizar a operação, contate o suporte!");
+                	req.setAttribute("aviso", Constantes.CONTATO_SUPORTE);
                 	req.setAttribute("display", "block");
                 	req.getRequestDispatcher("/jsp/usuario/consulta.jsp").forward(req, res);
             	}

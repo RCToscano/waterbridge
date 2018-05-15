@@ -175,6 +175,7 @@
 									<input type="tel" class="form-control" id="telefoneCelular" name="telefoneCelular" placeholder="(XX) XXXXX-XXXX" value="${usuario.telCel}"/>
 								</div>
 							</div>
+							
 							<div class="col-sm-6">
 								<div class="form-group">
 									<label class="control-label">Email:</label>
@@ -196,8 +197,8 @@
 	                                <label>Coordenadas</label>
 	                                <div class="input-group">
                                         <input class="form-control" type="text" name="coordenadas" id="coordenadas" value="" readonly></input>
-	                                    <input class="form-control" type="hidden" name="latitude" id="latitude" value=""></input>
-	                                    <input class="form-control" type="hidden" name="longitude" id="longitude" value=""></input>
+	                                    <input class="form-control" type="hidden" name="latitude" id="latitude" value="${usuario.coordx}"></input>
+	                                    <input class="form-control" type="hidden" name="longitude" id="longitude" value="${usuario.coordy}"></input>
 	                                    <span class="input-group-btn"><!-- Append button addon using class input-group-lg -->
 	                                        <button class="btn btn-default" type="button" onclick="abrirMapa()">Mapa <span class="glyphicon glyphicon-map-marker text-danger"></span></button>
 	                                    </span>
