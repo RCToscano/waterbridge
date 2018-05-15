@@ -141,11 +141,11 @@ public class MedidorBO extends HttpServlet {
 							req.setAttribute("aviso", "Medidor já cadastrado para o Bridge " + medidor.getDeviceNum()
 									+ " na posição " + medidor.getMeterPosition() + " !");
 						}
-						else if(medidorDAO.buscarPorFabricanteNumero(medidor.getFabricante(), medidor.getNumero()) != null) {
-							req.setAttribute("display", "block");
-							req.setAttribute("aviso", "Medidor Número: " + medidor.getNumero() + ", Fabricante: "
-									+ medidor.getFabricante() + " já cadastrado!");
-						}
+//						else if(medidorDAO.buscarPorFabricanteNumero(medidor.getFabricante(), medidor.getNumero()) != null) {
+//							req.setAttribute("display", "block");
+//							req.setAttribute("aviso", "Medidor Número: " + medidor.getNumero() + ", Fabricante: "
+//									+ medidor.getFabricante() + " já cadastrado!");
+//						}
 						else {
 							medidorDAO.inserir(medidor);
 							
