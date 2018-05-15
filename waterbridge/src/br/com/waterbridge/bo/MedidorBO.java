@@ -96,7 +96,7 @@ public class MedidorBO extends HttpServlet {
             		User user = (User) req.getSession().getAttribute("user");
             		
                     medidor.setIdUser(user.getIdUser());
-            		medidor.setFabricante(Auxiliar.removerCaracteres(req.getParameter("fabricante").trim().toUpperCase()));
+            		medidor.setIdFabricMedidor(Long.parseLong(req.getParameter("fabricante").trim().toUpperCase()));
             		medidor.setModelo(Auxiliar.removerCaracteres(req.getParameter("modelo").trim().toUpperCase()));
             		medidor.setSerie(Auxiliar.removerCaracteres(req.getParameter("serie").trim().toUpperCase()));
             		medidor.setTipo(Auxiliar.removerCaracteres(req.getParameter("tipo").trim().toUpperCase()));

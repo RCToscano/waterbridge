@@ -24,7 +24,7 @@ public class MedidorDAO {
         try {
         	stmt = connection.prepareStatement(
     				" INSERT INTO TB_MEDIDOR ( " +
-					"FABRICANTE, " +
+					"ID_FABRICMEDIDOR, " +
 					"MODELO, " +
 					"SERIE, " +
 					"TIPO, " +
@@ -45,7 +45,7 @@ public class MedidorDAO {
             		"?, ?, ?, ?, sysdate() ) " 
     				);
             		
-            stmt.setObject(1, medidor.getFabricante());
+            stmt.setObject(1, medidor.getIdFabricMedidor());
             stmt.setObject(2, medidor.getModelo());
             stmt.setObject(3, medidor.getSerie());
             stmt.setObject(4, medidor.getTipo());
@@ -79,7 +79,7 @@ public class MedidorDAO {
     		
     		stmt = connection.prepareStatement(
     				" UPDATE TB_MEDIDOR SET " +
-					"FABRICANTE = ?, " +
+					"ID_FABRICMEDIDOR = ?, " +
 					"MODELO = ?, " +
 					"SERIE = ?, " +
 					"TIPO = ?, " +
@@ -97,7 +97,7 @@ public class MedidorDAO {
 					"WHERE ID_MEDIDOR = ? "
     				);
     		
-    		stmt.setObject(1, medidor.getFabricante());
+    		stmt.setObject(1, medidor.getIdFabricMedidor());
     		stmt.setObject(2, medidor.getModelo());
     		stmt.setObject(3, medidor.getSerie());
     		stmt.setObject(4, medidor.getTipo());
@@ -158,7 +158,7 @@ public class MedidorDAO {
     		Medidor medidor = new Medidor();
             if (rs.next()) {
             	medidor.setIdMedidor(rs.getLong("ID_MEDIDOR"));
-            	medidor.setFabricante(rs.getString("FABRICANTE"));
+            	medidor.setIdFabricMedidor(rs.getLong("ID_FABRICMEDIDOR"));
         		medidor.setModelo(rs.getString("MODELO"));
         		medidor.setSerie(rs.getString("SERIE"));
         		medidor.setTipo(rs.getString("TIPO"));
@@ -204,7 +204,7 @@ public class MedidorDAO {
     		if (rs.next()) {
     			medidor = new Medidor();
     			medidor.setIdMedidor(rs.getLong("ID_MEDIDOR"));
-    			medidor.setFabricante(rs.getString("FABRICANTE"));
+    			medidor.setIdFabricMedidor(rs.getLong("ID_FABRICMEDIDOR"));
     			medidor.setModelo(rs.getString("MODELO"));
     			medidor.setSerie(rs.getString("SERIE"));
     			medidor.setTipo(rs.getString("TIPO"));
@@ -250,7 +250,7 @@ public class MedidorDAO {
     		if (rs.next()) {
     			medidor = new Medidor();
     			medidor.setIdMedidor(rs.getLong("ID_MEDIDOR"));
-    			medidor.setFabricante(rs.getString("FABRICANTE"));
+    			medidor.setIdFabricMedidor(rs.getLong("ID_FABRICMEDIDOR"));
     			medidor.setModelo(rs.getString("MODELO"));
     			medidor.setSerie(rs.getString("SERIE"));
     			medidor.setTipo(rs.getString("TIPO"));
@@ -291,7 +291,7 @@ public class MedidorDAO {
             while (rs.next()) {
             	Medidor medidor = new Medidor();
             	medidor.setIdMedidor(rs.getLong("ID_MEDIDOR"));
-            	medidor.setFabricante(rs.getString("FABRICANTE"));
+            	medidor.setIdFabricMedidor(rs.getLong("ID_FABRICMEDIDOR"));
         		medidor.setModelo(rs.getString("MODELO"));
         		medidor.setSerie(rs.getString("SERIE"));
         		medidor.setTipo(rs.getString("TIPO"));
