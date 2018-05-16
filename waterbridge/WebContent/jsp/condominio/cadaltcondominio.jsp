@@ -115,6 +115,22 @@
 						</div>
 					</div>
 					<div class="form-group">
+						<div class="col-sm-6">
+							<label>Empresa</label> 
+							<select class="form-control" id="idEmpresa" name="idEmpresa" required >
+								<option value="" selected>Selecione...</option>
+								<c:forEach var="empresa" items="${listEmpresa}">
+                      		        <c:choose>
+                                    	<c:when test="${empresa.idEmpresa eq condominio.idEmpresa}">
+                                    		<option value="${empresa.idEmpresa}" selected="true">${empresa.nome}</option> 
+                                      	</c:when>
+                                      	<c:otherwise>
+                                      		<option value="${empresa.idEmpresa}">${empresa.nome}</option>
+                                      	</c:otherwise>
+                                     </c:choose>
+		                     	</c:forEach>
+							</select>
+						</div>
 						<div class="col-sm-3">
 							<label>Situa&ccedil;&atilde;o</label> 
 							<select class="form-control" id="situacao" name="situacao" required >

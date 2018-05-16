@@ -3,6 +3,7 @@ package br.com.waterbridge.modelo;
 public class Condominio {
 	
 	private Long idCondominio;
+	private Long idEmpresa;
 	private Long idUser;
 	private CnpTp cnpTp;
 	private String nome;
@@ -29,6 +30,12 @@ public class Condominio {
 	}
 	public void setIdCondominio(Long idCondominio) {
 		this.idCondominio = idCondominio;
+	}
+	public Long getIdEmpresa() {
+		return idEmpresa;
+	}
+	public void setIdEmpresa(Long idEmpresa) {
+		this.idEmpresa = idEmpresa;
 	}
 	public Long getIdUser() {
 		return idUser;

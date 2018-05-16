@@ -13,6 +13,7 @@ function validarForm() {
 	var email = document.getElementById("email");
 	var contratoNum = document.getElementById("contratoNum");
 	var contaCiclo = document.getElementById("contaCiclo");
+	var idEmpresa = document.getElementById("idEmpresa");
 	var situacao = document.getElementById("situacao");
 	var latitude = document.getElementById("latitude");
 	var longitude = document.getElementById("longitude");
@@ -32,6 +33,7 @@ function validarForm() {
 	email.style.removeProperty('border');
 	contratoNum.style.removeProperty('border');
 	contaCiclo.style.removeProperty('border');
+	idEmpresa.style.removeProperty('border');
 	situacao.style.removeProperty('border');
 	endereco.style.removeProperty('border');
 	numero.style.removeProperty('border');
@@ -153,7 +155,14 @@ function validarForm() {
     	contaCiclo.focus();
         return false;
     }
-    else if(situacao.value.trim() == '0') {
+    else if(idEmpresa.value.trim() == '') {
+
+    	idEmpresa.style.borderColor = colorRed;
+    	exibirAviso('Selecione a empresa');
+    	idEmpresa.focus();
+        return false;
+    }    
+    else if(situacao.value.trim() == '') {
 
     	situacao.style.borderColor = colorRed;
     	exibirAviso('Selecione a situação');

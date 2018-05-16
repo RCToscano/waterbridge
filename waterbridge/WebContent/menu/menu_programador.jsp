@@ -104,6 +104,21 @@
                     </ul>
                 </li>
             </ul>
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Vínculos <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="UsuarioMedidorBO?acao=1">Usuário Empresa</a></li>
+                        <li class="divider"></li>
+                        <li><a href="UsuarioMedidorBO?acao=1">Usuário Condominio</a></li>
+                        <li class="divider"></li>
+                        <li><a href="UsuarioMedidorBO?acao=1">Usuário Medidor</a></li>
+                        <li class="divider"></li>
+                        <li><a href="VinculoConsumidorBO?acao=consulta">Consulta</a></li>
+                        <li class="divider"></li>
+                    </ul>
+                </li>
+            </ul>
             <ul class="nav navbar-nav navbar-right">
 	        	<span class="navbar-text">Ol&aacute; ${sessionScope.user.nome}, seja bem-vindo!</span>
 <!-- 		    	<li><a href="#"><span class="glyphicon glyphicon-user"></span> Perfil</a></li> -->

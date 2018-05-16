@@ -12,17 +12,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.google.gson.Gson;
-
 import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.connection.ConnectionFactory;
-import br.com.waterbridge.dao.BridgeDAO;
 import br.com.waterbridge.dao.CnpTpDAO;
 import br.com.waterbridge.dao.CondominioDAO;
+import br.com.waterbridge.dao.EmpresaDAO;
 import br.com.waterbridge.dao.SituacaoDAO;
-import br.com.waterbridge.modelo.Bridge;
 import br.com.waterbridge.modelo.CnpTp;
 import br.com.waterbridge.modelo.Condominio;
+import br.com.waterbridge.modelo.Empresa;
 import br.com.waterbridge.modelo.Situacao;
 import br.com.waterbridge.modelo.User;
 
@@ -41,6 +39,8 @@ public class CondominioBO extends HttpServlet {
 		if (req.getParameter("acao") != null && req.getParameter("acao").equals("1")) {//ENTRA NA TELA DE CADASTRO
 			
 			Connection connection = null;
+			HttpSession session = req.getSession(true);
+            User user = (User) session.getValue("user");
 			
 			try {
 				
@@ -51,11 +51,15 @@ public class CondominioBO extends HttpServlet {
 				
 				SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
 				List<Situacao> listSituacao = situacaoDAO.listar();
+				
+				EmpresaDAO empresaDAO = new EmpresaDAO(connection);
+				List<Empresa> listEmpresa = empresaDAO.listarPorUsuario(user.getIdUser());
 
 				req.setAttribute("tituloTela", "Cadastro de Condom&iacute;nio");
 				req.setAttribute("acao", "CondominioBO?acao=2");
 				req.setAttribute("btNome", "Cadastrar");
 				req.setAttribute("listCnpTp", listCnpTp);
+				req.setAttribute("listEmpresa", listEmpresa);
 				req.setAttribute("listSituacao", listSituacao);
 				req.getRequestDispatcher("/jsp/condominio/cadaltcondominio.jsp").forward(req, res);
 			}
@@ -89,6 +93,7 @@ public class CondominioBO extends HttpServlet {
 				
 					condominio = new Condominio();		
 					condominio.setIdCondominio(0l);
+					condominio.setIdEmpresa(Long.parseLong(req.getParameter("idEmpresa")));
 					condominio.setIdUser(user.getIdUser());
 					condominio.setCnpTp(cnpTp);
 					condominio.setNome(Auxiliar.removerCaracteres(req.getParameter("nome").trim().toUpperCase()));
@@ -139,6 +144,9 @@ public class CondominioBO extends HttpServlet {
 
 				CnpTpDAO cnpTpDAO = new CnpTpDAO(connection);
 				List<CnpTp> listCnpTp = cnpTpDAO.listar();
+				
+				EmpresaDAO empresaDAO = new EmpresaDAO(connection);
+				List<Empresa> listEmpresa = empresaDAO.listarPorUsuario(user.getIdUser());
 
 				SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
 				List<Situacao> listSituacao = situacaoDAO.listar();
@@ -147,6 +155,7 @@ public class CondominioBO extends HttpServlet {
 				req.setAttribute("acao", "CondominioBO?acao=2");
 				req.setAttribute("btNome", "Cadastrar");
 				req.setAttribute("listCnpTp", listCnpTp);
+				req.setAttribute("listEmpresa", listEmpresa);
 				req.setAttribute("listSituacao", listSituacao);
 				req.getRequestDispatcher("/jsp/condominio/cadaltcondominio.jsp").forward(req, res);
 			}
@@ -173,6 +182,9 @@ public class CondominioBO extends HttpServlet {
 				CnpTpDAO cnpTpDAO = new CnpTpDAO(connection);
 				List<CnpTp> listCnpTp = cnpTpDAO.listar();
 
+				EmpresaDAO empresaDAO = new EmpresaDAO(connection);
+				List<Empresa> listEmpresa = empresaDAO.listarPorUsuario(user.getIdUser());
+				
 				SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
 				List<Situacao> listSituacao = situacaoDAO.listar();
 				
@@ -183,6 +195,7 @@ public class CondominioBO extends HttpServlet {
 				req.setAttribute("acao", "CondominioBO?acao=4");
 				req.setAttribute("btNome", "Alterar");
 				req.setAttribute("listCnpTp", listCnpTp);
+				req.setAttribute("listEmpresa", listEmpresa);
 				req.setAttribute("listSituacao", listSituacao);
 				req.setAttribute("condominio", condominio);
 				req.getRequestDispatcher("/jsp/condominio/cadaltcondominio.jsp").forward(req, res);
@@ -212,6 +225,7 @@ public class CondominioBO extends HttpServlet {
 			
 				Condominio condominio = new Condominio();		
 				condominio.setIdCondominio(Long.parseLong(req.getParameter("idCondominio")));
+				condominio.setIdEmpresa(Long.parseLong(req.getParameter("idEmpresa")));
 				condominio.setIdUser(user.getIdUser());
 				condominio.setCnpTp(cnpTp);
 				condominio.setNome(Auxiliar.removerCaracteres(req.getParameter("nome").trim().toUpperCase()));
@@ -247,6 +261,9 @@ public class CondominioBO extends HttpServlet {
 
 				condominio = condominioDAO.buscarPorId(Long.parseLong(req.getParameter("idCondominio")));
 				
+				EmpresaDAO empresaDAO = new EmpresaDAO(connection);
+				List<Empresa> listEmpresa = empresaDAO.listarPorUsuario(user.getIdUser());
+				
 				SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
 				List<Situacao> listSituacao = situacaoDAO.listar();
 
@@ -259,6 +276,7 @@ public class CondominioBO extends HttpServlet {
 				req.setAttribute("acao", "CondominioBO?acao=4");
 				req.setAttribute("btNome", "Alterar");
 				req.setAttribute("listCnpTp", listCnpTp);
+				req.setAttribute("listEmpresa", listEmpresa);
 				req.setAttribute("listSituacao", listSituacao);
 				req.setAttribute("condominio", condominio);
 				req.getRequestDispatcher("/jsp/condominio/cadaltcondominio.jsp").forward(req, res);

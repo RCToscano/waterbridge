@@ -48,10 +48,11 @@ public class CondominioDAO {
     		"       CONTRNUM, " +
     		"       CONTACICLO, " +
     		"       SITUACAO, " +
+    		"       ID_EMPRESA, " +
     		"       DTINSERT " +
             ") VALUES ( " +
             "       ?,?,?,?,?,?,?,?,?,?, " +
-            "       ?,?,?,?,?,?,?,?,?,SYSDATE() " +
+            "       ?,?,?,?,?,?,?,?,?,?,SYSDATE() " +
             ")");
             
             //stmt.setObject(1, condominio.getIdCondominio());
@@ -74,6 +75,7 @@ public class CondominioDAO {
             stmt.setObject(17, condominio.getContratoNum());
             stmt.setObject(18, condominio.getContaCiclo());
             stmt.setObject(19, condominio.getSituacao());
+            stmt.setObject(20, condominio.getIdEmpresa());
             //stmt.setObject(20, condominio.getDtInsert());
             
             stmt.execute();
@@ -121,6 +123,7 @@ public class CondominioDAO {
     		"       CONTRNUM = ?, " +
     		"       CONTACICLO = ?, " +
     		"       SITUACAO = ?, " +
+    		"       ID_EMPRESA = ?, " +
     		"       DTINSERT = SYSDATE() " +
     		"WHERE  ID_CONDOMINIO = ? ");
           
@@ -143,8 +146,9 @@ public class CondominioDAO {
             stmt.setObject(17, condominio.getContratoNum());
             stmt.setObject(18, condominio.getContaCiclo());
             stmt.setObject(19, condominio.getSituacao());
+            stmt.setObject(20, condominio.getIdEmpresa());
             //stmt.setObject(20, condominio.getDtInsert());
-            stmt.setObject(20, condominio.getIdCondominio());
+            stmt.setObject(21, condominio.getIdCondominio());
 
             stmt.execute();
         }
@@ -201,6 +205,7 @@ public class CondominioDAO {
             
             stmt = connection.prepareStatement(
 	    	"SELECT ID_CONDOMINIO, " +
+	    	"		ID_EMPRESA, " +
 	    	"       ID_USER, " +
 	    	"       ID_CNPTP, " +
 	    	"       NOME, " +
@@ -236,6 +241,7 @@ public class CondominioDAO {
             	
             	condominio = new Condominio();
             	condominio.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
+            	condominio.setIdEmpresa(rs.getLong("ID_EMPRESA"));
             	condominio.setIdUser(rs.getLong("ID_USER"));
             	condominio.setCnpTp(cnpTp);
             	condominio.setNome(rs.getString("NOME"));
@@ -287,6 +293,7 @@ public class CondominioDAO {
             
             stmt = connection.prepareStatement(
 	    	"SELECT ID_CONDOMINIO, " +
+			"		ID_EMPRESA, " +
 	    	"       ID_USER, " +
 	    	"       ID_CNPTP, " +
 	    	"       NOME, " +
@@ -322,6 +329,7 @@ public class CondominioDAO {
             	
             	condominio = new Condominio();
             	condominio.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
+            	condominio.setIdEmpresa(rs.getLong("ID_EMPRESA"));
             	condominio.setIdUser(rs.getLong("ID_USER"));
             	condominio.setCnpTp(cnpTp);
             	condominio.setNome(rs.getString("NOME"));
@@ -373,6 +381,7 @@ public class CondominioDAO {
             
             stmt = connection.prepareStatement(
 	    	"SELECT   ID_CONDOMINIO, " +
+			"		  ID_EMPRESA, " +
 	    	"         ID_USER, " +
 	    	"         ID_CNPTP, " +
 	    	"         NOME, " +
@@ -409,6 +418,7 @@ public class CondominioDAO {
             	
             	Condominio condominio = new Condominio();
             	condominio.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
+            	condominio.setIdEmpresa(rs.getLong("ID_EMPRESA"));
             	condominio.setIdUser(rs.getLong("ID_USER"));
             	condominio.setCnpTp(cnpTp);
             	condominio.setNome(rs.getString("NOME"));
@@ -462,6 +472,7 @@ public class CondominioDAO {
             
             stmt = connection.prepareStatement(
 	    	"SELECT   ID_CONDOMINIO, " +
+			"		  ID_EMPRESA, " +
 	    	"         ID_USER, " +
 	    	"         ID_CNPTP, " +
 	    	"         NOME, " +
@@ -495,6 +506,7 @@ public class CondominioDAO {
             	
             	Condominio condominio = new Condominio();
             	condominio.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
+            	condominio.setIdEmpresa(rs.getLong("ID_EMPRESA"));
             	condominio.setIdUser(rs.getLong("ID_USER"));
             	condominio.setCnpTp(cnpTp);
             	condominio.setNome(rs.getString("NOME"));

@@ -4,12 +4,13 @@ public class Empresa {
 	
 	private Long idEmpresa;
 	private Long idUser;
+	private CnpTp cnpTp;
 	private String nome;
 	private String cnpj;
 	private String telFixo;
 	private String telCel;
-	private String responsavel;
 	private String email;
+	private String responsavel;
 	private String endereco;
 	private Long numero;
 	private String compl;
@@ -18,11 +19,10 @@ public class Empresa {
 	private String cep;
 	private String coordX;
 	private String coordY;
+	private String logoPDir;
+	private String logoPNome;
 	private String situacao;
 	private String dtInsert;
-	
-	
-	
 	
 	public Long getIdEmpresa() {
 		return idEmpresa;
@@ -35,6 +35,12 @@ public class Empresa {
 	}
 	public void setIdUser(Long idUser) {
 		this.idUser = idUser;
+	}
+	public CnpTp getCnpTp() {
+		return cnpTp;
+	}
+	public void setCnpTp(CnpTp cnpTp) {
+		this.cnpTp = cnpTp;
 	}
 	public String getNome() {
 		return nome;
@@ -60,17 +66,17 @@ public class Empresa {
 	public void setTelCel(String telCel) {
 		this.telCel = telCel;
 	}
-	public String getResponsavel() {
-		return responsavel;
-	}
-	public void setResponsavel(String responsavel) {
-		this.responsavel = responsavel;
-	}
 	public String getEmail() {
 		return email;
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public String getResponsavel() {
+		return responsavel;
+	}
+	public void setResponsavel(String responsavel) {
+		this.responsavel = responsavel;
 	}
 	public String getEndereco() {
 		return endereco;
@@ -119,6 +125,18 @@ public class Empresa {
 	}
 	public void setCoordY(String coordY) {
 		this.coordY = coordY;
+	}
+	public String getLogoPDir() {
+		return logoPDir;
+	}
+	public void setLogoPDir(String logoPDir) {
+		this.logoPDir = logoPDir;
+	}
+	public String getLogoPNome() {
+		return logoPNome;
+	}
+	public void setLogoPNome(String logoPNome) {
+		this.logoPNome = logoPNome;
 	}
 	public String getSituacao() {
 		return situacao;
