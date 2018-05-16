@@ -31,7 +31,6 @@ public class EmpresaDAO {
             stmt = connection.prepareStatement(
 		    "SELECT    TB_EMPRESA.ID_EMPRESA, " +
 		    "          TB_EMPRESA.ID_USER, " +
-		    "          TB_EMPRESA.ID_CNPTP, " +
 		    "          TB_EMPRESA.NOME, " +
 		    "          TB_EMPRESA.CNP, " +
 		    "          TB_EMPRESA.TELFIXO, " +
@@ -64,7 +63,6 @@ public class EmpresaDAO {
             	Empresa empresa = new Empresa();
             	empresa.setIdEmpresa(rs.getLong("ID_EMPRESA"));
             	empresa.setIdUser(rs.getLong("ID_USER"));
-            	empresa.setCnpTp(new CnpTpDAO(connection).buscar(rs.getLong("ID_CNPTP")));
             	empresa.setNome(rs.getString("NOME"));
             	empresa.setCnpj(rs.getString("CNP"));
             	empresa.setTelFixo(rs.getString("TELFIXO"));

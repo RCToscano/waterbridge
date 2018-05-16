@@ -4,7 +4,6 @@ public class Empresa {
 	
 	private Long idEmpresa;
 	private Long idUser;
-	private CnpTp cnpTp;
 	private String nome;
 	private String cnpj;
 	private String telFixo;
@@ -35,12 +34,6 @@ public class Empresa {
 	}
 	public void setIdUser(Long idUser) {
 		this.idUser = idUser;
-	}
-	public CnpTp getCnpTp() {
-		return cnpTp;
-	}
-	public void setCnpTp(CnpTp cnpTp) {
-		this.cnpTp = cnpTp;
 	}
 	public String getNome() {
 		return nome;
