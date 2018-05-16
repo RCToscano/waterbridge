@@ -4,6 +4,7 @@ package br.com.waterbridge.bo;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -19,10 +20,12 @@ import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.BridgeDAO;
 import br.com.waterbridge.dao.BridgeTpAlimDAO;
 import br.com.waterbridge.dao.CondominioDAO;
+import br.com.waterbridge.dao.EmpresaDAO;
 import br.com.waterbridge.dao.SituacaoDAO;
 import br.com.waterbridge.modelo.Bridge;
 import br.com.waterbridge.modelo.BridgeTpAlim;
 import br.com.waterbridge.modelo.Condominio;
+import br.com.waterbridge.modelo.Empresa;
 import br.com.waterbridge.modelo.Situacao;
 import br.com.waterbridge.modelo.User;
 
@@ -38,17 +41,23 @@ public class UsuarioMedidorBO extends HttpServlet {
 	@Override
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
                    
-		if (req.getParameter("acao") != null && req.getParameter("acao").equals("1")) {//ENTRA NA TELA LISTA MEDIDOR X CONSUMIDOR
+		if (req.getParameter("acao") != null && req.getParameter("acao").equals("1")) {//ENTRA NA TELA LISTA USUARIO X MEDIDOR
 			
 			Connection connection = null;
+			HttpSession session = req.getSession(true);
+            User user = (User) session.getValue("user");
 			
 			try {
 				
 				connection = ConnectionFactory.getConnection();
 				
+				EmpresaDAO empresaDAO = new EmpresaDAO(connection);
+				List<Empresa> listEmpresa = empresaDAO.listarPorUsuario(user.getIdUser());
+				
 				req.setAttribute("tituloTela", "Víncular Usuário Medidor");
 				req.setAttribute("acao", "VinculoConsumidorBO?acao=2");
 				req.setAttribute("btNome", "Buscar");
+				req.setAttribute("listEmpresa", listEmpresa);
 				req.getRequestDispatcher("/jsp/usuariomedidor/listausuariomedidor.jsp").forward(req, res);
 			}
 	        catch (Exception e) {
@@ -61,75 +70,67 @@ public class UsuarioMedidorBO extends HttpServlet {
 				}
 			}
         } 
-		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("2")) {
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("2")) {//POPULA COMBO CONDOMINIO
 
 			Connection connection = null;
 			HttpSession session = req.getSession(true);
             User user = (User) session.getValue("user");
+            String sql = "";
+            String json = "";
 			
 			try {
 			
 				connection = ConnectionFactory.getConnection();
 				
-				BridgeTpAlimDAO bridgeTpAlimDAO = new BridgeTpAlimDAO(connection);
-				List<BridgeTpAlim> listBridgeTpAlim = bridgeTpAlimDAO.listar();
-				
-				SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
-				List<Situacao> listSituacao = situacaoDAO.listar();
-				
 				CondominioDAO condominioDAO = new CondominioDAO(connection);
-				List<Condominio> listCondominio = condominioDAO.listar();
+				List<Condominio> listCondominio = new ArrayList<Condominio>();		
+				if(req.getParameter("idEmpresa") != null && !req.getParameter("idEmpresa").equals("")) {
+					sql += "WHERE ID_CONDOMINIO > 0 " +
+						   "AND   ID_EMPRESA = " + req.getParameter("idEmpresa");
+					listCondominio = condominioDAO.listar(sql);
+				}
+
+				json = new Gson().toJson(listCondominio);
+				
+				res.setContentType("application/json");
+				res.setCharacterEncoding("UTF-8");
+				res.getWriter().write(json);   
+			}
+	        catch (Exception e) {
+	            req.setAttribute("erro", e.toString());
+	            req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
+	        }
+			finally {
+				if(connection != null) {
+					try {connection.close();} catch (SQLException e) {}
+				}
+			}	
+        }
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("3")) { //POPULA COMBO BRIDGE
+
+			Connection connection = null;
+			HttpSession session = req.getSession(true);
+            User user = (User) session.getValue("user");
+            String sql = "";
+            String json = "";
+			
+			try {
+			
+				connection = ConnectionFactory.getConnection();
 				
 				BridgeDAO bridgeDAO = new BridgeDAO(connection);
-				Bridge bridge = bridgeDAO.buscarPorDeviceNum(req.getParameter("deviceNum").trim().toUpperCase()); 
-				
-				if(bridge == null) {
-					
-					BridgeTpAlim bridgeTpAlim = new BridgeTpAlim();
-					bridgeTpAlim.setIdBridgeTpAlim(Long.parseLong(req.getParameter("tpAlimentacao")));
-	
-					bridge = new Bridge();
-					bridge.setIdBridge(0l);
-					bridge.setIdUser(user.getIdUser());
-					bridge.setIdCondominio(Long.parseLong(req.getParameter("idCondominio")));
-					bridge.setDeviceNum(req.getParameter("deviceNum").trim().toUpperCase());
-					bridge.setDtAtivacao(req.getParameter("dtAtivacao"));
-					bridge.setValidadeToken(req.getParameter("validadeToken"));
-					bridge.setBridgeTpAlim(bridgeTpAlim);
-					bridge.setCustoMensal(Double.parseDouble(req.getParameter("custoMensal").replace(".", "").replace(",", ".")));
-					bridge.setTaxaEnvio(Long.parseLong(req.getParameter("taxaEnvio")));
-					bridge.setDescricao(Auxiliar.removerCaracteres(req.getParameter("descricao")).toUpperCase());
-					bridge.setSituacao(req.getParameter("situacao"));
-					bridge.setDtInsert(null);
-					
-					bridgeDAO.inserir(bridge);
-				
-					req.setAttribute("aviso", 
-					"<div class='alert alert-success'>" +
-					"    Cadastro realizado com sucesso!" +
-					"    &emsp;&emsp;" +
-					"    <a href='BridgeBO?acao=3&deviceNum=" + bridge.getDeviceNum() + "'>" + bridge.getDeviceNum() + "</a>" +		
-					"</div>"
-					);
+				List<Bridge> listBridge = new ArrayList<Bridge>();		
+				if(req.getParameter("idCondominio") != null && !req.getParameter("idCondominio").equals("")) {
+					sql += "WHERE ID_BRIDGE > 0 " +
+						   "AND   ID_CONDOMINIO = " + req.getParameter("idCondominio");
+					listBridge = bridgeDAO.listar(sql);
 				}
-				else {
-					
-					req.setAttribute("aviso", 
-					"<div class='alert alert-danger'>" +
-					"    Não foi possível cadastrar.! O cadastro já foi realizado em " + bridge.getDtInsert() +
-					"    &emsp;&emsp;" +
-					"    <a href='BridgeBO?acao=3&deviceNum=" + bridge.getDeviceNum() + "'>" + bridge.getDeviceNum() + "</a>" +
-					"</div>"
-					);
-				}
-				req.setAttribute("tituloTela", "Cadastro de Bridge");
-				req.setAttribute("acao", "BridgeBO?acao=2");
-				req.setAttribute("devicereadonly", "");
-				req.setAttribute("btNome", "Cadastrar");
-				req.setAttribute("listBridgeTpAlim", listBridgeTpAlim);
-				req.setAttribute("listSituacao", listSituacao);
-				req.setAttribute("listCondominio", listCondominio);
-				req.getRequestDispatcher("/jsp/bridge/cadaltbridge.jsp").forward(req, res);				
+
+				json = new Gson().toJson(listBridge);
+				
+				res.setContentType("application/json");
+				res.setCharacterEncoding("UTF-8");
+				res.getWriter().write(json);   
 			}
 	        catch (Exception e) {
 	            req.setAttribute("erro", e.toString());

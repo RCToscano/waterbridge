@@ -11,7 +11,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		
 		<script src="./js/funcoes.auxiliares.js" type="text/javascript"></script>
-	
+	    <script src="./js/usuariomedidor/listausuariomedidor.js" type="text/javascript"></script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	    <script src="http://code.jquery.com/jquery-2.2.4.js" ></script>	
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -55,27 +55,27 @@
 				    <legend>${tituloTela}</legend>
 			  	</fieldset>
 				<div id="divAviso">${aviso}</div>
-				<form role="form" id="formCadBridge" action="CondominioBO?acao=6" method="POST" class="form-horizontal" accept-charset="iso-8859-1,utf-8">
+				<form role="form" id="formUsuarioMedidor" action="#" method="POST" class="form-horizontal" accept-charset="iso-8859-1,utf-8">
 					<div class="form-group">
 						<div class="col-sm-4">
 							<label>Empresa</label> 
-							<select class="form-control" id="idEmpresa" name="idEmpresa" required >
+							<select class="form-control" id="idEmpresa" name="idEmpresa" required onchange="listarCondominio()">
 								<option value="" selected>Selecione...</option>
-								<c:forEach var="situacao" items="${listSituacao}">
-	                     		        <c:choose>
-	                                   	<c:when test="${situacao.situacao eq fabricMedidor.situacao}">
-	                                   		<option value="${situacao.situacao}" selected="true">${situacao.descricao}</option> 
-	                                     	</c:when>
-	                                     	<c:otherwise>
-	                                     		<option value="${situacao.situacao}">${situacao.descricao}</option>
-	                                     	</c:otherwise>
-	                                    </c:choose>
+								<c:forEach var="empresa" items="${listEmpresa}">
+                      		        <c:choose>
+                                    	<c:when test="${empresa.idEmpresa eq condominio.idEmpresa}">
+                                    		<option value="${empresa.idEmpresa}" selected="true">${empresa.nome}</option> 
+                                      	</c:when>
+                                      	<c:otherwise>
+                                      		<option value="${empresa.idEmpresa}">${empresa.nome}</option>
+                                      	</c:otherwise>
+                                     </c:choose>
 		                     	</c:forEach>
-							</select>					
+							</select>
 						</div>
 						<div class="col-sm-4">
 							<label>Local</label> 
-							<select class="form-control" id="idCondominio" name="idCondominio" required >
+							<select class="form-control" id="idCondominio" name="idCondominio" required onchange="listarBridge()">
 								<option value="" selected>Selecione...</option>
 								<c:forEach var="situacao" items="${listSituacao}">
 	                     		        <c:choose>
@@ -91,7 +91,7 @@
 						</div>
 						<div class="col-sm-2">
 							<label>Bridge</label> 
-							<select class="form-control" id="idBridge" name="idBridge" required >
+							<select class="form-control" id="idBridge" name="idBridge" required>
 								<option value="" selected>Selecione...</option>
 								<c:forEach var="situacao" items="${listSituacao}">
 	                     		        <c:choose>
@@ -107,7 +107,7 @@
 						</div>
 						<div class="col-sm-2">
 							<label>Medidor</label> 
-							<select class="form-control" id="idBridge" name="idBridge" required >
+							<select class="form-control" id="idMedidor" name="idMedidor" required >
 								<option value="" selected>Selecione...</option>
 								<c:forEach var="situacao" items="${listSituacao}">
 	                     		        <c:choose>
