@@ -270,7 +270,7 @@ public class MedidorBO extends HttpServlet {
             		req.setAttribute("display", "block");
 	            	req.getRequestDispatcher("/jsp/medidor/consulta.jsp").forward(req, res);
 				}
-            } 
+            }
             
             //Detalhe do Medidor
             else if (relat.equals("detalhe")) {

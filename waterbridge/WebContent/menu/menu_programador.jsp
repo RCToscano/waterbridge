@@ -79,16 +79,9 @@
                          <li class="divider"></li>
                         <li><a href="MedidorBO?acao=consulta">Consulta</a></li>
                          <li class="divider"></li>
-                    </ul>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav">
-                <li>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Fabric Medidor <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="FabricMedidorBO?acao=1">Cadastro</a></li>
+                         <li><a href="FabricMedidorBO?acao=1">Cadastro Fabricante</a></li>
                          <li class="divider"></li>
-                        <li><a href="FabricMedidorBO?acao=5">Consulta</a></li>
+                        <li><a href="FabricMedidorBO?acao=5">Consulta Fabricante</a></li>
                          <li class="divider"></li>
                     </ul>
                 </li>

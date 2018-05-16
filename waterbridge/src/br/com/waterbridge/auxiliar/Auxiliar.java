@@ -17,6 +17,7 @@ import java.util.Date;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import javaxt.io.Image;
 
@@ -177,7 +178,8 @@ public class Auxiliar {
         if (segundos.length() < 2) { segundos = "0" + segundos; } //
         
         //return dia + "/" + mes + "/" + ano + " " + horas + ":" + minutos + ":" + segundos;
-        return ano + mes + dia ;
+        return ano + mes + dia + horas + minutos + segundos;
+//        return ano + mes + dia ;
     }
 
     public static String horaAtual() {
@@ -384,18 +386,17 @@ public class Auxiliar {
         int len;
 
         while ((len = in.read(buf)) > 0) {
-
-                out.write(buf, 0, len);
+        	out.write(buf, 0, len);
         }
 
+        f1.delete();
         in.close();
         out.close();
     }
     
     public static String getPathTemp(){
-        
-        //return "C:\\Temp\\teste\\";
-        return "/home/rbcuid/rbcuid_001_tmp/";
+        return "C:\\temp\\teste\\";
+//        return "/home/rbcuid/rbcuid_001_tmp/";
     }
 
     public static String formatarMinutoParaHora(Long minutos) {
@@ -462,6 +463,10 @@ public class Auxiliar {
     	catch (Exception e) {
     		return null;
     	}
+    }
+    
+    public static String recuperaExtensao(String texto) {
+    	return texto.substring(texto.lastIndexOf("."));
     }
     
 }

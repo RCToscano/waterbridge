@@ -67,8 +67,8 @@
 								<select class="form-control" name="empresa" id="empresa" onChange="validaForm()">
 			                        <option value="" selected>Selecione...</option>
 			                        <option value="todos">TODOS</option>
-			                        <c:forEach var="listaEmpresa" items="${listEmpresa}">
-                             			<option value="${listaEmpresa.idEmpresa}" >${listaEmpresa.nome} - ${listaEmpresa.cnpj}</option>
+			                        <c:forEach var="listaEmpresa" items="${listaEmpresa}">
+                             			<option value="${listaEmpresa.idEmpresa}" >${listaEmpresa.nome} - ${listaEmpresa.cnp}</option>
 			                        </c:forEach>
 			                    </select>
 							</div>
@@ -77,7 +77,7 @@
 						<div class="col-sm-4">
 							<div class="form-group">
 								<label class="control-label">CNPJ</label>
-								<input type="tel" class="form-control" id="cnpj" name="cnpj" placeholder="99.999.999/9999-99" value="${empresa.cnpj}" maxlength="20" required/>
+								<input type="tel" class="form-control" id="cnpj" name="cnpj" placeholder="99.999.999/9999-99" value="${empresa.cnp}" maxlength="20"/>
 							</div>
 						</div>
 						
@@ -101,40 +101,41 @@
 							<table class="table table-hover table-striped">
 								<thead>
 									<tr>
-										<th style="width:1%;">Nº</th>
-										<th style="width:15%;">Fabricante</th>
-										<th style="width:15%;">Modelo</th>
-										<th style="width:15%;">Número</th>
-										<th style="width:15%;">Nº Série</th>
-										<th style="width:5%;">Tipo</th>
-										<th style="width:15%;">Chave</th>
-										<th style="width:5%;">Bateria</th>
-										<th style="width:10%;">Bridge</th>
-										<th style="width:10%;">Posição</th>
+										<th style="width:0.5%;">Nº</th>
+										<th style="width:20%;">Nome</th>
+										<th style="width:15%;">CNPJ</th>
+										<th style="width:15%;">Responsável</th>
+										<th style="width:30%;">Endereço</th>
+										<th>Coordenadas</th>
 										<th></th>
 									</tr>
 								</thead>
 								<tbody id="myTable">
 									<% int cont = 1;%>
 									<c:forEach items="${lista}" var="total">
-										<c:url value="MedidorBO" var="link">
+										<c:url value="EmpresaBO" var="link">
 				                            <c:param name="acao" value="detalhe"/>
-				                            <c:param name="id" value="${total.idMedidor}"/>
+				                            <c:param name="id" value="${total.idEmpresa}"/>
 				                        </c:url>
 										<tr>
 											<td><%=cont%></td>
-											<td><small>${total.fabricMedidor.fabricante}</small></td>
-											<td><small>${total.modelo}</small></td>
-											<td><small>${total.numeroMedidor}</small></td>
-											<td><small>${total.serie}</small></td>
-											<td><small>${total.tipo}</small></td>
-											<td><small>${total.chaveDeCripto}</small></td>
-											<td><small>${total.validBateria}</small></td>
-											<td><small>${total.deviceNum}</small></td>
-											<td><small>${total.meterPosition}</small></td>
+											<td><small>${total.nome}</small></td>
+											<td><small>${total.cnp}</small></td>
+											<td><small>${total.responsavel}</small></td>
+											<td><small>${total.endereco} ${total.numero}</small></td>
+											<td>
+												<c:choose>
+	                                                <c:when test="${total.coordX != null && total.coordX != '' && total.coordX != '0.0'}">
+	                                                    <small><a href="https://www.google.com/maps?q=loc:${total.coordX}+${total.coordY}"  target="_blank">${total.coordX} ${total.coordY}</a></small>
+	                                                </c:when>
+	                                                <c:otherwise>
+	                                                    <small>${total.coordX} ${total.coordY}</small>
+	                                                </c:otherwise>
+	                                            </c:choose>
+											</td>
 											<td>
 												<a href="${link}">
-													<button type="button" class="btn btn-info btn-sm" title="Clique para visualizar o detalhe do Medidor">
+													<button type="button" class="btn btn-info btn-sm" title="Clique para visualizar o detalhe da Empresa">
 														<span class="glyphicon glyphicon-search"></span>
 													</button>
 												</a>

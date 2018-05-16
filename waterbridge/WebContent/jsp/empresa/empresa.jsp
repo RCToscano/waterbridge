@@ -52,8 +52,8 @@
 						</div>
 					</c:if>
 				
-					<form action="EmpresaBO?acao=inserir" method="post" accept-charset="iso-8859-1,utf-8" onsubmit="return validaForm()">
-						<input type="hidden" id="id" name="id" value="${medidor.idMedidor}" />
+					<form action="EmpresaBO?acao=inserir" method="post" enctype="multipart/form-data" accept-charset="iso-8859-1,utf-8" onsubmit="return validaForm()">
+						<input type="hidden" id="id" name="id" value="${empresa.idEmpresa}" />
 						
 						<fieldset>
 							<legend class="text-left">${titulo} de Empresa</legend>
@@ -68,7 +68,7 @@
 							<div class="col-sm-3">
 								<div class="form-group">
 									<label class="control-label">CNPJ:</label>
-									<input type="tel" class="form-control" id="cnpj" name="cnpj" placeholder="99.999.999/9999-99" value="${empresa.cnpj}" maxlength="20" required/>
+									<input type="tel" class="form-control" id="cnpj" name="cnpj" placeholder="99.999.999/9999-99" value="${empresa.cnp}" maxlength="20" required/>
 								</div>
 							</div>
 							
@@ -106,7 +106,7 @@
 										<option value="" selected>Selecione...</option>
 										<c:forEach var="situacao" items="${listSituacao}">
 		                      		        <c:choose>
-		                                    	<c:when test="${situacao.situacao eq medidor.situacao}">
+		                                    	<c:when test="${situacao.situacao eq empresa.situacao}">
 		                                    		<option value="${situacao.situacao}" selected>${situacao.descricao}</option> 
 		                                      	</c:when>
 		                                      	<c:otherwise>
@@ -117,6 +117,15 @@
 									</select>
 								</div>
 							</div>
+							
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label class="control-label">Logo da Empresa (Tamanho 32x32)</label>
+<!-- 	                                <label class="btn btn-primary"> -->
+						                <input type="file" name="logo" id="logo" />
+<!-- 						            </label> -->
+	                            </div>
+                            </div>
 							
 							<div class="col-sm-12"></div>
 							
@@ -186,7 +195,7 @@
 							<div class="col-sm-12">
 								<div class="form-group">
 									<label class="control-label" for="descricao">Informa&ccedil;&atilde;es Adicionais:</label>
-									<textarea class="form-control" rows="3" name="descricao" id="descricao" style="resize:none;" onKeyPress="validaTamanho(this,150)">${empresa.obs}</textarea>
+									<textarea class="form-control" rows="3" name="obs" id="obs" style="resize:none;" onKeyPress="validaTamanho(this,150)">${empresa.obs}</textarea>
 								</div>
 							</div>
 							

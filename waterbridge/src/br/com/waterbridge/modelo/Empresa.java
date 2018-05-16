@@ -5,7 +5,7 @@ public class Empresa {
 	private Long idEmpresa;
 	private Long idUser;
 	private String nome;
-	private String cnpj;
+	private String cnp;
 	private String telFixo;
 	private String telCel;
 	private String email;
@@ -22,6 +22,7 @@ public class Empresa {
 	private String logoPNome;
 	private String situacao;
 	private String dtInsert;
+	private String obs;
 	
 	public Long getIdEmpresa() {
 		return idEmpresa;
@@ -41,11 +42,11 @@ public class Empresa {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public String getCnpj() {
-		return cnpj;
+	public String getCnp() {
+		return cnp;
 	}
-	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
+	public void setCnp(String cnp) {
+		this.cnp = cnp;
 	}
 	public String getTelFixo() {
 		return telFixo;
@@ -143,5 +144,12 @@ public class Empresa {
 	public void setDtInsert(String dtInsert) {
 		this.dtInsert = dtInsert;
 	}
+	public String getObs() {
+		return obs;
+	}
+	public void setObs(String obs) {
+		this.obs = obs;
+	}
+	
 	
 }
