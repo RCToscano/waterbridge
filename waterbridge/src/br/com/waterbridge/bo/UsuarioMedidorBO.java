@@ -21,11 +21,13 @@ import br.com.waterbridge.dao.BridgeDAO;
 import br.com.waterbridge.dao.BridgeTpAlimDAO;
 import br.com.waterbridge.dao.CondominioDAO;
 import br.com.waterbridge.dao.EmpresaDAO;
+import br.com.waterbridge.dao.MedidorDAO;
 import br.com.waterbridge.dao.SituacaoDAO;
 import br.com.waterbridge.modelo.Bridge;
 import br.com.waterbridge.modelo.BridgeTpAlim;
 import br.com.waterbridge.modelo.Condominio;
 import br.com.waterbridge.modelo.Empresa;
+import br.com.waterbridge.modelo.Medidor;
 import br.com.waterbridge.modelo.Situacao;
 import br.com.waterbridge.modelo.User;
 
@@ -142,6 +144,47 @@ public class UsuarioMedidorBO extends HttpServlet {
 				}
 			}	
         }
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("4")) { //POPULA COMBO MEDIDOR
+
+			Connection connection = null;
+			HttpSession session = req.getSession(true);
+            User user = (User) session.getValue("user");
+            String sql = "";
+            String json = "";
+			
+			try {
+			
+				connection = ConnectionFactory.getConnection();
+				
+				MedidorDAO medidorDAO = new MedidorDAO(connection);
+				List<Medidor> listMedidor = new ArrayList<Medidor>();		
+				if(req.getParameter("idBridge") != null && !req.getParameter("idBridge").equals("")) {
+					sql += "WHERE ID_MEDIDOR > 0 " +
+						   "AND   ID_BRIDGE = " + req.getParameter("idBridge");
+					listMedidor = medidorDAO.listar(sql);
+				}
+
+				json = new Gson().toJson(listMedidor);
+				
+				res.setContentType("application/json");
+				res.setCharacterEncoding("UTF-8");
+				res.getWriter().write(json);   
+			}
+	        catch (Exception e) {
+	            req.setAttribute("erro", e.toString());
+	            req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
+	        }
+			finally {
+				if(connection != null) {
+					try {connection.close();} catch (SQLException e) {}
+				}
+			}	
+        }
+		
+		
+		
+		
+		
 		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("3")) {
 
 			Connection connection = null;

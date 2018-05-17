@@ -10,6 +10,9 @@ function listarCondominio() {
         
         $('#idBridge option').remove();
         $('#idBridge').append('<option value="" selected="selected">Selecione...</option>');
+        
+        $('#idMedidor option').remove();
+        $('#idMedidor').append('<option value="" selected="selected">Selecione...</option>');
     }
     else {
     	
@@ -37,6 +40,9 @@ function listarCondominio() {
                 $('#idBridge option').remove();
                 $('#idBridge').append('<option value="" selected="selected">Selecione...</option>');
                 
+                $('#idMedidor option').remove();
+                $('#idMedidor').append('<option value="" selected="selected">Selecione...</option>');
+                
 	            var listCondominio = result;
 	            if(listCondominio != null && listCondominio.length > 0) {
 	                for(i = 0; i < listCondominio.length; i++) {
@@ -63,6 +69,9 @@ function listarBridge() {
     	
     	$('#idBridge option').remove();
         $('#idBridge').append('<option value="" selected="selected">Selecione...</option>');
+        
+        $('#idMedidor option').remove();
+        $('#idMedidor').append('<option value="" selected="selected">Selecione...</option>');
     }
     else {
     	
@@ -86,6 +95,10 @@ function listarBridge() {
 	
 	        	$('#idBridge option').remove();
                 $('#idBridge').append('<option value="" selected="selected">Selecione...</option>');
+                
+                $('#idMedidor option').remove();
+                $('#idMedidor').append('<option value="" selected="selected">Selecione...</option>');
+                
 	            var listBridge = result;
 	            if(listBridge != null && listBridge.length > 0) {
 	                for(i = 0; i < listBridge.length; i++) {
@@ -126,20 +139,20 @@ function listarMedidor() {
 	    }); 
 	    
 	    $.ajax({
-	        url: 'UsuarioMedidorBO?acao=3' +
-	             '&idCondominio=' + idCondominio.value
+	        url: 'UsuarioMedidorBO?acao=4' +
+	             '&idBridge=' + idBridge.value
 	        ,
 	        type: "POST",
 	        dataType: 'json',
 	        success: function(result) {
 	
-	        	$('#idBridge option').remove();
-                $('#idBridge').append('<option value="" selected="selected">Selecione...</option>');
-	            var listBridge = result;
-	            if(listBridge != null && listBridge.length > 0) {
-	                for(i = 0; i < listBridge.length; i++) {
-	                	var bridge = listBridge[i];
-	                    $('#idBridge').append('<option value=' + bridge.idBridge + '>' + bridge.deviceNum + '</option>');
+	        	$('#idMedidor option').remove();
+                $('#idMedidor').append('<option value="" selected="selected">Selecione...</option>');
+	            var listMedidor = result;
+	            if(listMedidor != null && listMedidor.length > 0) {
+	                for(i = 0; i < listMedidor.length; i++) {
+	                	var medidor = listMedidor[i];
+	                    $('#idMedidor').append('<option value=' + medidor.idMedidor + '>' + medidor.numeroMedidor + '</option>');
 	                }
 	            }
 	            $.unblockUI();

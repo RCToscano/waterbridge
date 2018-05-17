@@ -91,7 +91,7 @@
 						</div>
 						<div class="col-sm-2">
 							<label>Bridge</label> 
-							<select class="form-control" id="idBridge" name="idBridge" required>
+							<select class="form-control" id="idBridge" name="idBridge" onchange="listarMedidor()" required>
 								<option value="" selected>Selecione...</option>
 								<c:forEach var="situacao" items="${listSituacao}">
 	                     		        <c:choose>
