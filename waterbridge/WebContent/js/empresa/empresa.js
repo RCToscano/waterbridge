@@ -1,25 +1,30 @@
 
 function validaForm() {
-
-	var divAviso = document.getElementById('divAviso');
-	var aviso = document.getElementById('aviso');
-	var posicao = document.getElementById('posicao');
+	var focar;
+    var texto;
+    var divAviso = document.getElementById("divAviso");
+    var aviso = document.getElementById("aviso");
+    var valida = true;
+	var id = document.getElementById('id');
+	var logo = document.getElementById('logo');
 	
 	divAviso.style.display = "none";
 	aviso.innerHTML = "";
 	
-	if(posicao.value.trim() == '') {
-		
-		divAviso.style.display = "block";
-		aviso.innerHTML = "Informe a posição do medidor";
-		return false;
+	if(id.value == '' && logo.value == '') {
+		texto = "Por favor, selecione o logo da empresa!";
+        focar = document.getElementById("logo");
+        valida = false;
 	}
-	else if(Number(posicao.value) < 1 || Number(posicao.value) > 64 ) {
-		
-		divAviso.style.display = "block";
-		aviso.innerHTML = "A posição do medidor só pode ser de 1 a 64";
-		return false;
-	}
+	
+	if (valida == false) {
+    	divAviso.style.display = "block";
+        aviso.innerHTML = texto;
+    	focar.focus();
+    	$('html, body').animate({ scrollTop: 0 }, 'fast');
+        return false;
+    }
+	
 }
 
 function listarBridgeCadastro() {
@@ -128,3 +133,93 @@ function listarBridgeAlteracao(idBridge) {
 	    });    
 	}
 }
+
+
+function validate_fileupload(fileName) {
+	var el = document.getElementById("feedback");
+	var divArquivo = document.getElementById("divArquivo");
+    var allowed_extensions = new Array("jpg","png","bmp");
+    var file_extension = fileName.split('.').pop().toLowerCase();
+
+    for(var i = 0; i <= allowed_extensions.length; i++) {
+        if(allowed_extensions[i]==file_extension) {
+            divArquivo.style.display = "none";
+            validar_dimensao();
+            return true;
+        }
+    }
+    divArquivo.style.display = "block";
+    el.innerHTML="Arquivo com formato inválido. Formatos aceitos: .jpg .png .bmp";
+    return false;
+}
+
+function validar_dimensao() {
+	var el = document.getElementById("feedback");
+	var divArquivo = document.getElementById("divArquivo");
+	window.URL = window.URL || window.webkitURL;
+	var fileInput = document.getElementById("logo");
+	file = fileInput.files && fileInput.files[0];
+	
+	if(file) {
+        var img = new Image();
+        img.src = window.URL.createObjectURL( file );
+        
+        img.onload = function() {
+            var width = img.naturalWidth,
+                height = img.naturalHeight;
+
+            window.URL.revokeObjectURL( img.src );
+
+            if(width <= 122 && height <= 35 ) {
+                //OK
+            }
+            else {
+            	divArquivo.style.display = "block";
+	            el.innerHTML="Arquivo com dimensão maior que o permitido. Dimensão máxima: 122x35";
+            }
+        };
+        
+        if(file.size > 3000000) {
+        	divArquivo.style.display = "block";
+            el.innerHTML="Arquivo maior que o permitido. Tamanho máximo: 3MB";
+        }
+        
+    }
+    else { //No file was input or browser doesn't support client side reading
+        
+    }
+}
+
+function bs_input_file() {
+	$(".input-file").before(
+		function() {
+			if ( ! $(this).prev().hasClass('input-ghost') ) {
+				var element = $("<input type='file' class='input-ghost' style='visibility:hidden; height:0' id='logo' name='logo'>");
+				element.attr("name",$(this).attr("name"));
+				element.change(function(){
+					element.next(element).find('input').val((element.val()).split('\\').pop());
+					validate_fileupload(element.val());
+				});
+				$(this).find("button.btn-choose").click(function(){
+					element.click();
+				});
+				$(this).find("button.btn-reset").click(function(){
+					document.getElementById("divArquivo").style.display = "none";
+					element.val(null);
+					$(this).parents(".input-file").find('input').val('');
+				});
+				$(this).find('input').css("cursor","pointer");
+				$(this).find('input').mousedown(function() {
+					$(this).parents('.input-file').prev().click();
+					return false;
+				});
+				return element;
+			}
+		}
+	);
+}
+
+$(function() {
+	bs_input_file();
+});
+

@@ -20,7 +20,7 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
 		<script type="text/javascript" src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
 		<script src="http://malsup.github.io/jquery.blockUI.js"></script>
-		<script src="./js/medidor/medidor.js" type="text/javascript"></script>
+		<script src="./js/empresa/empresa.js" type="text/javascript"></script>
 		<script>
             $(function () {
                 $("#telefoneFixo").mask("(99) 9999-9999");
@@ -29,6 +29,8 @@
                 $("#postal_code").mask("99999-999");
             });
         </script>
+        
+        
     </head>
     <body>
         <jsp:include page="/menu/${sessionScope.user.perfil.menu}" ></jsp:include>
@@ -118,15 +120,6 @@
 								</div>
 							</div>
 							
-							<div class="col-sm-12">
-								<div class="form-group">
-									<label class="control-label">Logo da Empresa (Tamanho 32x32)</label>
-<!-- 	                                <label class="btn btn-primary"> -->
-						                <input type="file" name="logo" id="logo" />
-<!-- 						            </label> -->
-	                            </div>
-                            </div>
-							
 							<div class="col-sm-12"></div>
 							
 							<div class="col-sm-7">
@@ -191,6 +184,25 @@
 	                                <input class="form-control" type="tel" name="cep" id="postal_code" maxlength="9" value="${empresa.cep}" required/>
 	                            </div>
 	                        </div>
+	                        
+	                        <div class="col-sm-12">
+								<div class="form-group">
+									<label class="control-label">Logo da Empresa (Dimensão máxima 122x35)</label>
+									<div class="input-group input-file" name="Fichier1">
+										<span class="input-group-btn">
+							        		<button class="btn btn-choose btn-primary" type="button">Selecione</button>
+							    		</span>
+							    		<input type="text" class="form-control" accept=".jpg,.png,.bmp" placeholder="Selecione o logo da empresa..." />
+							    		<span class="input-group-btn">
+							       			 <button class="btn btn-warning btn-reset" type="button">Excluir</button>
+							    		</span>
+									</div>
+								</div>
+								<div id="divArquivo" name="divArquivo" class="alert alert-danger" style="display:none;">
+									<strong><label id='feedback' name='feedback'/></strong>
+								</div>
+								<div id="feedback" style="color: red;"></div>
+							</div>
 
 							<div class="col-sm-12">
 								<div class="form-group">
@@ -218,6 +230,7 @@
             	<div class="col-sm-4 text-center"><img class="img-responsive center-block" src="./images/logo_desoltec_rodape.png" alt=""></div>
             </div>
         </footer>
+        
         
         <!--BUSCA ENDERECO GOOGLE FUNCAO DIEGO-->
 		<script>
@@ -296,7 +309,7 @@
 		        }
 		    }
 		    // [END region_geolocation]
-		</script>                                
+		</script>
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbC6CZeFkfrPPWPI5CLqIZ5tcz5rVRgqY&signed_in=true&libraries=places&callback=initAutocomplete"
 		async defer></script>
         
