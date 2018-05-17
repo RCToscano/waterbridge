@@ -10,6 +10,7 @@ function validarForm() {
 	var tpAlimentacao = document.getElementById("tpAlimentacao");
 	var custoMensal = document.getElementById("custoMensal");
 	var taxaEnvio = document.getElementById("taxaEnvio");
+	var idBridgeTp = document.getElementById("idBridgeTp");
 	var idCondominio = document.getElementById("idCondominio");
 	var situacao = document.getElementById("situacao");
 	var descricao = document.getElementById("descricao");
@@ -21,6 +22,7 @@ function validarForm() {
 	tpAlimentacao.style.removeProperty('border');
 	custoMensal.style.removeProperty('border');
 	taxaEnvio.style.removeProperty('border');
+	idBridgeTp.style.removeProperty('border');
 	situacao.style.removeProperty('border');
 	descricao.style.removeProperty('border');
 
@@ -66,6 +68,13 @@ function validarForm() {
         taxaEnvio.focus();
         return false;
     }
+    else if(taxaEnvio.value.trim() == '') {
+
+    	idBridgeTp.style.borderColor = colorRed;
+    	exibirAviso('Informe o tipo de bridge');
+    	idBridgeTp.focus();
+        return false;
+    }
     else if(isNaN(taxaEnvio.value.trim())) {
 
     	taxaEnvio.style.borderColor = colorRed;
@@ -87,13 +96,6 @@ function validarForm() {
         situacao.focus();
         return false;
     }
-    else if(descricao.value.trim() == '') {
-
-    	descricao.style.borderColor = colorRed;
-        exibirAviso('Preencha a descrição');
-        descricao.focus();
-        return false;
-    }
     else {
     
         $.blockUI({ 
@@ -105,31 +107,6 @@ function validarForm() {
                 border:         '1px solid #aaa'
             }         		
         }); 
-        
-//        $.ajax({
-//            url: 'EscalaGer?acao=10',
-//            data: $('#formrelatescala').serialize(),
-//            type: "POST",
-//            dataType: 'text',
-//            success: function(texto){
-//
-//                document.getElementById('divrelatescala').innerHTML = texto;
-//
-//                //executar scripts dentro da div
-//                var arr = document.getElementById('divscripttabela').getElementsByTagName('script')
-//                for (var n = 0; n < arr.length; n++) {
-//
-//                    eval(arr[n].innerHTML);//run scripts inside div
-//                }
-//
-//                $.unblockUI();
-//            },
-//            error : function(){
-//
-//                $.unblockUI();
-//                alert('erro');
-//            }
-//        });
     }
 }
 

@@ -120,6 +120,7 @@
 											<th>N° Device</th>
 											<th>Data de Ativação</th>
 											<th>Validade do Token</th>
+											<th>Tipo de Bridge</th>
 											<th>Tipo de Alimentação</th>
 											<th>Custo Mensal</th>
 											<th>Taxa de Envio Diário</th>
@@ -134,6 +135,7 @@
 												<td><small>${bridge.deviceNum}</small></td>
 												<td><small>${bridge.dtAtivacao}</small></td>
 												<td><small>${bridge.validadeToken}</small></td>
+												<td><small>${bridge.bridgeTp.bridgeTp}</small></td>
 												<td><small>${bridge.bridgeTpAlim.tpAlimentacao}</small></td>
 												<td><small><fmt:formatNumber value="${bridge.custoMensal}" type="currency" currencySymbol=""/></small></td>
 												<td><small>${bridge.taxaEnvio}</small></td>

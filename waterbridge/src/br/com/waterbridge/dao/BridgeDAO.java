@@ -9,6 +9,7 @@ import java.util.List;
 
 import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.modelo.Bridge;
+import br.com.waterbridge.modelo.BridgeTp;
 import br.com.waterbridge.modelo.BridgeTpAlim;
 
 public class BridgeDAO {
@@ -39,10 +40,11 @@ public class BridgeDAO {
     		"       CUSTOMENSAL, " +
     		"       TAXAENVIO, " +
     		"       SITUACAO, " +
+    		"       ID_BRIDGETP, " +
     		"       DTINSERT " +
             ") VALUES ( " +
             "       ?,?,?,?,?,?,?,?,?,?, " +
-            "       SYSDATE() " +
+            "       ?,SYSDATE() " +
             ")");
             
             //stmt.setObject(1, bridge.getIdBridge());
@@ -56,6 +58,7 @@ public class BridgeDAO {
             stmt.setObject(8, bridge.getCustoMensal());
             stmt.setObject(9, bridge.getTaxaEnvio());
             stmt.setObject(10, bridge.getSituacao());
+            stmt.setObject(11, bridge.getBridgeTp().getIdBridgeTp());
             //stmt.setObject(10, bridge.getDtInsert());
             
             stmt.execute();
@@ -94,6 +97,7 @@ public class BridgeDAO {
     		"       CUSTOMENSAL = ?, " +
     		"       TAXAENVIO = ?, " +
     		"       SITUACAO = ?, " +
+    		"       ID_BRIDGETP = ?, " +
     		"       DTINSERT = SYSDATE() " +
     		"WHERE  ID_BRIDGE = ? ");
             
@@ -107,8 +111,9 @@ public class BridgeDAO {
             stmt.setObject(8, bridge.getCustoMensal());
             stmt.setObject(9, bridge.getTaxaEnvio());
             stmt.setObject(10, bridge.getSituacao());
+            stmt.setObject(11, bridge.getBridgeTp().getIdBridgeTp());
             //stmt.setObject(10, bridge.getDtInsert());
-            stmt.setObject(11, bridge.getIdBridge());
+            stmt.setObject(12, bridge.getIdBridge());
 
             stmt.execute();
         }
@@ -165,6 +170,7 @@ public class BridgeDAO {
             
             stmt = connection.prepareStatement(
     		"SELECT ID_BRIDGE, " +
+    		"		ID_BRIDGETP, " +
             "       ID_BRIDGETPALIM, " +
             "       ID_USER, " +
             "       ID_CONDOMINIO, " +
@@ -186,12 +192,16 @@ public class BridgeDAO {
 
             if (rs.next()) {
             	
+            	BridgeTp bridgeTp = new BridgeTp();
+            	bridgeTp = new BridgeTpDAO(connection).buscar(rs.getLong("ID_BRIDGETP"));
+            	
             	BridgeTpAlim bridgeTpAlim = new BridgeTpAlim();
             	bridgeTpAlim = new BridgeTpAlimDAO(connection).buscar(rs.getLong("ID_BRIDGETPALIM"));
             	
             	bridge = new Bridge();
             	bridge.setIdBridge(rs.getLong("ID_BRIDGE"));
-                bridge.setBridgeTpAlim(bridgeTpAlim);
+            	bridge.setBridgeTp(bridgeTp);
+            	bridge.setBridgeTpAlim(bridgeTpAlim);
                 bridge.setIdUser(rs.getLong("ID_USER"));
                 bridge.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
                 bridge.setDeviceNum(rs.getString("DEVICENUM"));
@@ -233,6 +243,7 @@ public class BridgeDAO {
             
             stmt = connection.prepareStatement(
     		"SELECT ID_BRIDGE, " +
+			"		ID_BRIDGETP, " +
             "       ID_BRIDGETPALIM, " +
             "       ID_USER, " +
             "       ID_CONDOMINIO, " +
@@ -252,11 +263,15 @@ public class BridgeDAO {
 
             while (rs.next()) {
             	
+            	BridgeTp bridgeTp = new BridgeTp();
+            	bridgeTp = new BridgeTpDAO(connection).buscar(rs.getLong("ID_BRIDGETP"));
+            	
             	BridgeTpAlim bridgeTpAlim = new BridgeTpAlim();
             	bridgeTpAlim = new BridgeTpAlimDAO(connection).buscar(rs.getLong("ID_BRIDGETPALIM"));
             	
             	Bridge bridge = new Bridge();
             	bridge.setIdBridge(rs.getLong("ID_BRIDGE"));
+            	bridge.setBridgeTp(bridgeTp);
                 bridge.setBridgeTpAlim(bridgeTpAlim);
                 bridge.setIdUser(rs.getLong("ID_USER"));
                 bridge.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
@@ -301,6 +316,7 @@ public class BridgeDAO {
             
             stmt = connection.prepareStatement(
     		"SELECT ID_BRIDGE, " +
+			"		ID_BRIDGETP, " +
             "       ID_BRIDGETPALIM, " +
             "       ID_USER, " +
             "       ID_CONDOMINIO, " +
@@ -322,11 +338,15 @@ public class BridgeDAO {
 
             if (rs.next()) {
             	
+            	BridgeTp bridgeTp = new BridgeTp();
+            	bridgeTp = new BridgeTpDAO(connection).buscar(rs.getLong("ID_BRIDGETP"));
+            	
             	BridgeTpAlim bridgeTpAlim = new BridgeTpAlim();
             	bridgeTpAlim = new BridgeTpAlimDAO(connection).buscar(rs.getLong("ID_BRIDGETPALIM"));
             	
             	bridge = new Bridge();
             	bridge.setIdBridge(rs.getLong("ID_BRIDGE"));
+            	bridge.setBridgeTp(bridgeTp);
                 bridge.setBridgeTpAlim(bridgeTpAlim);
                 bridge.setIdUser(rs.getLong("ID_USER"));
                 bridge.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
@@ -369,6 +389,7 @@ public class BridgeDAO {
             
             stmt = connection.prepareStatement(
     		"SELECT ID_BRIDGE, " +
+			"		ID_BRIDGETP, " +
             "       ID_BRIDGETPALIM, " +
             "       ID_USER, " +
             "       ID_CONDOMINIO, " +
@@ -388,11 +409,15 @@ public class BridgeDAO {
 
             while (rs.next()) {
             	
+            	BridgeTp bridgeTp = new BridgeTp();
+            	bridgeTp = new BridgeTpDAO(connection).buscar(rs.getLong("ID_BRIDGETP"));
+            	
             	BridgeTpAlim bridgeTpAlim = new BridgeTpAlim();
             	bridgeTpAlim = new BridgeTpAlimDAO(connection).buscar(rs.getLong("ID_BRIDGETPALIM"));
             	
             	Bridge bridge = new Bridge();
             	bridge.setIdBridge(rs.getLong("ID_BRIDGE"));
+            	bridge.setBridgeTp(bridgeTp);
                 bridge.setBridgeTpAlim(bridgeTpAlim);
                 bridge.setIdUser(rs.getLong("ID_USER"));
                 bridge.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
@@ -437,6 +462,7 @@ public class BridgeDAO {
             
             stmt = connection.prepareStatement(
     		"SELECT ID_BRIDGE, " +
+			"		ID_BRIDGETP, " +
             "       ID_BRIDGETPALIM, " +
             "       ID_USER, " +
             "       ID_CONDOMINIO, " +
@@ -458,11 +484,15 @@ public class BridgeDAO {
 
             while (rs.next()) {
             	
+            	BridgeTp bridgeTp = new BridgeTp();
+            	bridgeTp = new BridgeTpDAO(connection).buscar(rs.getLong("ID_BRIDGETP"));
+            	
             	BridgeTpAlim bridgeTpAlim = new BridgeTpAlim();
             	bridgeTpAlim = new BridgeTpAlimDAO(connection).buscar(rs.getLong("ID_BRIDGETPALIM"));
             	
             	Bridge bridge = new Bridge();
             	bridge.setIdBridge(rs.getLong("ID_BRIDGE"));
+            	bridge.setBridgeTp(bridgeTp);
                 bridge.setBridgeTpAlim(bridgeTpAlim);
                 bridge.setIdUser(rs.getLong("ID_USER"));
                 bridge.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
@@ -506,6 +536,7 @@ public class BridgeDAO {
     	try {
     		stmt = connection.prepareStatement(
     				"SELECT ID_BRIDGE, " +
+					"		ID_BRIDGETP, " +
 					"       ID_BRIDGETPALIM, " +
 					"       ID_USER, " +
 					"       ID_CONDOMINIO, " +
@@ -523,11 +554,16 @@ public class BridgeDAO {
     		rs = stmt.executeQuery();
     		
     		while (rs.next()) {
+    			
+    			BridgeTp bridgeTp = new BridgeTp();
+            	bridgeTp = new BridgeTpDAO(connection).buscar(rs.getLong("ID_BRIDGETP"));
+    			
     			BridgeTpAlim bridgeTpAlim = new BridgeTpAlim();
     			bridgeTpAlim = new BridgeTpAlimDAO(connection).buscar(rs.getLong("ID_BRIDGETPALIM"));
     			
     			Bridge bridge = new Bridge();
     			bridge.setIdBridge(rs.getLong("ID_BRIDGE"));
+    			bridge.setBridgeTp(bridgeTp);
     			bridge.setBridgeTpAlim(bridgeTpAlim);
     			bridge.setIdUser(rs.getLong("ID_USER"));
     			bridge.setIdCondominio(rs.getLong("ID_CONDOMINIO"));

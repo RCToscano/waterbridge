@@ -55,28 +55,38 @@
 					</div>
 					<div class="col-sm-4">
 						<label>Data de Ativa&ccedil;&atilde;o</label>
-						<input type='text' class="form-control" id='dtAtivacao' name='dtAtivacao' value="${bridge.dtAtivacao}" required />
-	                    <script type="text/javascript">
-	                        $(function () {
-	                            $('#dtAtivacao').datetimepicker({
-	                                //inline: true,
-	                                sideBySide: true
-	                            });
-	                        });
-	                    </script>
+	                    <div class='input-group date' id='dpDtAtivacao'>
+		                    <input type='text' class="form-control" id='dtAtivacao' name='dtAtivacao' value="${bridge.dtAtivacao}" required />
+	            			<span class="input-group-addon">
+								<span class="glyphicon glyphicon-calendar"></span>
+							</span>
+		                    <script type="text/javascript">
+			                    $(function () {
+		                            $('#dpDtAtivacao').datetimepicker({
+		                                //inline: true,
+		                                sideBySide: true
+		                            });
+		                        });
+		                    </script>
+		                </div> 
 					</div>
 					<div class="col-sm-4">
 		            	<label>Validade do Token</label>
-	                    <input type='text' class="form-control" id='validadeToken' name='validadeToken' value="${bridge.validadeToken}" required/>
-	                    <script type="text/javascript">
-	                        $(function () {
-	                            $('#validadeToken').datetimepicker({
-	                                //inline: true,
-	                                //sideBySide: true
-	                                format: 'DD/MM/YYYY'
-	                            });
-	                        });
-	                    </script>
+		            	<div class='input-group date' id='dpValidadeToken'>
+		                    <input type='text' class="form-control" id='validadeToken' name='validadeToken' value="${bridge.validadeToken}" required/>
+	            			<span class="input-group-addon">
+								<span class="glyphicon glyphicon-calendar"></span>
+							</span>
+		                    <script type="text/javascript">
+		                        $(function () {
+		                            $('#dpValidadeToken').datetimepicker({
+		                                //inline: true,
+		                                //sideBySide: true
+		                                format: 'DD/MM/YYYY'
+		                            });
+		                        });
+		                    </script>
+		                </div>    
 					</div>				
 				</div>
 				<div class="form-group">
@@ -112,7 +122,23 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<div class="col-sm-12">
+				    <div class="col-sm-4">
+						<label>Tipo</label> 
+						<select class="form-control" id="idBridgeTp" name="idBridgeTp" required>
+							<option value="" selected>Selecione...</option>
+							<c:forEach var="bridgeTp" items="${listBridgeTp}">
+                         		<c:choose>
+									<c:when test="${bridgeTp.idBridgeTp == bridge.bridgeTp.idBridgeTp}">
+										<option value="${bridgeTp.idBridgeTp}" selected="selected">${bridgeTp.bridgeTp}</option>
+									</c:when>
+									<c:otherwise>
+										<option value="${bridgeTp.idBridgeTp}">${bridgeTp.bridgeTp}</option>
+									</c:otherwise>
+								</c:choose>
+	                     	</c:forEach>
+						</select>
+					</div>
+					<div class="col-sm-8">
 						<label>Condomínio</label> 
 						<select class="form-control" id="idCondominio" name="idCondominio" required >
 							<option value="" selected>Selecione...</option>

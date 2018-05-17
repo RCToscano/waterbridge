@@ -12,15 +12,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.google.gson.Gson;
-
 import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.BridgeDAO;
 import br.com.waterbridge.dao.BridgeTpAlimDAO;
+import br.com.waterbridge.dao.BridgeTpDAO;
 import br.com.waterbridge.dao.CondominioDAO;
 import br.com.waterbridge.dao.SituacaoDAO;
 import br.com.waterbridge.modelo.Bridge;
+import br.com.waterbridge.modelo.BridgeTp;
 import br.com.waterbridge.modelo.BridgeTpAlim;
 import br.com.waterbridge.modelo.Condominio;
 import br.com.waterbridge.modelo.Situacao;
@@ -49,6 +49,9 @@ public class BridgeBO extends HttpServlet {
 				BridgeTpAlimDAO bridgeTpAlimDAO = new BridgeTpAlimDAO(connection);
 				List<BridgeTpAlim> listBridgeTpAlim = bridgeTpAlimDAO.listar();
 				
+				BridgeTpDAO bridgeTpDAO = new BridgeTpDAO(connection);
+				List<BridgeTp> listBridgeTp = bridgeTpDAO.listar();
+				
 				SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
 				List<Situacao> listSituacao = situacaoDAO.listar();
 				
@@ -60,6 +63,7 @@ public class BridgeBO extends HttpServlet {
 				req.setAttribute("devicereadonly", "");
 				req.setAttribute("btNome", "Cadastrar");
 				req.setAttribute("listBridgeTpAlim", listBridgeTpAlim);
+				req.setAttribute("listBridgeTp", listBridgeTp);
 				req.setAttribute("listSituacao", listSituacao);
 				req.setAttribute("listCondominio", listCondominio);
 				req.getRequestDispatcher("/jsp/bridge/cadaltbridge.jsp").forward(req, res);
@@ -87,6 +91,9 @@ public class BridgeBO extends HttpServlet {
 				BridgeTpAlimDAO bridgeTpAlimDAO = new BridgeTpAlimDAO(connection);
 				List<BridgeTpAlim> listBridgeTpAlim = bridgeTpAlimDAO.listar();
 				
+				BridgeTpDAO bridgeTpDAO = new BridgeTpDAO(connection);
+				List<BridgeTp> listBridgeTp = bridgeTpDAO.listar();
+				
 				SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
 				List<Situacao> listSituacao = situacaoDAO.listar();
 				
@@ -98,6 +105,9 @@ public class BridgeBO extends HttpServlet {
 				
 				if(bridge == null) {
 					
+					BridgeTp bridgeTp = new BridgeTp();
+					bridgeTp.setIdBridgeTp(Long.parseLong(req.getParameter("idBridgeTp")));
+					
 					BridgeTpAlim bridgeTpAlim = new BridgeTpAlim();
 					bridgeTpAlim.setIdBridgeTpAlim(Long.parseLong(req.getParameter("tpAlimentacao")));
 	
@@ -108,6 +118,7 @@ public class BridgeBO extends HttpServlet {
 					bridge.setDeviceNum(req.getParameter("deviceNum").trim().toUpperCase());
 					bridge.setDtAtivacao(req.getParameter("dtAtivacao"));
 					bridge.setValidadeToken(req.getParameter("validadeToken"));
+					bridge.setBridgeTp(bridgeTp);
 					bridge.setBridgeTpAlim(bridgeTpAlim);
 					bridge.setCustoMensal(Double.parseDouble(req.getParameter("custoMensal").replace(".", "").replace(",", ".")));
 					bridge.setTaxaEnvio(Long.parseLong(req.getParameter("taxaEnvio")));
@@ -140,6 +151,7 @@ public class BridgeBO extends HttpServlet {
 				req.setAttribute("devicereadonly", "");
 				req.setAttribute("btNome", "Cadastrar");
 				req.setAttribute("listBridgeTpAlim", listBridgeTpAlim);
+				req.setAttribute("listBridgeTp", listBridgeTp);
 				req.setAttribute("listSituacao", listSituacao);
 				req.setAttribute("listCondominio", listCondominio);
 				req.getRequestDispatcher("/jsp/bridge/cadaltbridge.jsp").forward(req, res);				
@@ -167,6 +179,9 @@ public class BridgeBO extends HttpServlet {
 				BridgeTpAlimDAO bridgeTpAlimDAO = new BridgeTpAlimDAO(connection);
 				List<BridgeTpAlim> listBridgeTpAlim = bridgeTpAlimDAO.listar();
 				
+				BridgeTpDAO bridgeTpDAO = new BridgeTpDAO(connection);
+				List<BridgeTp> listBridgeTp = bridgeTpDAO.listar();
+				
 				SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
 				List<Situacao> listSituacao = situacaoDAO.listar();
 				
@@ -181,6 +196,7 @@ public class BridgeBO extends HttpServlet {
 				req.setAttribute("devicereadonly", "readonly='readonly'");
 				req.setAttribute("btNome", "Alterar");
 				req.setAttribute("listBridgeTpAlim", listBridgeTpAlim);
+				req.setAttribute("listBridgeTp", listBridgeTp);
 				req.setAttribute("listSituacao", listSituacao);
 				req.setAttribute("listCondominio", listCondominio);
 				req.setAttribute("bridge", bridge);
@@ -206,6 +222,9 @@ public class BridgeBO extends HttpServlet {
 			
 				connection = ConnectionFactory.getConnection();
 
+				BridgeTp bridgeTp = new BridgeTp();
+				bridgeTp.setIdBridgeTp(Long.parseLong(req.getParameter("idBridgeTp")));
+				
 				BridgeTpAlim bridgeTpAlim = new BridgeTpAlim();
 				bridgeTpAlim.setIdBridgeTpAlim(Long.parseLong(req.getParameter("tpAlimentacao")));
 
@@ -216,6 +235,7 @@ public class BridgeBO extends HttpServlet {
 				bridge.setDeviceNum(req.getParameter("deviceNum").trim().toUpperCase());
 				bridge.setDtAtivacao(req.getParameter("dtAtivacao"));
 				bridge.setValidadeToken(req.getParameter("validadeToken"));
+				bridge.setBridgeTp(bridgeTp);
 				bridge.setBridgeTpAlim(bridgeTpAlim);
 				bridge.setCustoMensal(Double.parseDouble(req.getParameter("custoMensal").replace(".", "").replace(",", ".")));
 				bridge.setTaxaEnvio(Long.parseLong(req.getParameter("taxaEnvio")));
@@ -228,6 +248,9 @@ public class BridgeBO extends HttpServlet {
 
 				BridgeTpAlimDAO bridgeTpAlimDAO = new BridgeTpAlimDAO(connection);
 				List<BridgeTpAlim> listBridgeTpAlim = bridgeTpAlimDAO.listar();
+				
+				BridgeTpDAO bridgeTpDAO = new BridgeTpDAO(connection);
+				List<BridgeTp> listBridgeTp = bridgeTpDAO.listar();
 				
 				CondominioDAO condominioDAO = new CondominioDAO(connection);
 				List<Condominio> listCondominio = condominioDAO.listar();
@@ -247,6 +270,7 @@ public class BridgeBO extends HttpServlet {
 				req.setAttribute("devicereadonly", "readonly='readonly'");
 				req.setAttribute("btNome", "Alterar");
 				req.setAttribute("listBridgeTpAlim", listBridgeTpAlim);
+				req.setAttribute("listBridgeTp", listBridgeTp);
 				req.setAttribute("listSituacao", listSituacao);
 				req.setAttribute("listCondominio", listCondominio);
 				req.setAttribute("bridge", bridge);

@@ -8,6 +8,7 @@ public class Bridge {
 	private String deviceNum;
 	private String dtAtivacao;
 	private String validadeToken;
+	private BridgeTp bridgeTp;
 	private BridgeTpAlim bridgeTpAlim;
 	private Double custoMensal;
 	private Long taxaEnvio;
@@ -51,6 +52,12 @@ public class Bridge {
 	public void setValidadeToken(String validadeToken) {
 		this.validadeToken = validadeToken;
 	}
+	public BridgeTp getBridgeTp() {
+		return bridgeTp;
+	}
+	public void setBridgeTp(BridgeTp bridgeTp) {
+		this.bridgeTp = bridgeTp;
+	}
 	public BridgeTpAlim getBridgeTpAlim() {
 		return bridgeTpAlim;
 	}
@@ -87,5 +94,5 @@ public class Bridge {
 	public void setDtInsert(String dtInsert) {
 		this.dtInsert = dtInsert;
 	}
-	
+
 }
