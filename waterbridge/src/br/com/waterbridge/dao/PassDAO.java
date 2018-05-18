@@ -43,6 +43,10 @@ public class PassDAO {
     	PreparedStatement stmt = null;
     	ResultSet rs = null;
     	try {
+    		
+    		//LOGA REGISTRO ANTES DE ALTERAR
+            logar(pass.getIdUser());
+    		
     		stmt = connection.prepareStatement(
     				" UPDATE TB_PASS SET " +
 					" PASS = ? " + 
@@ -53,6 +57,54 @@ public class PassDAO {
     		stmt.setObject(2, pass.getIdUser());
     		stmt.executeUpdate();
     	} 
+    	finally {
+    		if(stmt != null)
+    			stmt.close();
+    		if(rs != null)
+    			rs.close();
+    	}
+    }
+    
+    public void logar(Long idUser) throws Exception {
+        PreparedStatement stmt = null;
+        try {
+            stmt = connection.prepareStatement(
+            "INSERT INTO TB_PASSLOG " +
+            "SELECT * " +
+            "FROM   TB_PASS " +
+            "WHERE  ID_USER = ? "
+            );
+
+            stmt.setLong(1, idUser);
+            stmt.executeUpdate();
+        }
+        finally {
+            if(stmt != null)
+                stmt.close();
+        }
+    }
+    
+    public Pass buscarSenha(Long idUser) throws Exception {
+    	PreparedStatement stmt = null;
+    	ResultSet rs = null;
+    	try {
+    		stmt = connection.prepareStatement(
+					"SELECT TB_PASS.* " +
+					"  FROM TB_PASS " +
+					" WHERE ID_USER = ? "
+    		);
+    		
+    		stmt.setObject(1, idUser);
+    		rs = stmt.executeQuery();
+    		
+    		Pass pass = new Pass();
+            if(rs.next()) {
+            	pass.setIdUser(idUser);
+            	pass.setIdPass(rs.getLong("ID_PASS"));
+            	pass.setPass(rs.getString("PASS"));
+            }
+            return pass;
+    	}
     	finally {
     		if(stmt != null)
     			stmt.close();

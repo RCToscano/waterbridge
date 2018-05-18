@@ -63,19 +63,19 @@ public class EmpresaBO extends HttpServlet {
             		User user = (User) req.getSession().getAttribute("user");
             		
             		empresa.setIdUser(user.getIdUser());
-            		empresa.setNome(Auxiliar.removerCaracteres(mpr.getParameter("nome").trim().toUpperCase()));
+            		empresa.setNome(Auxiliar.removerCaracteres(mpr.getParameter("nome").trim()).toUpperCase());
             		empresa.setCnp(mpr.getParameter("cnpj"));
-            		empresa.setResponsavel(Auxiliar.removerCaracteres(mpr.getParameter("responsavel").trim().toUpperCase()));
+            		empresa.setResponsavel(Auxiliar.removerCaracteres(mpr.getParameter("responsavel").trim()).toUpperCase());
             		empresa.setTelFixo(mpr.getParameter("telefoneFixo"));
             		empresa.setTelCel(mpr.getParameter("telefoneCelular"));
             		empresa.setEmail(mpr.getParameter("email").trim());
             		empresa.setSituacao(mpr.getParameter("situacao"));
-            		empresa.setEndereco(Auxiliar.removerCaracteres(mpr.getParameter("endereco").trim().toUpperCase()));
+            		empresa.setEndereco(Auxiliar.removerCaracteres(mpr.getParameter("endereco").trim()).toUpperCase());
             		empresa.setNumero(Long.parseLong(mpr.getParameter("numero")));
-            		empresa.setCompl(Auxiliar.removerCaracteres(mpr.getParameter("compl").trim().toUpperCase()));
-            		empresa.setMunicipio(Auxiliar.removerCaracteres(mpr.getParameter("municipio").trim().toUpperCase()));
+            		empresa.setCompl(Auxiliar.removerCaracteres(mpr.getParameter("compl").trim()).toUpperCase());
+            		empresa.setMunicipio(Auxiliar.removerCaracteres(mpr.getParameter("municipio").trim()).toUpperCase());
             		empresa.setUf(mpr.getParameter("estado").trim().toUpperCase());
-            		empresa.setCep(mpr.getParameter("cep").trim().toUpperCase());
+            		empresa.setCep(mpr.getParameter("cep").trim());
             		empresa.setObs(Auxiliar.removerCaracteres(mpr.getParameter("obs").trim()));
 					if(mpr.getParameter("latitude").trim().equals("")) {
 						empresa.setCoordX("0.0");

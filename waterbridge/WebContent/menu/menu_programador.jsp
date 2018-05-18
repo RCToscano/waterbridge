@@ -114,7 +114,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
 	        	<span class="navbar-text">Ol&aacute; ${sessionScope.user.nome}, seja bem-vindo!</span>
-<!-- 		    	<li><a href="#"><span class="glyphicon glyphicon-user"></span> Perfil</a></li> -->
+		    	<li><a href="UsuarioBO?acao=perfil"><span class="glyphicon glyphicon-user"></span> Perfil</a></li>
 		    	<li><a href="Login?r=logout"><span class="glyphicon glyphicon-log-in"></span> Sair</a></li>
 <!-- 		    	<li><a data-toggle="modal" data-target="#myModal" href="Login?r=logout"><span class="glyphicon glyphicon-log-in"></span> Sair</a></li> -->
 		    </ul>

@@ -22,19 +22,15 @@ public class UserDAO {
         this.connection = connection;
     }
 
-    public User login(String email, String senha) throws SQLException {
+    public User login(String email, String senha) throws Exception {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         User user = null;
+        SimpleDateFormat formatoBanco = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
         try {
             stmt = connection.prepareStatement(
-            "SELECT    TB_USER.ID_USER, " +
-            "          TB_USER.NOME, " +
-            "          TB_USER.EMAIL, " +
-            "          TB_USER.SEXO, " +
-            "          CHAR(TB_USER.DTNASC,'DD/MM/YYYY') AS DTNASC, " +        
-            "          CHAR(TB_USER.DTINSERT,'DD/MM/YYYY') AS DTINSERT, " +
-            "          TB_USER.SITUACAO, " +
+            "SELECT    TB_USER.*, " +
             "          TB_PERFIL.ID_PERFIL, " +
             "          TB_PERFIL.PERFIL, " +
             "          TB_PERFIL.MENU, " +
@@ -45,7 +41,7 @@ public class UserDAO {
             "ON        TB_USER.ID_PERFIL = TB_PERFIL.ID_PERFIL " +
             "LEFT JOIN TB_PASS " +
             "ON        TB_USER.ID_USER = TB_PASS.ID_USER " +
-            "WHERE     TB_USER.EMAIL = ? " +
+            "WHERE     TB_USER.USUARIO = ? " +
             "AND       TB_PASS.PASS = ? "
             );
             
@@ -60,28 +56,30 @@ public class UserDAO {
                 perfil.setPerfil(rs.getString("PERFIL"));
                 perfil.setMenu(rs.getString("MENU"));
                 
-                Pass pass = new Pass();
-                pass.setIdPass(rs.getLong("ID_PASS"));
-                pass.setIdUser(rs.getLong("ID_USER"));
-                pass.setPass(rs.getString("PASS"));
-                
                 user = new User();
                 user.setIdUser(rs.getLong("ID_USER"));
+                user.setUsuario(rs.getString("USUARIO"));
                 user.setPerfil(perfil);
-                user.setPass(pass);
                 user.setNome(rs.getString("NOME"));
                 user.setEmail(rs.getString("EMAIL"));
                 user.setSexo(rs.getString("SEXO"));
                 user.setDtNasc(rs.getString("DTNASC"));
                 user.setDtInsert(rs.getString("DTINSERT"));
                 user.setSituacao(rs.getString("SITUACAO"));
+                user.setDtNasc(formatoData.format(formatoBanco.parse(rs.getString("DTNASC"))));
+                user.setCpf(rs.getString("CPF"));
+        		user.setTelFixo(rs.getString("TELFIXO"));
+        		user.setTelCel(rs.getString("TELCEL"));
+        		user.setEndereco(rs.getString("ENDERECO"));
+        		user.setNumero(rs.getLong("NUMERO"));
+        		user.setCompl(rs.getString("COMPL"));
+        		user.setMunicipio(rs.getString("MUNICIPIO"));
+        		user.setUf(rs.getString("UF"));
+        		user.setCep(rs.getString("CEP"));
                 user.setListPermissao(new PermissaoDAO(connection).listar(rs.getLong("ID_USER")));
             }
 
             return user;
-        } 
-        catch (Exception e) {
-            throw e;
         } 
         finally {
             if (stmt != null) {
@@ -132,6 +130,7 @@ public class UserDAO {
 
                 user = new User();
                 user.setIdUser(rs.getLong("ID_USER"));
+                user.setUsuario(rs.getString("USUARIO"));
                 user.setCpf(rs.getString("CPF"));
         		user.setNome(rs.getString("NOME"));
         		user.setDtNasc(formatoData.format(formatoBanco.parse(rs.getString("DTNASC"))));
@@ -201,6 +200,7 @@ public class UserDAO {
     			
     			user = new User();
     			user.setIdUser(rs.getLong("ID_USER"));
+    			user.setUsuario(rs.getString("USUARIO"));
     			user.setCpf(rs.getString("CPF"));
     			user.setNome(rs.getString("NOME"));
     			user.setDtNasc(formatoData.format(formatoBanco.parse(rs.getString("DTNASC"))));
@@ -270,6 +270,7 @@ public class UserDAO {
     			
     			user = new User();
     			user.setIdUser(rs.getLong("ID_USER"));
+    			user.setUsuario(rs.getString("USUARIO"));
     			user.setCpf(rs.getString("CPF"));
     			user.setNome(rs.getString("NOME"));
     			user.setDtNasc(formatoData.format(formatoBanco.parse(rs.getString("DTNASC"))));
@@ -339,6 +340,7 @@ public class UserDAO {
     			
     			user = new User();
     			user.setIdUser(rs.getLong("ID_USER"));
+    			user.setUsuario(rs.getString("USUARIO"));
     			user.setCpf(rs.getString("CPF"));
     			user.setNome(rs.getString("NOME"));
     			user.setDtNasc(formatoData.format(formatoBanco.parse(rs.getString("DTNASC"))));
@@ -408,6 +410,7 @@ public class UserDAO {
     			
     			user = new User();
     			user.setIdUser(rs.getLong("ID_USER"));
+    			user.setUsuario(rs.getString("USUARIO"));
     			user.setCpf(rs.getString("CPF"));
     			user.setNome(rs.getString("NOME"));
     			user.setDtNasc(formatoData.format(formatoBanco.parse(rs.getString("DTNASC"))));
@@ -575,8 +578,8 @@ public class UserDAO {
     		stmt.setObject(4, user.getSexo());
     		stmt.setObject(5, user.getDtNasc());
     		stmt.setObject(6, user.getSituacao());
-    		stmt.setObject(7, user.getCpf());
-    		stmt.setObject(8, user.getUsuario());
+    		stmt.setObject(7, user.getUsuario());
+    		stmt.setObject(8, user.getCpf());
     		stmt.setObject(9, user.getTelFixo());
     		stmt.setObject(10, user.getEndereco());
     		stmt.setObject(11, user.getNumero());
@@ -672,18 +675,5 @@ public class UserDAO {
                 rs.close();
         }
     }
-
-//    public static void main(String[] args) throws SQLException {
-// 
-//        Connection conn = ConnectionFactory.getConnection();
-//        
-//        UserDAO userDAO = new UserDAO(conn);
-//        //User user = userDAO.buscarPorId("2");
-//        User user = userDAO.login("wagnersoarescamargo@gmail.com", "cama");
-//        System.out.println("usuario: " + user.getNome());
-//        System.out.println("perfil: " + user.getPerfil().getPerfil());
-//        System.out.println("pass: " + user.getPass().getPass());
-//        
-//        conn.close();
-//    }
+    
 }

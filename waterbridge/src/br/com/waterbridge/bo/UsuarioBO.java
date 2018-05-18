@@ -72,17 +72,17 @@ public class UsuarioBO extends HttpServlet {
             		
             		user.setCpf(req.getParameter("cpf"));
             		user.setUsuario(req.getParameter("cpf"));
-            		user.setNome(Auxiliar.removerCaracteres(req.getParameter("name").trim().toUpperCase()));
+            		user.setNome(Auxiliar.removerCaracteres(req.getParameter("name").trim()).toUpperCase());
             		user.setDtNasc(formatoBanco.format(formatoData.parse(req.getParameter("dtNascimento"))));
             		user.setSexo(req.getParameter("sexo"));
             		user.setTelFixo(req.getParameter("telefoneFixo"));
             		user.setTelCel(req.getParameter("telefoneCelular"));
             		user.setEmail(req.getParameter("email"));
-            		user.setEndereco(Auxiliar.removerCaracteres(req.getParameter("endereco").trim().toUpperCase()));
+            		user.setEndereco(Auxiliar.removerCaracteres(req.getParameter("endereco").trim()).toUpperCase());
             		user.setNumero(Auxiliar.converteLong(req.getParameter("numero")));
-            		user.setCompl(Auxiliar.removerCaracteres(req.getParameter("compl").trim().toUpperCase()));
-            		user.setMunicipio(Auxiliar.removerCaracteres(req.getParameter("municipio").trim().toUpperCase()));
-            		user.setUf(Auxiliar.removerCaracteres(req.getParameter("estado").trim().toUpperCase()));
+            		user.setCompl(Auxiliar.removerCaracteres(req.getParameter("compl").trim()).toUpperCase());
+            		user.setMunicipio(Auxiliar.removerCaracteres(req.getParameter("municipio").trim()).toUpperCase());
+            		user.setUf(Auxiliar.removerCaracteres(req.getParameter("estado").trim()).toUpperCase());
             		user.setCep(req.getParameter("cep"));
             		if(req.getParameter("latitude").trim().equals("")) {
             			user.setCoordx("0.0");
@@ -175,6 +175,8 @@ public class UsuarioBO extends HttpServlet {
             		req.getRequestDispatcher("/jsp/usuario/usuario.jsp").forward(req, res);
 				}
             }
+            
+            //Consulta
             else if (relat.equals("consulta")) {
             	PerfilDAO perfilDAO = new PerfilDAO(connection);
             	List<Perfil> listaPerfil = perfilDAO.listarTodos();
@@ -300,6 +302,111 @@ public class UsuarioBO extends HttpServlet {
         		req.setAttribute("botao", "Alterar");
         		req.getRequestDispatcher("/jsp/usuario/usuario.jsp").forward(req, res);
             }
+            
+            //Perfil
+            else if (relat.equals("perfil")) {
+            	User user = (User) req.getSession().getAttribute("user");
+            	
+            	List<SexoEnum> listaSexo = SexoEnum.listCodigos();
+            	req.setAttribute("usuario", user);
+            	req.setAttribute("listaSexo", listaSexo);
+            	req.setAttribute("display", "none");
+            	req.getRequestDispatcher("/jsp/usuario/perfil.jsp").forward(req, res);
+            }
+            
+            //Alterar Perfil
+            else if (relat.equals("alterarPerfil")) {
+            	SimpleDateFormat formatoBanco = new SimpleDateFormat("yyyy-MM-dd");
+        		SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
+        		User usuario = (User) req.getSession().getAttribute("user");
+        		User user = new User();
+            	try {
+            		user.setCpf(req.getParameter("cpf"));
+            		user.setNome(Auxiliar.removerCaracteres(req.getParameter("name").trim()).toUpperCase());
+            		user.setDtNasc(formatoBanco.format(formatoData.parse(req.getParameter("dtNascimento"))));
+            		user.setSexo(req.getParameter("sexo"));
+            		user.setTelFixo(req.getParameter("telefoneFixo"));
+            		user.setTelCel(req.getParameter("telefoneCelular"));
+            		user.setEmail(req.getParameter("email"));
+            		user.setEndereco(Auxiliar.removerCaracteres(req.getParameter("endereco").trim()).toUpperCase());
+            		user.setNumero(Auxiliar.converteLong(req.getParameter("numero")));
+            		user.setCompl(Auxiliar.removerCaracteres(req.getParameter("compl").trim()).toUpperCase());
+            		user.setMunicipio(Auxiliar.removerCaracteres(req.getParameter("municipio").trim()).toUpperCase());
+            		user.setUf(Auxiliar.removerCaracteres(req.getParameter("estado").trim()).toUpperCase());
+            		user.setCep(req.getParameter("cep"));
+            		if(req.getParameter("latitude").trim().equals("")) {
+            			user.setCoordx("0.0");
+            			user.setCoordy("0.0");
+					}
+					else {
+						user.setCoordx(req.getParameter("latitude"));
+						user.setCoordy(req.getParameter("longitude"));
+					}
+            		user.setSituacao(usuario.getSituacao());
+            		user.setUsuario(usuario.getUsuario());
+            		user.setPerfil(usuario.getPerfil());
+        			user.setIdUser(usuario.getIdUser());
+        			
+        			UserDAO userDAO = new UserDAO(connection);
+        			userDAO.alterar(user);
+        			
+            		user.setDtNasc(formatoData.format(formatoBanco.parse(user.getDtNasc())));
+            		
+            		List<SexoEnum> listaSexo = SexoEnum.listCodigos();
+            		req.setAttribute("listaSexo", listaSexo);
+            		req.setAttribute("usuario", user);
+            		req.setAttribute("display", "none");
+            		req.setAttribute("sucesso", "Alterações realizadas com sucesso!");
+            		
+            		req.getRequestDispatcher("/jsp/usuario/perfil.jsp").forward(req, res);
+				} 
+            	catch (Exception e) {
+            		System.out.println(e);
+            		List<SexoEnum> listaSexo = SexoEnum.listCodigos();
+                	req.setAttribute("listaSexo", listaSexo);
+            		req.setAttribute("usuario", user);
+            		req.setAttribute("aviso", Constantes.CONTATO_SUPORTE);
+            		req.setAttribute("display", "block");
+            		req.getRequestDispatcher("/jsp/usuario/perfil.jsp").forward(req, res);
+				}
+            }
+            
+            
+            //Alterar senha
+            else if (relat.equals("alterarSenha")) {
+            	User user = (User) req.getSession().getAttribute("user");
+            	try {
+            		connection = ConnectionFactory.getConnection();
+            		PassDAO passDAO = new PassDAO(connection);
+            		
+            		Pass pass = passDAO.buscarSenha(user.getIdUser());
+            		String senha = req.getParameter("senha");
+            		if(senha.equals(pass.getPass())) {
+            			pass.setPass(req.getParameter("novaSenha"));
+            			passDAO.alterar(pass);
+            			
+            			req.setAttribute("display", "none");
+            			req.setAttribute("sucesso", "Senha alterada com sucesso!");
+            		}
+            		else {
+            			req.setAttribute("aviso", "Senha atual informada incorreta!");
+                    	req.setAttribute("display", "block");
+            		}
+            	} 
+            	catch (Exception e) {
+            		System.out.println(e);
+            		req.setAttribute("aviso", Constantes.CONTATO_SUPORTE);
+                	req.setAttribute("display", "block");
+            	}
+            	finally {
+            		List<SexoEnum> listaSexo = SexoEnum.listCodigos();
+                	req.setAttribute("listaSexo", listaSexo);
+            		req.setAttribute("usuario", user);
+            		req.getRequestDispatcher("/jsp/usuario/perfil.jsp").forward(req, res);
+            	}
+            }
+            
+            
         }
         catch (Exception e) {
             req.setAttribute("erro", e.toString());
