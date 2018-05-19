@@ -112,4 +112,42 @@ public class PassDAO {
     			rs.close();
     	}
     }
+    
+public Pass buscarPorIdUser(Long idUser) throws Exception {
+		
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Pass pass = null;
+        
+        try {
+            stmt = connection.prepareStatement(
+            "SELECT ID_PASS, " +
+            "		PASS, " +
+            "		ID_USER " +
+            "FROM   TB_PASS " +
+            "WHERE  ID_PASS = ? "
+            );
+            
+            stmt.setObject(1, idUser);
+            
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+            	
+            	pass = new Pass();
+            	pass.setIdPass(rs.getLong("ID_PASS"));
+            	pass.setIdUser(rs.getLong("ID_USER"));
+            	pass.setPass(rs.getString("PASS"));
+            }
+            return pass;
+        } 
+        finally {
+        	
+            if(stmt != null)
+                stmt.close();
+            if(rs != null)
+                rs.close();
+        }
+    }
+
 }
