@@ -16,6 +16,23 @@ function validaForm() {
         focar = document.getElementById("logo");
         valida = false;
 	}
+	if(document.getElementById("street_number").value <= 0){
+    	texto = "Número do endereço inválido!";
+        focar = document.getElementById("street_number");
+        valida = false;
+    }
+    if(document.getElementById("telefoneFixo").value != '' 
+    		&& document.getElementById("telefoneFixo").value.length < 14) {
+    	texto = "Telefone informado inválido!";
+        focar = document.getElementById("telefoneFixo");
+        valida = false;
+    }
+    if(document.getElementById("telefoneCelular").value != '' 
+    	&& document.getElementById("telefoneCelular").value.length < 14) {
+    	texto = "Celular informado inválido!";
+    	focar = document.getElementById("telefoneCelular");
+    	valida = false;
+    }
 	
 	if (valida == false) {
     	divAviso.style.display = "block";

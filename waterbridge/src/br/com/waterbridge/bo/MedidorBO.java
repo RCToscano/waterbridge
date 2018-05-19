@@ -103,19 +103,19 @@ public class MedidorBO extends HttpServlet {
             		User user = (User) req.getSession().getAttribute("user");
             		
                     medidor.setIdUser(user.getIdUser());
-            		medidor.setIdFabricMedidor(Long.parseLong(req.getParameter("fabricante").trim().toUpperCase()));
-            		medidor.setModelo(Auxiliar.removerCaracteres(req.getParameter("modelo").trim().toUpperCase()));
-            		medidor.setSerie(Auxiliar.removerCaracteres(req.getParameter("serie").trim().toUpperCase()));
-            		medidor.setTipo(Auxiliar.removerCaracteres(req.getParameter("tipo").trim().toUpperCase()));
+            		medidor.setIdFabricMedidor(Long.parseLong(req.getParameter("fabricante")));
+            		medidor.setModelo(Auxiliar.removerCaracteres(req.getParameter("modelo").trim()).toUpperCase());
+            		medidor.setSerie(Auxiliar.removerCaracteres(req.getParameter("serie").trim()).toUpperCase());
+            		medidor.setTipo(Auxiliar.removerCaracteres(req.getParameter("tipo").trim()).toUpperCase());
             		medidor.setChaveDeCripto(req.getParameter("chave"));
             		medidor.setValidBateria(Auxiliar.converteInteger(req.getParameter("bateria")));
-            		medidor.setNumeroMedidor(Auxiliar.removerCaracteres(req.getParameter("numeroMedidor").trim().toUpperCase()));
-            		medidor.setEndereco(Auxiliar.removerCaracteres(req.getParameter("endereco").trim().toUpperCase()));
+            		medidor.setNumeroMedidor(Auxiliar.removerCaracteres(req.getParameter("numeroMedidor").trim()).toUpperCase());
+            		medidor.setEndereco(Auxiliar.removerCaracteres(req.getParameter("endereco").trim()).toUpperCase());
             		medidor.setNumero(Long.parseLong(req.getParameter("numero")));
-            		medidor.setCompl(Auxiliar.removerCaracteres(req.getParameter("compl").trim().toUpperCase()));
-            		medidor.setMunicipio(Auxiliar.removerCaracteres(req.getParameter("municipio").trim().toUpperCase()));
-            		medidor.setUf(req.getParameter("estado").trim().toUpperCase());
-            		medidor.setCep(req.getParameter("cep").trim().toUpperCase());
+            		medidor.setCompl(Auxiliar.removerCaracteres(req.getParameter("compl").trim()).toUpperCase());
+            		medidor.setMunicipio(Auxiliar.removerCaracteres(req.getParameter("municipio").trim()).toUpperCase());
+            		medidor.setUf(Auxiliar.removerCaracteres(req.getParameter("estado").trim()).toUpperCase());
+            		medidor.setCep(req.getParameter("cep").trim());
 					if(req.getParameter("latitude").trim().equals("")) {
 						medidor.setCoordX("0.0");
 						medidor.setCoordY("0.0");

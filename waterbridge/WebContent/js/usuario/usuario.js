@@ -13,6 +13,107 @@ function validaForm(){
 	        valida = false;
     	}
     }
+    if(document.getElementById("street_number").value <= 0){
+    	texto = "Número do endereço inválido!";
+        focar = document.getElementById("street_number");
+        valida = false;
+    }
+    if(document.getElementById("telefoneFixo").value != '' 
+    		&& document.getElementById("telefoneFixo").value.length < 14) {
+    	texto = "Telefone informado inválido!";
+        focar = document.getElementById("telefoneFixo");
+        valida = false;
+    }
+    if(document.getElementById("telefoneCelular").value != '' 
+    	&& document.getElementById("telefoneCelular").value.length < 14) {
+    	texto = "Celular informado inválido!";
+    	focar = document.getElementById("telefoneCelular");
+    	valida = false;
+    }
+    if(document.getElementById("postal_code").value.length < 9) {
+    	texto = "CEP informado inválido!";
+    	focar = document.getElementById("postal_code");
+    	valida = false;
+    }
+    
+    if (valida == false) {
+    	divAviso.style.display = "block";
+        aviso.innerHTML = texto;
+    	focar.focus();
+    	$('html, body').animate({ scrollTop: 0 }, 'fast');
+        return false;
+    }
+}
+
+function validaPerfil(){
+    var focar;
+    var texto;
+    var divAviso = document.getElementById("divAviso");
+    var aviso = document.getElementById("aviso");
+    var valida = true;
+    
+    if(document.getElementById("cpf").value != "") {
+    	if(!consistenciaCPF(document.getElementById("cpf").value)) {
+	        texto = "CPF informado inv&aacute;lido!";
+	        focar = document.getElementById("cpf");
+	        valida = false;
+    	}
+    }
+    if(document.getElementById("street_number").value <= 0){
+    	texto = "Número do endereço inválido!";
+        focar = document.getElementById("street_number");
+        valida = false;
+    }
+    if(document.getElementById("telefoneFixo").value != '' 
+    		&& document.getElementById("telefoneFixo").value.length < 14) {
+    	texto = "Telefone informado inválido!";
+        focar = document.getElementById("telefoneFixo");
+        valida = false;
+    }
+    if(document.getElementById("telefoneCelular").value != '' 
+    	&& document.getElementById("telefoneCelular").value.length < 14) {
+    	texto = "Celular informado inválido!";
+    	focar = document.getElementById("telefoneCelular");
+    	valida = false;
+    }
+    if(document.getElementById("postal_code").value.length < 9) {
+    	texto = "CEP informado inválido!";
+    	focar = document.getElementById("postal_code");
+    	valida = false;
+    }
+    
+    if (valida == false) {
+    	divAviso.style.display = "block";
+        aviso.innerHTML = texto;
+    	focar.focus();
+    	$('html, body').animate({ scrollTop: 0 }, 'fast');
+        return false;
+    }
+}
+
+function validaSenha(){
+    var focar;
+    var texto;
+    var divAviso = document.getElementById("divAviso");
+    var aviso = document.getElementById("aviso");
+    var valida = true;
+    
+    if(document.getElementById("novaSenha").value != document.getElementById("confSenha").value) {
+    	texto = "Nova Senha e Confirmação de Nova Senha não conferem!";
+        focar = document.getElementById("novaSenha");
+        valida = false;
+    }
+    else if(document.getElementById("novaSenha").value.length < 6) {
+    	texto = "Nova Senha deve conter no mínimo 6 caracteres!";
+        focar = document.getElementById("novaSenha");
+        valida = false;
+    }
+    else if(document.getElementById("novaSenha").value.length > 50) {
+    	texto = "Nova Senha deve conter no máximo 50 caracteres!";
+        focar = document.getElementById("novaSenha");
+        valida = false;
+    }
+    	
     
     if (valida == false) {
     	divAviso.style.display = "block";
@@ -21,6 +122,7 @@ function validaForm(){
         return false;
     }
 }
+
 
 function consistenciaCPF(campo) {
     cpf = campo.replace(/\./g, "").replace(/\-/g, "");

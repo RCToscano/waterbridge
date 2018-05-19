@@ -16,7 +16,9 @@ import br.com.waterbridge.modelo.User;
 
 public class Login extends HttpServlet {
 
-    private static String relat = "";
+	private static final long serialVersionUID = 1L;
+
+	private static String relat = "";
 
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
@@ -43,26 +45,21 @@ public class Login extends HttpServlet {
             user = userDAO.login(email, senha);
             
             if (req.getParameter("r") != null) {
-
                 relat = req.getParameter("r");
             }
 
             if (relat.equals("login")) {
-
-                if (userDAO.login(email, senha) == null) {
-
+                if (user == null) {
                     //usuario inexistente
                     req.setAttribute("loginErro", "Usuario/Senha Incorreta. Tente Novamente!");
                     req.getRequestDispatcher("/index.jsp").forward(req, res);
                 } 
                 else if (user.getSituacao().equals("I")) {
-
                     //verificando se o usuario esta ativo
                     req.setAttribute("loginErro", "Usuario Inativo no Sistema!");
                     req.getRequestDispatcher("/index.jsp").forward(req, res);
                 } 
                 else {
-
                     //vai para home page
                     req.getSession().setAttribute("user", user);
                     req.getRequestDispatcher("/jsp/home.jsp").forward(req, res);
