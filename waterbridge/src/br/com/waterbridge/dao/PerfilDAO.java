@@ -16,6 +16,42 @@ public class PerfilDAO {
         this.connection = connection;
     }
 
+	public Perfil buscarPorId(Long idPerfil) throws Exception {
+		
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Perfil perfil = null;
+        
+        try {
+            stmt = connection.prepareStatement(
+            "SELECT ID_PERFIL, " +
+            "       PERFIL, " +
+            "       MENU " +
+            "FROM   TB_PERFIL " +
+            "WHERE  ID_PERFIL = ? "
+            );
+            
+            stmt.setObject(1, idPerfil);
+            
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+            	
+            	perfil = new Perfil();
+            	perfil.setIdPerfil(rs.getLong("ID_PERFIL"));
+            	perfil.setPerfil(rs.getString("PERFIL"));
+            	perfil.setMenu(rs.getString("MENU"));
+            }
+            return perfil;
+        } 
+        finally {
+        	
+            if(stmt != null)
+                stmt.close();
+            if(rs != null)
+                rs.close();
+        }
+    }
 	
 	public List<Perfil> listarTodos() throws Exception {
         PreparedStatement stmt = null;

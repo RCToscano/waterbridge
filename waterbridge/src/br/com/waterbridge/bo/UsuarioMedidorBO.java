@@ -23,6 +23,7 @@ import br.com.waterbridge.dao.CondominioDAO;
 import br.com.waterbridge.dao.EmpresaDAO;
 import br.com.waterbridge.dao.MedidorDAO;
 import br.com.waterbridge.dao.SituacaoDAO;
+import br.com.waterbridge.dao.UserDAO;
 import br.com.waterbridge.modelo.Bridge;
 import br.com.waterbridge.modelo.BridgeTpAlim;
 import br.com.waterbridge.modelo.Condominio;
@@ -30,6 +31,8 @@ import br.com.waterbridge.modelo.Empresa;
 import br.com.waterbridge.modelo.Medidor;
 import br.com.waterbridge.modelo.Situacao;
 import br.com.waterbridge.modelo.User;
+import br.com.waterbridge.reldao.RelUsuarioMedidorDAO;
+import br.com.waterbridge.relmodelo.RelUsuarioMedidor;
 
 public class UsuarioMedidorBO extends HttpServlet {
 
@@ -180,7 +183,89 @@ public class UsuarioMedidorBO extends HttpServlet {
 				}
 			}	
         }
-		
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("5")) { //LISTA USUARIO MEDIDOR
+
+			Connection connection = null;
+			HttpSession session = req.getSession(true);
+            User user = (User) session.getValue("user");
+            String sql = "";
+            String json = "";
+			
+			try {
+
+				sql += "WHERE ID_CONDOMINIO > 0 " ;
+				if(req.getParameter("idEmpresa") != null && !req.getParameter("idEmpresa").equals("")) {
+					sql += "AND   ID_EMPRESA = " + req.getParameter("idEmpresa") + " ";
+				}
+				if(req.getParameter("idCondominio") != null && !req.getParameter("idCondominio").equals("")) {
+					sql += "AND   ID_CONDOMINIO = " + req.getParameter("idCondominio") + " ";
+				}
+				if(req.getParameter("idBridge") != null && !req.getParameter("idBridge").equals("")) {
+					sql += "AND   ID_BRIDGE = " + req.getParameter("idBridge") + " ";
+				}
+				if(req.getParameter("idMedidor") != null && !req.getParameter("idMedidor").equals("")) {
+					sql += "AND   ID_MEDIDOR = " + req.getParameter("idMedidor") + " ";
+				}
+
+				connection = ConnectionFactory.getConnection();
+				
+				RelUsuarioMedidorDAO relUsuarioMedidorDAO = new RelUsuarioMedidorDAO(connection);
+				List<RelUsuarioMedidor> listRelUsuarioMedidor = relUsuarioMedidorDAO.listar(sql);
+				
+				json = new Gson().toJson(listRelUsuarioMedidor);
+				
+				res.setContentType("application/json");
+				res.setCharacterEncoding("UTF-8");
+				res.getWriter().write(json);   
+			}
+	        catch (Exception e) {
+	        	System.out.println("erro: " + e.toString());
+	            req.setAttribute("erro", e.toString());
+	            req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
+	        }
+			finally {
+				if(connection != null) {
+					try {connection.close();} catch (SQLException e) {}
+				}
+			}	
+        }		
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("6")) { //AUTOCOMPLETE CPF VINCULO USUARIO MEDIDOR
+
+			Connection connection = null;
+			HttpSession session = req.getSession(true);
+            User user = (User) session.getValue("user");
+            String json = "";
+            String sql = "";
+			
+			try {
+
+				sql += "WHERE   ID_USER > 0 " + 
+					   "AND     CPF LIKE '%" + req.getParameter("cpf") + "%' ";
+				
+				connection = ConnectionFactory.getConnection();
+				
+				UserDAO userDAO = new UserDAO(connection);
+				List<User> listUser = userDAO.listar(sql);
+				
+				System.out.println("listUser " + listUser.size());
+				
+				json = new Gson().toJson(listUser);
+				
+				res.setContentType("application/json");
+				res.setCharacterEncoding("UTF-8");
+				res.getWriter().write(json);   
+			}
+	        catch (Exception e) {
+	        	System.out.println("erro: " + e.toString());
+	            req.setAttribute("erro", e.toString());
+	            req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
+	        }
+			finally {
+				if(connection != null) {
+					try {connection.close();} catch (SQLException e) {}
+				}
+			}	
+        }
 		
 		
 		

@@ -17,7 +17,11 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		
 		<script src="http://malsup.github.io/jquery.blockUI.js"></script>
-	
+
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<!-- 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+			
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
 	    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/locale/pt-br.js"></script>
 	    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
@@ -30,7 +34,7 @@
 	    <script src="./js/jquery.mask.min.js" type="text/javascript"></script>   
         <script>
             $(function () {
-                $("#telFixo").mask("(99) 9999-9999");
+            	 //$("#cpf").mask("999.999.999-99");
             });
         </script>
         <script>
@@ -42,8 +46,61 @@
                 });
             });
         </script>
+        <style>
+            .ui-autocomplete-loading {
+                background: white url("images/ui-anim_basic_16x16.gif") right center no-repeat;
+            }
+        </style>
+        
+        <script>
+	        $(function () {
+	            $("#cpf").autocomplete({
+	                source: function (request, response) {
+	                    $.ajax({
+	                        url: "UsuarioMedidorBO?acao=6",
+	                        dataType: "json",
+	                        data: {
+	                        	cpf: $("#cpf").val()
+	                        },
+	                        success: function (data, textStatus, jqXHR) {
+	
+	                        	var texto = '';
+                        	 	var listUser = data;       
+                        	 	
+                                if(listUser != null && listUser.length > 0) {
+                                	for(i = 0; i < listUser.length; i++){
+                                        
+                                        var user = listUser[i];                    
+                                        texto += '"' + String(user.cpf) + '":"' + String(user.nome) + '"';
+                                        if(i + 1 < listUser.length) {
+                                        	texto += ', '
+                                        }
+                                    }
+                                }
+             
+                                var obj = JSON.parse("{" + texto + "}");
+                                 
+                                response(obj);
+	                        },
+	                        error: function (jqXHR, textStatus, errorThrown) {
+	                            console.log(textStatus);
+	                        }
+	                    });
+	                },
+	                //minLength: 2,
+	                appendTo: "#divUsuarioMedidor",
+	                select: function (event, ui) {
+	                	alert('enter');
+	//                    var values = ui.item.value.split('-');
+	//                    $("#codclientebusca").attr("value", values[0].trim());
+	//                    $("#btbuscarassit").prop("disabled", false);
+	//                    alert("Codigo: " + values[0] + " Nome: " + values[1]);
+	                }
+	            });
+	        });
+        </script>
     </head>
-    <body>
+    <body id="corpo">
         <jsp:include page="/menu/${sessionScope.user.perfil.menu}" ></jsp:include>
         <div class="container">
         	<ul class="breadcrumb">
@@ -77,110 +134,44 @@
 							<label>Local</label> 
 							<select class="form-control" id="idCondominio" name="idCondominio" required onchange="listarBridge()">
 								<option value="" selected>Selecione...</option>
-								<c:forEach var="situacao" items="${listSituacao}">
-	                     		        <c:choose>
-	                                   	<c:when test="${situacao.situacao eq fabricMedidor.situacao}">
-	                                   		<option value="${situacao.situacao}" selected="true">${situacao.descricao}</option> 
-	                                     	</c:when>
-	                                     	<c:otherwise>
-	                                     		<option value="${situacao.situacao}">${situacao.descricao}</option>
-	                                     	</c:otherwise>
-	                                    </c:choose>
-		                     	</c:forEach>
 							</select>					
 						</div>
 						<div class="col-sm-2">
 							<label>Bridge</label> 
 							<select class="form-control" id="idBridge" name="idBridge" onchange="listarMedidor()" required>
 								<option value="" selected>Selecione...</option>
-								<c:forEach var="situacao" items="${listSituacao}">
-	                     		        <c:choose>
-	                                   	<c:when test="${situacao.situacao eq fabricMedidor.situacao}">
-	                                   		<option value="${situacao.situacao}" selected="true">${situacao.descricao}</option> 
-	                                     	</c:when>
-	                                     	<c:otherwise>
-	                                     		<option value="${situacao.situacao}">${situacao.descricao}</option>
-	                                     	</c:otherwise>
-	                                    </c:choose>
-		                     	</c:forEach>
 							</select>					
 						</div>
 						<div class="col-sm-2">
 							<label>Medidor</label> 
 							<select class="form-control" id="idMedidor" name="idMedidor" required >
 								<option value="" selected>Selecione...</option>
-								<c:forEach var="situacao" items="${listSituacao}">
-	                     		        <c:choose>
-	                                   	<c:when test="${situacao.situacao eq fabricMedidor.situacao}">
-	                                   		<option value="${situacao.situacao}" selected="true">${situacao.descricao}</option> 
-	                                     	</c:when>
-	                                     	<c:otherwise>
-	                                     		<option value="${situacao.situacao}">${situacao.descricao}</option>
-	                                     	</c:otherwise>
-	                                    </c:choose>
-		                     	</c:forEach>
 							</select>					
 						</div>
 					</div>					
 					<div class="form-group">
 						<div class="col-md-12 text-center">
-							<button type="submit" class="btn btn-primary">Buscar</button>
+							<button type="button" class="btn btn-primary" onclick="listarUsuarioMedidor()">Buscar</button>
 						</div>
 					</div>
 				</form>			
-				<c:if test = "${fn:length(listCondominio) > 0}">
-					<div class="form-group">
-						<div class="col-sm-12">
-							<input class="form-control" id="myInput" type="text" placeholder="Utilize para procurar..."></input> <br />
-							<div class="table-responsive" id="divTable">
-								<table class="table table-hover table-striped">
-									<thead>
-										<tr>
-											<th>Nº</th>
-											<th>Nome/Razão Social</th>
-											<th>CPF / CNPJ</th>
-											<th>Endere&ccedil;o</th>
-											<th>Nome do Responsável</th>
-											<th>Coordenadas</th>
-											<th></th>
-										</tr>
-									</thead>
-									<tbody id="myTable">
-										<% int cont = 1;%>
-										<c:forEach var="condominio" items="${listCondominio}">
-											<tr>
-												<td><small><%=cont%></small></td>
-												<td><small>${condominio.nome}</small></td>
-												<td><small>${condominio.cnp}</small></td>
-												<td><small>${condominio.endereco} ${condominio.numero} ${condominio.compl}</small></td>
-												<td><small>${condominio.responsavel}</small></td>
-												<td>
-													<c:choose>
-		                                                <c:when test="${condominio.coordX != null && condominio.coordX != '' && condominio.coordX != '0.0'}">
-		                                                    <small><a href="https://www.google.com/maps?q=loc:${condominio.coordX}+${condominio.coordY}"  target="_blank">${condominio.coordX} ${condominio.coordY}</a></small>
-		                                                </c:when>
-		                                                <c:otherwise>
-		                                                    <small>${condominio.coordX} ${condominio.coordY}</small>
-		                                                </c:otherwise>
-		                                            </c:choose>
-												</td>
-												<td>
-													<a href="CondominioBO?acao=3&idCondominio=${condominio.idCondominio}">
-														<button type="button" class="btn btn-info btn-sm" title="Clique para visualizar o detalhe do Condomínio">
-															<span class="glyphicon glyphicon-search"></span>
-														</button>
-													</a>
-												</td>
-											</tr>
-											<%cont++;%>
-										</c:forEach>
-									</tbody>
-								</table>
-							</div>
-						</div>
+				<div class="form-group">
+					<div class="col-sm-12">
+						<div class="table-responsive" id="divTable"></div>
 					</div>
-		      	</c:if>
+				</div>
 			</div>
+			<div id="divUsuarioMedidor" title="Vínculo de Usuários" style="display: none;">
+				<div class="form-group">
+					<div class="col-sm-4">
+						<label class="control-label">Digite o CPF</label>
+						<input type="text" class="form-control" id="cpf" name="cpf" value="" />
+					</div>
+				</div>			
+			</div>
+			<style>
+                .ui-dialog-titlebar {background-color: #156fc3; color: #fff;}
+            </style>
 		</div>
         <footer class="footer" style="background-color: #fff">
             <div class="container-fluid text-center" style="background-color: #fff; padding: 10px">

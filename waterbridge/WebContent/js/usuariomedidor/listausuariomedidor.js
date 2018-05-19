@@ -1,4 +1,6 @@
 
+var colorRed = '#e52213';
+
 function listarCondominio() {
 
     var idEmpresa = document.getElementById('idEmpresa');
@@ -164,6 +166,115 @@ function listarMedidor() {
 	        }
 	    });    
 	}
+}
+
+function listarUsuarioMedidor() {
+	
+	var divAviso = document.getElementById('divAviso');
+	var idEmpresa = document.getElementById('idEmpresa');
+	var idCondominio = document.getElementById('idCondominio');
+	var idBridge = document.getElementById('idBridge');
+	var idMedidor = document.getElementById('idMedidor');
+	var divTable = document.getElementById('divTable');
+
+	divAviso.innerHTML = '';
+	idEmpresa.style.removeProperty('border');
+	idCondominio.style.removeProperty('border');
+	
+    if(idEmpresa.value == '') {
+    	
+    	idEmpresa.style.borderColor = colorRed;
+    }
+    else if(idCondominio.value == '') {
+    	
+    	idCondominio.style.borderColor = colorRed;
+    }
+    else {
+    	
+	    $.blockUI({ 
+	    	message: '<img src="./images/busy.gif" />',
+	    	css: { 
+	    		padding:        5,
+	    		left:           '45%', 
+	            width:          '10%', 
+	            border:         '1px solid #aaa'
+	        }         		
+	    }); 
+	    
+	    $.ajax({
+	        url: 'UsuarioMedidorBO?acao=5' +
+	             '&idEmpresa=' + idEmpresa.value +
+	             '&idCondominio=' + idCondominio.value +
+	             '&idBridge=' + idBridge.value +
+	             '&idMedidor=' + idMedidor.value 
+	        ,
+	        type: "POST",
+	        dataType: 'json',
+	        success: function(result) {
+	        	
+	        	var texto = '';
+	            var listRelUsuarioMedidor = result;
+	            if(listRelUsuarioMedidor != null && listRelUsuarioMedidor.length > 0) {
+	            	
+	            	texto +=
+	            	"<table class='table table-hover table-striped'>" +
+		            "	<thead>" +
+		            "		<tr>" +
+		            "			<th>Nº</th>" +
+		            "			<th>Empresa</th>" +
+		            "			<th>Condomínio</th>" +
+		            "			<th>Bridge</th>" +
+		            "			<th>Medidor</th>" +
+		            "			<th>Usuários</th>" +
+		            "			<th></th>" +
+		            "		</tr>" +
+		            "	</thead>" +
+		            "	<tbody id='myTable'>" ;
+            		for(i = 0; i < listRelUsuarioMedidor.length; i++) {
+	                	
+	                	var relUsuarioMedidor = listRelUsuarioMedidor[i];
+	                	texto +=
+    		            "		<tr>" +
+    		            "			<td><small>" + (i + 1) + "</small></td>" +
+    		            "			<td><small>" + relUsuarioMedidor.empresa + "</small></td>" +
+    		            "			<td><small>" + relUsuarioMedidor.condominio + "</small></td>" +
+    		            "			<td><small>" + relUsuarioMedidor.deviceNum + "</small></td>" +
+    		            "			<td><small>" + relUsuarioMedidor.meterId + "</small></td>" +
+    		            "			<td><small></small></td>" +
+    		            "			<td align='right'>" +
+    		            "               <button type='button' class='btn btn-info btn-xs' onclick='vincularUsuarioMedidor(1)'>" +
+    		        	"	                <span class='glyphicon glyphicon-user'></span> Add" +
+    		        	"               </button>" +
+    		            "			</td>" +
+    		            "		</tr>" ;
+	                }
+		            texto +=
+		            "	</tbody>" +
+		            "</table>" ;	 
+	            }
+	            divTable.innerHTML = texto;
+	            $.unblockUI();
+	        },
+	        error : function(){
+	
+	            $.unblockUI();
+	            alert('erro');
+	        }
+	    });    
+	}
+}
+
+function vincularUsuarioMedidor(cont) {
+	
+	$( function() {
+	    $("#divUsuarioMedidor").dialog({
+	        height: 500,
+	        scrollable: true,
+	        width: 1000,
+	        modal: false,
+	        draggable: false
+	    });
+	});
 }
 
 function exibirAviso(texto) {

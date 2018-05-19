@@ -641,6 +641,83 @@ public class UserDAO {
         }
     }
     
+    public List<User> listar(String sql) throws Exception {
+    	
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<User> list = new ArrayList<>();
+        
+        try {
+            
+        	stmt = connection.prepareStatement(
+			"SELECT ID_USER, " +
+    		"       ID_PERFIL, " +
+    		"       NOME, " +
+    		"       EMAIL, " +
+    		"       SEXO, " +
+    		"       DTNASC, " +
+    		"       DTINSERT, " +
+    		"       SITUACAO, " +
+    		"       USUARIO, " +
+    		"       CPF, " +
+    		"       TELFIXO, " +
+    		"       ENDERECO, " +
+    		"       NUMERO, " +
+    		"       COMPL, " +
+    		"       MUNICIPIO, " +
+    		"       UF, " +
+    		"       CEP, " +
+    		"       COORDX, " +
+    		"       COORDY, " +
+    		"       TELCEL " +
+    		"FROM   TB_USER " +		
+    		sql
+            );
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+            	
+            	PerfilDAO perfilDAO = new PerfilDAO(connection);
+            	Perfil perfil = perfilDAO.buscarPorId(rs.getLong("ID_PERFIL"));
+            	
+            	PassDAO passDAO = new PassDAO(connection);
+            	Pass pass = passDAO.buscarPorIdUser(rs.getLong("ID_USER"));
+            	
+                User user = new User();
+                user.setIdUser(rs.getLong("ID_USER"));
+                user.setPerfil(perfil);
+                user.setPass(pass);
+                user.setUsuario(rs.getString("USUARIO"));
+                user.setNome(rs.getString("NOME"));
+                user.setEmail(rs.getString("EMAIL"));
+                user.setSexo(rs.getString("SEXO"));
+                user.setDtNasc(Auxiliar.formataDtTela(rs.getString("DTNASC")));
+                user.setTelFixo(rs.getString("TELFIXO"));
+                user.setTelCel(rs.getString("TELCEL"));
+                user.setCpf(rs.getString("CPF"));
+                user.setEndereco(rs.getString("ENDERECO"));
+                user.setNumero(rs.getLong("NUMERO"));
+                user.setCompl(rs.getString("COMPL"));
+                user.setMunicipio(rs.getString("MUNICIPIO"));
+                user.setUf(rs.getString("UF"));
+                user.setCep(rs.getString("CEP"));
+                user.setCoordx(rs.getString("COORDX"));
+                user.setCoordy(rs.getString("COORDY"));
+                user.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));
+                user.setSituacao(rs.getString("SITUACAO"));
+               
+                list.add(user);
+            }
+            return list;
+        } 
+        finally {
+            if (stmt != null)
+                stmt.close();
+            if (rs != null)
+                rs.close();
+        }
+    }
+    
     public List<User> listarTodos() throws Exception {
         PreparedStatement stmt = null;
         ResultSet rs = null;
