@@ -25,7 +25,7 @@ public class RelMedidorDAO {
 
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        List<RelMedidor> listRelUsuarioMedidor = new ArrayList<RelMedidor>();
+        List<RelMedidor> listRelMedidor = new ArrayList<RelMedidor>();
         
         try {
             
@@ -71,44 +71,44 @@ public class RelMedidorDAO {
             	
             	List<RelUserMedidor> listRelUserMedidor = new RelUserMedidorDAO(connection).listar(rs.getLong("ID_MEDIDOR"));
             	
-            	RelMedidor relUsuarioMedidor = new RelMedidor();
-            	relUsuarioMedidor.setIdEmpresa(rs.getLong("ID_EMPRESA"));
-            	relUsuarioMedidor.setEmpresa(rs.getString("EMPRESA"));
-            	relUsuarioMedidor.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
-            	relUsuarioMedidor.setCondominio(rs.getString("CONDOMINIO"));
-            	relUsuarioMedidor.setIdBridge(rs.getLong("ID_BRIDGE"));
-            	relUsuarioMedidor.setDeviceNum(rs.getString("DEVICENUM"));
-            	relUsuarioMedidor.setIdBridgeTpAlim(rs.getLong("ID_BRIDGETPALIM"));
-            	relUsuarioMedidor.setBridgeTpAlim(rs.getString("BRIDGETPALIM"));
-            	relUsuarioMedidor.setIdBridgeTp(rs.getLong("ID_BRIDGETP"));
-            	relUsuarioMedidor.setBridgeTp(rs.getString("BRIDGETP"));
-            	relUsuarioMedidor.setIdMedidor(rs.getLong("ID_MEDIDOR"));
-            	relUsuarioMedidor.setIdFabricMedidor(rs.getLong("ID_FABRICMEDIDOR"));
-            	relUsuarioMedidor.setFabricante(rs.getString("FABRICANTE"));
-            	relUsuarioMedidor.setModelo(rs.getString("MODELO"));
-            	relUsuarioMedidor.setSerie(rs.getString("SERIE"));
-            	relUsuarioMedidor.setTipo(rs.getString("TIPO"));
-            	relUsuarioMedidor.setChaveDecripto(rs.getString("CHAVEDECRIPTO"));
-            	relUsuarioMedidor.setValidBateria(rs.getLong("VALIDBATERIA"));
-            	relUsuarioMedidor.setObs(rs.getString("OBS"));
-            	relUsuarioMedidor.setSituacao(rs.getString("SITUACAO"));
-            	relUsuarioMedidor.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));
-            	relUsuarioMedidor.setMeterPosition(rs.getLong("METERPOSITION"));
-            	relUsuarioMedidor.setMeterId(rs.getString("METERID"));
-            	relUsuarioMedidor.setEndereco(rs.getString("ENDERECO"));
-            	relUsuarioMedidor.setNumero(rs.getLong("NUMERO"));
-            	relUsuarioMedidor.setCompl(rs.getString("COMPL"));
-            	relUsuarioMedidor.setMunicipio(rs.getString("MUNICIPIO"));
-            	relUsuarioMedidor.setUf(rs.getString("UF"));
-            	relUsuarioMedidor.setCep(rs.getString("CEP"));
-            	relUsuarioMedidor.setCoordX(rs.getString("COORDX"));
-            	relUsuarioMedidor.setCoordY(rs.getString("COORDY"));
-            	relUsuarioMedidor.setListRelUserMedidor(listRelUserMedidor);
+            	RelMedidor relMedidor = new RelMedidor();
+            	relMedidor.setIdEmpresa(rs.getLong("ID_EMPRESA"));
+            	relMedidor.setEmpresa(rs.getString("EMPRESA"));
+            	relMedidor.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
+            	relMedidor.setCondominio(rs.getString("CONDOMINIO"));
+            	relMedidor.setIdBridge(rs.getLong("ID_BRIDGE"));
+            	relMedidor.setDeviceNum(rs.getString("DEVICENUM"));
+            	relMedidor.setIdBridgeTpAlim(rs.getLong("ID_BRIDGETPALIM"));
+            	relMedidor.setBridgeTpAlim(rs.getString("BRIDGETPALIM"));
+            	relMedidor.setIdBridgeTp(rs.getLong("ID_BRIDGETP"));
+            	relMedidor.setBridgeTp(rs.getString("BRIDGETP"));
+            	relMedidor.setIdMedidor(rs.getLong("ID_MEDIDOR"));
+            	relMedidor.setIdFabricMedidor(rs.getLong("ID_FABRICMEDIDOR"));
+            	relMedidor.setFabricante(rs.getString("FABRICANTE"));
+            	relMedidor.setModelo(rs.getString("MODELO"));
+            	relMedidor.setSerie(rs.getString("SERIE"));
+            	relMedidor.setTipo(rs.getString("TIPO"));
+            	relMedidor.setChaveDecripto(rs.getString("CHAVEDECRIPTO"));
+            	relMedidor.setValidBateria(rs.getLong("VALIDBATERIA"));
+            	relMedidor.setObs(rs.getString("OBS"));
+            	relMedidor.setSituacao(rs.getString("SITUACAO"));
+            	relMedidor.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));
+            	relMedidor.setMeterPosition(rs.getLong("METERPOSITION"));
+            	relMedidor.setMeterId(rs.getString("METERID"));
+            	relMedidor.setEndereco(rs.getString("ENDERECO"));
+            	relMedidor.setNumero(rs.getLong("NUMERO"));
+            	relMedidor.setCompl(rs.getString("COMPL"));
+            	relMedidor.setMunicipio(rs.getString("MUNICIPIO"));
+            	relMedidor.setUf(rs.getString("UF"));
+            	relMedidor.setCep(rs.getString("CEP"));
+            	relMedidor.setCoordX(rs.getString("COORDX"));
+            	relMedidor.setCoordY(rs.getString("COORDY"));
+            	relMedidor.setListRelUserMedidor(listRelUserMedidor);
             	
-            	listRelUsuarioMedidor.add(relUsuarioMedidor);
+            	listRelMedidor.add(relMedidor);
             }
             
-            return listRelUsuarioMedidor;
+            return listRelMedidor;
         }
         catch(SQLException e) {
             

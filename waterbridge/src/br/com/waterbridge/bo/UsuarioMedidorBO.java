@@ -15,22 +15,17 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
-import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.BridgeDAO;
-import br.com.waterbridge.dao.BridgeTpAlimDAO;
 import br.com.waterbridge.dao.CondominioDAO;
 import br.com.waterbridge.dao.EmpresaDAO;
 import br.com.waterbridge.dao.MedidorDAO;
-import br.com.waterbridge.dao.SituacaoDAO;
 import br.com.waterbridge.dao.UserDAO;
 import br.com.waterbridge.dao.UserMedidorDAO;
 import br.com.waterbridge.modelo.Bridge;
-import br.com.waterbridge.modelo.BridgeTpAlim;
 import br.com.waterbridge.modelo.Condominio;
 import br.com.waterbridge.modelo.Empresa;
 import br.com.waterbridge.modelo.Medidor;
-import br.com.waterbridge.modelo.Situacao;
 import br.com.waterbridge.modelo.User;
 import br.com.waterbridge.modelo.UserMedidor;
 import br.com.waterbridge.reldao.RelMedidorDAO;
@@ -406,5 +401,3 @@ public class UsuarioMedidorBO extends HttpServlet {
         }
     }
 }
-
-
