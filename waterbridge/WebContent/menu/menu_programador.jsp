@@ -103,12 +103,10 @@
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="UsuarioMedidorBO?acao=1">Usuário Empresa</a></li>
                         <li class="divider"></li>
-                        <li><a href="UsuarioMedidorBO?acao=1">Usuário Condominio</a></li>
-                        <li class="divider"></li>
-                        <li><a href="UsuarioMedidorBO?acao=1">Usuário Medidor</a></li>
-                        <li class="divider"></li>
-                        <li><a href="VinculoConsumidorBO?acao=consulta">Consulta</a></li>
-                        <li class="divider"></li>
+<!--                         <li><a href="UsuarioMedidorBO?acao=1">Usuário Condominio</a></li> -->
+<!--                         <li class="divider"></li> -->
+<!--                         <li><a href="UsuarioMedidorBO?acao=1">Usuário Medidor</a></li> -->
+<!--                         <li class="divider"></li> -->
                     </ul>
                 </li>
             </ul>
