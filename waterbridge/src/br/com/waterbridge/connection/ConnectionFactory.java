@@ -32,4 +32,8 @@ public class ConnectionFactory {
             throw new SQLException(e.getMessage());
         }
     }
+    
+    public static String getUsuario() {
+		return usuario;
+	}
 }

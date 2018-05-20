@@ -163,10 +163,10 @@ public class MessageBO extends HttpServlet {
         }
         catch (Exception e) {
         	if(e.toString().length() > 1000) {
-        		try {new LogSqlDAO(connection).inserir(4l, e.toString().substring(0, 999), sb.toString());} catch (SQLException e1) {e1.printStackTrace();}
+        		try {new LogSqlDAO(connection).inserir(4l, e.toString().substring(0, 999), sb.toString(), "", "");} catch (SQLException e1) {e1.printStackTrace();}
         	}
         	else {
-        		try {new LogSqlDAO(connection).inserir(4l, e.toString(), sb.toString());} catch (SQLException e1) {e1.printStackTrace();}
+        		try {new LogSqlDAO(connection).inserir(4l, e.toString(), sb.toString(), "", "");} catch (SQLException e1) {e1.printStackTrace();}
         	}
         	res.setContentType("application/json");
             res.setCharacterEncoding("UTF-8");

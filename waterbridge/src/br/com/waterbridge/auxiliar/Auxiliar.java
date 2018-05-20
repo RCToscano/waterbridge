@@ -14,10 +14,17 @@ import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Properties;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 
 import javaxt.io.Image;
 
@@ -467,6 +474,56 @@ public class Auxiliar {
     
     public static String recuperaExtensao(String texto) {
     	return texto.substring(texto.lastIndexOf("."));
+    }
+    
+    public static void Email(Object user, String tela, String select){
+
+        final String username = "noreply@gerentec.com.br";
+        final String password = "daytona88";
+
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(props,
+            new javax.mail.Authenticator() {
+                protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(username, password);
+                }
+            });
+
+        try {
+            Message message = new MimeMessage(session);
+            
+            message.setHeader("MIME-Version", "1.0");  
+            message.setHeader("Content-Type", "text/plain; charset=UTF-8");  
+            message.setHeader("Content-Transfer-Encoding", "quoted-printable");  
+            message.setHeader("Content-Disposition", "inline");  
+
+            message.setFrom(new InternetAddress("dguerra@gerentec.com.br"));
+
+            message.setRecipients(Message.RecipientType.BCC,
+                            InternetAddress.parse("dguerra@gerentec.com.br"));
+            
+            message.setSubject("Adesao ML - Erro Tela ");
+            
+            message.setContent(
+                        "<html><body> " + 
+                        "<p align=center><font face=Arial>Informacoes</font></p> " +
+                        "<p align=left><font face=Arial color=red>USUARIO: </font><font face=Arial>"+user+"</font></p> " +
+                        "<p align=left><font face=Arial color=red>TELA: </font><font face=Arial>"+tela+"</font></p> " +
+                        "<p align=left><font face=Arial color=red>SELECT: </font><font face=Arial>"+select+"</font></p> " +
+                        "</body></html> "
+                    , "text/html; charset=UTF-8");
+
+            Transport.send(message);
+            
+        } 
+        catch(MessagingException e) {
+            throw new RuntimeException(e);
+        }
     }
     
 }

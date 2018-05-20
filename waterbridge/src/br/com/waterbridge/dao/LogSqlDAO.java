@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import br.com.waterbridge.modelo.LogSql;
-
 public class LogSqlDAO {
     
     Connection connection = null;
@@ -15,7 +13,7 @@ public class LogSqlDAO {
         this.connection = connection;
     }
     
-    public void inserir(Long idUser, String logSql, String texto) throws SQLException {
+    public void inserir(Long idUser, String logSql, String texto, String tela, String acao) throws SQLException {
         
         PreparedStatement stmt = null;
                 
@@ -23,18 +21,21 @@ public class LogSqlDAO {
         
             stmt = connection.prepareStatement(
             "INSERT INTO TB_LOGSQL ( " +
-			//"       ID_LOGSQL, " +
 			"       ID_USER, " +
 			"       LOGSQL, " +
 			"       TEXTO, " +
+			"       TELA, " +
+			"       ACAO, " +
 			"       DTINSERT " +
             ") VALUES ( " +
-            "       ?,?,?,sysdate() " +
+            "       ?,?,?,?,?,sysdate() " +
             ") ");
             
             stmt.setObject(1, idUser);
             stmt.setObject(2, logSql);
             stmt.setObject(3, texto);
+            stmt.setObject(4, tela);
+            stmt.setObject(5, acao);
 
             stmt.executeUpdate();
         }

@@ -16,6 +16,7 @@ import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.auxiliar.Constantes;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.EmpresaDAO;
+import br.com.waterbridge.dao.LogSqlDAO;
 import br.com.waterbridge.dao.SituacaoDAO;
 import br.com.waterbridge.modelo.Empresa;
 import br.com.waterbridge.modelo.Situacao;
@@ -56,11 +57,17 @@ public class EmpresaBO extends HttpServlet {
             //Cadastro e Alteracao
             else if (relat.equals("inserir")) {
             	Empresa empresa = new Empresa();
+            	User user = (User) req.getSession().getAttribute("user");
             	try {
-            		MultipartRequest mpr = new MultipartRequest(req, Auxiliar.getPathTemp(), 200 * 1024 * 1024);
+            		String pathTemp = Constantes.PATH_TEMP_LOGO_REMOTO;
+            		String pathFinal = Constantes.PATH_FINAL_LOGO_REMOTO;
+            		if(ConnectionFactory.getUsuario().equals("root")) {
+            			pathTemp = Constantes.PATH_TEMP_LOGO_LOCAL;
+            			pathFinal = Constantes.PATH_FINAL_LOGO_LOCAL;
+            		}
+            		
+            		MultipartRequest mpr = new MultipartRequest(req, pathTemp, 200 * 1024 * 1024);
                     String arquivoTemp = mpr.getFilesystemName((String) mpr.getFileNames().nextElement( ));
-
-            		User user = (User) req.getSession().getAttribute("user");
             		
             		empresa.setIdUser(user.getIdUser());
             		empresa.setNome(Auxiliar.removerCaracteres(mpr.getParameter("nome").trim()).toUpperCase());
@@ -108,10 +115,10 @@ public class EmpresaBO extends HttpServlet {
             			
 						String nomeFinal = empresa.getNome().replace(" ", "_") + "_" + Auxiliar.dataAtual()
 								+ Auxiliar.recuperaExtensao(arquivoTemp);
-						Auxiliar.copiarArquivo(Auxiliar.getPathTemp() + arquivoTemp,
-								Constantes.PATH_FINAL_LOGO_LOCAL + nomeFinal);
+						Auxiliar.copiarArquivo(pathTemp + arquivoTemp,
+								pathFinal + nomeFinal);
 						
-						empresa.setLogoPDir(Constantes.PATH_FINAL_LOGO_LOCAL);
+						empresa.setLogoPDir(pathFinal);
 						empresa.setLogoPNome(nomeFinal);
             			empresaDAO.inserir(empresa);
 						
@@ -121,6 +128,13 @@ public class EmpresaBO extends HttpServlet {
             	} 
             	catch (Exception e) {
             		System.out.println(e);
+            		
+					try {
+						new LogSqlDAO(connection).inserir(user.getIdUser(), "", e.getMessage(), "EmpresaBO", relat);
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+            		
             		req.setAttribute("empresa", empresa);
             		req.setAttribute("aviso", Constantes.CONTATO_SUPORTE);
             		req.setAttribute("display", "block");
