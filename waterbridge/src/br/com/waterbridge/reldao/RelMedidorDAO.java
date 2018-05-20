@@ -9,22 +9,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.waterbridge.auxiliar.Auxiliar;
-import br.com.waterbridge.relmodelo.RelUsuarioMedidor;
+import br.com.waterbridge.relmodelo.RelMedidor;
+import br.com.waterbridge.relmodelo.RelUserMedidor;
 
-public class RelUsuarioMedidorDAO {
+public class RelMedidorDAO {
     
     private Connection connection;
 
-    public RelUsuarioMedidorDAO(Connection connection) {
+    public RelMedidorDAO(Connection connection) {
         
         this.connection = connection;
     }
 
-    public List<RelUsuarioMedidor> listar(String sql) throws SQLException {
+    public List<RelMedidor> listar(String sql) throws SQLException {
 
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        List<RelUsuarioMedidor> listRelUsuarioMedidor = new ArrayList<RelUsuarioMedidor>();
+        List<RelMedidor> listRelUsuarioMedidor = new ArrayList<RelMedidor>();
         
         try {
             
@@ -68,7 +69,9 @@ public class RelUsuarioMedidorDAO {
 
             while (rs.next()) {
             	
-            	RelUsuarioMedidor relUsuarioMedidor = new RelUsuarioMedidor();
+            	List<RelUserMedidor> listRelUserMedidor = new RelUserMedidorDAO(connection).listar(rs.getLong("ID_MEDIDOR"));
+            	
+            	RelMedidor relUsuarioMedidor = new RelMedidor();
             	relUsuarioMedidor.setIdEmpresa(rs.getLong("ID_EMPRESA"));
             	relUsuarioMedidor.setEmpresa(rs.getString("EMPRESA"));
             	relUsuarioMedidor.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
@@ -100,6 +103,7 @@ public class RelUsuarioMedidorDAO {
             	relUsuarioMedidor.setCep(rs.getString("CEP"));
             	relUsuarioMedidor.setCoordX(rs.getString("COORDX"));
             	relUsuarioMedidor.setCoordY(rs.getString("COORDY"));
+            	relUsuarioMedidor.setListRelUserMedidor(listRelUserMedidor);
             	
             	listRelUsuarioMedidor.add(relUsuarioMedidor);
             }

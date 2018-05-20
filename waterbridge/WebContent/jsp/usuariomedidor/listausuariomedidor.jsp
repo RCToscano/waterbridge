@@ -57,7 +57,7 @@
 	            $("#cpf").autocomplete({
 	                source: function (request, response) {
 	                    $.ajax({
-	                        url: "UsuarioMedidorBO?acao=6",
+	                        url: "UsuarioMedidorBO?acao=7",
 	                        dataType: "json",
 	                        data: {
 	                        	cpf: $("#cpf").val()
@@ -71,7 +71,7 @@
                                 	for(i = 0; i < listUser.length; i++){
                                         
                                         var user = listUser[i];                    
-                                        texto += '"' + String(user.cpf) + '":"' + String(user.nome) + '"';
+                                        texto += '"' + String(user.cpf) + '":"' + String(user.cpf) + ' - ' + String(user.nome) + '"';
                                         if(i + 1 < listUser.length) {
                                         	texto += ', '
                                         }
@@ -90,7 +90,7 @@
 	                //minLength: 2,
 	                appendTo: "#divUsuarioMedidor",
 	                select: function (event, ui) {
-	                	alert('enter');
+
 	//                    var values = ui.item.value.split('-');
 	//                    $("#codclientebusca").attr("value", values[0].trim());
 	//                    $("#btbuscarassit").prop("disabled", false);
@@ -162,11 +162,18 @@
 				</div>
 			</div>
 			<div id="divUsuarioMedidor" title="Vínculo de Usuários" style="display: none;">
+				<div class="form-group"><div class="col-sm-12"><label id="avisoDivUsuarioMedidor" style="color: red;"></label></div></div>
 				<div class="form-group">
-					<div class="col-sm-4">
-						<label class="control-label">Digite o CPF</label>
+					<div class="col-sm-5">
+						<label class="control-label">Digite o CPF ou Nome do Usuário</label>
 						<input type="text" class="form-control" id="cpf" name="cpf" value="" />
 					</div>
+					<div class="col-sm-1" style="padding-top: 25px;">
+						<button type="button" class="btn btn-primary" onclick="inserirUsuarioMedidor()">Inserir</button>
+					</div>
+				</div>
+				<div class="form-group" style="margin-top: 100px;">
+					<div class="col-sm-12" id="divUsuarioMedidorLista"></div>
 				</div>			
 			</div>
 			<style>

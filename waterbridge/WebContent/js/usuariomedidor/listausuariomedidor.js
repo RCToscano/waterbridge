@@ -213,8 +213,8 @@ function listarUsuarioMedidor() {
 	        success: function(result) {
 	        	
 	        	var texto = '';
-	            var listRelUsuarioMedidor = result;
-	            if(listRelUsuarioMedidor != null && listRelUsuarioMedidor.length > 0) {
+	            var listRelMedidor = result;
+	            if(listRelMedidor != null && listRelMedidor.length > 0) {
 	            	
 	            	texto +=
 	            	"<table class='table table-hover table-striped'>" +
@@ -230,19 +230,31 @@ function listarUsuarioMedidor() {
 		            "		</tr>" +
 		            "	</thead>" +
 		            "	<tbody id='myTable'>" ;
-            		for(i = 0; i < listRelUsuarioMedidor.length; i++) {
+            		for(i = 0; i < listRelMedidor.length; i++) {
 	                	
-	                	var relUsuarioMedidor = listRelUsuarioMedidor[i];
+	                	var relMedidor = listRelMedidor[i];
 	                	texto +=
     		            "		<tr>" +
     		            "			<td><small>" + (i + 1) + "</small></td>" +
-    		            "			<td><small>" + relUsuarioMedidor.empresa + "</small></td>" +
-    		            "			<td><small>" + relUsuarioMedidor.condominio + "</small></td>" +
-    		            "			<td><small>" + relUsuarioMedidor.deviceNum + "</small></td>" +
-    		            "			<td><small>" + relUsuarioMedidor.meterId + "</small></td>" +
-    		            "			<td><small></small></td>" +
+    		            "			<td><small>" + relMedidor.empresa + "</small></td>" +
+    		            "			<td><small>" + relMedidor.condominio + "</small></td>" +
+    		            "			<td><small>" + relMedidor.deviceNum + "</small></td>" +
+    		            "			<td><small>" + relMedidor.meterId + "</small></td>" +
+    		            "			<td>" +
+    		            "               <small>" +
+    		            "                   <div id='divusermedidor" + (i + 1) + "'>" ;
+	                	var listRelUserMedidor = relMedidor.listRelUserMedidor;	                	
+	                	for(j = 0; j < listRelUserMedidor.length; j++) {
+	                		
+	                		var relUserMedidor = listRelUserMedidor[j];
+	                		texto += relUserMedidor.cpfUser + " - " + relUserMedidor.nomeUser + " - " + relUserMedidor.situacao + "<br/>";
+	                	}
+    		            texto +=
+    		            "                   </div>" +
+    		            "               </small>" +
+    		            "           </td>" +
     		            "			<td align='right'>" +
-    		            "               <button type='button' class='btn btn-info btn-xs' onclick='vincularUsuarioMedidor(1)'>" +
+    		            "               <button type='button' class='btn btn-info btn-xs' onclick='exibirUsuarioMedidor(" + (i + 1) + "," + relMedidor.idMedidor + ")'>" +
     		        	"	                <span class='glyphicon glyphicon-user'></span> Add" +
     		        	"               </button>" +
     		            "			</td>" +
@@ -264,17 +276,276 @@ function listarUsuarioMedidor() {
 	}
 }
 
-function vincularUsuarioMedidor(cont) {
+function exibirUsuarioMedidor(cont, idMedidor) {
 	
-	$( function() {
-	    $("#divUsuarioMedidor").dialog({
-	        height: 500,
-	        scrollable: true,
-	        width: 1000,
-	        modal: false,
-	        draggable: false
+	var divUsuarioMedidorLista = document.getElementById('divUsuarioMedidorLista');
+	
+    $.ajax({
+        url: 'UsuarioMedidorBO?acao=6' +
+             '&idMedidor=' + idMedidor 
+        ,
+        type: "POST",
+        dataType: 'json',
+        success: function(result) {
+        	
+        	var texto = "<input type='hidden' id='idMedidor1' name='idMedidor1' value='" + idMedidor + "' />" ;
+            var listRelUserMedidor = result;
+            if(listRelUserMedidor != null && listRelUserMedidor.length > 0) {
+            	
+            	texto +=
+            	"<table class='table table-hover table-striped'>" +
+	            "	<thead>" +
+	            "		<tr>" +
+	            "			<th>Nº</th>" +
+	            "			<th>Usuário</th>" +
+	            "			<th>Cpf</th>" +
+	            "			<th>Inicio</th>" +
+	            "			<th>Fim</th>" +
+	            "			<th>Situação</th>" +
+	            "			<th></th>" +
+	            "		</tr>" +
+	            "	</thead>" +
+	            "	<tbody id='myTable'>" ;
+        		for(i = 0; i < listRelUserMedidor.length; i++) {
+                	
+                	var relUserMedidor = listRelUserMedidor[i];
+                	texto +=
+		            "		<tr>" +
+		            "			<td><small>" + (i + 1) + "</small></td>" +
+		            "			<td><small>" + relUserMedidor.nomeUser + "</small></td>" +
+		            "			<td><small>" + relUserMedidor.cpfUser + "</small></td>" +
+		            "			<td><small>" + relUserMedidor.dtInicio + "</small></td>" +
+		            "			<td><small>" + nullParaVazio(relUserMedidor.dtFim) + "</small></td>" +
+		            "			<td><small>" + relUserMedidor.situacao + "</small></td>" +
+		            "			<td align='right'>" ;
+		            if(relUserMedidor.situacao == 'A') {
+		            	texto +=
+		                "               <small><button type='button' class='btn btn-danger btn-xs' onclick='inativarUsuarioMedidor(" + relUserMedidor.idUserMedidor + ")'>Inativar</button></small>" ;
+		            }
+		            else {
+		            	texto +=
+			            "               <small><button type='button' class='btn btn-default btn-xs disabled' onclick='inativarUsuarioMedidor(" + relUserMedidor.idUserMedidor + ")'>Inativo</button></small>" ;
+		            }
+                	texto +=
+		            "			</td>" +
+		            "		</tr>" ;
+                }
+	            texto +=
+	            "	</tbody>" +
+	            "</table>" ;	 
+            }
+            
+            divUsuarioMedidorLista.innerHTML = texto;
+            
+            $( function() {
+        	    $("#divUsuarioMedidor").dialog({
+        	        height: 500,
+        	        scrollable: true,
+        	        width: 1000,
+        	        modal: false,
+        	        draggable: false
+        	    });
+        	});
+        },
+        error : function(){
+
+            $.unblockUI();
+            alert('erro');
+        }
+    });
+}
+
+function inserirUsuarioMedidor() {
+
+	var avisoDivUsuarioMedidor = document.getElementById('avisoDivUsuarioMedidor');
+	var divUsuarioMedidorLista = document.getElementById('divUsuarioMedidorLista');
+	var idMedidor = document.getElementById('idMedidor1');
+	var cpf = document.getElementById('cpf');
+
+	avisoDivUsuarioMedidor.innerHTML = '';
+	
+	if(idMedidor.value == '') {
+		
+		avisoDivUsuarioMedidor.innerHTML = 'Selecione o medidor';
+	}
+	else if(cpf.value == '') {
+		
+		avisoDivUsuarioMedidor.innerHTML = 'Informe o CPF';
+	}
+	else if(cpf.value.length < 14) {
+		
+		avisoDivUsuarioMedidor.innerHTML = 'O cpf informado é inválido';
+	}
+	else {
+		
+	    $.ajax({
+	        url: 'UsuarioMedidorBO?acao=8' +
+	             '&idMedidor=' + idMedidor.value +
+	             '&cpf=' + cpf.value 
+	        ,
+	        type: "POST",
+	        dataType: 'json',
+	        success: function(result) {
+	        	
+	        	var texto = "<input type='hidden' id='idMedidor1' name='idMedidor1' value='" + idMedidor.value + "' />" ;
+	        	var listObject = result;	     
+	        	avisoDivUsuarioMedidor.innerHTML = listObject[0];
+	            var listRelUserMedidor = listObject[1];
+	            if(listRelUserMedidor != null && listRelUserMedidor.length > 0) {
+	            	
+	            	texto +=
+	            	"<table class='table table-hover table-striped'>" +
+		            "	<thead>" +
+		            "		<tr>" +
+		            "			<th>Nº</th>" +
+		            "			<th>Usuário</th>" +
+		            "			<th>Cpf</th>" +
+		            "			<th>Inicio</th>" +
+		            "			<th>Fim</th>" +
+		            "			<th>Situação</th>" +
+		            "			<th></th>" +
+		            "		</tr>" +
+		            "	</thead>" +
+		            "	<tbody id='myTable'>" ;
+	        		for(i = 0; i < listRelUserMedidor.length; i++) {
+	                	
+	                	var relUserMedidor = listRelUserMedidor[i];
+	                	texto +=
+			            "		<tr>" +
+			            "			<td><small>" + (i + 1) + "</small></td>" +
+			            "			<td><small>" + relUserMedidor.nomeUser + "</small></td>" +
+			            "			<td><small>" + relUserMedidor.cpfUser + "</small></td>" +
+			            "			<td><small>" + relUserMedidor.dtInicio + "</small></td>" +
+			            "			<td><small>" + nullParaVazio(relUserMedidor.dtFim) + "</small></td>" +
+			            "			<td><small>" + relUserMedidor.situacao + "</small></td>" +
+			            "			<td align='right'>" ;
+			            if(relUserMedidor.situacao == 'A') {
+			            	texto +=
+			                "               <small><button type='button' class='btn btn-danger btn-xs' onclick='inativarUsuarioMedidor(" + relUserMedidor.idUserMedidor + ")'>Inativar</button></small>" ;
+			            }
+			            else {
+			            	texto +=
+				            "               <small><button type='button' class='btn btn-default btn-xs disabled' onclick='inativarUsuarioMedidor(" + relUserMedidor.idUserMedidor + ")'>Inativo</button></small>" ;
+			            }
+	                	texto +=
+			            "			</td>" +
+			            "		</tr>" ;
+	                }
+		            texto +=
+		            "	</tbody>" +
+		            "</table>" ;	 
+	            }
+	            
+	            divUsuarioMedidorLista.innerHTML = texto;
+	            
+	            $( function() {
+	        	    $("#divUsuarioMedidor").dialog({
+	        	        height: 500,
+	        	        scrollable: true,
+	        	        width: 1000,
+	        	        modal: false,
+	        	        draggable: false
+	        	    });
+	        	});
+	        },
+	        error : function(){
+	
+	            $.unblockUI();
+	            alert('erro');
+	        }
 	    });
-	});
+	}
+}
+
+function inativarUsuarioMedidor(idUserMedidor) {
+
+	var avisoDivUsuarioMedidor = document.getElementById('avisoDivUsuarioMedidor');
+	var divUsuarioMedidorLista = document.getElementById('divUsuarioMedidorLista');
+	var idMedidor = document.getElementById('idMedidor1');
+
+	avisoDivUsuarioMedidor.innerHTML = '';
+	
+	if(idMedidor.value == '') {
+		
+		avisoDivUsuarioMedidor.innerHTML = 'Selecione o medidor';
+	}
+	else {
+		
+	    $.ajax({
+	        url: 'UsuarioMedidorBO?acao=9' +
+	             '&idMedidor=' + idMedidor.value +
+	             '&idUserMedidor=' + idUserMedidor 
+	        ,
+	        type: "POST",
+	        dataType: 'json',
+	        success: function(result) {
+	        	
+	        	var texto = "<input type='hidden' id='idMedidor1' name='idMedidor1' value='" + idMedidor.value + "' />" ;
+	            var listRelUserMedidor = result;
+	            if(listRelUserMedidor != null && listRelUserMedidor.length > 0) {
+	            	
+	            	texto +=
+	            	"<table class='table table-hover table-striped'>" +
+		            "	<thead>" +
+		            "		<tr>" +
+		            "			<th>Nº</th>" +
+		            "			<th>Usuário</th>" +
+		            "			<th>Cpf</th>" +
+		            "			<th>Inicio</th>" +
+		            "			<th>Fim</th>" +
+		            "			<th>Situação</th>" +
+		            "			<th></th>" +
+		            "		</tr>" +
+		            "	</thead>" +
+		            "	<tbody id='myTable'>" ;
+	        		for(i = 0; i < listRelUserMedidor.length; i++) {
+	                	
+	                	var relUserMedidor = listRelUserMedidor[i];
+	                	texto +=
+			            "		<tr>" +
+			            "			<td><small>" + (i + 1) + "</small></td>" +
+			            "			<td><small>" + relUserMedidor.nomeUser + "</small></td>" +
+			            "			<td><small>" + relUserMedidor.cpfUser + "</small></td>" +
+			            "			<td><small>" + relUserMedidor.dtInicio + "</small></td>" +
+			            "			<td><small>" + nullParaVazio(relUserMedidor.dtFim) + "</small></td>" +
+			            "			<td><small>" + relUserMedidor.situacao + "</small></td>" +
+			            "			<td align='right'>" ;
+			            if(relUserMedidor.situacao == 'A') {
+			            	texto +=
+			                "               <small><button type='button' class='btn btn-danger btn-xs' onclick='inativarUsuarioMedidor(" + relUserMedidor.idUserMedidor + ")'>Inativar</button></small>" ;
+			            }
+			            else {
+			            	texto +=
+				            "               <small><button type='button' class='btn btn-default btn-xs disabled' onclick='inativarUsuarioMedidor(" + relUserMedidor.idUserMedidor + ")'>Inativo</button></small>" ;
+			            }
+	                	texto +=
+			            "			</td>" +
+			            "		</tr>" ;
+	                }
+		            texto +=
+		            "	</tbody>" +
+		            "</table>" ;	 
+	            }
+	            
+	            divUsuarioMedidorLista.innerHTML = texto;
+	            
+	            $( function() {
+	        	    $("#divUsuarioMedidor").dialog({
+	        	        height: 500,
+	        	        scrollable: true,
+	        	        width: 1000,
+	        	        modal: false,
+	        	        draggable: false
+	        	    });
+	        	});
+	        },
+	        error : function(){
+	
+	            $.unblockUI();
+	            alert('erro');
+	        }
+	    });
+	}
 }
 
 function exibirAviso(texto) {

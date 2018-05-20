@@ -43,12 +43,13 @@ public class Login extends HttpServlet {
             UserDAO userDAO = new UserDAO(connection);
 
             user = userDAO.login(email, senha);
-            
+
             if (req.getParameter("r") != null) {
                 relat = req.getParameter("r");
             }
 
             if (relat.equals("login")) {
+            	
                 if (user == null) {
                     //usuario inexistente
                     req.setAttribute("loginErro", "Usuario/Senha Incorreta. Tente Novamente!");

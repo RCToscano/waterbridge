@@ -24,6 +24,7 @@ import br.com.waterbridge.dao.EmpresaDAO;
 import br.com.waterbridge.dao.MedidorDAO;
 import br.com.waterbridge.dao.SituacaoDAO;
 import br.com.waterbridge.dao.UserDAO;
+import br.com.waterbridge.dao.UserMedidorDAO;
 import br.com.waterbridge.modelo.Bridge;
 import br.com.waterbridge.modelo.BridgeTpAlim;
 import br.com.waterbridge.modelo.Condominio;
@@ -31,8 +32,11 @@ import br.com.waterbridge.modelo.Empresa;
 import br.com.waterbridge.modelo.Medidor;
 import br.com.waterbridge.modelo.Situacao;
 import br.com.waterbridge.modelo.User;
-import br.com.waterbridge.reldao.RelUsuarioMedidorDAO;
-import br.com.waterbridge.relmodelo.RelUsuarioMedidor;
+import br.com.waterbridge.modelo.UserMedidor;
+import br.com.waterbridge.reldao.RelMedidorDAO;
+import br.com.waterbridge.reldao.RelUserMedidorDAO;
+import br.com.waterbridge.relmodelo.RelMedidor;
+import br.com.waterbridge.relmodelo.RelUserMedidor;
 
 public class UsuarioMedidorBO extends HttpServlet {
 
@@ -209,8 +213,8 @@ public class UsuarioMedidorBO extends HttpServlet {
 
 				connection = ConnectionFactory.getConnection();
 				
-				RelUsuarioMedidorDAO relUsuarioMedidorDAO = new RelUsuarioMedidorDAO(connection);
-				List<RelUsuarioMedidor> listRelUsuarioMedidor = relUsuarioMedidorDAO.listar(sql);
+				RelMedidorDAO relUsuarioMedidorDAO = new RelMedidorDAO(connection);
+				List<RelMedidor> listRelUsuarioMedidor = relUsuarioMedidorDAO.listar(sql);
 				
 				json = new Gson().toJson(listRelUsuarioMedidor);
 				
@@ -228,8 +232,39 @@ public class UsuarioMedidorBO extends HttpServlet {
 					try {connection.close();} catch (SQLException e) {}
 				}
 			}	
-        }		
-		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("6")) { //AUTOCOMPLETE CPF VINCULO USUARIO MEDIDOR
+        }	
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("6")) { //LISTAR USUARIO MEDIDOR
+
+			Connection connection = null;
+			HttpSession session = req.getSession(true);
+            User user = (User) session.getValue("user");
+            String json = "";
+			
+			try {
+				
+				connection = ConnectionFactory.getConnection();
+				
+				RelUserMedidorDAO relUserMedidorDAO = new RelUserMedidorDAO(connection);
+				List<RelUserMedidor> listRelUserMedidor = relUserMedidorDAO.listar(Long.parseLong(req.getParameter("idMedidor")));
+				
+				json = new Gson().toJson(listRelUserMedidor);
+				
+				res.setContentType("application/json");
+				res.setCharacterEncoding("UTF-8");
+				res.getWriter().write(json);   
+			}
+	        catch (Exception e) {
+	        	System.out.println("erro: " + e.toString());
+	            req.setAttribute("erro", e.toString());
+	            req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
+	        }
+			finally {
+				if(connection != null) {
+					try {connection.close();} catch (SQLException e) {}
+				}
+			}	
+        }
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("7")) { //AUTOCOMPLETE CPF VINCULO USUARIO MEDIDOR
 
 			Connection connection = null;
 			HttpSession session = req.getSession(true);
@@ -240,14 +275,12 @@ public class UsuarioMedidorBO extends HttpServlet {
 			try {
 
 				sql += "WHERE   ID_USER > 0 " + 
-					   "AND     CPF LIKE '%" + req.getParameter("cpf") + "%' ";
+					   "AND     ( REPLACE(CPF, '.', '') LIKE '" + req.getParameter("cpf").replace(".", "") + "%' OR UPPER(NOME) LIKE '" + req.getParameter("cpf").toUpperCase() + "%' ) " ;
 				
 				connection = ConnectionFactory.getConnection();
 				
 				UserDAO userDAO = new UserDAO(connection);
 				List<User> listUser = userDAO.listar(sql);
-				
-				System.out.println("listUser " + listUser.size());
 				
 				json = new Gson().toJson(listUser);
 				
@@ -266,6 +299,115 @@ public class UsuarioMedidorBO extends HttpServlet {
 				}
 			}	
         }
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("8")) { //INSERIR VINCULO USUARIO MEDIDOR
+
+			Connection connection = null;
+			HttpSession session = req.getSession(true);
+            User user = (User) session.getValue("user");
+            String aviso = "";
+            String json = "";
+			
+			try {
+
+				connection = ConnectionFactory.getConnection();
+				
+				String cpf = req.getParameter("cpf").split(" - ")[0];
+				
+				UserDAO userDAO = new UserDAO(connection);
+				User user1 = userDAO.buscarPorCpf(cpf.trim());
+				
+				if(user1 == null) {//USUARIO NAO ENCONTRADO
+					
+					aviso = "O cpf informado não foi localizado";
+				}
+				else {
+
+					UserMedidor userMedidor = new UserMedidor();
+					
+					UserMedidorDAO userMedidorDAO = new UserMedidorDAO(connection);
+					userMedidor = userMedidorDAO.buscar(user1.getIdUser(), Long.parseLong(req.getParameter("idMedidor")), "A");
+
+					if(userMedidor != null) {
+						
+						aviso = "O usuário informado já está vinculado ao medidor";
+					}
+					else {
+					
+						userMedidor = new UserMedidor();
+						userMedidor.setIdUserMedidor(0l);
+						userMedidor.setIdInsert(user.getIdUser());
+						userMedidor.setIdUser(user1.getIdUser());
+						userMedidor.setIdMedidor(Long.parseLong(req.getParameter("idMedidor")));
+						userMedidor.setDtInicio(null);
+						userMedidor.setDtFim(null);
+						userMedidor.setSituacao("A");
+						userMedidorDAO.inserir(userMedidor);
+					}
+				}
+				
+				RelUserMedidorDAO relUserMedidorDAO = new RelUserMedidorDAO(connection);
+				List<RelUserMedidor> listRelUserMedidor = relUserMedidorDAO.listar(Long.parseLong(req.getParameter("idMedidor")));
+
+				List<Object> listObject = new ArrayList<Object>();
+				listObject.add(aviso);
+				listObject.add(listRelUserMedidor);
+				
+				json = new Gson().toJson(listObject);
+
+				res.setContentType("application/json");
+				res.setCharacterEncoding("UTF-8");
+				res.getWriter().write(json);   
+			}
+	        catch (Exception e) {
+	        	System.out.println("erro: " + e.toString());
+	            req.setAttribute("erro", e.toString());
+	            req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
+	        }
+			finally {
+				if(connection != null) {
+					try {connection.close();} catch (SQLException e) {}
+				}
+			}	
+        }
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("9")) { //INATIVAR VINCULO USUARIO MEDIDOR
+
+			Connection connection = null;
+			HttpSession session = req.getSession(true);
+            User user = (User) session.getValue("user");
+            String json = "";
+			
+			try {
+
+				connection = ConnectionFactory.getConnection();
+				
+				System.out.println("idUserMedidor " + req.getParameter("idUserMedidor"));
+				System.out.println("idMedidor " + req.getParameter("idMedidor"));
+
+				UserMedidorDAO userMedidorDAO = new UserMedidorDAO(connection);
+
+				userMedidorDAO.inativar(Long.parseLong(req.getParameter("idUserMedidor")));
+
+				RelUserMedidorDAO relUserMedidorDAO = new RelUserMedidorDAO(connection);
+				List<RelUserMedidor> listRelUserMedidor = relUserMedidorDAO.listar(Long.parseLong(req.getParameter("idMedidor")));
+
+				json = new Gson().toJson(listRelUserMedidor);
+
+				res.setContentType("application/json");
+				res.setCharacterEncoding("UTF-8");
+				res.getWriter().write(json);   
+			}
+	        catch (Exception e) {
+	        	System.out.println("erro: " + e.toString());
+	            req.setAttribute("erro", e.toString());
+	            req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
+	        }
+			finally {
+				if(connection != null) {
+					try {connection.close();} catch (SQLException e) {}
+				}
+			}	
+        }
+		
 		
 		
 		

@@ -179,8 +179,8 @@ public class UserDAO {
 					"ON        TB_USER.ID_PERFIL = TB_PERFIL.ID_PERFIL " +
 					"LEFT JOIN TB_PASS " +
 					"ON        TB_USER.ID_USER = TB_PASS.ID_USER " +
-					"WHERE     TB_USER.CPF = ? " +
-					"      AND TB_PERFIL.PERFIL <> 'PROGRAMADOR' "
+					"WHERE     TB_USER.CPF = ? " 
+					//"      AND TB_PERFIL.PERFIL <> 'PROGRAMADOR' "
     				);
     		
     		stmt.setString(1, cpf);

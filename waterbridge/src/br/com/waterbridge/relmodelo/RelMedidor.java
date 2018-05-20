@@ -1,6 +1,8 @@
 package br.com.waterbridge.relmodelo;
 
-public class RelUsuarioMedidor {
+import java.util.List;
+
+public class RelMedidor {
 
 	private Long idEmpresa;
 	private String empresa;
@@ -33,6 +35,7 @@ public class RelUsuarioMedidor {
 	private String cep;
 	private String coordX;
 	private String coordY;
+	private List<RelUserMedidor> listRelUserMedidor;
 	
 	public Long getIdEmpresa() {
 		return idEmpresa;
@@ -220,5 +223,11 @@ public class RelUsuarioMedidor {
 	public void setCoordY(String coordY) {
 		this.coordY = coordY;
 	}
-
+	public List<RelUserMedidor> getListRelUserMedidor() {
+		return listRelUserMedidor;
+	}
+	public void setListRelUserMedidor(List<RelUserMedidor> listRelUserMedidor) {
+		this.listRelUserMedidor = listRelUserMedidor;
+	}
+	
 }
