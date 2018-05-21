@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
+import java.util.Random;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -476,54 +477,16 @@ public class Auxiliar {
     	return texto.substring(texto.lastIndexOf("."));
     }
     
-    public static void Email(Object user, String tela, String select){
-
-        final String username = "noreply@gerentec.com.br";
-        final String password = "daytona88";
-
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
-
-        Session session = Session.getInstance(props,
-            new javax.mail.Authenticator() {
-                protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
-                }
-            });
-
-        try {
-            Message message = new MimeMessage(session);
-            
-            message.setHeader("MIME-Version", "1.0");  
-            message.setHeader("Content-Type", "text/plain; charset=UTF-8");  
-            message.setHeader("Content-Transfer-Encoding", "quoted-printable");  
-            message.setHeader("Content-Disposition", "inline");  
-
-            message.setFrom(new InternetAddress("dguerra@gerentec.com.br"));
-
-            message.setRecipients(Message.RecipientType.BCC,
-                            InternetAddress.parse("dguerra@gerentec.com.br"));
-            
-            message.setSubject("Adesao ML - Erro Tela ");
-            
-            message.setContent(
-                        "<html><body> " + 
-                        "<p align=center><font face=Arial>Informacoes</font></p> " +
-                        "<p align=left><font face=Arial color=red>USUARIO: </font><font face=Arial>"+user+"</font></p> " +
-                        "<p align=left><font face=Arial color=red>TELA: </font><font face=Arial>"+tela+"</font></p> " +
-                        "<p align=left><font face=Arial color=red>SELECT: </font><font face=Arial>"+select+"</font></p> " +
-                        "</body></html> "
-                    , "text/html; charset=UTF-8");
-
-            Transport.send(message);
-            
-        } 
-        catch(MessagingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    
+	public static String getRandomPass() {
+		char[] chart = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
+				'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D',
+				'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y',
+				'Z' };
+		char[] senha = new char[12];
+		int chartLenght = chart.length;
+		Random rdm = new Random();
+		for (int x = 0; x < 12; x++)
+			senha[x] = chart[rdm.nextInt(chartLenght)];
+		return new String(senha);
+	}
 }

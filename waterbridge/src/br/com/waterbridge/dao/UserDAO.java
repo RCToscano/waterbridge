@@ -230,6 +230,76 @@ public class UserDAO {
         }
     }
     
+    public User buscarPorUsuario(String usuario) throws Exception {
+    	PreparedStatement stmt = null;
+    	ResultSet rs = null;
+    	User user = null;
+    	SimpleDateFormat formatoBanco = new SimpleDateFormat("yyyy-MM-dd");
+    	SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
+    	try {
+    		stmt = connection.prepareStatement(
+    				"SELECT    TB_USER.*, " +
+					"          TB_PERFIL.ID_PERFIL, " +
+					"          TB_PERFIL.PERFIL, " +
+					"          TB_PERFIL.MENU, " +
+					"          TB_PASS.ID_PASS, " +
+					"          TB_PASS.PASS " +
+					"FROM      TB_USER " +
+					"LEFT JOIN TB_PERFIL " +
+					"ON        TB_USER.ID_PERFIL = TB_PERFIL.ID_PERFIL " +
+					"LEFT JOIN TB_PASS " +
+					"ON        TB_USER.ID_USER = TB_PASS.ID_USER " +
+					"WHERE     TB_USER.USUARIO = ? " 
+					//"      AND TB_PERFIL.PERFIL <> 'PROGRAMADOR' "
+    				);
+    		
+    		stmt.setString(1, usuario);
+    		
+    		rs = stmt.executeQuery();
+    		
+    		if (rs.next()) {
+    			Perfil perfil = new Perfil();
+    			perfil.setIdPerfil(rs.getLong("ID_PERFIL"));
+    			perfil.setPerfil(rs.getString("PERFIL"));
+    			perfil.setMenu(rs.getString("MENU"));
+    			
+    			Pass pass = new Pass();
+    			pass.setIdPass(rs.getLong("ID_PASS"));
+    			pass.setIdUser(rs.getLong("ID_USER"));
+    			pass.setPass(rs.getString("PASS"));
+    			
+    			user = new User();
+    			user.setIdUser(rs.getLong("ID_USER"));
+    			user.setUsuario(rs.getString("USUARIO"));
+    			user.setCpf(rs.getString("CPF"));
+    			user.setNome(rs.getString("NOME"));
+    			user.setDtNasc(formatoData.format(formatoBanco.parse(rs.getString("DTNASC"))));
+    			user.setSexo(rs.getString("SEXO"));
+    			user.setTelFixo(rs.getString("TELFIXO"));
+    			user.setTelCel(rs.getString("TELCEL"));
+    			user.setEmail(rs.getString("EMAIL"));
+    			user.setEndereco(rs.getString("ENDERECO"));
+    			user.setNumero(rs.getLong("NUMERO"));
+    			user.setCompl(rs.getString("COMPL"));
+    			user.setMunicipio(rs.getString("MUNICIPIO"));
+    			user.setUf(rs.getString("UF"));
+    			user.setCep(rs.getString("CEP"));
+    			user.setDtInsert(rs.getString("DTINSERT"));
+    			user.setSituacao(rs.getString("SITUACAO"));
+    			
+    			user.setPerfil(perfil);
+    			user.setPass(pass);
+    		}
+    		return user;
+    	} 
+    	finally {
+            if(stmt != null)
+                stmt.close();
+            if(rs != null)
+                rs.close();
+        }
+    }
+    
     public List<User> buscarPorEndereco(String endereco) throws Exception {
     	PreparedStatement stmt = null;
     	ResultSet rs = null;
@@ -509,7 +579,7 @@ public class UserDAO {
 					")" +
     				" VALUES ( " +
             		"?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " + 
-					"?, ?, ?, ?, ?, ?, sysdate() ) " 
+					"?, ?, ?, ?, ?, ?, ?, ?, sysdate() ) " 
     				);
             		
             stmt.setObject(1, user.getPerfil().getIdPerfil());
