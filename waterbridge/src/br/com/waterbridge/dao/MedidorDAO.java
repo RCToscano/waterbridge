@@ -487,5 +487,104 @@ public class MedidorDAO {
             }
         }
     }
+    
+    public List<Medidor> listarPorUsuario(Long idUser, Long idBridge) throws SQLException {
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Medidor> listMedidor = new ArrayList<Medidor>();
+        
+        try {
+            
+            stmt = connection.prepareStatement(
+            "SELECT    ID_MEDIDOR, " +
+            "          ID_USER, " +
+            "          ID_FABRICMEDIDOR, " +
+            "          MODELO, " +
+            "          SERIE, " +
+            "          TIPO, " +
+            "          CHAVEDECRIPTO, " +
+            "          VALIDBATERIA, " +
+            "          OBS, " +
+            "          SITUACAO, " +
+            "          DTINSERT, " +
+            "          ID_BRIDGE, " +
+            "          DEVICENUM, " +
+            "          METERPOSITION, " +
+            "          METERID, " +
+            "          ID_CONDOMINIO, " +
+            "          ENDERECO, " +
+            "          NUMERO, " +
+            "          COMPL, " +
+            "          MUNICIPIO, " +
+            "          UF, " +
+            "          CEP, " +
+            "          COORDX, " +
+            "          COORDY " +
+            "FROM      TB_MEDIDOR " +
+            "LEFT JOIN VW_USERMEDIDORID " +
+		    "ON        TB_MEDIDOR.ID_MEDIDOR = VW_USERMEDIDORID.ID_MEDIDOR " +
+		    "WHERE     VW_USERMEDIDORID.ID_USER = ? " +
+		    "AND       TB_MEDIDOR.ID_BRIDGE = ? "
+            );
+
+            stmt.setObject(1, idUser);
+            stmt.setObject(2, idBridge);
+            
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+            	
+            	FabricMedidorDAO fabricMedidorDAO = new FabricMedidorDAO(connection);
+            	FabricMedidor fabricMedidor = fabricMedidorDAO.buscar(rs.getLong("ID_FABRICMEDIDOR"));
+            	
+            	Medidor medidor = new Medidor();
+            	medidor.setIdMedidor(rs.getLong("ID_MEDIDOR"));
+            	medidor.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
+            	medidor.setIdBridge(rs.getLong("ID_BRIDGE"));
+            	medidor.setIdUser(rs.getLong("ID_USER"));
+            	medidor.setDeviceNum(rs.getString("DEVICENUM"));
+            	medidor.setIdFabricMedidor(rs.getLong("ID_FABRICMEDIDOR"));
+            	medidor.setFabricMedidor(fabricMedidor);
+            	medidor.setModelo(rs.getString("MODELO"));
+            	medidor.setSerie(rs.getString("SERIE"));
+            	medidor.setTipo(rs.getString("TIPO"));
+            	medidor.setChaveDeCripto(rs.getString("CHAVEDECRIPTO"));
+            	medidor.setValidBateria(rs.getInt("VALIDBATERIA"));
+            	medidor.setNumeroMedidor(rs.getString("METERID"));
+            	medidor.setMeterPosition(rs.getInt("METERPOSITION"));
+            	medidor.setEndereco(rs.getString("ENDERECO"));
+            	medidor.setNumero(rs.getLong("NUMERO"));
+            	medidor.setCompl(rs.getString("COMPL"));
+            	medidor.setMunicipio(rs.getString("MUNICIPIO"));
+            	medidor.setUf(rs.getString("UF"));
+            	medidor.setCep(rs.getString("CEP"));
+            	medidor.setCoordX(rs.getString("COORDX"));
+            	medidor.setCoordY(rs.getString("COORDY"));
+            	medidor.setObs(rs.getString("OBS"));
+            	medidor.setSituacao(rs.getString("SITUACAO"));
+            	medidor.setDtInsert(rs.getString("DTINSERT"));
+            	
+            	listMedidor.add(medidor);
+            }
+            
+            return listMedidor;
+        }
+        catch(SQLException e) {
+            
+            throw e;
+        }
+        finally {
+
+            if(stmt != null) {
+                
+                stmt.close();
+            }
+            if(rs != null) {
+                
+                rs.close();
+            }
+        }
+    }
 
 }

@@ -260,9 +260,10 @@ public class EmpresaDAO {
 		    "          TB_EMPRESA.SITUACAO, " +
 		    "          TB_EMPRESA.DTINSERT " +
 		    "FROM      TB_EMPRESA " +
-		    "LEFT JOIN TB_USEREMPRESA " +
-		    "ON        TB_EMPRESA.ID_EMPRESA = TB_USEREMPRESA.ID_EMPRESA " +
-		    "WHERE     TB_USEREMPRESA.ID_USER = ? ");
+		    "LEFT JOIN VW_USEREMPRESAID " +
+		    "ON        TB_EMPRESA.ID_EMPRESA = VW_USEREMPRESAID.ID_EMPRESA " +
+		    "WHERE     VW_USEREMPRESAID.ID_USER = ? " 
+		    );
             
             stmt.setObject(1, idUser);
 

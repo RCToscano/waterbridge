@@ -11,7 +11,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		
 		<script src="./js/funcoes.auxiliares.js" type="text/javascript"></script>
-	    <script src="./js/usuarioempresa/listausuarioempresa.js" type="text/javascript"></script>
+	    <script src="./js/usuariocondominio/listausuariocondominio.js" type="text/javascript"></script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	    <script src="http://code.jquery.com/jquery-2.2.4.js" ></script>	
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -51,12 +51,13 @@
                 background: white url("images/ui-anim_basic_16x16.gif") right center no-repeat;
             }
         </style>
+        
         <script>
 	        $(function () {
 	            $("#cpf").autocomplete({
 	                source: function (request, response) {
 	                    $.ajax({
-	                        url: "UsuarioEmpresaBO?acao=4",
+	                        url: "UsuarioCondominioBO?acao=5",
 	                        dataType: "json",
 	                        data: {
 	                        	cpf: $("#cpf").val()
@@ -87,7 +88,7 @@
 	                    });
 	                },
 	                //minLength: 2,
-	                appendTo: "#divUsuarioEmpresa",
+	                appendTo: "#divUsuarioCondominio",
 	                select: function (event, ui) {
 
 	//                    var values = ui.item.value.split('-');
@@ -104,18 +105,18 @@
         <div class="container">
         	<ul class="breadcrumb">
 			    <li><a href="HomeBO?acao=home">Home</a></li>
-			    <li class="active">Vínculo Usuário Empresa</li>
+			    <li class="active">Vínculo Usuário Condomínio</li>
 			</ul>
 			<div class="col-sm-12" style="float: none; margin: 0 auto;">
 				<fieldset>
 				    <legend>${tituloTela}</legend>
 			  	</fieldset>
 				<div id="divAviso">${aviso}</div>
-				<form role="form" id="formUsuarioEmpresa" action="#" method="POST" class="form-horizontal" accept-charset="iso-8859-1,utf-8">
+				<form role="form" id="formUsuarioCondominio" action="#" method="POST" class="form-horizontal" accept-charset="iso-8859-1,utf-8">
 					<div class="form-group">
-						<div class="col-sm-5">
+						<div class="col-sm-4">
 							<label>Empresa</label> 
-							<select class="form-control" id="idEmpresa" name="idEmpresa" required">
+							<select class="form-control" id="idEmpresa" name="idEmpresa" required onchange="listarCondominio()">
 								<option value="" selected>Selecione...</option>
 								<c:forEach var="empresa" items="${listEmpresa}">
                       		        <c:choose>
@@ -129,8 +130,14 @@
 		                     	</c:forEach>
 							</select>
 						</div>
-						<div class="col-sm-4" style="padding-top: 25px;">
-							<button type="button" class="btn btn-primary" onclick="listarUsuarioEmpresa()">Buscar</button>
+						<div class="col-sm-4">
+							<label>Local</label> 
+							<select class="form-control" id="idCondominio" name="idCondominio" required >
+								<option value="" selected>Selecione...</option>
+							</select>					
+						</div>
+						<div class="col-sm-2" style="padding-top: 25px;">
+						    <button type="button" class="btn btn-primary" onclick="listarUsuarioCondominio()">Buscar</button>						
 						</div>
 					</div>					
 				</form>			
@@ -140,19 +147,19 @@
 					</div>
 				</div>
 			</div>
-			<div id="divUsuarioEmpresa" title="Vínculo de Usuários Empresa" style="display: none;">
-				<div class="form-group"><div class="col-sm-12"><label id="avisoDivUsuarioEmpresa" style="color: red;"></label></div></div>
+			<div id="divUsuarioCondominio" title="Vínculo de Usuários Condomínio" style="display: none;">
+				<div class="form-group"><div class="col-sm-12"><label id="avisoDivUsuarioCondominio" style="color: red;"></label></div></div>
 				<div class="form-group">
 					<div class="col-sm-5">
 						<label class="control-label">Digite o CPF ou Nome do Usuário</label>
 						<input type="text" class="form-control" id="cpf" name="cpf" value="" />
 					</div>
 					<div class="col-sm-1" style="padding-top: 25px;">
-						<button type="button" class="btn btn-primary" onclick="inserirUsuarioEmpresa()">Inserir</button>
+						<button type="button" class="btn btn-primary" onclick="inserirUsuarioCondominio()">Inserir</button>
 					</div>
 				</div>
 				<div class="form-group" style="margin-top: 100px;">
-					<div class="col-sm-12" id="divUsuarioEmpresaLista"></div>
+					<div class="col-sm-12" id="divUsuarioCondominioLista"></div>
 				</div>			
 			</div>
 			<style>
