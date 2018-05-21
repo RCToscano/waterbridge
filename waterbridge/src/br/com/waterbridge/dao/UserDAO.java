@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.waterbridge.auxiliar.Auxiliar;
+import br.com.waterbridge.modelo.Empresa;
 import br.com.waterbridge.modelo.Pass;
 import br.com.waterbridge.modelo.Perfil;
 import br.com.waterbridge.modelo.User;
@@ -35,12 +36,17 @@ public class UserDAO {
             "          TB_PERFIL.PERFIL, " +
             "          TB_PERFIL.MENU, " +
             "          TB_PASS.ID_PASS, " +
-            "          TB_PASS.PASS " +
+            "          TB_PASS.PASS, " +
+            "          TB_EMPRESA.* " +
             "FROM      TB_USER " +
             "LEFT JOIN TB_PERFIL " +
             "ON        TB_USER.ID_PERFIL = TB_PERFIL.ID_PERFIL " +
             "LEFT JOIN TB_PASS " +
             "ON        TB_USER.ID_USER = TB_PASS.ID_USER " +
+            "LEFT JOIN TB_USEREMPRESA " +
+            "ON        TB_USER.ID_USER = TB_USEREMPRESA.ID_USER " +
+            "LEFT JOIN TB_EMPRESA " +
+            "ON        TB_USEREMPRESA.ID_EMPRESA = TB_EMPRESA.ID_EMPRESA " +
             "WHERE     TB_USER.USUARIO = ? " +
             "AND       TB_PASS.PASS = ? "
             );
@@ -77,6 +83,29 @@ public class UserDAO {
         		user.setUf(rs.getString("UF"));
         		user.setCep(rs.getString("CEP"));
                 user.setListPermissao(new PermissaoDAO(connection).listar(rs.getLong("ID_USER")));
+                
+                if(rs.getLong("ID_EMPRESA") > 0) {
+	                Empresa empresa = new Empresa();
+	            	empresa.setIdEmpresa(rs.getLong("ID_EMPRESA"));
+	            	empresa.setNome(rs.getString("NOME"));
+	            	empresa.setCnp(rs.getString("CNP"));
+	            	empresa.setTelFixo(rs.getString("TELFIXO"));
+	            	empresa.setTelCel(rs.getString("TELCEL"));
+	            	empresa.setEmail(rs.getString("EMAIL"));
+	            	empresa.setResponsavel(rs.getString("RESPONSAVEL"));
+	            	empresa.setEndereco(rs.getString("ENDERECO"));
+	            	empresa.setNumero(Auxiliar.converteLong(rs.getString("NUMERO")));
+	            	empresa.setCompl(rs.getString("COMPL"));
+	            	empresa.setMunicipio(rs.getString("MUNICIPIO"));
+	            	empresa.setUf(rs.getString("UF"));
+	            	empresa.setCep(rs.getString("CEP"));
+	            	empresa.setCoordX(rs.getString("COORDX"));
+	            	empresa.setCoordY(rs.getString("COORDY"));
+	            	empresa.setLogoPDir(rs.getString("LOGOPDIR"));;
+	            	empresa.setLogoPNome(rs.getString("LOGOPNOME"));;
+	            	empresa.setSituacao(rs.getString("SITUACAO"));
+	            	user.setEmpresa(empresa);
+                }
             }
 
             return user;

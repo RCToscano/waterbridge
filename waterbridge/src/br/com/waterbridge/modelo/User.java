@@ -27,6 +27,7 @@ public class User {
     private String dtInsert;
     private String situacao;
     List<Permissao> listPermissao;
+    private Empresa empresa;
 
 	public Long getIdUser() {
 		return idUser;
@@ -215,4 +216,14 @@ public class User {
         }
         return false;
     }
+
+	public Empresa getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
+	}
+    
+    
 }

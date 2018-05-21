@@ -365,36 +365,6 @@ public class CondominioBO extends HttpServlet {
 				}
 			}	
         }
-		
-		//Consumo por periodo
-        else if (req.getParameter("acao") != null && req.getParameter("acao").equals("consumo")) {
-        	Connection connection = null;
-        	try {
-        		connection = ConnectionFactory.getConnection();
-				CondominioDAO condominioDAO = new CondominioDAO(connection);
-				List<Condominio> listCondominio = condominioDAO.listar();
-	        	
-				req.setAttribute("listCondominio", listCondominio);
-	        	req.setAttribute("display", "none");
-				req.getRequestDispatcher("/jsp/condominio/consumo.jsp").forward(req, res);
-	        }
-	        catch (Exception e) {
-	            req.setAttribute("erro", e.toString());
-	            req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
-	        }
-			finally {
-				if(connection != null) {
-					try {connection.close();} catch (SQLException e) {}
-				}
-			}
-        }
-        
-        //Grafico de Consumo
-        else if (req.getParameter("acao") != null && req.getParameter("acao").equals("consumoGrafico")) {
-        	req.setAttribute("display", "none");
-        	req.getRequestDispatcher("/jsp/condominio/consumoGrafico.jsp").forward(req, res);
-        }
-		
     }
 }
 

@@ -15,6 +15,7 @@ import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.auxiliar.Constantes;
 import br.com.waterbridge.auxiliar.Email;
 import br.com.waterbridge.connection.ConnectionFactory;
+import br.com.waterbridge.dao.LogSqlDAO;
 import br.com.waterbridge.dao.PassDAO;
 import br.com.waterbridge.dao.PerfilDAO;
 import br.com.waterbridge.dao.SituacaoDAO;
@@ -146,6 +147,12 @@ public class UsuarioBO extends HttpServlet {
 							} 
 	            			catch (Exception e) {
 								System.out.println(e);
+								try {
+									new LogSqlDAO(connection).inserir(((User) req.getSession().getAttribute("user")).getIdUser(),
+											"", e.getMessage(), "UsuarioBO", relat);
+								} catch (SQLException e1) {
+									e1.printStackTrace();
+								}
 								req.setAttribute("display", "none");
 	    						req.setAttribute("sucesso", "Usuário "+user.getNome()+" cadastrado com sucesso! "
 	    								+ "Não foi possível enviar o e-mail para "+user.getEmail());
@@ -156,6 +163,12 @@ public class UsuarioBO extends HttpServlet {
 				} 
             	catch (Exception e) {
             		System.out.println(e);
+            		try {
+						new LogSqlDAO(connection).inserir(((User) req.getSession().getAttribute("user")).getIdUser(),
+								"", e.getMessage(), "UsuarioBO", relat);
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
             		req.setAttribute("usuario", user);
             		req.setAttribute("aviso", Constantes.CONTATO_SUPORTE);
             		req.setAttribute("display", "block");
@@ -273,7 +286,12 @@ public class UsuarioBO extends HttpServlet {
             	} 
             	catch (Exception e) {
             		System.out.println(e);
-            		
+            		try {
+						new LogSqlDAO(connection).inserir(((User) req.getSession().getAttribute("user")).getIdUser(),
+								"", e.getMessage(), "UsuarioBO", relat);
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
             		UserDAO userDAO = new UserDAO(ConnectionFactory.getConnection());
                 	List<User> listaUsuarios = userDAO.listarTodos();
                 	
@@ -361,6 +379,12 @@ public class UsuarioBO extends HttpServlet {
 				} 
             	catch (Exception e) {
             		System.out.println(e);
+            		try {
+						new LogSqlDAO(connection).inserir(((User) req.getSession().getAttribute("user")).getIdUser(),
+								"", e.getMessage(), "UsuarioBO", relat);
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
             		List<SexoEnum> listaSexo = SexoEnum.listCodigos();
                 	req.setAttribute("listaSexo", listaSexo);
             		req.setAttribute("usuario", user);
@@ -394,6 +418,12 @@ public class UsuarioBO extends HttpServlet {
             	} 
             	catch (Exception e) {
             		System.out.println(e);
+            		try {
+						new LogSqlDAO(connection).inserir(((User) req.getSession().getAttribute("user")).getIdUser(),
+								"", e.getMessage(), "UsuarioBO", relat);
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
             		req.setAttribute("aviso", Constantes.CONTATO_SUPORTE);
                 	req.setAttribute("display", "block");
             	}
@@ -409,6 +439,12 @@ public class UsuarioBO extends HttpServlet {
         }
         catch (Exception e) {
             req.setAttribute("erro", e.toString());
+            try {
+				new LogSqlDAO(connection).inserir(((User) req.getSession().getAttribute("user")).getIdUser(),
+						"", e.getMessage(), "UsuarioBO", relat);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
             req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
         }
         finally {

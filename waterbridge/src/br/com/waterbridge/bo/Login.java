@@ -14,6 +14,7 @@ import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.auxiliar.Constantes;
 import br.com.waterbridge.auxiliar.Email;
 import br.com.waterbridge.connection.ConnectionFactory;
+import br.com.waterbridge.dao.LogSqlDAO;
 import br.com.waterbridge.dao.PassDAO;
 import br.com.waterbridge.dao.UserDAO;
 import br.com.waterbridge.modelo.Pass;
@@ -57,7 +58,7 @@ public class Login extends HttpServlet {
                 } 
                 else {
                     //vai para home page
-                	String usuarioQuebrado[] = user.getNome().split("\\\\s+");
+                	String usuarioQuebrado[] = user.getNome().split("\\s+");
         			String nome = usuarioQuebrado[0].trim();
         			user.setNome(nome);
                     req.getSession().setAttribute("user", user);
@@ -109,6 +110,11 @@ public class Login extends HttpServlet {
 				} 
             	catch (Exception e) {
 					System.out.println(e);
+					try {
+						new LogSqlDAO(connection).inserir(1L, "", e.getMessage(), "Login", relat);
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
 					req.setAttribute("aviso", Constantes.CONTATO_SUPORTE);
             		req.setAttribute("display", "block");
 				}

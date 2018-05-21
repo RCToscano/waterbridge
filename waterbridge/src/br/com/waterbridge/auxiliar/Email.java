@@ -14,8 +14,8 @@ public class Email {
 	
 	public static void enviarEmail(String titulo, String mensagem, String destino){
 
-        final String username = "rafael.ctoscano@gmail.com";
-        final String password = "13579r2f2el";
+        final String username = "noreply.waterbridge@gmail.com";
+        final String password = "waterbridge16831964";
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");

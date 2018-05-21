@@ -82,7 +82,7 @@
 									</div>
 								</div>							
 
-								<div class="col-sm-4" style="padding-top: 5%;">
+								<div class="col-sm-4">
 									<div class="form-group">
 										<label class="control-label">CPF</label>
 										<input type="tel" class="form-control" id="cpf" name="cpf" placeholder="999.999.999-99" value="${usuario.cpf}" required/>

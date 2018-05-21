@@ -27,8 +27,8 @@
         <div class="container">
         	<ul class="breadcrumb">
 			    <li><a href="HomeBO?acao=home">Home</a></li>
-			    <li class="active">Condomínio</li>
-			    <li class="active">Consumo</li>
+			    <li class="active">Relatórios</li>
+			    <li class="active">Consumo por Condomínio</li>
 			</ul>
 			
 			
@@ -49,15 +49,15 @@
 			</c:if>
 			
 			<div class="form-group">
-<!-- 				<form action="#" method="post" accept-charset="iso-8859-1,utf-8"> -->
+				<form action="RelatoriosBO?acao=consumoCondominio" method="post" accept-charset="iso-8859-1,utf-8">
 					<fieldset>
-						<legend class="text-left">Consulta de Consumo por Período</legend>
+						<legend class="text-left">Consumo por Condomínio</legend>
 						
-						<div class="col-sm-8">
+						<div class="col-sm-7">
 							<div class="form-group">
 								<label>Condomínio</label> 
 								<select class="form-control" id="idCondominio" name="idCondominio" required >
-									<option value="1" selected>Condomínio Vertentes do Morumbi - Av. Francisco Morato, 2000</option>
+									<option value="" selected>Selecione...</option>
 									<c:forEach var="condominio" items="${listCondominio}">
 		                   		        <c:choose>
 		                                  	<c:when test="${condominio.idCondominio == medidor.idCondominio}">
@@ -72,26 +72,44 @@
 							</div>					
 						</div>
 						
-						<div class="col-sm-4">
+						<div class="col-sm-2">
 							<div class="form-group">
-								<label>Período</label>
-								<div class="col-sm-4 col-md-12" style="padding: 0px; margin: 0px;">
-									<div class="col-sm-4 col-md-6" style="padding-left: 0px;">
-										<input type="text" class="form-control" data-date-format="DD/MM/YYYY" name="dtInicio" id="dtInicio" placeholder="Início" maxlength="10" value="01/04/2018" required/>
-									</div>
-									<div class="col-sm-4 col-md-6" style="padding-left: 0px;">
-										<input type="text" class="form-control" data-date-format="DD/MM/YYYY" name="dtFim" id="dtFim" placeholder="Fim" maxlength="10" value="30/04/2018" required/>
-									</div>
+								<label class="control-label">Período</label>
+								<div class='input-group date' id='datetimepicker1'>
+									<input type="text" class="form-control" id="dtInicio" name="dtInicio" data-date-format="DD/MM/YYYY" placeholder="dd/mm/aaaa" value="${usuario.dtNasc}" required/>
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-calendar"></span>
+									</span>
+									<script type="text/javascript">
+									    $(function () {
+									        $('#datetimepicker1').datetimepicker({
+									            format: 'DD/MM/YYYY'
+									        });
+									    });
+									</script>
 								</div>
-								 <script type="text/javascript">
-						            $(function () {
-						                $('#dtInicio').datetimepicker({locale: 'pt-br'});
-						                $('#dtFim').datetimepicker({locale: 'pt-br'});
-						            });
-						        </script>
-					        </div>
+							</div>
 						</div>
 						
+						<div class="col-sm-2">
+							<div class="form-group">
+								<label class="control-label">&nbsp; </label>
+								<div class='input-group date' id='datetimepicker2'>
+									<input type="text" class="form-control" id="dtFim" name="dtFim" data-date-format="DD/MM/YYYY" placeholder="dd/mm/aaaa" value="${usuario.dtNasc}" required/>
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-calendar"></span>
+									</span>
+									<script type="text/javascript">
+									    $(function () {
+									        $('#datetimepicker2').datetimepicker({
+									            format: 'DD/MM/YYYY'
+									        });
+									    });
+									</script>
+								</div>
+							</div>
+						</div>
+
 						<div class="form-group">
 							<div class="col-md-12 text-center">
 								<button class="btn btn-primary">Consultar</button>
@@ -99,10 +117,10 @@
 						</div>
 						
 					</fieldset>
-<!-- 				</form> -->
+				</form>
 			</div>
 		
-<%-- 			<c:if test="${not empty lista}"> --%>
+			<c:if test="${not empty lista}">
 				<div class="col-sm-8 col-md-offset-2">
 					<div class="form-group">
 						<input class="form-control" id="myInput" type="text" placeholder="Utilize para procurar..."></input> <br />
@@ -117,57 +135,36 @@
 									</tr>
 								</thead>
 								<tbody id="myTable">
-									<tr><td>1</td><td>Consumidor 1</td><td>522132349</td><td>10</td></tr>
-									<tr><td>2</td><td>Consumidor 2</td><td>143860292</td><td>14</td></tr>
-									<tr><td>3</td><td>Consumidor 3</td><td>910061356</td><td>13</td></tr>
-									<tr><td>4</td><td>Consumidor 4</td><td>86501894</td><td>21</td></tr>
-									<tr><td>5</td><td>Consumidor 5</td><td>193243852</td><td>34</td></tr>
-									<tr><td>6</td><td>Consumidor 6</td><td>448325841</td><td>53</td></tr>
-									<tr><td>7</td><td>Consumidor 7</td><td>477691803</td><td>70</td></tr>
-									<tr><td>8</td><td>Consumidor 8</td><td>138518373</td><td>12</td></tr>
-									<tr><td>9</td><td>Consumidor 9</td><td>913207692</td><td>45</td></tr>
-									<tr><td>10</td><td>Consumidor 10</td><td>553681505</td><td>24</td></tr>
-									<tr><td>11</td><td>Consumidor 11</td><td>95287595</td><td>24</td></tr>
-									<tr><td>12</td><td>Consumidor 12</td><td>903116494</td><td>24</td></tr>
-									<tr><td>13</td><td>Consumidor 13</td><td>081613625</td><td>82</td></tr>
-									<tr><td>14</td><td>Consumidor 14</td><td>101529775</td><td>22</td></tr>
-									<tr><td>15</td><td>Consumidor 15</td><td>569838026</td><td>23</td></tr>
-									<tr><td>16</td><td>Consumidor 16</td><td>789299604</td><td>23</td></tr>
-									<tr><td>17</td><td>Consumidor 17</td><td>660519307</td><td>13</td></tr>
-									<tr><td>18</td><td>Consumidor 18</td><td>109241396</td><td>14</td></tr>
-									<tr><td>19</td><td>Consumidor 19</td><td>456263977</td><td>31</td></tr>
-									<tr><td>20</td><td>Consumidor 20</td><td>033224158</td><td>24</td></tr>
-									<tr><td>21</td><td>Consumidor 21</td><td>071699058</td><td>22</td></tr>
-									<tr><td>22</td><td>Consumidor 22</td><td>902875305</td><td>23</td></tr>
-									<tr><td>23</td><td>Consumidor 23</td><td>161013639</td><td>24</td></tr>
-									<tr><td>24</td><td>Consumidor 24</td><td>687569959</td><td>21</td></tr>
-									<tr><td>25</td><td>Consumidor 25</td><td>509340778</td><td>43</td></tr>
-									<tr><td>26</td><td>Consumidor 26</td><td>944235675</td><td>22</td></tr>
-									<tr><td>27</td><td>Consumidor 27</td><td>118606262</td><td>22</td></tr>
-									<tr><td>28</td><td>Consumidor 28</td><td>648843107</td><td>24</td></tr>
-									<tr><td>29</td><td>Consumidor 29</td><td>172560759</td><td>23</td></tr>
-									<tr><td>30</td><td>Consumidor 30</td><td>030282276</td><td>13</td></tr>
+									<% int cont = 1;%>
+									<c:forEach items="${lista}" var="total">
+										<tr>
+											<td><%=cont%></td>
+											<td><small>${total.consumidor}</small></td>
+											<td><small>${total.medidor}</small></td>
+											<td><small>${total.consumo}</small></td>
+										</tr>
+										<%cont++;%>
+									</c:forEach>
 									<tr>
 										<td colspan="4" style="text-align: center">
-											<label>Consumo total no período em m³: 813</label>
+											<label>Consumo total no período em m³: ${totalConsumo}</label>
 										</td>
 									</tr>
 									<tr>
 										<td colspan="4" style="text-align: center">
-											<form action="CondominioBO?acao=consumoGrafico" method="post" target="_blank">
+											<form action="RelatoriosBO?acao=graficoCondominio" method="post" target="_blank">
 												<button type="submit" class="btn btn-warning">
 											    	<i class="fa fa-bar-chart"></i> Gráfico
 											    </button>
 											</form>    
 										</td>
 									</tr>
-
 								</tbody>
 							</table>
 						</div>
 					</div>
 				</div>
-<%-- 			</c:if> --%>
+			</c:if>
 					
 				
 		</div>
