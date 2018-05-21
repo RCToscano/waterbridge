@@ -101,10 +101,10 @@
                 <li>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Vínculos <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="UsuarioMedidorBO?acao=1">Usuário Empresa</a></li>
+                        <li><a href="UsuarioMedidorBO?acao=1">Usuário Medidor</a></li>
                         <li class="divider"></li>
-<!--                         <li><a href="UsuarioMedidorBO?acao=1">Usuário Condominio</a></li> -->
-<!--                         <li class="divider"></li> -->
+                        <li><a href="UsuarioEmpresaBO?acao=1">Usuário Empresa</a></li>
+                        <li class="divider"></li>
 <!--                         <li><a href="UsuarioMedidorBO?acao=1">Usuário Medidor</a></li> -->
 <!--                         <li class="divider"></li> -->
                     </ul>
