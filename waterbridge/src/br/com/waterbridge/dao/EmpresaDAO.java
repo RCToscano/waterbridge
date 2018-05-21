@@ -262,7 +262,8 @@ public class EmpresaDAO {
 		    "FROM      TB_EMPRESA " +
 		    "LEFT JOIN TB_USEREMPRESA " +
 		    "ON        TB_EMPRESA.ID_EMPRESA = TB_USEREMPRESA.ID_EMPRESA " +
-		    "WHERE     TB_USEREMPRESA.ID_USER = ? ");
+		    "WHERE     TB_USEREMPRESA.ID_USER = ? " +
+		    "AND       TB_USEREMPRESA.SITUACAO = 'A' ");
             
             stmt.setObject(1, idUser);
 

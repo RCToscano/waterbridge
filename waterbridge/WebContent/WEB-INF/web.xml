@@ -48,6 +48,10 @@
     <servlet-name>UsuarioEmpresaBO</servlet-name>
     <servlet-class>br.com.waterbridge.bo.UsuarioEmpresaBO</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>UsuarioCondominioBO</servlet-name>
+    <servlet-class>br.com.waterbridge.bo.UsuarioCondominioBO</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
     <url-pattern>/Login</url-pattern>
@@ -95,6 +99,10 @@
   <servlet-mapping>
     <servlet-name>UsuarioEmpresaBO</servlet-name>
     <url-pattern>/UsuarioEmpresaBO</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UsuarioCondominioBO</servlet-name>
+    <url-pattern>/UsuarioCondominioBO</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>30</session-timeout>

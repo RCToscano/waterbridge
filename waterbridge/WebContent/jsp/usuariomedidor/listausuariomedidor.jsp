@@ -105,7 +105,7 @@
         <div class="container">
         	<ul class="breadcrumb">
 			    <li><a href="HomeBO?acao=home">Home</a></li>
-			    <li class="active">Vínculo Consumidor</li>
+			    <li class="active">Vínculo Usuário Medidor</li>
 			</ul>
 			<div class="col-sm-12" style="float: none; margin: 0 auto;">
 				<fieldset>
@@ -161,7 +161,7 @@
 					</div>
 				</div>
 			</div>
-			<div id="divUsuarioMedidor" title="Vínculo de Usuários" style="display: none;">
+			<div id="divUsuarioMedidor" title="Vínculo de Usuários Medidor" style="display: none;">
 				<div class="form-group"><div class="col-sm-12"><label id="avisoDivUsuarioMedidor" style="color: red;"></label></div></div>
 				<div class="form-group">
 					<div class="col-sm-5">
