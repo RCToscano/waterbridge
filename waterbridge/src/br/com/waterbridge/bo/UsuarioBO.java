@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Random;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.auxiliar.Constantes;
+import br.com.waterbridge.auxiliar.Email;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.PassDAO;
 import br.com.waterbridge.dao.PerfilDAO;
@@ -102,25 +102,9 @@ public class UsuarioBO extends HttpServlet {
             			user.setIdUser(Long.valueOf(req.getParameter("id")));
             			UserDAO userDAO = new UserDAO(connection);
             			userDAO.alterar(user);
-            			
-            			Pass pass = new Pass();
-	            		pass.setPass(req.getParameter("senha"));
-	            		pass.setIdUser(user.getIdUser());
-	            		
-	            		PassDAO passDAO = new PassDAO(connection);
-	            		passDAO.alterar(pass);
-	            		user.setPass(pass);
 	            		
 	            		user.setDtNasc(formatoData.format(formatoBanco.parse(user.getDtNasc())));
 	            		
-	            		PerfilDAO perfilDAO = new PerfilDAO(connection);
-	                	List<Perfil> listaPerfil = perfilDAO.listarTodos();
-	            		List<SexoEnum> listaSexo = SexoEnum.listCodigos();
-	            		SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
-	    				List<Situacao> listSituacao = situacaoDAO.listar();
-	            		req.setAttribute("listSituacao", listSituacao);
-	            		req.setAttribute("listaSexo", listaSexo);
-	            		req.setAttribute("listaPerfil", listaPerfil);
 	            		req.setAttribute("usuario", user);
 	            		req.setAttribute("display", "none");
 	            		req.setAttribute("sucesso", "Usuário "+user.getNome()+" alterado com sucesso!");
@@ -134,6 +118,8 @@ public class UsuarioBO extends HttpServlet {
 	            		
 	            		//Ja cadastrado
 	            		if(userDAO.buscarPorCpf(user.getCpf()) != null) {
+	            			user.setDtNasc(formatoData.format(formatoBanco.parse(user.getDtNasc())));
+	            			req.setAttribute("usuario", user);
 	            			req.setAttribute("display", "block");
 	            			req.setAttribute("aviso", "Usuário com CPF "+user.getCpf()+" já cadastrado!");
 	            		}
@@ -144,36 +130,49 @@ public class UsuarioBO extends HttpServlet {
 	            			user.setIdUser(user2.getIdUser());
 	            			
 	            			Pass pass = new Pass();
-	            			pass.setPass("waterBridge"+new Random().nextInt(1000));
+	            			String senha = Auxiliar.getRandomPass();
+	            			pass.setPass(senha);
 	            			pass.setIdUser(user.getIdUser());
 	            			
 	            			PassDAO passDAO = new PassDAO(connection);
 	            			passDAO.inserir(pass);
 	            			
-	            			req.setAttribute("display", "none");
-	            			req.setAttribute("sucesso", "Usuário "+user.getNome()+" cadastrado com sucesso!");
+	            			try {
+	            				String mensagem = Email.corpoEmailCadastro(user.getNome(), user.getUsuario(), senha);
+	    						Email.enviarEmail("WaterBridge - Cadastro", mensagem, user.getEmail());
+	    						req.setAttribute("display", "none");
+	    						req.setAttribute("sucesso", "Usuário "+user.getNome()+" cadastrado com sucesso! "
+	    								+ "Um e-mail foi enviado para "+user.getEmail());
+							} 
+	            			catch (Exception e) {
+								System.out.println(e);
+								req.setAttribute("display", "none");
+	    						req.setAttribute("sucesso", "Usuário "+user.getNome()+" cadastrado com sucesso! "
+	    								+ "Não foi possível enviar o e-mail para "+user.getEmail());
+							}
 	            		}
 	            		
-	            		PerfilDAO perfilDAO = new PerfilDAO(connection);
-	                	List<Perfil> listaPerfil = perfilDAO.listarTodos();
-	            		List<SexoEnum> listaSexo = SexoEnum.listCodigos();
-	            		SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
-	    				List<Situacao> listSituacao = situacaoDAO.listar();
-	            		req.setAttribute("listSituacao", listSituacao);
-	            		req.setAttribute("listaSexo", listaSexo);
-	            		req.setAttribute("listaPerfil", listaPerfil);
-	            		
             		}
-            		
-            		req.getRequestDispatcher("/jsp/usuario/usuario.jsp").forward(req, res);
 				} 
             	catch (Exception e) {
             		System.out.println(e);
             		req.setAttribute("usuario", user);
             		req.setAttribute("aviso", Constantes.CONTATO_SUPORTE);
             		req.setAttribute("display", "block");
-            		req.getRequestDispatcher("/jsp/usuario/usuario.jsp").forward(req, res);
 				}
+            	finally {
+            		PerfilDAO perfilDAO = new PerfilDAO(connection);
+                	List<Perfil> listaPerfil = perfilDAO.listarTodos();
+            		List<SexoEnum> listaSexo = SexoEnum.listCodigos();
+            		
+            		SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
+    				List<Situacao> listSituacao = situacaoDAO.listar();
+            		
+            		req.setAttribute("listSituacao", listSituacao);
+            		req.setAttribute("listaSexo", listaSexo);
+            		req.setAttribute("listaPerfil", listaPerfil);
+            		req.getRequestDispatcher("/jsp/usuario/usuario.jsp").forward(req, res);
+            	}
             }
             
             //Consulta

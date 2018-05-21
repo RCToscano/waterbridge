@@ -6,6 +6,7 @@ function validaForm(){
     var aviso = document.getElementById("aviso");
     var valida = true;
     
+    
     if(document.getElementById("cpf").value != "") {
     	if(!consistenciaCPF(document.getElementById("cpf").value)) {
 	        texto = "CPF informado inv&aacute;lido!";
@@ -13,7 +14,12 @@ function validaForm(){
 	        valida = false;
     	}
     }
-    if(document.getElementById("street_number").value <= 0){
+    if(validarDataAtual(document.getElementById("dtNascimento").value)) {
+    	texto = "Data de Nascimento maior que Data Atual!";
+        focar = document.getElementById("dtNascimento");
+        valida = false;
+    }
+    if(document.getElementById("street_number").value <= 0) {
     	texto = "Número do endereço inválido!";
         focar = document.getElementById("street_number");
         valida = false;
@@ -123,7 +129,6 @@ function validaSenha(){
     }
 }
 
-
 function consistenciaCPF(campo) {
     cpf = campo.replace(/\./g, "").replace(/\-/g, "");
     erro = new String;
@@ -170,4 +175,17 @@ function consistenciaCPF(campo) {
     else {
     	return true;
     }
+}
+
+function validarDataAtual(input) {
+	var numero = input.split('/');
+	var data = new Date(numero[2], (numero[1]-1), numero[0]);
+	var dataAtual = new Date();
+
+	if(data > dataAtual) {
+		return true;
+	}
+	else {
+		return false;
+	}
 }

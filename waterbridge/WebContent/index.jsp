@@ -45,6 +45,7 @@
     </head>
     <body background="./images/bg_login.jpg">
         <%@include file="./menu/menu_login.jsp" %>
+        
         <c:choose>
             <c:when test="${!empty loginErro}">
                 <script>
@@ -68,14 +69,58 @@
         			<label style='color: #595959; font-size: 10pt;'>Qualquer tecnologia suficientemente avan&ccedil;ada &eacute; indistingu&iacute;vel de magia.<br/>Arthur C. Clark</label>
         		</div>
         	</div>
-        	<div class="form-group" style="margin-top: 100px">
-        		<div class="col-sm-6">
-        			<div class="form-group">
-        				<img class="img-responsive center-block" src="./images/logo_waterbridge.png" alt="">
-        			</div>
+        	<c:if test="${empty displayContainer}">
+	        	<div class="form-group" style="margin-top: 100px">
+	        		<div class="col-sm-6">
+	        			<div class="form-group">
+	        				<img class="img-responsive center-block" src="./images/logo_waterbridge.png" alt="">
+	        			</div>
+	        		</div>
+	        	</div>
+        	 </c:if>
+        </div>
+       
+        
+        <c:if test="${not empty displayContainer}">
+        	<div class="row" style="padding-top: 2%;">
+				<div class="col-md-6 col-md-offset-3">
+					
+					<div id="divAviso" name="divAviso" class="alert alert-danger" style="display:${display};">
+						<strong><label id='aviso' name='aviso'/>${aviso}</strong>
+					</div>
+					
+					<c:if test="${not empty sucesso}">
+						<div class="alert alert-success alert-dismissible fade in">
+							<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+							<strong><c:out value="${sucesso}"/></strong>
+						</div>
+					</c:if>
+					
+					<form action="Login?r=recuperar" method="post" accept-charset="iso-8859-1,utf-8">
+						<fieldset>
+							<legend class="text-left">Recuperação de Senha</legend>
+							
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="control-label">Informe o Usuário/Login:</label>
+									<input type="text" class="form-control" id="usuario" name="usuario" value="" required/>
+								</div>
+							</div>
+							
+							<div class="col-sm-12">
+								<div class="form-group">
+									<div class="col-md-12 text-center">
+										<button type="submit" class="btn btn-primary">Solicitar</button>
+									</div>
+								</div>
+							</div>
+							
+						</fieldset>
+					</form>	
         		</div>
         	</div>
-        </div>
+        </c:if>
+        
         <footer class="footer" style="background-color: #fff">
             <div class="container-fluid text-center" style="background-color: #fff; padding: 10px">
             	<div class="col-sm-4 text-center"><p class="text-muted">Todos os direitos reservados</p></div>

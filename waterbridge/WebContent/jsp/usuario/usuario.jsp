@@ -129,7 +129,7 @@
 								<div class="form-group">
 									<label class="control-label">Data de Nascimento</label>
 									<div class='input-group date' id='datetimepicker1'>
-										<input type="text" class="form-control" id="dtNascimento" name="dtNascimento" data-date-format="DD/MM/YYYY" placeholder="dd/mm/aaaa" value="${usuario.dtNasc}"/>
+										<input type="text" class="form-control" id="dtNascimento" name="dtNascimento" data-date-format="DD/MM/YYYY" placeholder="dd/mm/aaaa" value="${usuario.dtNasc}" required/>
 										<span class="input-group-addon">
 											<span class="glyphicon glyphicon-calendar"></span>
 										</span>
@@ -249,15 +249,6 @@
 	                            </div>
 	                        </div>
 
-							<c:if test="${botao == 'Alterar'}">
-		                        <div class="col-sm-5">
-		                        	<div class="form-group">
-		                                <label>Senha</label>
-		                                <input class="form-control" type="text" name="senha" id="senha" maxlength="50" value="${usuario.pass.pass}" required/>
-		                            </div>
-		                        </div>
-	                        </c:if>
-	                        
 	    					<div class="col-sm-12">
 								<div class="form-group">
 									<div class="col-md-12 text-center">

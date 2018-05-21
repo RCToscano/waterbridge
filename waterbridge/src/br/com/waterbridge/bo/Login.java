@@ -10,45 +10,40 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import br.com.waterbridge.auxiliar.Auxiliar;
+import br.com.waterbridge.auxiliar.Constantes;
+import br.com.waterbridge.auxiliar.Email;
 import br.com.waterbridge.connection.ConnectionFactory;
+import br.com.waterbridge.dao.PassDAO;
 import br.com.waterbridge.dao.UserDAO;
+import br.com.waterbridge.modelo.Pass;
 import br.com.waterbridge.modelo.User;
 
 public class Login extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private static String relat = "";
 
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-
         doPost(req, res);
     }
 
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-
-        Connection connection = null;
-
-        relat = "";
-
-        String email = req.getParameter("email");
-        String senha = req.getParameter("password");
-
-        User user = new User();
-
+    	String relat = "";
+		Connection connection = null;
         try {
-
             connection = ConnectionFactory.getConnection();
-
-            UserDAO userDAO = new UserDAO(connection);
-
-            user = userDAO.login(email, senha);
 
             if (req.getParameter("r") != null) {
                 relat = req.getParameter("r");
             }
 
             if (relat.equals("login")) {
+            	String email = req.getParameter("email");
+                String senha = req.getParameter("password");
+                
+            	UserDAO userDAO = new UserDAO(connection);
+            	User user = userDAO.login(email, senha);
             	
                 if (user == null) {
                     //usuario inexistente
@@ -62,18 +57,68 @@ public class Login extends HttpServlet {
                 } 
                 else {
                     //vai para home page
+                	String usuarioQuebrado[] = user.getNome().split("\\\\s+");
+        			String nome = usuarioQuebrado[0].trim();
+        			user.setNome(nome);
                     req.getSession().setAttribute("user", user);
                     req.getRequestDispatcher("/jsp/home.jsp").forward(req, res);
                 }                
             } 
             else if (relat.equals("logout")) {
-               
                 //invalidar a sessao
                 HttpSession session = req.getSession(true);
                 session.putValue("user", null);
                 req.getSession().invalidate();
                 req.getRequestDispatcher("/index.jsp").forward(req, res);
             } 
+            else if (relat.equals("index")) {
+            	req.getRequestDispatcher("/index.jsp").forward(req, res);
+            }
+            else if (relat.equals("senha")) {
+            	req.setAttribute("displayContainer", "true");
+            	req.setAttribute("display", "none");
+                req.getRequestDispatcher("/index.jsp").forward(req, res);
+            }
+            else if (relat.equals("recuperar")) {
+            	try {
+					UserDAO userDAO = new UserDAO(connection);
+            		User usuario = userDAO.buscarPorUsuario(req.getParameter("usuario"));
+            		
+            		if(usuario != null) {
+            			String novaSenha = Auxiliar.getRandomPass();
+            			Pass pass = new Pass();
+            			pass.setIdUser(usuario.getIdUser());
+            			pass.setPass(novaSenha);
+            			
+            			PassDAO passDAO = new PassDAO(connection);
+            			passDAO.alterar(pass);
+            			
+						String mensagem = Email.corpoEmailSenha(usuario.getNome(), usuario.getUsuario(), novaSenha);
+						Email.enviarEmail("WaterBridge - Recuperação de Senha", mensagem, usuario.getEmail());
+
+						String emailQuebrado[] = usuario.getEmail().split("@");
+						String email = emailQuebrado[0].substring(0, 3) + "...@" + emailQuebrado[1];
+            		
+						req.setAttribute("display", "none");
+						req.setAttribute("sucesso", "Um e-mail com instruções foi enviado para: "+email);
+            		}
+            		else {
+            			req.setAttribute("display", "block");
+            			req.setAttribute("aviso", "Nenhum usuário encontrado!");
+            		}
+				} 
+            	catch (Exception e) {
+					System.out.println(e);
+					req.setAttribute("aviso", Constantes.CONTATO_SUPORTE);
+            		req.setAttribute("display", "block");
+				}
+            	finally {
+            		req.setAttribute("displayContainer", "true");
+            		req.getRequestDispatcher("/index.jsp").forward(req, res);
+            	}
+            	
+            	
+            }
         }
         catch (Exception e) {
         	System.out.println("erro " + e.toString());
@@ -81,9 +126,7 @@ public class Login extends HttpServlet {
             req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
         }
         finally {
-
             if(connection != null) {
-
                 try {connection.close();} catch (SQLException ex) {}
             }
         }
