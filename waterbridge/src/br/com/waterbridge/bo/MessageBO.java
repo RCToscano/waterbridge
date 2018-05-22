@@ -16,8 +16,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import br.com.waterbridge.connection.ConnectionFactory;
+import br.com.waterbridge.dao.ConsumoDAO;
 import br.com.waterbridge.dao.LogSqlDAO;
+import br.com.waterbridge.dao.MedidorDAO;
 import br.com.waterbridge.dao.MessageDAO;
+import br.com.waterbridge.modelo.Consumo;
 import br.com.waterbridge.modelo.Message;
 
 public class MessageBO extends HttpServlet {
@@ -35,10 +38,6 @@ public class MessageBO extends HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		
 		try {
-			
-//            if (req.getParameter("acao").equals("1")) {
-//            	req.getRequestDispatcher("/jsp/grafico/graficoconsumomes.jsp").forward(req, res);
-//            }  
             
 			connection = ConnectionFactory.getConnection();
 			sb = new StringBuilder();
@@ -49,7 +48,7 @@ public class MessageBO extends HttpServlet {
 	    	}
 	    		    	
 	    	Message message = new Gson().fromJson(sb.toString(), Message.class);
-	    	message.setData("10017335000001700017A508");//SOBREPONDO O DATA ATE QUE O FELIPE ALTERE O FRAME ENVIADO
+	    	//message.setData("10017335000001700017A508");//SOBREPONDO O DATA ATE QUE O FELIPE ALTERE O FRAME ENVIADO
 
 			String dataVersion = message.getData().substring(0, 2);
 	        String dataMeterPosition = message.getData().substring(2, 4);
@@ -89,6 +88,8 @@ public class MessageBO extends HttpServlet {
 			
 			Connection connection = ConnectionFactory.getConnection();
 			MessageDAO messageDAO = new MessageDAO(connection);
+			ConsumoDAO consumoDAO = new ConsumoDAO(connection);
+			MedidorDAO medidorDAO = new MedidorDAO(connection);
 			
 			DecimalFormatSymbols dfs = new DecimalFormatSymbols();
 			dfs.setDecimalSeparator('.');
@@ -104,7 +105,7 @@ public class MessageBO extends HttpServlet {
 			message.setVolume(message.getVolume() / 1000);
 			message.setVolume(Double.parseDouble(df.format(message.getVolume())));
 			message.setPressure(Double.parseDouble(biPressure.toString(10)));
-			message.setPressure(message.getPressure() / 900);
+			message.setPressure(message.getPressure() / 700);
 			message.setPressure(Double.parseDouble(df.format(message.getPressure())));
 			message.setFlow(Long.parseLong(biFlow.toString(10)));
 			message.setTemperature(Long.parseLong(biTemperature.toString(10)));
@@ -112,9 +113,27 @@ public class MessageBO extends HttpServlet {
 			message.setBattery(message.getBattery() / 50);
 			message.setBattery(Double.parseDouble(df.format(message.getBattery())));
 			message.setAlarm(Long.parseLong(biAlarme.toString(10)));
-			message.setConsumo(0D);
-			message.setVazao(0D);
-			message.setDtInsert(messageDAO.dataHoraMinSeg());		
+			//BUSCA MENSAGEM ANTERIOR
+			//Message messageAnt = messageDAO.buscarUltimoPorMeterId(message.getMeterId());
+			Message messageAnt = messageDAO.buscarUltimo(message.getDevice(), message.getMeterPosition());
+			//CALCULA CONSUMO
+			if(messageAnt != null) {
+				message.setConsumo(message.getVolume() - messageAnt.getVolume());
+				message.setConsumo(Double.parseDouble(df.format(message.getConsumo())));
+			}
+			//CALCULA VAZAO
+			if(messageAnt != null) {
+				Long qtdeMinutos = messageDAO.difDataEmMinutos(messageAnt.getDtInsert(), message.getDtInsert());
+				Double vazao = 0D;
+				if(message.getConsumo().longValue() > 0 && qtdeMinutos > 0) {
+					vazao = message.getConsumo() / qtdeMinutos;
+					message.setVazao(Double.parseDouble(df.format(vazao)));
+				}
+			}
+			message.setDtInsert(messageDAO.dataHoraMinSeg());
+			
+			//INSERIR
+			messageDAO.inserir(message);
 			
 			System.out.println("");
 			System.out.println("getIdMessage " + message.getIdMessage());
@@ -131,29 +150,41 @@ public class MessageBO extends HttpServlet {
 			System.out.println("getConsumo " + message.getConsumo());
 			System.out.println("getVazao " + message.getVazao());
 			System.out.println("getDtInsert " + message.getDtInsert());
-
-			//BUSCA MENSAGEM ANTERIOR
-			//Message messageAnt = messageDAO.buscarUltimoPorMeterId(message.getMeterId());
-			Message messageAnt = messageDAO.buscarUltimo(message.getDevice(), message.getMeterPosition());
-
+			
+			//TRATAMENTO CONSUMO
+			Consumo consumo = new Consumo();
+			consumo.setIdConsumo(0l);
+			consumo.setIdUser(4l);
+			consumo.setIdMedidor(medidorDAO.buscarIdMedidor(message.getDevice(), message.getMeterPosition().intValue()));
+			consumo.setDevice(message.getDevice());
+			consumo.setData(message.getData());
+			consumo.setVersion(message.getVersion());
+			consumo.setMeterPosition(message.getMeterPosition());
+			consumo.setVolume(message.getVolume());
+			consumo.setPressure(message.getPressure());
+			consumo.setFlow(message.getFlow());
+			consumo.setTemperature(message.getTemperature());
+			consumo.setBattery(message.getBattery());
+			consumo.setAlarm(message.getAlarm());
+			//BUSCA CONSUMO ANTERIOR
+			Consumo consumoAnt = consumoDAO.buscarUltimo(message.getDevice(), message.getMeterPosition());
 			//CALCULA CONSUMO
-			if(messageAnt != null) {
-				message.setConsumo(message.getVolume() - messageAnt.getVolume());
-				message.setConsumo(Double.parseDouble(df.format(message.getConsumo())));
+			if(consumoAnt != null) {
+				consumo.setConsumo(consumo.getVolume() - consumoAnt.getVolume());
+				consumo.setConsumo(Double.parseDouble(df.format(consumo.getConsumo())));
 			}
-			
 			//CALCULA VAZAO
-			if(messageAnt != null) {
-				Long qtdeMinutos = messageDAO.difDataEmMinutos(messageAnt.getDtInsert(), message.getDtInsert());
+			if(consumoAnt != null) {
+				Long qtdeMinutos = messageDAO.difDataEmMinutos(consumoAnt.getDtInsert(), consumo.getDtInsert());
 				Double vazao = 0D;
-				if(message.getConsumo().longValue() > 0 && qtdeMinutos > 0) {
-					vazao = message.getConsumo() / qtdeMinutos;
-					message.setVazao(Double.parseDouble(df.format(vazao)));
+				if(consumo.getConsumo().longValue() > 0 && qtdeMinutos > 0) {
+					vazao = consumo.getConsumo() / qtdeMinutos;
+					consumo.setVazao(Double.parseDouble(df.format(vazao)));
 				}
-			}
+			}		
+			consumo.setDtInsert(consumoDAO.dataHoraMinSeg());
 			
-			//INSERIR
-			messageDAO.inserir(message);
+			consumoDAO.inserir(consumo);
 			
             String json = "ok";
             

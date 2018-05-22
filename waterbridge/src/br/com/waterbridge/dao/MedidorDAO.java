@@ -8,9 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.waterbridge.auxiliar.Auxiliar;
-import br.com.waterbridge.modelo.Bridge;
-import br.com.waterbridge.modelo.BridgeTp;
-import br.com.waterbridge.modelo.BridgeTpAlim;
 import br.com.waterbridge.modelo.FabricMedidor;
 import br.com.waterbridge.modelo.Medidor;
 
@@ -337,6 +334,40 @@ public class MedidorDAO {
     	}
     }
     
+    public Long buscarIdMedidor(String deviceNum, int meterPosition) throws Exception {
+    	
+    	PreparedStatement stmt = null;
+    	ResultSet rs = null;
+    	Long idMedidor = null;
+    	
+    	try {
+    		stmt = connection.prepareStatement(
+			"SELECT TB_MEDIDOR.ID_MEDIDOR " + 
+			"FROM   TB_MEDIDOR " +
+			"WHERE  TB_MEDIDOR.DEVICENUM = ? " +
+			"AND    TB_MEDIDOR.METERPOSITION = ? "
+    		);
+    		
+    		stmt.setObject(1, deviceNum);
+    		stmt.setObject(2, meterPosition);
+            
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+            	
+            	idMedidor = rs.getLong("ID_MEDIDOR");
+            }
+            
+            return idMedidor;
+    	} 
+    	finally {
+    		if(stmt != null)
+    			stmt.close();
+    		if(rs != null)
+    			rs.close();
+    	}
+    }
+    
     public List<Medidor> listarTodos() throws Exception {
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -586,5 +617,5 @@ public class MedidorDAO {
             }
         }
     }
-
+    
 }
