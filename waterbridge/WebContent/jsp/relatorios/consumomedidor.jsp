@@ -11,18 +11,27 @@
 		<title>WaterBridge</title>
 		<link rel="icon" type="image/png" href="./images/favicon.ico"/>
         
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+        <script src="./js/funcoes.auxiliares.js" type="text/javascript"></script>
+	    <script src="./js/relatorios/consumomedidor.js" type="text/javascript"></script>
+	    
+   		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	    <script src="http://code.jquery.com/jquery-2.2.4.js" ></script>	
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-		<script src="./js/jquery.mask.min.js" type="text/javascript"></script>
+		
+		<script src="http://malsup.github.io/jquery.blockUI.js"></script>
+
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+			
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
 	    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/locale/pt-br.js"></script>
 	    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
 	    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
 	    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+	    
 	    <link href="./css/menucustomcolor.css" rel="stylesheet"/>
-	    <link href="./css/footercustom.css" rel="stylesheft"/>
-	    <script src='./js/usuario/consulta.js'></script>
+	    <link href="./css/footercustom.css" rel="stylesheet"/>
+	    
     </head>
     <body>
         <jsp:include page="/menu/${sessionScope.user.perfil.menu}" ></jsp:include>
@@ -32,6 +41,7 @@
 			    <li class="active">Relatórios</li>
 			    <li class="active">Consumo por Medidor</li>
 			</ul>
+			
 			<fieldset>
 				<legend class="text-left">Consumo por Medidor</legend>
 			</fieldset>	

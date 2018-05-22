@@ -85,12 +85,8 @@ public class ConsumoMedidorBO extends HttpServlet {
 				
 				CondominioDAO condominioDAO = new CondominioDAO(connection);
 				List<Condominio> listCondominio = new ArrayList<Condominio>();		
-				if(req.getParameter("idEmpresa") != null && !req.getParameter("idEmpresa").equals("")) {
-					sql += "WHERE ID_CONDOMINIO > 0 " +
-						   "AND   ID_EMPRESA = " + req.getParameter("idEmpresa");
-					listCondominio = condominioDAO.listar(sql);
-				}
-
+				listCondominio = condominioDAO.listarPorUsuario(user.getIdUser(), Long.parseLong(req.getParameter("idEmpresa")));
+				
 				json = new Gson().toJson(listCondominio);
 				
 				res.setContentType("application/json");
@@ -98,6 +94,7 @@ public class ConsumoMedidorBO extends HttpServlet {
 				res.getWriter().write(json);   
 			}
 	        catch (Exception e) {
+	        	System.out.println("erro " + e.toString());
 	            req.setAttribute("erro", e.toString());
 	            req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
 	        }
@@ -120,12 +117,8 @@ public class ConsumoMedidorBO extends HttpServlet {
 				connection = ConnectionFactory.getConnection();
 				
 				BridgeDAO bridgeDAO = new BridgeDAO(connection);
-				List<Bridge> listBridge = new ArrayList<Bridge>();		
-				if(req.getParameter("idCondominio") != null && !req.getParameter("idCondominio").equals("")) {
-					sql += "WHERE ID_BRIDGE > 0 " +
-						   "AND   ID_CONDOMINIO = " + req.getParameter("idCondominio");
-					listBridge = bridgeDAO.listar(sql);
-				}
+				List<Bridge> listBridge = new ArrayList<Bridge>();	
+				listBridge = bridgeDAO.listarPorUsuario(user.getIdUser(), Long.parseLong(req.getParameter("idCondominio")));
 
 				json = new Gson().toJson(listBridge);
 				
@@ -134,6 +127,7 @@ public class ConsumoMedidorBO extends HttpServlet {
 				res.getWriter().write(json);   
 			}
 	        catch (Exception e) {
+	        	System.out.println("erro " + e.toString());
 	            req.setAttribute("erro", e.toString());
 	            req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
 	        }
@@ -157,11 +151,7 @@ public class ConsumoMedidorBO extends HttpServlet {
 				
 				MedidorDAO medidorDAO = new MedidorDAO(connection);
 				List<Medidor> listMedidor = new ArrayList<Medidor>();		
-				if(req.getParameter("idBridge") != null && !req.getParameter("idBridge").equals("")) {
-					sql += "WHERE ID_MEDIDOR > 0 " +
-						   "AND   ID_BRIDGE = " + req.getParameter("idBridge");
-					listMedidor = medidorDAO.listar(sql);
-				}
+				listMedidor = medidorDAO.listarPorUsuario(user.getIdUser(), Long.parseLong(req.getParameter("idBridge")));
 
 				json = new Gson().toJson(listMedidor);
 				
@@ -170,6 +160,7 @@ public class ConsumoMedidorBO extends HttpServlet {
 				res.getWriter().write(json);   
 			}
 	        catch (Exception e) {
+	        	System.out.println("erro " + e.toString());
 	            req.setAttribute("erro", e.toString());
 	            req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
 	        }

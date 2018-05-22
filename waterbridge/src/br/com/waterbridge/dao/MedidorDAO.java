@@ -497,30 +497,30 @@ public class MedidorDAO {
         try {
             
             stmt = connection.prepareStatement(
-            "SELECT    ID_MEDIDOR, " +
-            "          ID_USER, " +
-            "          ID_FABRICMEDIDOR, " +
-            "          MODELO, " +
-            "          SERIE, " +
-            "          TIPO, " +
-            "          CHAVEDECRIPTO, " +
-            "          VALIDBATERIA, " +
-            "          OBS, " +
-            "          SITUACAO, " +
-            "          DTINSERT, " +
-            "          ID_BRIDGE, " +
-            "          DEVICENUM, " +
-            "          METERPOSITION, " +
-            "          METERID, " +
-            "          ID_CONDOMINIO, " +
-            "          ENDERECO, " +
-            "          NUMERO, " +
-            "          COMPL, " +
-            "          MUNICIPIO, " +
-            "          UF, " +
-            "          CEP, " +
-            "          COORDX, " +
-            "          COORDY " +
+            "SELECT    TB_MEDIDOR.ID_MEDIDOR, " +
+            "          TB_MEDIDOR.ID_USER, " +
+            "          TB_MEDIDOR.ID_FABRICMEDIDOR, " +
+            "          TB_MEDIDOR.MODELO, " +
+            "          TB_MEDIDOR.SERIE, " +
+            "          TB_MEDIDOR.TIPO, " +
+            "          TB_MEDIDOR.CHAVEDECRIPTO, " +
+            "          TB_MEDIDOR.VALIDBATERIA, " +
+            "          TB_MEDIDOR.OBS, " +
+            "          TB_MEDIDOR.SITUACAO, " +
+            "          TB_MEDIDOR.DTINSERT, " +
+            "          TB_MEDIDOR.ID_BRIDGE, " +
+            "          TB_MEDIDOR.DEVICENUM, " +
+            "          TB_MEDIDOR.METERPOSITION, " +
+            "          TB_MEDIDOR.METERID, " +
+            "          TB_MEDIDOR.ID_CONDOMINIO, " +
+            "          TB_MEDIDOR.ENDERECO, " +
+            "          TB_MEDIDOR.NUMERO, " +
+            "          TB_MEDIDOR.COMPL, " +
+            "          TB_MEDIDOR.MUNICIPIO, " +
+            "          TB_MEDIDOR.UF, " +
+            "          TB_MEDIDOR.CEP, " +
+            "          TB_MEDIDOR.COORDX, " +
+            "          TB_MEDIDOR.COORDY " +
             "FROM      TB_MEDIDOR " +
             "LEFT JOIN VW_USERMEDIDORID " +
 		    "ON        TB_MEDIDOR.ID_MEDIDOR = VW_USERMEDIDORID.ID_MEDIDOR " +

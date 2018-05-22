@@ -559,28 +559,28 @@ public class CondominioDAO {
         try {
             
             stmt = connection.prepareStatement(
-	    	"SELECT    ID_CONDOMINIO, " +
-			"		   ID_EMPRESA, " +
-	    	"          ID_USER, " +
-	    	"          ID_CNPTP, " +
-	    	"          NOME, " +
-	    	"          CNP, " +
-	    	"          TELFIXO, " +
-	    	"          TELCEL, " +
-	    	"          EMAIL, " +
-	    	"          ENDERECO, " +
-	    	"          NUMERO, " +
-	    	"          COMPL, " +
-	    	"          MUNICIPIO, " +
-	        "          UF, " +
-	    	"          CEP, " +
-	    	"          COORDX, " +
-	    	"          COORDY, " +
-	    	"          RESPONSAVEL, " +
-	    	"          CONTRNUM, " +
-	    	"          CONTACICLO, " +
-	    	"          SITUACAO, " +
-	    	"          DTINSERT " +
+	    	"SELECT    TB_CONDOMINIO.ID_CONDOMINIO, " +
+			"		   TB_CONDOMINIO.ID_EMPRESA, " +
+	    	"          TB_CONDOMINIO.ID_USER, " +
+	    	"          TB_CONDOMINIO.ID_CNPTP, " +
+	    	"          TB_CONDOMINIO.NOME, " +
+	    	"          TB_CONDOMINIO.CNP, " +
+	    	"          TB_CONDOMINIO.TELFIXO, " +
+	    	"          TB_CONDOMINIO.TELCEL, " +
+	    	"          TB_CONDOMINIO.EMAIL, " +
+	    	"          TB_CONDOMINIO.ENDERECO, " +
+	    	"          TB_CONDOMINIO.NUMERO, " +
+	    	"          TB_CONDOMINIO.COMPL, " +
+	    	"          TB_CONDOMINIO.MUNICIPIO, " +
+	        "          TB_CONDOMINIO.UF, " +
+	    	"          TB_CONDOMINIO.CEP, " +
+	    	"          TB_CONDOMINIO.COORDX, " +
+	    	"          TB_CONDOMINIO.COORDY, " +
+	    	"          TB_CONDOMINIO.RESPONSAVEL, " +
+	    	"          TB_CONDOMINIO.CONTRNUM, " +
+	    	"          TB_CONDOMINIO.CONTACICLO, " +
+	    	"          TB_CONDOMINIO.SITUACAO, " +
+	    	"          TB_CONDOMINIO.DTINSERT " +
 	    	"FROM      TB_CONDOMINIO " +		
 	    	"LEFT JOIN VW_USERCONDOMINIOID " +
 		    "ON        TB_CONDOMINIO.ID_CONDOMINIO = VW_USERCONDOMINIOID.ID_CONDOMINIO " +
