@@ -1,7 +1,9 @@
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@ page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
@@ -19,7 +21,7 @@
 	    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
 	    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
 	    <link href="./css/menucustomcolor.css" rel="stylesheet"/>
-	    <link href="./css/footercustom.css" rel="stylesheet"/>
+	    <link href="./css/footercustom.css" rel="stylesheft"/>
 	    <script src='./js/usuario/consulta.js'></script>
     </head>
     <body>
@@ -30,69 +32,86 @@
 			    <li class="active">Relatórios</li>
 			    <li class="active">Consumo por Medidor</li>
 			</ul>
-			
-			<div id="divAviso" name="divAviso" class="alert alert-danger" style="display:${display};">
-				<strong><label id='aviso' name='aviso'/>${aviso}</strong>
-			</div>
-			
-			<c:if test="${not empty sucesso}">
-				<div class="alert alert-success">
-					<strong><c:out value="${sucesso}"/></strong>
-				</div>
-			</c:if>
-			
-			<c:if test="${not empty informacao}">
-				<div class="alert alert-warning">
-					<strong><c:out value="${informacao}"/></strong>
-				</div>
-			</c:if>
-			
-			<div class="col-sm-8 col-md-offset-2">
+			<fieldset>
+				<legend class="text-left">Consumo por Medidor</legend>
+			</fieldset>	
+			<form role="form" id="formUsuarioMedidor" action="#" method="POST" class="form-horizontal" accept-charset="iso-8859-1,utf-8">
 				<div class="form-group">
-	<!-- 				<form action="#" method="post" accept-charset="iso-8859-1,utf-8"> -->
-						<fieldset>
-							<legend class="text-left">Consumo por Medidor</legend>
-							
-							<div class="col-sm-6">
-								<div class="form-group">
-									<label>Período</label>
-									<div class="col-sm-6 col-md-12" style="padding: 0px; margin: 0px;">
-										<div class="col-sm-4 col-md-6" style="padding-left: 0px;">
-											<input type="text" class="form-control" data-date-format="DD/MM/YYYY" name="dtInicio" id="dtInicio" placeholder="Início" maxlength="10" value="01/04/2018" required/>
-										</div>
-										<div class="col-sm-6 col-md-6" style="padding-left: 0px;">
-											<input type="text" class="form-control" data-date-format="DD/MM/YYYY" name="dtFim" id="dtFim" placeholder="Fim" maxlength="10" value="30/04/2018" required/>
-										</div>
-									</div>
-									 <script type="text/javascript">
-							            $(function () {
-							                $('#dtInicio').datetimepicker({locale: 'pt-br'});
-							                $('#dtFim').datetimepicker({locale: 'pt-br'});
-							            });
-							        </script>
-						        </div>
-							</div>
-							
-							<div class="col-sm-3">
-								<div class="form-group">
-									<label>Medidor</label>
-									<select class="form-control" id="sel1">
-										<option>Selecione</option>
-									    <option>74474706</option>
-								  	</select>
-							  	</div>
-							</div>
-							
-							<div class="form-group">
-								<div class="col-md-12 text-center">
-									<button class="btn btn-primary">Consultar</button>
-								</div>
-							</div>
-							
-						</fieldset>
-	<!-- 				</form> -->
+					<div class="col-sm-4">
+						<label>Empresa</label> 
+						<select class="form-control input-sm" id="idEmpresa" name="idEmpresa" required onchange="listarCondominio()">
+							<option value="" selected>Selecione...</option>
+							<c:forEach var="empresa" items="${listEmpresa}">
+	               		        <c:choose>
+	                            	<c:when test="${empresa.idEmpresa eq condominio.idEmpresa}">
+	                            		<option value="${empresa.idEmpresa}" selected="true">${empresa.nome}</option> 
+	                                </c:when>
+	                                <c:otherwise>
+	                                  	<option value="${empresa.idEmpresa}">${empresa.nome}</option>
+	                                </c:otherwise>
+	                     		</c:choose>
+	                     	</c:forEach>
+						</select>
+					</div>
+					<div class="col-sm-4">
+						<label>Local</label> 
+						<select class="form-control input-sm" id="idCondominio" name="idCondominio" required onchange="listarBridge()">
+							<option value="" selected>Selecione...</option>
+						</select>					
+					</div>
+					<div class="col-sm-2">
+						<label>Bridge</label> 
+						<select class="form-control input-sm" id="idBridge" name="idBridge" onchange="listarMedidor()" required>
+							<option value="" selected>Selecione...</option>
+						</select>					
+					</div>
+					<div class="col-sm-2">
+						<label>Medidor</label> 
+						<select class="form-control input-sm" id="idMedidor" name="idMedidor" required >
+							<option value="" selected>Selecione...</option>
+						</select>					
+					</div>
 				</div>
-			</div>
+				<div class="form-group">
+					<div class="col-sm-2">
+						<label>Data Início</label>
+	                    <div class='input-group date' id='dpDtInicio'>
+		                    <input type='text' class="form-control input-sm" id='dtInicio' name='dtInicio' required />
+	            			<span class="input-group-addon">
+								<span class="glyphicon glyphicon-calendar"></span>
+							</span>
+		                    <script type="text/javascript">
+			                    $(function () {
+		                            $('#dpDtInicio').datetimepicker({
+		                            	format: 'DD/MM/YYYY'
+		                            });
+		                        });
+		                    </script>
+		                </div> 
+					</div>
+					<div class="col-sm-2">
+						<label>Data Fim</label>
+	                    <div class='input-group date' id='dpDtFim'>
+		                    <input type='text' class="form-control input-sm" id='dtFim' name='dtFim' required />
+	            			<span class="input-group-addon">
+								<span class="glyphicon glyphicon-calendar"></span>
+							</span>
+		                    <script type="text/javascript">
+			                    $(function () {
+		                            $('#dpDtFim').datetimepicker({
+		                            	format: 'DD/MM/YYYY'
+		                            });
+		                        });
+		                    </script>
+		                </div> 
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-md-12 text-center">
+						<button type="button" class="btn btn-primary" onclick="listarUsuarioMedidor()">Consultar</button>
+					</div>
+				</div>
+			</form>	
 		
 <%-- 			<c:if test="${not empty lista}"> --%>
 				<div class="col-sm-8 col-md-offset-2">
