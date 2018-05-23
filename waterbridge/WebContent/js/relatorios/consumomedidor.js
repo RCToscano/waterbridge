@@ -174,11 +174,15 @@ function listarConsumoMedidor() {
 	var idCondominio = document.getElementById('idCondominio');
 	var idBridge = document.getElementById('idBridge');
 	var idMedidor = document.getElementById('idMedidor');
+	var dtInicio = document.getElementById('dtInicio');
+	var dtFim = document.getElementById('dtFim');
 	var divTable = document.getElementById('divTable');
 
 	divAviso.innerHTML = '';
 	idEmpresa.style.removeProperty('border');
 	idCondominio.style.removeProperty('border');
+	dtInicio.style.removeProperty('border');
+	dtFim.style.removeProperty('border');
 	
     if(idEmpresa.value == '') {
     	
@@ -187,6 +191,14 @@ function listarConsumoMedidor() {
     else if(idCondominio.value == '') {
     	
     	idCondominio.style.borderColor = colorRed;
+    }
+    else if(dtInicio.value == '') {
+    	
+    	dtInicio.style.borderColor = colorRed;
+    }
+    else if(dtFim.value == '') {
+    	
+    	dtFim.style.borderColor = colorRed;
     }
     else {
     	
@@ -201,66 +213,84 @@ function listarConsumoMedidor() {
 	    }); 
 	    
 	    $.ajax({
-	        url: 'UsuarioMedidorBO?acao=5' +
+	        url: 'ConsumoMedidorBO?acao=5' +
 	             '&idEmpresa=' + idEmpresa.value +
 	             '&idCondominio=' + idCondominio.value +
 	             '&idBridge=' + idBridge.value +
-	             '&idMedidor=' + idMedidor.value 
+	             '&idMedidor=' + idMedidor.value +
+	             '&dtInicio=' + dtInicio.value +
+	             '&dtFim=' + dtFim.value
 	        ,
 	        type: "POST",
 	        dataType: 'json',
 	        success: function(result) {
 	        	
 	        	var texto = '';
-	            var listRelMedidor = result;
-	            if(listRelMedidor != null && listRelMedidor.length > 0) {
+	        	var volume = 0;
+	        	var consumo = 0;
+	        	var consumoTotal = 0;
+	            var listRelConsumoMedidor = result;
+	            if(listRelConsumoMedidor != null && listRelConsumoMedidor.length > 0) {
 	            	
 	            	texto +=
 	            	"<table class='table table-hover table-striped'>" +
 		            "	<thead>" +
 		            "		<tr>" +
 		            "			<th>Nº</th>" +
-		            "			<th>Empresa</th>" +
-		            "			<th>Condomínio</th>" +
-		            "			<th>Bridge</th>" +
-		            "			<th>Medidor</th>" +
-		            "			<th>Usuários</th>" +
+		            "			<th>Data</th>" +
+		            "			<th>Volume (L)</th>" +
+		            "			<th>Consumo (L)</th>" +
+		            "			<th>Alarme</th>" +
+		            "			<th>Bateria (V)</th>" +
+		            "			<th>Temperatura (ºC)</th>" +
 		            "			<th></th>" +
 		            "		</tr>" +
 		            "	</thead>" +
 		            "	<tbody id='myTable'>" ;
-            		for(i = 0; i < listRelMedidor.length; i++) {
+            		for(i = 0; i < listRelConsumoMedidor.length; i++) {
 	                	
-	                	var relMedidor = listRelMedidor[i];
+	                	var relConsumoMedidor = listRelConsumoMedidor[i];
+	                	
+	                	if(i == 0) {
+	                		
+	                		consumo = 0;
+	                		volume = Number(relConsumoMedidor.volume);
+	                	}
+	                	else {
+	                		
+	                		consumo = Number(relConsumoMedidor.volume) - Number(volume);
+	                		consumoTotal += consumo;
+	                	}
+	                	
 	                	texto +=
     		            "		<tr>" +
     		            "			<td><small>" + (i + 1) + "</small></td>" +
-    		            "			<td><small>" + relMedidor.empresa + "</small></td>" +
-    		            "			<td><small>" + relMedidor.condominio + "</small></td>" +
-    		            "			<td><small>" + relMedidor.deviceNum + "</small></td>" +
-    		            "			<td><small>" + relMedidor.meterId + "</small></td>" +
-    		            "			<td>" +
-    		            "               <small>" +
-    		            "                   <div id='divusermedidor" + (i + 1) + "'>" ;
-	                	var listRelUserMedidor = relMedidor.listRelUserMedidor;	                	
-	                	for(j = 0; j < listRelUserMedidor.length; j++) {
-	                		
-	                		var relUserMedidor = listRelUserMedidor[j];
-	                		texto += relUserMedidor.cpfUser + " - " + relUserMedidor.nomeUser + " - " + relUserMedidor.situacao + "<br/>";
-	                	}
-    		            texto +=
-    		            "                   </div>" +
-    		            "               </small>" +
-    		            "           </td>" +
-    		            "			<td align='right'>" +
-    		            "               <button type='button' class='btn btn-info btn-xs' onclick='exibirUsuarioMedidor(" + (i + 1) + "," + relMedidor.idMedidor + ")'>" +
-    		        	"	                <span class='glyphicon glyphicon-user'></span> Add" +
-    		        	"               </button>" +
-    		            "			</td>" +
+    		            "			<td><small>" + relConsumoMedidor.dtInsert + "</small></td>" +
+    		            "			<td><small>" + relConsumoMedidor.volume + "</small></td>" +
+    		            "			<td><small>" + consumo + "</small></td>" +
+    		            "			<td><small>" + relConsumoMedidor.alarm + "</small></td>" +
+    		            "			<td><small>" + relConsumoMedidor.battery + "</small></td>" +
+    		            "			<td><small>" + relConsumoMedidor.temperature + "</small></td>" +
+    		            "		    <td align='right'></td>" +
     		            "		</tr>" ;
+	                	volume = relConsumoMedidor.volume;
 	                }
 		            texto +=
-		            "	</tbody>" +
+					"        <tr>" +
+					"	         <td colspan='7' style='text-align: center'>" +
+					"		         <label>Consumo total no período em m&#179; (1m&#179; = 1.000 Litros): " + consumoTotal + "</label>" +
+					"	         </td>" +
+					"        </tr>" +
+					"        <tr>" +
+					"	         <td colspan='7' style='text-align: center'>" +
+					"		         <form action='GraficoConsumoBO?acao=1' method='post'>" +
+					"			         <button type='submit' class='btn btn-warning'>" +
+					"		                 <i class='fa fa-bar-chart'></i> Gráfico" +
+					"		             </button>" +
+					"		         </form>" +
+					"	         </td>" +
+					"        </tr>" +
+		            "    </tbody>" +
 		            "</table>" ;	 
 	            }
 	            divTable.innerHTML = texto;

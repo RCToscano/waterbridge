@@ -26,8 +26,6 @@ import br.com.waterbridge.modelo.Message;
 public class MessageBO extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	private Connection connection;
-	StringBuilder sb;
 	
 	@Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -37,9 +35,11 @@ public class MessageBO extends HttpServlet {
 	@Override
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		
+		Connection connection = null;
+		StringBuilder sb = null;
+		
 		try {
-            
-			connection = ConnectionFactory.getConnection();
+        
 			sb = new StringBuilder();
 	    	
 	    	String linha = null;
@@ -86,7 +86,7 @@ public class MessageBO extends HttpServlet {
 			BigInteger biBattery = new BigInteger(dataBattery, 16);
 			BigInteger biAlarme = new BigInteger(dataAlarme, 16);
 			
-			Connection connection = ConnectionFactory.getConnection();
+			connection = ConnectionFactory.getConnection();
 			MessageDAO messageDAO = new MessageDAO(connection);
 			ConsumoDAO consumoDAO = new ConsumoDAO(connection);
 			MedidorDAO medidorDAO = new MedidorDAO(connection);
@@ -114,7 +114,6 @@ public class MessageBO extends HttpServlet {
 			message.setBattery(Double.parseDouble(df.format(message.getBattery())));
 			message.setAlarm(Long.parseLong(biAlarme.toString(10)));
 			//BUSCA MENSAGEM ANTERIOR
-			//Message messageAnt = messageDAO.buscarUltimoPorMeterId(message.getMeterId());
 			Message messageAnt = messageDAO.buscarUltimo(message.getDevice(), message.getMeterPosition());
 			//CALCULA CONSUMO
 			if(messageAnt != null) {

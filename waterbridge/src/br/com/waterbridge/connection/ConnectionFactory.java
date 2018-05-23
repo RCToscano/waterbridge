@@ -14,7 +14,7 @@ public class ConnectionFactory {
     private static final String usuario = "waterbri_001";
     private static final String senha = "wdahE&h083";
        
-    //CONEXAO LOCAL
+//    //CONEXAO LOCAL
 //    private static final String url = "jdbc:mysql://localhost:3306/waterbri_001";
 //    private static final String driver = "com.mysql.jdbc.Driver";
 //    private static final String usuario = "root";

@@ -28,9 +28,9 @@ import br.com.waterbridge.modelo.Empresa;
 import br.com.waterbridge.modelo.Medidor;
 import br.com.waterbridge.modelo.User;
 import br.com.waterbridge.modelo.UserMedidor;
-import br.com.waterbridge.reldao.RelMedidorDAO;
+import br.com.waterbridge.reldao.RelConsumoMedidorDAO;
 import br.com.waterbridge.reldao.RelUserMedidorDAO;
-import br.com.waterbridge.relmodelo.RelMedidor;
+import br.com.waterbridge.relmodelo.RelConsumoMedidor;
 import br.com.waterbridge.relmodelo.RelUserMedidor;
 
 public class ConsumoMedidorBO extends HttpServlet {
@@ -170,7 +170,7 @@ public class ConsumoMedidorBO extends HttpServlet {
 				}
 			}	
         }
-		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("5")) { //LISTA USUARIO MEDIDOR
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("5")) { //LISTAR CONSUMO MEDIDOR
 
 			Connection connection = null;
 			HttpSession session = req.getSession(true);
@@ -180,7 +180,7 @@ public class ConsumoMedidorBO extends HttpServlet {
 			
 			try {
 
-				sql += "WHERE ID_CONDOMINIO > 0 " ;
+				sql += "WHERE ID_CONSUMO > 0 " ;
 				if(req.getParameter("idEmpresa") != null && !req.getParameter("idEmpresa").equals("")) {
 					sql += "AND   ID_EMPRESA = " + req.getParameter("idEmpresa") + " ";
 				}
@@ -193,13 +193,19 @@ public class ConsumoMedidorBO extends HttpServlet {
 				if(req.getParameter("idMedidor") != null && !req.getParameter("idMedidor").equals("")) {
 					sql += "AND   ID_MEDIDOR = " + req.getParameter("idMedidor") + " ";
 				}
+				if(req.getParameter("dtInicio") != null && !req.getParameter("dtInicio").equals("")) {
+					
+					sql += "AND   DTINSERT >= '" + req.getParameter("dtInicio") + " 00:00' " +
+						   "AND   DTINSERT <= '" + req.getParameter("dtFim") + " 23:59' " ;
+				}
+				sql += "ORDER BY DTINSERT ";
 
 				connection = ConnectionFactory.getConnection();
 				
-				RelMedidorDAO relUsuarioMedidorDAO = new RelMedidorDAO(connection);
-				List<RelMedidor> listRelUsuarioMedidor = relUsuarioMedidorDAO.listar(sql);
+				RelConsumoMedidorDAO relConsumoMedidorDAO = new RelConsumoMedidorDAO(connection);
+				List<RelConsumoMedidor> listRelConsumoMedidor = relConsumoMedidorDAO.listar(sql);
 				
-				json = new Gson().toJson(listRelUsuarioMedidor);
+				json = new Gson().toJson(listRelConsumoMedidor);
 				
 				res.setContentType("application/json");
 				res.setCharacterEncoding("UTF-8");
@@ -216,177 +222,6 @@ public class ConsumoMedidorBO extends HttpServlet {
 				}
 			}	
         }	
-		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("6")) { //LISTAR USUARIO MEDIDOR
-
-			Connection connection = null;
-			HttpSession session = req.getSession(true);
-            User user = (User) session.getValue("user");
-            String json = "";
-			
-			try {
-				
-				connection = ConnectionFactory.getConnection();
-				
-				RelUserMedidorDAO relUserMedidorDAO = new RelUserMedidorDAO(connection);
-				List<RelUserMedidor> listRelUserMedidor = relUserMedidorDAO.listar(Long.parseLong(req.getParameter("idMedidor")));
-				
-				json = new Gson().toJson(listRelUserMedidor);
-				
-				res.setContentType("application/json");
-				res.setCharacterEncoding("UTF-8");
-				res.getWriter().write(json);   
-			}
-	        catch (Exception e) {
-	        	System.out.println("erro: " + e.toString());
-	            req.setAttribute("erro", e.toString());
-	            req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
-	        }
-			finally {
-				if(connection != null) {
-					try {connection.close();} catch (SQLException e) {}
-				}
-			}	
-        }
-		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("7")) { //AUTOCOMPLETE CPF VINCULO USUARIO MEDIDOR
-
-			Connection connection = null;
-			HttpSession session = req.getSession(true);
-            User user = (User) session.getValue("user");
-            String json = "";
-            String sql = "";
-			
-			try {
-
-				sql += "WHERE   ID_USER > 0 " + 
-					   "AND     ( REPLACE(CPF, '.', '') LIKE '" + req.getParameter("cpf").replace(".", "") + "%' OR UPPER(NOME) LIKE '" + req.getParameter("cpf").toUpperCase() + "%' ) " ;
-				
-				connection = ConnectionFactory.getConnection();
-				
-				UserDAO userDAO = new UserDAO(connection);
-				List<User> listUser = userDAO.listar(sql);
-				
-				json = new Gson().toJson(listUser);
-				
-				res.setContentType("application/json");
-				res.setCharacterEncoding("UTF-8");
-				res.getWriter().write(json);   
-			}
-	        catch (Exception e) {
-	        	System.out.println("erro: " + e.toString());
-	            req.setAttribute("erro", e.toString());
-	            req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
-	        }
-			finally {
-				if(connection != null) {
-					try {connection.close();} catch (SQLException e) {}
-				}
-			}	
-        }
-		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("8")) { //INSERIR VINCULO USUARIO MEDIDOR
-
-			Connection connection = null;
-			HttpSession session = req.getSession(true);
-            User user = (User) session.getValue("user");
-            String aviso = "";
-            String json = "";
-			
-			try {
-
-				connection = ConnectionFactory.getConnection();
-				
-				String cpf = req.getParameter("cpf").split(" - ")[0];
-				
-				UserDAO userDAO = new UserDAO(connection);
-				User user1 = userDAO.buscarPorCpf(cpf.trim());
-				
-				if(user1 == null) {//USUARIO NAO ENCONTRADO
-					
-					aviso = "O cpf informado não foi localizado";
-				}
-				else {
-
-					UserMedidor userMedidor = new UserMedidor();
-					
-					UserMedidorDAO userMedidorDAO = new UserMedidorDAO(connection);
-					userMedidor = userMedidorDAO.buscar(user1.getIdUser(), Long.parseLong(req.getParameter("idMedidor")), "A");
-
-					if(userMedidor != null) {
-						
-						aviso = "O usuário informado já está vinculado ao medidor";
-					}
-					else {
-					
-						userMedidor = new UserMedidor();
-						userMedidor.setIdUserMedidor(0l);
-						userMedidor.setIdInsert(user.getIdUser());
-						userMedidor.setIdUser(user1.getIdUser());
-						userMedidor.setIdMedidor(Long.parseLong(req.getParameter("idMedidor")));
-						userMedidor.setDtInicio(null);
-						userMedidor.setDtFim(null);
-						userMedidor.setSituacao("A");
-						userMedidorDAO.inserir(userMedidor);
-					}
-				}
-				
-				RelUserMedidorDAO relUserMedidorDAO = new RelUserMedidorDAO(connection);
-				List<RelUserMedidor> listRelUserMedidor = relUserMedidorDAO.listar(Long.parseLong(req.getParameter("idMedidor")));
-
-				List<Object> listObject = new ArrayList<Object>();
-				listObject.add(aviso);
-				listObject.add(listRelUserMedidor);
-				
-				json = new Gson().toJson(listObject);
-
-				res.setContentType("application/json");
-				res.setCharacterEncoding("UTF-8");
-				res.getWriter().write(json);   
-			}
-	        catch (Exception e) {
-	        	System.out.println("erro: " + e.toString());
-	            req.setAttribute("erro", e.toString());
-	            req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
-	        }
-			finally {
-				if(connection != null) {
-					try {connection.close();} catch (SQLException e) {}
-				}
-			}	
-        }
-		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("9")) { //INATIVAR VINCULO USUARIO MEDIDOR
-
-			Connection connection = null;
-			HttpSession session = req.getSession(true);
-            User user = (User) session.getValue("user");
-            String json = "";
-			
-			try {
-
-				connection = ConnectionFactory.getConnection();
-
-				UserMedidorDAO userMedidorDAO = new UserMedidorDAO(connection);
-
-				userMedidorDAO.inativar(Long.parseLong(req.getParameter("idUserMedidor")));
-
-				RelUserMedidorDAO relUserMedidorDAO = new RelUserMedidorDAO(connection);
-				List<RelUserMedidor> listRelUserMedidor = relUserMedidorDAO.listar(Long.parseLong(req.getParameter("idMedidor")));
-
-				json = new Gson().toJson(listRelUserMedidor);
-
-				res.setContentType("application/json");
-				res.setCharacterEncoding("UTF-8");
-				res.getWriter().write(json);   
-			}
-	        catch (Exception e) {
-	        	System.out.println("erro: " + e.toString());
-	            req.setAttribute("erro", e.toString());
-	            req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
-	        }
-			finally {
-				if(connection != null) {
-					try {connection.close();} catch (SQLException e) {}
-				}
-			}	
-        }
     }
 }
 

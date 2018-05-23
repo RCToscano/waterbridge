@@ -45,6 +45,7 @@
 			<fieldset>
 				<legend class="text-left">Consumo por Medidor</legend>
 			</fieldset>	
+			<div id="divAviso">${aviso}</div>
 			<form role="form" id="formUsuarioMedidor" action="#" method="POST" class="form-horizontal" accept-charset="iso-8859-1,utf-8">
 				<div class="form-group">
 					<div class="col-sm-4">
@@ -118,7 +119,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-md-12 text-center">
-						<button type="button" class="btn btn-primary" onclick="listarUsuarioMedidor()">Consultar</button>
+						<button type="button" class="btn btn-primary" onclick="listarConsumoMedidor()">Consultar</button>
 					</div>
 				</div>
 			</form>	
@@ -126,7 +127,7 @@
 <%-- 			<c:if test="${not empty lista}"> --%>
 				<div class="col-sm-8 col-md-offset-2">
 					<div class="form-group">
-						<input class="form-control" id="myInput" type="text" placeholder="Utilize para procurar..."></input> <br />
+<!-- 						<input class="form-control" id="myInput" type="text" placeholder="Utilize para procurar..."></input> <br /> -->
 						<div class="table-responsive" id="divTable">
 							<table class="table table-hover table-striped">
 								<thead>
