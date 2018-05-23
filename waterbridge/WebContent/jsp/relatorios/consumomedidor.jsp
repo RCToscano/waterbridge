@@ -129,62 +129,62 @@
 					<div class="form-group">
 <!-- 						<input class="form-control" id="myInput" type="text" placeholder="Utilize para procurar..."></input> <br /> -->
 						<div class="table-responsive" id="divTable">
-							<table class="table table-hover table-striped">
-								<thead>
-									<tr>
-										<th>Nº</th>
-										<th>Data</th>
-										<th>Volume (L)</th>
-										<th>Alarme</th>
-										<th>Bateria (V)</th>
-										<th>Temperatura (ºC)</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr><td>1</td><td>01/02/2018</td><td>360</td><td>DRY</td><td>3.6</td><td>26</td></tr>
-									<tr><td>2</td><td>02/02/2018</td><td>430</td><td></td><td>3.6</td><td>25</td></tr>
-									<tr><td>3</td><td>03/02/2018</td><td>389</td><td></td><td>3.6</td><td>27</td></tr>
-									<tr><td>4</td><td>04/02/2018</td><td>360</td><td></td><td>3.6</td><td>27</td></tr>
-									<tr><td>5</td><td>05/02/2018</td><td>355</td><td></td><td>3.6</td><td>24</td></tr>
-									<tr><td>6</td><td>06/02/2018</td><td>395</td><td></td><td>3.6</td><td>24</td></tr>
-									<tr><td>7</td><td>07/02/2018</td><td>372</td><td></td><td>3.6</td><td>27</td></tr>
-									<tr><td>8</td><td>08/02/2018</td><td>382</td><td></td><td>3.6</td><td>25</td></tr>
-									<tr><td>9</td><td>09/02/2018</td><td>391</td><td></td><td>3.6</td><td>27</td></tr>
-									<tr><td>10</td><td>10/02/2018</td><td>421</td><td></td><td>3.6</td><td>27</td></tr>
-									<tr><td>11</td><td>11/02/2018</td><td>426</td><td></td><td>3.6</td><td>24</td></tr>
-									<tr><td>12</td><td>12/02/2018</td><td>368</td><td></td><td>3.6</td><td>24</td></tr>
-									<tr><td>13</td><td>13/02/2018</td><td>361</td><td></td><td>3.6</td><td>24</td></tr>
-									<tr><td>14</td><td>14/02/2018</td><td>398</td><td></td><td>3.6</td><td>27</td></tr>
-									<tr><td>15</td><td>15/02/2018</td><td>369</td><td></td><td>3.6</td><td>25</td></tr>
-									<tr><td>16</td><td>16/02/2018</td><td>472</td><td></td><td>3.6</td><td>25</td></tr>
-									<tr><td>17</td><td>17/02/2018</td><td>462</td><td></td><td>3.6</td><td>27</td></tr>
-									<tr><td>18</td><td>18/02/2018</td><td>462</td><td></td><td>3.6</td><td>27</td></tr>
-									<tr><td>19</td><td>19/02/2018</td><td>395</td><td></td><td>3.6</td><td>24</td></tr>
-									<tr><td>20</td><td>20/02/2018</td><td>381</td><td></td><td>3.6</td><td>27</td></tr>
-									<tr><td>21</td><td>21/02/2018</td><td>397</td><td></td><td>3.6</td><td>25</td></tr>
-									<tr><td>22</td><td>22/02/2018</td><td>320</td><td>LEAK</td><td>3.6</td><td>27</td></tr>
-									<tr><td>23</td><td>23/02/2018</td><td>392</td><td></td><td>3.6</td><td>24</td></tr>
-									<tr><td>24</td><td>24/02/2018</td><td>438</td><td></td><td>3.6</td><td>24</td></tr>
-									<tr><td>25</td><td>25/02/2018</td><td>482</td><td></td><td>3.6</td><td>27</td></tr>
-									<tr><td>26</td><td>26/02/2018</td><td>435</td><td></td><td>3.6</td><td>25</td></tr>
-									<tr><td>27</td><td>27/02/2018</td><td>375</td><td></td><td>3.5</td><td>25</td></tr>
-									<tr><td>28</td><td>28/02/2018</td><td>320</td><td></td><td>3.5</td><td>27</td></tr>
-									<tr>
-										<td colspan="6" style="text-align: center">
-											<label>Consumo total no período em m&#179; (1m&#179; = 1.000 Litros): 11,108</label>
-										</td>
-									</tr>
-									<tr>
-										<td colspan="6" style="text-align: center">
-											<form action="GraficoConsumoBO?acao=1" method="post">
-												<button type="submit" class="btn btn-warning">
-											      <i class="fa fa-bar-chart"></i> Gráfico
-											    </button>
-											</form>    
-										</td>
-									</tr>
-								</tbody>
-							</table>
+<!-- 							<table class="table table-hover table-striped"> -->
+<!-- 								<thead> -->
+<!-- 									<tr> -->
+<!-- 										<th>Nº</th> -->
+<!-- 										<th>Data</th> -->
+<!-- 										<th>Volume (L)</th> -->
+<!-- 										<th>Alarme</th> -->
+<!-- 										<th>Bateria (V)</th> -->
+<!-- 										<th>Temperatura (ºC)</th> -->
+<!-- 									</tr> -->
+<!-- 								</thead> -->
+<!-- 								<tbody> -->
+<!-- 									<tr><td>1</td><td>01/02/2018</td><td>360</td><td>DRY</td><td>3.6</td><td>26</td></tr> -->
+<!-- 									<tr><td>2</td><td>02/02/2018</td><td>430</td><td></td><td>3.6</td><td>25</td></tr> -->
+<!-- 									<tr><td>3</td><td>03/02/2018</td><td>389</td><td></td><td>3.6</td><td>27</td></tr> -->
+<!-- 									<tr><td>4</td><td>04/02/2018</td><td>360</td><td></td><td>3.6</td><td>27</td></tr> -->
+<!-- 									<tr><td>5</td><td>05/02/2018</td><td>355</td><td></td><td>3.6</td><td>24</td></tr> -->
+<!-- 									<tr><td>6</td><td>06/02/2018</td><td>395</td><td></td><td>3.6</td><td>24</td></tr> -->
+<!-- 									<tr><td>7</td><td>07/02/2018</td><td>372</td><td></td><td>3.6</td><td>27</td></tr> -->
+<!-- 									<tr><td>8</td><td>08/02/2018</td><td>382</td><td></td><td>3.6</td><td>25</td></tr> -->
+<!-- 									<tr><td>9</td><td>09/02/2018</td><td>391</td><td></td><td>3.6</td><td>27</td></tr> -->
+<!-- 									<tr><td>10</td><td>10/02/2018</td><td>421</td><td></td><td>3.6</td><td>27</td></tr> -->
+<!-- 									<tr><td>11</td><td>11/02/2018</td><td>426</td><td></td><td>3.6</td><td>24</td></tr> -->
+<!-- 									<tr><td>12</td><td>12/02/2018</td><td>368</td><td></td><td>3.6</td><td>24</td></tr> -->
+<!-- 									<tr><td>13</td><td>13/02/2018</td><td>361</td><td></td><td>3.6</td><td>24</td></tr> -->
+<!-- 									<tr><td>14</td><td>14/02/2018</td><td>398</td><td></td><td>3.6</td><td>27</td></tr> -->
+<!-- 									<tr><td>15</td><td>15/02/2018</td><td>369</td><td></td><td>3.6</td><td>25</td></tr> -->
+<!-- 									<tr><td>16</td><td>16/02/2018</td><td>472</td><td></td><td>3.6</td><td>25</td></tr> -->
+<!-- 									<tr><td>17</td><td>17/02/2018</td><td>462</td><td></td><td>3.6</td><td>27</td></tr> -->
+<!-- 									<tr><td>18</td><td>18/02/2018</td><td>462</td><td></td><td>3.6</td><td>27</td></tr> -->
+<!-- 									<tr><td>19</td><td>19/02/2018</td><td>395</td><td></td><td>3.6</td><td>24</td></tr> -->
+<!-- 									<tr><td>20</td><td>20/02/2018</td><td>381</td><td></td><td>3.6</td><td>27</td></tr> -->
+<!-- 									<tr><td>21</td><td>21/02/2018</td><td>397</td><td></td><td>3.6</td><td>25</td></tr> -->
+<!-- 									<tr><td>22</td><td>22/02/2018</td><td>320</td><td>LEAK</td><td>3.6</td><td>27</td></tr> -->
+<!-- 									<tr><td>23</td><td>23/02/2018</td><td>392</td><td></td><td>3.6</td><td>24</td></tr> -->
+<!-- 									<tr><td>24</td><td>24/02/2018</td><td>438</td><td></td><td>3.6</td><td>24</td></tr> -->
+<!-- 									<tr><td>25</td><td>25/02/2018</td><td>482</td><td></td><td>3.6</td><td>27</td></tr> -->
+<!-- 									<tr><td>26</td><td>26/02/2018</td><td>435</td><td></td><td>3.6</td><td>25</td></tr> -->
+<!-- 									<tr><td>27</td><td>27/02/2018</td><td>375</td><td></td><td>3.5</td><td>25</td></tr> -->
+<!-- 									<tr><td>28</td><td>28/02/2018</td><td>320</td><td></td><td>3.5</td><td>27</td></tr> -->
+<!-- 									<tr> -->
+<!-- 										<td colspan="6" style="text-align: center"> -->
+<!-- 											<label>Consumo total no período em m&#179; (1m&#179; = 1.000 Litros): 11,108</label> -->
+<!-- 										</td> -->
+<!-- 									</tr> -->
+<!-- 									<tr> -->
+<!-- 										<td colspan="6" style="text-align: center"> -->
+<!-- 											<form action="GraficoConsumoBO?acao=1" method="post"> -->
+<!-- 												<button type="submit" class="btn btn-warning"> -->
+<!-- 											      <i class="fa fa-bar-chart"></i> Gráfico -->
+<!-- 											    </button> -->
+<!-- 											</form>     -->
+<!-- 										</td> -->
+<!-- 									</tr> -->
+<!-- 								</tbody> -->
+<!-- 							</table> -->
 						</div>
 					</div>
 				</div>

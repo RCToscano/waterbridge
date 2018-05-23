@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
+import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.BridgeDAO;
 import br.com.waterbridge.dao.CondominioDAO;
@@ -195,8 +196,8 @@ public class ConsumoMedidorBO extends HttpServlet {
 				}
 				if(req.getParameter("dtInicio") != null && !req.getParameter("dtInicio").equals("")) {
 					
-					sql += "AND   DTINSERT >= '" + req.getParameter("dtInicio") + " 00:00' " +
-						   "AND   DTINSERT <= '" + req.getParameter("dtFim") + " 23:59' " ;
+					sql += "AND   DTINSERT >= '" + Auxiliar.formataDtBanco(req.getParameter("dtInicio")) + " 00:00' " +
+						   "AND   DTINSERT <= '" + Auxiliar.formataDtBanco(req.getParameter("dtFim")) + " 23:59' " ;
 				}
 				sql += "ORDER BY DTINSERT ";
 
