@@ -45,6 +45,7 @@ public class RelConsumoMedidorDAO {
     		"		TEMPERATURE, " +
     		"		BATTERY, " +
     		"		ALARM, " +
+    		"		ALARMDESC, " +
     		"		DTINSERT, " +
     		"		METERID, " +
     		"		ENDERECO, " +
@@ -80,6 +81,7 @@ public class RelConsumoMedidorDAO {
             	relConsumoMedidor.setTemperature(rs.getLong("TEMPERATURE"));
             	relConsumoMedidor.setBattery(rs.getDouble("BATTERY"));
             	relConsumoMedidor.setAlarm(rs.getLong("ALARM"));
+            	relConsumoMedidor.setAlarmDesc(rs.getString("ALARMDESC"));
             	relConsumoMedidor.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));
             	relConsumoMedidor.setNumeroMedidor(rs.getString("METERID"));
             	relConsumoMedidor.setEndereco(rs.getString("ENDERECO"));

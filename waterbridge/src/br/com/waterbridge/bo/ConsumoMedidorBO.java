@@ -19,10 +19,12 @@ import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.BridgeDAO;
 import br.com.waterbridge.dao.CondominioDAO;
+import br.com.waterbridge.dao.ConsumoDAO;
 import br.com.waterbridge.dao.EmpresaDAO;
 import br.com.waterbridge.dao.MedidorDAO;
 import br.com.waterbridge.modelo.Bridge;
 import br.com.waterbridge.modelo.Condominio;
+import br.com.waterbridge.modelo.Consumo;
 import br.com.waterbridge.modelo.Empresa;
 import br.com.waterbridge.modelo.Medidor;
 import br.com.waterbridge.modelo.User;
@@ -251,6 +253,9 @@ public class ConsumoMedidorBO extends HttpServlet {
 				
 				RelConsumoMedidorDAO relConsumoMedidorDAO = new RelConsumoMedidorDAO(connection);
 				List<RelConsumoMedidor> listRelConsumoMedidor = relConsumoMedidorDAO.listar(sql);
+				
+//				ConsumoDAO consumoDAO = new ConsumoDAO(connection);
+//				Consumo consumoAnterior = consumoDAO.buscarAnterior(Long.parseLong(req.getParameter("idMedidor")), Auxiliar.formataDtBanco(req.getParameter("dtInicio")));
 				
 				String medidor = "";
 				List<String> listData = new ArrayList<String>();

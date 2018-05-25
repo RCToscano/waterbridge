@@ -18,6 +18,7 @@ public class RelConsumoMedidor {
 	private Long temperature;
 	private Double battery;
 	private Long alarm;
+	private String alarmDesc;
 	private String dtInsert;
 	private String numeroMedidor;
 	private String endereco;
@@ -124,6 +125,12 @@ public class RelConsumoMedidor {
 	}
 	public void setAlarm(Long alarm) {
 		this.alarm = alarm;
+	}
+	public String getAlarmDesc() {
+		return alarmDesc;
+	}
+	public void setAlarmDesc(String alarmDesc) {
+		this.alarmDesc = alarmDesc;
 	}
 	public String getDtInsert() {
 		return dtInsert;

@@ -269,7 +269,7 @@ function listarConsumoMedidor() {
     		            "			<td><small>" + (i + 1) + "</small></td>" +
     		            "			<td><small>" + relConsumoMedidor.dtInsert + "</small></td>" +
     		            "			<td><small>" + relConsumoMedidor.volume + "</small></td>" +
-    		            "			<td><small>" + relConsumoMedidor.alarm + "</small></td>" +
+    		            "			<td><small>" + relConsumoMedidor.alarmDesc + "</small></td>" +
     		            "			<td><small>" + relConsumoMedidor.battery + "</small></td>" +
     		            "			<td><small>" + relConsumoMedidor.temperature + "</small></td>" +
     		            "		    <td align='right'></td>" +
