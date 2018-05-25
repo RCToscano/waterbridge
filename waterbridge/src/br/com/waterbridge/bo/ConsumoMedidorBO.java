@@ -21,18 +21,13 @@ import br.com.waterbridge.dao.BridgeDAO;
 import br.com.waterbridge.dao.CondominioDAO;
 import br.com.waterbridge.dao.EmpresaDAO;
 import br.com.waterbridge.dao.MedidorDAO;
-import br.com.waterbridge.dao.UserDAO;
-import br.com.waterbridge.dao.UserMedidorDAO;
 import br.com.waterbridge.modelo.Bridge;
 import br.com.waterbridge.modelo.Condominio;
 import br.com.waterbridge.modelo.Empresa;
 import br.com.waterbridge.modelo.Medidor;
 import br.com.waterbridge.modelo.User;
-import br.com.waterbridge.modelo.UserMedidor;
 import br.com.waterbridge.reldao.RelConsumoMedidorDAO;
-import br.com.waterbridge.reldao.RelUserMedidorDAO;
 import br.com.waterbridge.relmodelo.RelConsumoMedidor;
-import br.com.waterbridge.relmodelo.RelUserMedidor;
 
 public class ConsumoMedidorBO extends HttpServlet {
 
@@ -60,7 +55,7 @@ public class ConsumoMedidorBO extends HttpServlet {
 				List<Empresa> listEmpresa = empresaDAO.listarPorUsuario(user.getIdUser());
 				
 				req.setAttribute("listEmpresa", listEmpresa);
-        		req.getRequestDispatcher("/jsp/relatorios/consumomedidor.jsp").forward(req, res);
+        		req.getRequestDispatcher("/jsp/relatorios/consumomedidordia.jsp").forward(req, res);
 			}
 	        catch (Exception e) {
 	            req.setAttribute("erro", e.toString());
@@ -171,7 +166,7 @@ public class ConsumoMedidorBO extends HttpServlet {
 				}
 			}	
         }
-		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("5")) { //LISTAR CONSUMO MEDIDOR
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("5")) { //LISTAR CONSUMO MEDIDOR DIA
 
 			Connection connection = null;
 			HttpSession session = req.getSession(true);
@@ -222,7 +217,88 @@ public class ConsumoMedidorBO extends HttpServlet {
 					try {connection.close();} catch (SQLException e) {}
 				}
 			}	
-        }	
+        }
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("6")) { //LISTAR CONSUMO MEDIDOR DIA GRAFICO
+
+			Connection connection = null;
+			HttpSession session = req.getSession(true);
+            User user = (User) session.getValue("user");
+            String sql = "";
+			
+			try {
+
+				sql += "WHERE ID_CONSUMO > 0 " ;
+				if(req.getParameter("idEmpresa") != null && !req.getParameter("idEmpresa").equals("")) {
+					sql += "AND   ID_EMPRESA = " + req.getParameter("idEmpresa") + " ";
+				}
+				if(req.getParameter("idCondominio") != null && !req.getParameter("idCondominio").equals("")) {
+					sql += "AND   ID_CONDOMINIO = " + req.getParameter("idCondominio") + " ";
+				}
+				if(req.getParameter("idBridge") != null && !req.getParameter("idBridge").equals("")) {
+					sql += "AND   ID_BRIDGE = " + req.getParameter("idBridge") + " ";
+				}
+				if(req.getParameter("idMedidor") != null && !req.getParameter("idMedidor").equals("")) {
+					sql += "AND   ID_MEDIDOR = " + req.getParameter("idMedidor") + " ";
+				}
+				if(req.getParameter("dtInicio") != null && !req.getParameter("dtInicio").equals("")) {
+					
+					sql += "AND   DTINSERT >= '" + Auxiliar.formataDtBanco(req.getParameter("dtInicio")) + " 00:00' " +
+						   "AND   DTINSERT <= '" + Auxiliar.formataDtBanco(req.getParameter("dtFim")) + " 23:59' " ;
+				}
+				sql += "ORDER BY DTINSERT ";
+
+				connection = ConnectionFactory.getConnection();
+				
+				RelConsumoMedidorDAO relConsumoMedidorDAO = new RelConsumoMedidorDAO(connection);
+				List<RelConsumoMedidor> listRelConsumoMedidor = relConsumoMedidorDAO.listar(sql);
+				
+				String medidor = "";
+				List<String> listData = new ArrayList<String>();
+				List<Double> listConsumo = new ArrayList<Double>();
+				Double volume1 = 0d;
+				Double volume2 = 0d;
+				Double consumo = 0d;
+				for(int i = 0; i < listRelConsumoMedidor.size(); i++) {
+					
+					RelConsumoMedidor relConsumoMedidor = listRelConsumoMedidor.get(i);
+
+					if(i == 0) {
+						
+						medidor = relConsumoMedidor.getNumeroMedidor();
+						volume1 = relConsumoMedidor.getVolume();
+						volume2 = relConsumoMedidor.getVolume();
+						consumo = volume2 - volume1;
+					}
+					else {
+						
+						volume2 = relConsumoMedidor.getVolume();
+						consumo = volume2 - volume1;
+						volume1 = volume2;
+					}
+					
+					listData.add(relConsumoMedidor.getDtInsert());
+					listConsumo.add(consumo);
+				}
+				
+				req.setAttribute("medidor", medidor);
+				req.setAttribute("dtInicio", req.getParameter("dtInicio"));
+				req.setAttribute("dtFim", req.getParameter("dtFim"));
+				req.setAttribute("listData", listData);
+				req.setAttribute("listConsumo", listConsumo);
+				req.setAttribute("listRelConsumoMedidor", listRelConsumoMedidor);
+        		req.getRequestDispatcher("/jsp/relatorios/consumomedidordiagrafico.jsp").forward(req, res);   
+			}
+	        catch (Exception e) {
+	        	System.out.println("erro: " + e.toString());
+	            req.setAttribute("erro", e.toString());
+	            req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
+	        }
+			finally {
+				if(connection != null) {
+					try {connection.close();} catch (SQLException e) {}
+				}
+			}	
+        }
     }
 }
 

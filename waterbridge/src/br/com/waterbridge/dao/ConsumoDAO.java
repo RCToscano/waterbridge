@@ -38,12 +38,10 @@ public class ConsumoDAO {
             "		TEMPERATURE, " +
             "		BATTERY, " +
             "		ALARM, " +
-            "		CONSUMO, " +
-            "		VAZAO, " +
             "		DTINSERT " +
             ") VALUES ( " +
             "       ?,?,?,?,?,?,?,?,?,?, " +
-            "       ?,?,?,?,? " +
+            "       ?,?,? " +
             ") ");
             
             //stmt.setObject(1, consumo.getIdConsumo());
@@ -59,9 +57,7 @@ public class ConsumoDAO {
             stmt.setObject(10, consumo.getTemperature());
             stmt.setObject(11, consumo.getBattery());
             stmt.setObject(12, consumo.getAlarm());
-            stmt.setObject(13, consumo.getConsumo());
-            stmt.setObject(14, consumo.getVazao());
-            stmt.setObject(15, consumo.getDtInsert());
+            stmt.setObject(13, consumo.getDtInsert());
             
             stmt.executeUpdate();
         }
@@ -100,8 +96,6 @@ public class ConsumoDAO {
     		"		TEMPERATURE, " +
     		"		BATTERY, " +
     		"		ALARM, " +
-    		"		CONSUMO, " +
-    		"		VAZAO, " +
     		"		DTINSERT " +
         	"FROM   TB_CONSUMO " +
         	"WHERE  ID_CONSUMO = ( " +
@@ -130,8 +124,6 @@ public class ConsumoDAO {
             	consumo.setTemperature(rs.getLong("TEMPERATURE"));
             	consumo.setBattery(rs.getDouble("BATTERY"));
             	consumo.setAlarm(rs.getLong("ALARM"));
-            	consumo.setConsumo(rs.getDouble("CONSUMO"));
-            	consumo.setVazao(rs.getDouble("VAZAO"));
             	consumo.setDtInsert(rs.getString("DTINSERT"));
             }
 
@@ -174,8 +166,6 @@ public class ConsumoDAO {
     		"		TEMPERATURE = ?, " +
     		"		BATTERY = ?, " +
     		"		ALARM = ?, " +
-    		"		CONSUMO = ?, " +
-    		"		VAZAO = ?, " +
     		"		DTINSERT = ? " +
         	"WHERE  ID_CONSUMO = ? " 
     		);
@@ -192,10 +182,8 @@ public class ConsumoDAO {
             stmt.setObject(10, consumo.getTemperature());
             stmt.setObject(11, consumo.getBattery());
             stmt.setObject(12, consumo.getAlarm());
-            stmt.setObject(13, consumo.getConsumo());
-            stmt.setObject(14, consumo.getVazao());
-            stmt.setObject(15, consumo.getDtInsert());
-            stmt.setObject(16, consumo.getIdConsumo());
+            stmt.setObject(13, consumo.getDtInsert());
+            stmt.setObject(14, consumo.getIdConsumo());
             
             stmt.executeUpdate();
         }

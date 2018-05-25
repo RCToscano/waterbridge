@@ -181,6 +181,8 @@ function listarConsumoMedidor() {
 	divAviso.innerHTML = '';
 	idEmpresa.style.removeProperty('border');
 	idCondominio.style.removeProperty('border');
+	idBridge.style.removeProperty('border');
+	idMedidor.style.removeProperty('border');
 	dtInicio.style.removeProperty('border');
 	dtFim.style.removeProperty('border');
 	
@@ -191,6 +193,14 @@ function listarConsumoMedidor() {
     else if(idCondominio.value == '') {
     	
     	idCondominio.style.borderColor = colorRed;
+    }
+    else if(idBridge.value == '') {
+    	
+    	idBridge.style.borderColor = colorRed;
+    }
+    else if(idMedidor.value == '') {
+    	
+    	idMedidor.style.borderColor = colorRed;
     }
     else if(dtInicio.value == '') {
     	
@@ -226,9 +236,8 @@ function listarConsumoMedidor() {
 	        success: function(result) {
 	        	
 	        	var texto = '';
-	        	var volume = 0;
-	        	var consumo = 0;
-	        	var consumoTotal = 0;
+	        	var volume1 = 0;
+	        	var volume2 = 0;
 	            var listRelConsumoMedidor = result;
 	            if(listRelConsumoMedidor != null && listRelConsumoMedidor.length > 0) {
 	            	
@@ -238,8 +247,7 @@ function listarConsumoMedidor() {
 		            "		<tr>" +
 		            "			<th>Nº</th>" +
 		            "			<th>Data</th>" +
-		            "			<th>Volume (L)</th>" +
-		            "			<th>Consumo (L)</th>" +
+		            "			<th>Volume (m&#179;)</th>" +
 		            "			<th>Alarme</th>" +
 		            "			<th>Bateria (V)</th>" +
 		            "			<th>Temperatura (ºC)</th>" +
@@ -249,41 +257,39 @@ function listarConsumoMedidor() {
 		            "	<tbody id='myTable'>" ;
             		for(i = 0; i < listRelConsumoMedidor.length; i++) {
 	                	
-	                	var relConsumoMedidor = listRelConsumoMedidor[i];
-	                	
-	                	if(i == 0) {
-	                		
-	                		consumo = 0;
-	                		volume = Number(relConsumoMedidor.volume);
+	                	var relConsumoMedidor = listRelConsumoMedidor[i];	                	
+	                	if(i == 0) {	                		
+	                		volume1 = relConsumoMedidor.volume;
 	                	}
-	                	else {
-	                		
-	                		consumo = Number(relConsumoMedidor.volume) - Number(volume);
-	                		consumoTotal += consumo;
-	                	}
-	                	
+	                	if((i + 1) == listRelConsumoMedidor.length) {	                		
+	                		volume2 = relConsumoMedidor.volume;
+	                	}	                	
 	                	texto +=
     		            "		<tr>" +
     		            "			<td><small>" + (i + 1) + "</small></td>" +
     		            "			<td><small>" + relConsumoMedidor.dtInsert + "</small></td>" +
     		            "			<td><small>" + relConsumoMedidor.volume + "</small></td>" +
-    		            "			<td><small>" + consumo + "</small></td>" +
     		            "			<td><small>" + relConsumoMedidor.alarm + "</small></td>" +
     		            "			<td><small>" + relConsumoMedidor.battery + "</small></td>" +
     		            "			<td><small>" + relConsumoMedidor.temperature + "</small></td>" +
     		            "		    <td align='right'></td>" +
     		            "		</tr>" ;
-	                	volume = relConsumoMedidor.volume;
 	                }
 		            texto +=
 					"        <tr>" +
-					"	         <td colspan='7' style='text-align: center'>" +
-					"		         <label>Consumo total no período em m&#179; (1m&#179; = 1.000 Litros): " + consumoTotal + "</label>" +
+					"	         <td colspan='7' style='text-align: center'>" +				
+					"		         <label>Consumo total no período em m&#179; (1m&#179; = 1.000 Litros): " + formatarTresDecimais(Number(volume2 - volume1)) + "</label>" +
 					"	         </td>" +
 					"        </tr>" +
 					"        <tr>" +
 					"	         <td colspan='7' style='text-align: center'>" +
-					"		         <form action='GraficoConsumoBO?acao=1' method='post'>" +
+					"		         <form action='ConsumoMedidorBO?acao=6' method='post' target='_blank'>" +
+					"                    <input type='hidden' name='idEmpresa' value='" + idEmpresa.value + "'>" +
+					"                    <input type='hidden' name='idCondominio' value='" + idCondominio.value + "'>" +
+					"                    <input type='hidden' name='idBridge' value='" + idBridge.value + "'>" +
+					"                    <input type='hidden' name='idMedidor' value='" + idMedidor.value + "'>" +
+					"                    <input type='hidden' name='dtInicio' value='" + dtInicio.value + "'>" +
+					"                    <input type='hidden' name='dtFim' value='" + dtFim.value + "'>" +
 					"			         <button type='submit' class='btn btn-warning'>" +
 					"		                 <i class='fa fa-bar-chart'></i> Gráfico" +
 					"		             </button>" +

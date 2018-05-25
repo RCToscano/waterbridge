@@ -15,8 +15,6 @@ public class Consumo {
 	private Long temperature;
 	private Double battery;
 	private Long alarm;
-	private Double consumo;
-	private Double vazao;
 	private String dtInsert;
 	
 	public Long getIdConsumo() {
@@ -96,18 +94,6 @@ public class Consumo {
 	}
 	public void setAlarm(Long alarm) {
 		this.alarm = alarm;
-	}
-	public Double getConsumo() {
-		return consumo;
-	}
-	public void setConsumo(Double consumo) {
-		this.consumo = consumo;
-	}
-	public Double getVazao() {
-		return vazao;
-	}
-	public void setVazao(Double vazao) {
-		this.vazao = vazao;
 	}
 	public String getDtInsert() {
 		return dtInsert;

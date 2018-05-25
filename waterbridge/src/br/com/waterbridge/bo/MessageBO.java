@@ -93,7 +93,7 @@ public class MessageBO extends HttpServlet {
 			
 			DecimalFormatSymbols dfs = new DecimalFormatSymbols();
 			dfs.setDecimalSeparator('.');
-			DecimalFormat df = new DecimalFormat("0.##", dfs);
+			DecimalFormat df = new DecimalFormat("0.###", dfs);
 			
 			message.setIdMessage(0l);
 			message.setIdUser(4l);
@@ -113,22 +113,6 @@ public class MessageBO extends HttpServlet {
 			message.setBattery(message.getBattery() / 50);
 			message.setBattery(Double.parseDouble(df.format(message.getBattery())));
 			message.setAlarm(Long.parseLong(biAlarme.toString(10)));
-			//BUSCA MENSAGEM ANTERIOR
-			Message messageAnt = messageDAO.buscarUltimo(message.getDevice(), message.getMeterPosition());
-			//CALCULA CONSUMO
-			if(messageAnt != null) {
-				message.setConsumo(message.getVolume() - messageAnt.getVolume());
-				message.setConsumo(Double.parseDouble(df.format(message.getConsumo())));
-			}
-			//CALCULA VAZAO
-			if(messageAnt != null) {
-				Long qtdeMinutos = messageDAO.difDataEmMinutos(messageAnt.getDtInsert(), message.getDtInsert());
-				Double vazao = 0D;
-				if(message.getConsumo().longValue() > 0 && qtdeMinutos > 0) {
-					vazao = message.getConsumo() / qtdeMinutos;
-					message.setVazao(Double.parseDouble(df.format(vazao)));
-				}
-			}
 			message.setDtInsert(messageDAO.dataHoraMinSeg());
 			
 			//INSERIR
@@ -146,8 +130,6 @@ public class MessageBO extends HttpServlet {
 			System.out.println("getTemperature " + message.getTemperature());
 			System.out.println("getBattery " + message.getBattery());
 			System.out.println("getAlarm " + message.getAlarm());
-			System.out.println("getConsumo " + message.getConsumo());
-			System.out.println("getVazao " + message.getVazao());
 			System.out.println("getDtInsert " + message.getDtInsert());
 			
 			//TRATAMENTO CONSUMO
@@ -164,23 +146,7 @@ public class MessageBO extends HttpServlet {
 			consumo.setFlow(message.getFlow());
 			consumo.setTemperature(message.getTemperature());
 			consumo.setBattery(message.getBattery());
-			consumo.setAlarm(message.getAlarm());
-			//BUSCA CONSUMO ANTERIOR
-			Consumo consumoAnt = consumoDAO.buscarUltimo(message.getDevice(), message.getMeterPosition());
-			//CALCULA CONSUMO
-			if(consumoAnt != null) {
-				consumo.setConsumo(consumo.getVolume() - consumoAnt.getVolume());
-				consumo.setConsumo(Double.parseDouble(df.format(consumo.getConsumo())));
-			}
-			//CALCULA VAZAO
-			if(consumoAnt != null) {
-				Long qtdeMinutos = messageDAO.difDataEmMinutos(consumoAnt.getDtInsert(), consumo.getDtInsert());
-				Double vazao = 0D;
-				if(consumo.getConsumo().longValue() > 0 && qtdeMinutos > 0) {
-					vazao = consumo.getConsumo() / qtdeMinutos;
-					consumo.setVazao(Double.parseDouble(df.format(vazao)));
-				}
-			}		
+			consumo.setAlarm(message.getAlarm());			
 			consumo.setDtInsert(consumoDAO.dataHoraMinSeg());
 			
 			consumoDAO.inserir(consumo);

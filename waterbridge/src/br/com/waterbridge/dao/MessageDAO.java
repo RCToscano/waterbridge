@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.modelo.Message;
 
 public class MessageDAO {
@@ -37,12 +36,10 @@ public class MessageDAO {
     		"       TEMPERATURE, " +
     		"       BATTERY, " +
     		"       ALARM, " +
-    		"       CONSUMO, " +
-    		"       VAZAO, " +
     		"       DTINSERT " +
             ") VALUES ( " +
             "       ?,?,?,?,?,?,?,?,?,?, " +
-            "       ?,?,?,? " +
+            "       ?,? " +
             ") ");
             
             //stmt.setObject(1, message.getIdMessage());
@@ -57,9 +54,7 @@ public class MessageDAO {
             stmt.setObject(9, message.getTemperature());
             stmt.setObject(10, message.getBattery());
             stmt.setObject(11, message.getAlarm());
-            stmt.setObject(12, message.getConsumo());
-            stmt.setObject(13, message.getVazao());
-            stmt.setObject(14, message.getDtInsert());
+            stmt.setObject(12, message.getDtInsert());
 
             stmt.executeUpdate();
         }
@@ -97,8 +92,6 @@ public class MessageDAO {
     		"       TEMPERATURE, " +
     		"       BATTERY, " +
     		"       ALARM, " +
-    		"       CONSUMO, " +
-    		"       VAZAO, " +
     		"       DTINSERT " +
         	"FROM   TB_MESSAGE " +
         	"WHERE  ID_MESSAGE = ( " +
@@ -126,8 +119,6 @@ public class MessageDAO {
             	message.setTemperature(rs.getLong("TEMPERATURE"));
             	message.setBattery(rs.getDouble("BATTERY"));
             	message.setAlarm(rs.getLong("ALARM"));
-            	message.setConsumo(rs.getDouble("CONSUMO"));
-            	message.setVazao(rs.getDouble("VAZAO"));
             	message.setDtInsert(rs.getString("DTINSERT"));
             }
 
@@ -169,8 +160,6 @@ public class MessageDAO {
 			"       TEMPERATURE = ?, " +
 			"       BATTERY = ?, " +
 			"       ALARM = ?, " +
-			"       CONSUMO = ?, " +
-			"       VAZAO = ?, " +
 			"       DTINSERT = ? " +
         	"WHERE  ID_MESSAGE = ? " 
     		);
@@ -186,10 +175,8 @@ public class MessageDAO {
             stmt.setObject(9, message.getTemperature());
             stmt.setObject(10, message.getBattery());
             stmt.setObject(11, message.getAlarm());
-            stmt.setObject(12, message.getConsumo());
-            stmt.setObject(13, message.getVazao());
-            stmt.setObject(14, message.getDtInsert());
-            stmt.setObject(15, message.getIdMessage());
+            stmt.setObject(12, message.getDtInsert());
+            stmt.setObject(13, message.getIdMessage());
             
             stmt.executeUpdate();
         }

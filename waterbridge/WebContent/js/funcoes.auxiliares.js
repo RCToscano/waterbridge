@@ -155,6 +155,7 @@ function numerico(input) {
         }
     }
 }
+
 function validaTamanho(campo, tamanho) {
 	if ((campo.value.length+1) <= tamanho) {
 		return true;
@@ -205,3 +206,8 @@ function mascaraCnpj(input){
     }
 }
 
+function formatarTresDecimais(numero) {
+    var numero = numero.toFixed(3).split('.');
+    numero[0] = numero[0].split(/(?=(?:...)*$)/).join('.');
+    return numero.join(',');
+}
