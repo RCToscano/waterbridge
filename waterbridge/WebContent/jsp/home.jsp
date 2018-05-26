@@ -23,15 +23,17 @@
 		<jsp:include page="/menu/${sessionScope.user.perfil.menu}"></jsp:include>
 		<div class="container">
 			<div class="row">
-<!-- 				<div class="col-sm-4 col-md-3"> -->
-<!-- 					<div class="thumbnail"> -->
-<!-- 						<div class="caption"> -->
-<!-- 							<h3>Cadastro de Usuários</h3> -->
-<!-- 							<p>Cadastre os usuários de acordo com o perfil.</p> -->
-<!-- 							<p><a href="UsuarioBO?acao=cadUsuario" class="btn btn-primary" role="button">Acessar</a></p> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
+				<c:if test="${sessionScope.user.perfil.perfil != 'CONSUMIDOR' or sessionScope.user.perfil.perfil == 'CONDOMINIO'}">
+					<div class="col-sm-4 col-md-3">
+						<div class="thumbnail">
+							<div class="caption">
+								<h3>Cadastro de Usuários</h3>
+								<p>Cadastre os usuários de acordo com o perfil.</p>
+								<p><a href="UsuarioBO?acao=cadUsuario" class="btn btn-primary" role="button">Acessar</a></p>
+							</div>
+						</div>
+					</div>
+				</c:if>
 				<div class="col-sm-5 col-md-3">
 					<div class="thumbnail">
 						<div class="caption">
@@ -41,7 +43,7 @@
 						</div>
 					</div>
 				</div>
-				<c:if test="${sessionScope.user.perfil.menu != 'CONSUMIDOR'}">
+				<c:if test="${sessionScope.user.perfil.perfil != 'CONSUMIDOR'}">
 					<div class="col-sm-5 col-md-3">
 						<div class="thumbnail">
 							<div class="caption">

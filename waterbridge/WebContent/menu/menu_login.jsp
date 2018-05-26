@@ -27,8 +27,12 @@
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <!--<input id="email" type="email" class="form-control" name="email" value="" placeholder="Email" data-toggle="tooltip" data-placement="bottom" title="Usuário inválido. Tente novamente" required>-->
-                        <input id="email" type="text" class="form-control" name="email" value="" placeholder="CNPJ / CPF" data-toggle="tooltip" data-placement="bottom" title="${loginErro}" required>
+                        <input type="tel" class="form-control" id="usuario" name="usuario" value="" placeholder="CPF" data-toggle="tooltip" data-placement="bottom" title="${loginErro}" required>
+                        <script>
+				            $(function () {
+				                $("#usuario").mask("999.999.999-99");
+				            });
+				        </script>
                     </div>
                 </div> 
                 <div class="form-group">                   

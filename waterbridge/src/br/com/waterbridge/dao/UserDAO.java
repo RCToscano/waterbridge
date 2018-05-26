@@ -23,7 +23,7 @@ public class UserDAO {
         this.connection = connection;
     }
 
-    public User login(String email, String senha) throws Exception {
+    public User login(String usuario, String senha) throws Exception {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         User user = null;
@@ -51,7 +51,7 @@ public class UserDAO {
             "AND       TB_PASS.PASS = ? "
             );
             
-            stmt.setString(1, email);
+            stmt.setString(1, usuario);
             stmt.setString(2, senha);
             
             rs = stmt.executeQuery();

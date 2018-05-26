@@ -78,7 +78,8 @@ public class RelatoriosDAO {
         }
     }
     
-    public List<RelatorioCondominio> consumoPorComunidade(Long idCondominio) throws Exception {
+	public List<RelatorioCondominio> consumoPorComunidade(Long idCondominio, String dtInicio, String dtFim)
+			throws Exception {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         List<RelatorioCondominio> list = new ArrayList<>();
@@ -86,6 +87,7 @@ public class RelatoriosDAO {
             
             stmt = connection.prepareStatement(
         	"	SELECT SUM(TB_CONSUMO.VOLUME) AS VOLUME, " + 
+            "          TB_CONSUMO.DTINSERT, " + 
             "          TB_USER.NOME " +
             "     FROM TB_CONDOMINIO " + 
             "LEFT JOIN TB_USERCONDOMINIO " + 
@@ -99,16 +101,21 @@ public class RelatoriosDAO {
         	"LEFT JOIN TB_CONSUMO " + 
         	"       ON TB_CONSUMO.DEVICE = TB_MEDIDOR.DEVICENUM " + 
             "    WHERE TB_CONDOMINIO.ID_CONDOMINIO = ? " + 
-        	" GROUP BY TB_USER.ID_USER"
+            "      AND TB_CONSUMO.DTINSERT >= ? " + 
+            "      AND TB_CONSUMO.DTINSERT <= ? " + 
+        	" GROUP BY TB_USER.ID_USER "
             );
             stmt.setObject(1, idCondominio);
+            stmt.setObject(2, dtInicio);
+            stmt.setObject(3, dtFim);
             rs = stmt.executeQuery();
 
             while(rs.next()) {
             	if(rs.getBigDecimal("VOLUME") != null) {
 	            	RelatorioCondominio condominio = new RelatorioCondominio();
 	            	condominio.setIdCondominio(idCondominio);
-	            	condominio.setCondominio(rs.getString("NOME"));
+	            	condominio.setConsumidor(rs.getString("NOME"));
+	            	condominio.setData(rs.getString("DTINSERT"));
 	            	condominio.setConsumo(rs.getBigDecimal("VOLUME"));
 	                list.add(condominio);
             	}

@@ -31,7 +31,6 @@
 			    <li class="active">Consumo por Condomínio</li>
 			</ul>
 			
-			
 			<div id="divAviso" name="divAviso" class="alert alert-danger" style="display:${display};">
 				<strong><label id='aviso' name='aviso'/>${aviso}</strong>
 			</div>
@@ -60,7 +59,7 @@
 									<option value="" selected>Selecione...</option>
 									<c:forEach var="condominio" items="${listCondominio}">
 		                   		        <c:choose>
-		                                  	<c:when test="${condominio.idCondominio == medidor.idCondominio}">
+		                                  	<c:when test="${condominio.idCondominio == idCondominio}">
 		                                 		<option value="${condominio.idCondominio}" selected="true">${condominio.nome} - ${condominio.endereco} ${condominio.numero} ${condominio.compl}</option>
 		                                   	</c:when>
 		                                   	<c:otherwise>
@@ -153,6 +152,8 @@
 									<tr>
 										<td colspan="4" style="text-align: center">
 											<form action="RelatoriosBO?acao=graficoCondominio" method="post" target="_blank">
+												<input type="hidden" id="dtInicio" name="dtInicio" value="${dtInicio}" />
+												<input type="hidden" id="dtFim" name="dtFim" value="${dtFim}" />
 												<button type="submit" class="btn btn-warning">
 											    	<i class="fa fa-bar-chart"></i> Gráfico
 											    </button>
