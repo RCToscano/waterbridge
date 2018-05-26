@@ -91,9 +91,9 @@
                 <li>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Vínculos <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">                        
-                        <li><a href="UsuarioCondominioBO?acao=1">Usuário Condomínio</a></li>
+                        <li><a href="UsuarioCondominioBO?acao=1">Local</a></li>
                         <li class="divider"></li>
-                        <li><a href="UsuarioMedidorBO?acao=1">Usuário Medidor</a></li>
+                        <li><a href="UsuarioMedidorBO?acao=1">Consumidor</a></li>
                         <li class="divider"></li>
                     </ul>
                 </li>

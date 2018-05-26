@@ -107,7 +107,7 @@
 						</select>
 					</div>
 					<div class="col-sm-4">						
-						<label>Custo Mensal</label>
+						<label>Custo Mensal (R$)</label>
 						<fmt:setLocale value="pt-BR" />
 						<input type="text" class="form-control" id="custoMensal" name="custoMensal" value="<fmt:formatNumber value="${bridge.custoMensal}" type="currency" currencySymbol=""/>" maxlength="15" required/>
                         <script>
@@ -117,7 +117,7 @@
                         </script>
 					</div>
 					<div class="col-sm-4">
-						<label>Taxa de Envio Di&aacute;rio</label>
+						<label>Taxa de Envio Di&aacute;rio (minutos)</label>
 						<input type="text" class="form-control" id="taxaEnvio" name="taxaEnvio" value="${bridge.taxaEnvio}" maxlength="4" required/>
 					</div>
 				</div>

@@ -8,9 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.waterbridge.auxiliar.Auxiliar;
-import br.com.waterbridge.modelo.Bridge;
-import br.com.waterbridge.modelo.BridgeTp;
-import br.com.waterbridge.modelo.BridgeTpAlim;
 import br.com.waterbridge.modelo.FabricMedidor;
 import br.com.waterbridge.modelo.Medidor;
 
@@ -337,6 +334,40 @@ public class MedidorDAO {
     	}
     }
     
+    public Long buscarIdMedidor(String deviceNum, int meterPosition) throws Exception {
+    	
+    	PreparedStatement stmt = null;
+    	ResultSet rs = null;
+    	Long idMedidor = null;
+    	
+    	try {
+    		stmt = connection.prepareStatement(
+			"SELECT TB_MEDIDOR.ID_MEDIDOR " + 
+			"FROM   TB_MEDIDOR " +
+			"WHERE  TB_MEDIDOR.DEVICENUM = ? " +
+			"AND    TB_MEDIDOR.METERPOSITION = ? "
+    		);
+    		
+    		stmt.setObject(1, deviceNum);
+    		stmt.setObject(2, meterPosition);
+            
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+            	
+            	idMedidor = rs.getLong("ID_MEDIDOR");
+            }
+            
+            return idMedidor;
+    	} 
+    	finally {
+    		if(stmt != null)
+    			stmt.close();
+    		if(rs != null)
+    			rs.close();
+    	}
+    }
+    
     public List<Medidor> listarTodos() throws Exception {
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -497,30 +528,30 @@ public class MedidorDAO {
         try {
             
             stmt = connection.prepareStatement(
-            "SELECT    ID_MEDIDOR, " +
-            "          ID_USER, " +
-            "          ID_FABRICMEDIDOR, " +
-            "          MODELO, " +
-            "          SERIE, " +
-            "          TIPO, " +
-            "          CHAVEDECRIPTO, " +
-            "          VALIDBATERIA, " +
-            "          OBS, " +
-            "          SITUACAO, " +
-            "          DTINSERT, " +
-            "          ID_BRIDGE, " +
-            "          DEVICENUM, " +
-            "          METERPOSITION, " +
-            "          METERID, " +
-            "          ID_CONDOMINIO, " +
-            "          ENDERECO, " +
-            "          NUMERO, " +
-            "          COMPL, " +
-            "          MUNICIPIO, " +
-            "          UF, " +
-            "          CEP, " +
-            "          COORDX, " +
-            "          COORDY " +
+            "SELECT    TB_MEDIDOR.ID_MEDIDOR, " +
+            "          TB_MEDIDOR.ID_USER, " +
+            "          TB_MEDIDOR.ID_FABRICMEDIDOR, " +
+            "          TB_MEDIDOR.MODELO, " +
+            "          TB_MEDIDOR.SERIE, " +
+            "          TB_MEDIDOR.TIPO, " +
+            "          TB_MEDIDOR.CHAVEDECRIPTO, " +
+            "          TB_MEDIDOR.VALIDBATERIA, " +
+            "          TB_MEDIDOR.OBS, " +
+            "          TB_MEDIDOR.SITUACAO, " +
+            "          TB_MEDIDOR.DTINSERT, " +
+            "          TB_MEDIDOR.ID_BRIDGE, " +
+            "          TB_MEDIDOR.DEVICENUM, " +
+            "          TB_MEDIDOR.METERPOSITION, " +
+            "          TB_MEDIDOR.METERID, " +
+            "          TB_MEDIDOR.ID_CONDOMINIO, " +
+            "          TB_MEDIDOR.ENDERECO, " +
+            "          TB_MEDIDOR.NUMERO, " +
+            "          TB_MEDIDOR.COMPL, " +
+            "          TB_MEDIDOR.MUNICIPIO, " +
+            "          TB_MEDIDOR.UF, " +
+            "          TB_MEDIDOR.CEP, " +
+            "          TB_MEDIDOR.COORDX, " +
+            "          TB_MEDIDOR.COORDY " +
             "FROM      TB_MEDIDOR " +
             "LEFT JOIN VW_USERMEDIDORID " +
 		    "ON        TB_MEDIDOR.ID_MEDIDOR = VW_USERMEDIDORID.ID_MEDIDOR " +
@@ -586,5 +617,5 @@ public class MedidorDAO {
             }
         }
     }
-
+    
 }

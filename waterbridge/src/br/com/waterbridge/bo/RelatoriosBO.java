@@ -12,13 +12,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import br.com.waterbridge.auxiliar.Constantes;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.CondominioDAO;
 import br.com.waterbridge.dao.LogSqlDAO;
+import br.com.waterbridge.dao.EmpresaDAO;
 import br.com.waterbridge.dao.RelatoriosDAO;
 import br.com.waterbridge.modelo.Condominio;
+import br.com.waterbridge.modelo.Empresa;
 import br.com.waterbridge.modelo.RelatorioCondominio;
 import br.com.waterbridge.modelo.User;
 
@@ -35,8 +38,10 @@ public class RelatoriosBO extends HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		String relat = "";
 		Connection connection = null;
+		HttpSession session = req.getSession(true);
+        User user = (User) session.getValue("user");
+        
         try {
-        	User user = (User) req.getSession().getAttribute("user");
         	connection = ConnectionFactory.getConnection();
         	
             if (req.getParameter("acao") != null) {
@@ -44,7 +49,12 @@ public class RelatoriosBO extends HttpServlet {
             }
 
             if (relat.equals("medidor")) {
+            	
+            	EmpresaDAO empresaDAO = new EmpresaDAO(connection);
+            	List<Empresa> listEmpresa = empresaDAO.listarPorUsuario(user.getIdUser());
+            	
         		req.setAttribute("display", "none");
+        		req.setAttribute("listEmpresa", listEmpresa);
         		req.getRequestDispatcher("/jsp/relatorios/consumoMedidor.jsp").forward(req, res);
             } 
             
@@ -139,9 +149,6 @@ public class RelatoriosBO extends HttpServlet {
 					req.getRequestDispatcher("/jsp/relatorios/consumoCondominio.jsp").forward(req, res);
 				}
             }
-            
-            
-            
         }
         catch (Exception e) {
             req.setAttribute("erro", e.toString());

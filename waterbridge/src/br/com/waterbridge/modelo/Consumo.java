@@ -1,9 +1,10 @@
 package br.com.waterbridge.modelo;
 
-public class Message {
+public class Consumo {
 
-	private Long idMessage;
+	private Long idConsumo;
 	private Long idUser;
+	private Long idMedidor;
 	private String device;
 	private String data;
 	private String version;
@@ -16,17 +17,23 @@ public class Message {
 	private Long alarm;
 	private String dtInsert;
 	
-	public Long getIdMessage() {
-		return idMessage;
+	public Long getIdConsumo() {
+		return idConsumo;
 	}
-	public void setIdMessage(Long idMessage) {
-		this.idMessage = idMessage;
+	public void setIdConsumo(Long idConsumo) {
+		this.idConsumo = idConsumo;
 	}
 	public Long getIdUser() {
 		return idUser;
 	}
 	public void setIdUser(Long idUser) {
 		this.idUser = idUser;
+	}
+	public Long getIdMedidor() {
+		return idMedidor;
+	}
+	public void setIdMedidor(Long idMedidor) {
+		this.idMedidor = idMedidor;
 	}
 	public String getDevice() {
 		return device;
@@ -94,5 +101,5 @@ public class Message {
 	public void setDtInsert(String dtInsert) {
 		this.dtInsert = dtInsert;
 	}
-	
+
 }

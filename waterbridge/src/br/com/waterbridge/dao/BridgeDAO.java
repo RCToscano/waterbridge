@@ -536,19 +536,19 @@ public class BridgeDAO {
         try {
             
             stmt = connection.prepareStatement(
-    		"SELECT    ID_BRIDGE, " +
-			"		   ID_BRIDGETP, " +
-            "          ID_BRIDGETPALIM, " +
-            "          ID_USER, " +
-            "          ID_CONDOMINIO, " +
-            "	       DEVICENUM, " +
-            "          ATIVATIONDATE, " +
-            "          TOKENVALID, " +
-            "          DESCRICAO, " +
-            "          CUSTOMENSAL, " +
-            "          TAXAENVIO, " +
-            "          SITUACAO, " +
-            " 	       DTINSERT " +
+    		"SELECT    TB_BRIDGE.ID_BRIDGE, " +
+			"		   TB_BRIDGE.ID_BRIDGETP, " +
+            "          TB_BRIDGE.ID_BRIDGETPALIM, " +
+            "          TB_BRIDGE.ID_USER, " +
+            "          TB_BRIDGE.ID_CONDOMINIO, " +
+            "	       TB_BRIDGE.DEVICENUM, " +
+            "          TB_BRIDGE.ATIVATIONDATE, " +
+            "          TB_BRIDGE.TOKENVALID, " +
+            "          TB_BRIDGE.DESCRICAO, " +
+            "          TB_BRIDGE.CUSTOMENSAL, " +
+            "          TB_BRIDGE.TAXAENVIO, " +
+            "          TB_BRIDGE.SITUACAO, " +
+            " 	       TB_BRIDGE.DTINSERT " +
             "FROM      TB_BRIDGE " +
             "LEFT JOIN VW_USERBRIDGEID " +
 		    "ON        TB_BRIDGE.ID_BRIDGE = VW_USERBRIDGEID.ID_BRIDGE " +
