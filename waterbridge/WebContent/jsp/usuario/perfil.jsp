@@ -75,14 +75,14 @@
 								
 								<div class="col-sm-12"></div>
 								
-								<div class="col-sm-6" style="padding-top: 5%;">
+								<div class="col-sm-6" style="padding-top: 2%;">
 									<div class="form-group">
 										<label class="control-label">Nome</label>
 										<input type="text" class="form-control" id="name" name="name" value="${usuario.nome}" required/>
 									</div>
 								</div>							
 
-								<div class="col-sm-4">
+								<div class="col-sm-4" style="padding-top: 2%;">
 									<div class="form-group">
 										<label class="control-label">CPF</label>
 										<input type="tel" class="form-control" id="cpf" name="cpf" placeholder="999.999.999-99" value="${usuario.cpf}" required/>
@@ -224,7 +224,7 @@
 						</div>
 						<div class="tab-pane fade" id="senha">
 					    	<form action="UsuarioBO?acao=alterarSenha" method="post" accept-charset="iso-8859-1,utf-8" onSubmit="return validaSenha()">
-					        	<div class="col-sm-4" style="padding-top: 5%;">
+					        	<div class="col-sm-4" style="padding-top: 2%;">
 									<div class="form-group">
 					        			<label>Senha Atual</label> 
 										<input type="password" class="form-control input-sm" name="senha" id="senha" maxlength="50" required/>

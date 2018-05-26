@@ -42,41 +42,10 @@
 						        	text: 'Gráfico de Consumo <br/><label>Condomínio Vertentes do Morumbi</label>'
 						    	},
 						    	subtitle: {
-						        	text: 'Período 01/04/2018 a 30/04/2018'
+						        	text: ${periodo}
 						    	},
 							    xAxis: {
-							        categories: [
-							        	'Consumidor 1',
-							        	'Consumidor 2',
-							        	'Consumidor 3',
-							        	'Consumidor 4',
-							        	'Consumidor 5',
-							        	'Consumidor 6',
-							        	'Consumidor 7',
-							        	'Consumidor 8',
-							        	'Consumidor 9',
-							        	'Consumidor 10',
-							        	'Consumidor 11',
-							        	'Consumidor 12',
-							        	'Consumidor 13',
-							        	'Consumidor 14',
-							        	'Consumidor 15',
-							        	'Consumidor 16',
-							        	'Consumidor 17',
-							        	'Consumidor 18',
-							        	'Consumidor 19',
-							        	'Consumidor 20',
-							        	'Consumidor 21',
-							        	'Consumidor 22',
-							        	'Consumidor 23',
-							        	'Consumidor 24',
-							        	'Consumidor 25',
-							        	'Consumidor 26',
-							        	'Consumidor 27',
-							        	'Consumidor 28',
-							        	'Consumidor 29',
-							        	'Consumidor 30'
-							        ],
+							        categories: [${fn:replace(fn:replace(listaConsumidor, '[', ''), ']', '')}],
 							        crosshair: true
 							    },
 							    yAxis: {
@@ -85,12 +54,6 @@
 							            text: 'Consumo (m³)'
 							        }
 							    },
-		// 					    xAxis: {
-		// 					    	min: 2,
-		// 					        title: {
-		// 					            text: 'Dias'
-		// 					        }
-		// 					    },
 							    tooltip: {
 							        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
 							        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:.0f} m3</b></td></tr>',
@@ -106,38 +69,7 @@
 							    },
 							    series: [{
 							        name: 'Vertentes do Morumbi',
-							        data: [
-							        	10,
-							        	14,
-							        	13,
-							        	21,
-							        	34,
-							        	53,
-							        	70,
-							        	12,
-							        	45,
-							        	24,
-							        	24,
-							        	24,
-							        	82,
-							        	22,
-							        	23,
-							        	23,
-							        	13,
-							        	14,
-							        	31,
-							        	24,
-							        	22,
-							        	23,
-							        	24,
-							        	21,
-							        	43,
-							        	22,
-							        	22,
-							        	24,
-							        	23,
-							        	13
-							        ]
+							        data: [${fn:replace(fn:replace(listaQtde, '[', ''), ']', '')}]
 							    }]
 							});
 						

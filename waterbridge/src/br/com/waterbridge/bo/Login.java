@@ -40,7 +40,7 @@ public class Login extends HttpServlet {
             }
 
             if (relat.equals("login")) {
-            	String email = req.getParameter("email");
+            	String email = req.getParameter("usuario");
                 String senha = req.getParameter("password");
                 
             	UserDAO userDAO = new UserDAO(connection);
@@ -95,7 +95,7 @@ public class Login extends HttpServlet {
             			passDAO.alterar(pass);
             			
 						String mensagem = Email.corpoEmailSenha(usuario.getNome(), usuario.getUsuario(), novaSenha);
-						Email.enviarEmail("WaterBridge - Recuperação de Senha", mensagem, usuario.getEmail());
+						Email.enviarEmail("WaterBridge - Recupera&ccedil;&atilde;o de Senha", mensagem, usuario.getEmail());
 
 						String emailQuebrado[] = usuario.getEmail().split("@");
 						String email = emailQuebrado[0].substring(0, 3) + "...@" + emailQuebrado[1];

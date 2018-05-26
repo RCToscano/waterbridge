@@ -30,9 +30,10 @@
                 <li>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Relatórios <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="HomeBO?acao=home">Consumos Período</a></li>
+                        <li><a href="RelatoriosBO?acao=medidor">Consumos por Medidor</a></li>
                          <li class="divider"></li>
-<!--                         <li><a href="ServicoBO?acao=cadastrar"></a></li> -->
+                         <li><a href="RelatoriosBO?acao=condominio">Consumo por Condomínio</a></li>
+                         <li class="divider"></li>
                     </ul>
                 </li>
             </ul>
@@ -40,7 +41,6 @@
 	        	<span class="navbar-text">Ol&aacute; ${sessionScope.user.nome}, seja bem-vindo!</span>
 		    	<li><a href="UsuarioBO?acao=perfil"><span class="glyphicon glyphicon-user"></span> Perfil</a></li>
 		    	<li><a href="Login?r=logout"><span class="glyphicon glyphicon-log-in"></span> Sair</a></li>
-<!-- 		    	<li><a data-toggle="modal" data-target="#myModal" href="Login?r=logout"><span class="glyphicon glyphicon-log-in"></span> Sair</a></li> -->
 		    </ul>
         </div>
     </div>

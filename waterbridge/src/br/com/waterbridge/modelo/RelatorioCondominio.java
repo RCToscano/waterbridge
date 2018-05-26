@@ -7,6 +7,8 @@ public class RelatorioCondominio {
 	private Long idCondominio;
 	private String condominio;
 	private String medidor;
+	private String data;
+	private String consumidor;
 	private BigDecimal consumo;
 	
 	
@@ -27,6 +29,18 @@ public class RelatorioCondominio {
 	}
 	public void setMedidor(String medidor) {
 		this.medidor = medidor;
+	}
+	public String getData() {
+		return data;
+	}
+	public void setData(String data) {
+		this.data = data;
+	}
+	public String getConsumidor() {
+		return consumidor;
+	}
+	public void setConsumidor(String consumidor) {
+		this.consumidor = consumidor;
 	}
 	public BigDecimal getConsumo() {
 		return consumo;
