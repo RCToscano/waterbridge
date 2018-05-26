@@ -236,8 +236,7 @@ function listarConsumoMedidor() {
 	        success: function(result) {
 	        	
 	        	var texto = '';
-	        	var volume1 = 0;
-	        	var volume2 = 0;
+	        	var consumo = 0;
 	            var listRelConsumoMedidor = result;
 	            if(listRelConsumoMedidor != null && listRelConsumoMedidor.length > 0) {
 	            	
@@ -257,18 +256,13 @@ function listarConsumoMedidor() {
 		            "	<tbody id='myTable'>" ;
             		for(i = 0; i < listRelConsumoMedidor.length; i++) {
 	                	
-	                	var relConsumoMedidor = listRelConsumoMedidor[i];	                	
-	                	if(i == 0) {	                		
-	                		volume1 = relConsumoMedidor.volume;
-	                	}
-	                	if((i + 1) == listRelConsumoMedidor.length) {	                		
-	                		volume2 = relConsumoMedidor.volume;
-	                	}	                	
+	                	var relConsumoMedidor = listRelConsumoMedidor[i];	                		                
+	                	consumo = consumo + relConsumoMedidor.consumo;
 	                	texto +=
     		            "		<tr>" +
     		            "			<td><small>" + (i + 1) + "</small></td>" +
     		            "			<td><small>" + relConsumoMedidor.dtInsert + "</small></td>" +
-    		            "			<td><small>" + relConsumoMedidor.volume + "</small></td>" +
+    		            "			<td><small>" + formatarTresDecimais(relConsumoMedidor.volume) + "</small></td>" +
     		            "			<td><small>" + relConsumoMedidor.alarmDesc + "</small></td>" +
     		            "			<td><small>" + relConsumoMedidor.battery + "</small></td>" +
     		            "			<td><small>" + relConsumoMedidor.temperature + "</small></td>" +
@@ -278,7 +272,7 @@ function listarConsumoMedidor() {
 		            texto +=
 					"        <tr>" +
 					"	         <td colspan='7' style='text-align: center'>" +				
-					"		         <label>Consumo total no período em m&#179; (1m&#179; = 1.000 Litros): " + formatarTresDecimais(Number(volume2 - volume1)) + "</label>" +
+					"		         <label>Consumo total no período em m&#179; (1m&#179; = 1.000 Litros): " + formatarTresDecimais(Number(consumo)) + "</label>" +
 					"	         </td>" +
 					"        </tr>" +
 					"        <tr>" +

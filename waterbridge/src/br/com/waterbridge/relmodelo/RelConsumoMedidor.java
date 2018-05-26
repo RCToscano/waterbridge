@@ -29,6 +29,7 @@ public class RelConsumoMedidor {
     private String cep;
 	private String coordX;
     private String coordY;
+    private Double consumo;
     
 	public Long getIdEmpresa() {
 		return idEmpresa;
@@ -191,6 +192,12 @@ public class RelConsumoMedidor {
 	}
 	public void setCoordY(String coordY) {
 		this.coordY = coordY;
+	}
+	public Double getConsumo() {
+		return consumo;
+	}
+	public void setConsumo(Double consumo) {
+		this.consumo = consumo;
 	}
 	
 }

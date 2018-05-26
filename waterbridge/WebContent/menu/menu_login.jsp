@@ -28,7 +28,7 @@
                     <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                         <!--<input id="email" type="email" class="form-control" name="email" value="" placeholder="Email" data-toggle="tooltip" data-placement="bottom" title="Usuário inválido. Tente novamente" required>-->
-                        <input id="email" type="text" class="form-control" name="email" value="" placeholder="CNPJ / CPF" data-toggle="tooltip" data-placement="bottom" title="${loginErro}" required>
+                        <input id="email" type="text" class="form-control" name="email" value="" placeholder="CPF" data-toggle="tooltip" data-placement="bottom" title="${loginErro}" required>
                     </div>
                 </div> 
                 <div class="form-group">                   

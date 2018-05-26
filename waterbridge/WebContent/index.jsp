@@ -42,6 +42,12 @@
 			    }
 			}
 		</style>
+		<script src="./js/jquery.mask.min.js" type="text/javascript"></script>
+		<script>
+            $(function () {
+                $("#email").mask("999.999.999-99");
+            });
+        </script>
     </head>
     <body background="./images/bg_login.jpg">
         <%@include file="./menu/menu_login.jsp" %>

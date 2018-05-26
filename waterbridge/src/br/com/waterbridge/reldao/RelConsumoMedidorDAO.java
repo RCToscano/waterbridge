@@ -55,7 +55,8 @@ public class RelConsumoMedidorDAO {
     		"		UF, " +
     		"		CEP, " +
     		"		COORDX, " +
-    		"		COORDY " +
+    		"		COORDY, " +
+    		"		CONSUMO " +
         	"FROM   VW_CONSUMOMEDIDOR " +		
             sql
             );
@@ -92,6 +93,7 @@ public class RelConsumoMedidorDAO {
             	relConsumoMedidor.setCep(rs.getString("CEP"));
             	relConsumoMedidor.setCoordX(rs.getString("COORDX"));
             	relConsumoMedidor.setCoordY(rs.getString("COORDY"));
+            	relConsumoMedidor.setConsumo(rs.getDouble("CONSUMO"));
             	
             	listRelConsumoMedidor.add(relConsumoMedidor);
             }
