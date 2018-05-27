@@ -34,6 +34,8 @@
                         <li class="divider"></li>
                         <li><a href="RelatoriosBO?acao=condominio">Consumo por Local</a></li>
                         <li class="divider"></li>
+                        <li><a href="RelatorioPressaoBO?acao=1">Pressão Bridge</a></li>
+                        <li class="divider"></li>
                     </ul>
                 </li>
             </ul>

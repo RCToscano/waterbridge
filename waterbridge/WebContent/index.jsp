@@ -109,8 +109,13 @@
 							
 							<div class="col-sm-6">
 								<div class="form-group">
-									<label class="control-label">Informe o Usuário/Login:</label>
-									<input type="text" class="form-control" id="usuario" name="usuario" value="" required/>
+									<label class="control-label">Informe o CPF:</label>
+									<input type="tel" class="form-control" id="cpf" name="cpf" value="" required/>
+									<script>
+							            $(function () {
+							                $("#cpf").mask("999.999.999-99");
+							            });
+							        </script>
 								</div>
 							</div>
 							
