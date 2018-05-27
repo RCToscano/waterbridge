@@ -251,13 +251,12 @@ public class ConsumoMedidorBO extends HttpServlet {
 
 				connection = ConnectionFactory.getConnection();
 				
+				MedidorDAO medidorDAO = new MedidorDAO(connection);
+				Medidor medidor = medidorDAO.buscarPorId(req.getParameter("idMedidor"));
+				
 				RelConsumoMedidorDAO relConsumoMedidorDAO = new RelConsumoMedidorDAO(connection);
 				List<RelConsumoMedidor> listRelConsumoMedidor = relConsumoMedidorDAO.listar(sql);
 				
-//				ConsumoDAO consumoDAO = new ConsumoDAO(connection);
-//				Consumo consumoAnterior = consumoDAO.buscarAnterior(Long.parseLong(req.getParameter("idMedidor")), Auxiliar.formataDtBanco(req.getParameter("dtInicio")));
-				
-				String medidor = "";
 				List<String> listData = new ArrayList<String>();
 				List<Double> listConsumo = new ArrayList<Double>();
 				Double volume1 = 0d;
@@ -269,7 +268,6 @@ public class ConsumoMedidorBO extends HttpServlet {
 
 					if(i == 0) {
 						
-						medidor = relConsumoMedidor.getNumeroMedidor();
 						volume1 = relConsumoMedidor.getVolume();
 						volume2 = relConsumoMedidor.getVolume();
 						consumo = volume2 - volume1;
