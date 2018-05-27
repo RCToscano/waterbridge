@@ -24,16 +24,12 @@ import br.com.waterbridge.dao.EmpresaDAO;
 import br.com.waterbridge.dao.MedidorDAO;
 import br.com.waterbridge.modelo.Bridge;
 import br.com.waterbridge.modelo.Condominio;
-import br.com.waterbridge.modelo.Consumo;
 import br.com.waterbridge.modelo.Empresa;
 import br.com.waterbridge.modelo.Medidor;
 import br.com.waterbridge.modelo.User;
-import br.com.waterbridge.reldao.RelConsumoMedidorDAO;
 import br.com.waterbridge.reldao.RelMedidorDAO;
 import br.com.waterbridge.relmodelo.RelConsumoCondominio;
-import br.com.waterbridge.relmodelo.RelConsumoMedidor;
 import br.com.waterbridge.relmodelo.RelMedidor;
-import br.com.waterbridge.relmodelo.RelUserMedidor;
 
 public class ConsumoCondominioBO extends HttpServlet {
 

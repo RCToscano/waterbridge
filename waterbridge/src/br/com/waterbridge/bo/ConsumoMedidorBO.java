@@ -257,37 +257,9 @@ public class ConsumoMedidorBO extends HttpServlet {
 				RelConsumoMedidorDAO relConsumoMedidorDAO = new RelConsumoMedidorDAO(connection);
 				List<RelConsumoMedidor> listRelConsumoMedidor = relConsumoMedidorDAO.listar(sql);
 				
-				List<String> listData = new ArrayList<String>();
-				List<Double> listConsumo = new ArrayList<Double>();
-				Double volume1 = 0d;
-				Double volume2 = 0d;
-				Double consumo = 0d;
-				for(int i = 0; i < listRelConsumoMedidor.size(); i++) {
-					
-					RelConsumoMedidor relConsumoMedidor = listRelConsumoMedidor.get(i);
-
-					if(i == 0) {
-						
-						volume1 = relConsumoMedidor.getVolume();
-						volume2 = relConsumoMedidor.getVolume();
-						consumo = volume2 - volume1;
-					}
-					else {
-						
-						volume2 = relConsumoMedidor.getVolume();
-						consumo = volume2 - volume1;
-						volume1 = volume2;
-					}
-					
-					listData.add(relConsumoMedidor.getDtInsert());
-					listConsumo.add(consumo);
-				}
-				
 				req.setAttribute("medidor", medidor);
 				req.setAttribute("dtInicio", req.getParameter("dtInicio"));
 				req.setAttribute("dtFim", req.getParameter("dtFim"));
-				req.setAttribute("listData", listData);
-				req.setAttribute("listConsumo", listConsumo);
 				req.setAttribute("listRelConsumoMedidor", listRelConsumoMedidor);
         		req.getRequestDispatcher("/jsp/relatorios/consumomedidordiagrafico.jsp").forward(req, res);   
 			}

@@ -48,7 +48,7 @@
         <div class="container">
         	<ul class="breadcrumb">
 			    <li><a href="HomeBO?acao=home">Home</a></li>
-			    <li class="active">Condomínio</li>
+			    <li class="active">Local</li>
 			    <li class="active">Consulta</li>
 			</ul>
 			<div class="col-sm-12" style="float: none; margin: 0 auto;">
