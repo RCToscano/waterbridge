@@ -38,7 +38,7 @@
         	<ul class="breadcrumb">
 			    <li><a href="HomeBO?acao=home">Home</a></li>
 			    <li class="active">Relatórios</li>
-			    <li class="active">Pressão Bridge</li>
+			    <li class="active">Pressure Bridge</li>
 			</ul>
 			
 			<div id="divAviso" name="divAviso" class="alert alert-danger" style="display:${display};">
@@ -60,7 +60,7 @@
 			<div class="form-group">
 				<form id="formUsuarioMedidor" action="#" method="POST" accept-charset="iso-8859-1,utf-8">
 					<fieldset>
-						<legend class="text-left">Pressão Bridge</legend>
+						<legend class="text-left">Pressure Bridge</legend>
 					
 						<div class="col-sm-5">
 							<div class="form-group">

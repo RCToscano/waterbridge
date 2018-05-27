@@ -30,11 +30,11 @@
                 <li>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Relatórios <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="RelatoriosBO?acao=medidor">Consumos por Medidor</a></li>
+                        <li><a href="ConsumoMedidorBO?acao=1">Consumos por Medidor</a></li>
                          <li class="divider"></li>
-                         <li><a href="RelatoriosBO?acao=condominio">Consumo por Local</a></li>
+                         <li><a href="ConsumoCondominioBO?acao=1">Consumo por Local</a></li>
                          <li class="divider"></li>
-                         <li><a href="RelatorioPressaoBO?acao=1">Pressão Bridge</a></li>
+                         <li><a href="RelatorioPressaoBO?acao=1">Pressure Bridge</a></li>
                         <li class="divider"></li>
                     </ul>
                 </li>
