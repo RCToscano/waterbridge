@@ -63,7 +63,11 @@
   <servlet>
     <servlet-name>ConsumoMedidorBO</servlet-name>
     <servlet-class>br.com.waterbridge.bo.ConsumoMedidorBO</servlet-class>
-  </servlet>  
+  </servlet>
+  <servlet>
+    <servlet-name>RelatorioPressaoBO</servlet-name>
+    <servlet-class>br.com.waterbridge.bo.RelatorioPressaoBO</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
     <url-pattern>/Login</url-pattern>
@@ -127,6 +131,10 @@
   <servlet-mapping>
     <servlet-name>ConsumoMedidorBO</servlet-name>
     <url-pattern>/ConsumoMedidorBO</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RelatorioPressaoBO</servlet-name>
+    <url-pattern>/RelatorioPressaoBO</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>30</session-timeout>

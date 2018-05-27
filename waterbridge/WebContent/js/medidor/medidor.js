@@ -14,6 +14,11 @@ function validaForm() {
 		aviso.innerHTML = "Informe a posição do medidor";
 		return false;
 	}
+	else if(document.getElementById("bateria").value <= 0) {
+    	texto = "Validade Bateria informada inválida!";
+        focar = document.getElementById("bateria");
+        valida = false;
+    }
 	else if(Number(posicao.value) < 1 || Number(posicao.value) > 64 ) {
 		
 		divAviso.style.display = "block";
