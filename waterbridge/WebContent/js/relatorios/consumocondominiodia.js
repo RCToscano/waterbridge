@@ -28,7 +28,7 @@ function listarCondominio() {
 	    }); 
 	    
 	    $.ajax({
-	        url: 'ConsumoMedidorBO?acao=2' +
+	        url: 'ConsumoCondominioBO?acao=2' +
 	             '&idEmpresa=' + idEmpresa.value
 	        ,
 	        type: "POST",
@@ -87,7 +87,7 @@ function listarBridge() {
 	    }); 
 	    
 	    $.ajax({
-	        url: 'ConsumoMedidorBO?acao=3' +
+	        url: 'ConsumoCondominioBO?acao=3' +
 	             '&idCondominio=' + idCondominio.value
 	        ,
 	        type: "POST",
@@ -140,7 +140,7 @@ function listarMedidor() {
 	    }); 
 	    
 	    $.ajax({
-	        url: 'ConsumoMedidorBO?acao=4' +
+	        url: 'ConsumoCondominioBO?acao=4' +
 	             '&idBridge=' + idBridge.value
 	        ,
 	        type: "POST",
@@ -194,14 +194,14 @@ function listarConsumoMedidor() {
     	
     	idCondominio.style.borderColor = colorRed;
     }
-    else if(idBridge.value == '') {
-    	
-    	idBridge.style.borderColor = colorRed;
-    }
-    else if(idMedidor.value == '') {
-    	
-    	idMedidor.style.borderColor = colorRed;
-    }
+//    else if(idBridge.value == '') {
+//    	
+//    	idBridge.style.borderColor = colorRed;
+//    }
+//    else if(idMedidor.value == '') {
+//    	
+//    	idMedidor.style.borderColor = colorRed;
+//    }
     else if(dtInicio.value == '') {
     	
     	dtInicio.style.borderColor = colorRed;
@@ -223,7 +223,7 @@ function listarConsumoMedidor() {
 	    }); 
 	    
 	    $.ajax({
-	        url: 'ConsumoMedidorBO?acao=5' +
+	        url: 'ConsumoCondominioBO?acao=5' +
 	             '&idEmpresa=' + idEmpresa.value +
 	             '&idCondominio=' + idCondominio.value +
 	             '&idBridge=' + idBridge.value +
@@ -237,47 +237,61 @@ function listarConsumoMedidor() {
 	        	
 	        	var texto = '';
 	        	var consumo = 0;
-	            var listRelConsumoMedidor = result;
-	            if(listRelConsumoMedidor != null && listRelConsumoMedidor.length > 0) {
+	            var listRelConsumoCondominio = result;
+	            if(listRelConsumoCondominio != null && listRelConsumoCondominio.length > 0) {
 	            	
 	            	texto +=
 	            	"<table class='table table-hover table-striped'>" +
 		            "	<thead>" +
 		            "		<tr>" +
 		            "			<th>Nº</th>" +
-		            "			<th>Data</th>" +
-		            "			<th>Volume (m&#179;)</th>" +
-		            "			<th>Alarme</th>" +
-		            "			<th>Bateria (V)</th>" +
-		            "			<th>Temperatura (ºC)</th>" +
+		            "			<th>Medidor</th>" +
+		            "			<th>Endereço</th>" +
+		            "			<th>Volume Inicial (m&#179;)</th>" +
+		            "			<th>Volume Final (m&#179;)</th>" +
+		            "			<th>Consumo</th>" +
+		            "			<th>Consumidor</th>" +
 		            "			<th></th>" +
 		            "		</tr>" +
 		            "	</thead>" +
 		            "	<tbody id='myTable'>" ;
-            		for(i = 0; i < listRelConsumoMedidor.length; i++) {
+            		for(i = 0; i < listRelConsumoCondominio.length; i++) {
 	                	
-	                	var relConsumoMedidor = listRelConsumoMedidor[i];	                		                
-	                	consumo = consumo + relConsumoMedidor.consumo;
+	                	var relConsumoCondominio = listRelConsumoCondominio[i];	                		                
+	                	consumo = consumo + relConsumoCondominio.consumo;
+	                	
 	                	texto +=
     		            "		<tr>" +
     		            "			<td><small>" + (i + 1) + "</small></td>" +
-    		            "			<td><small>" + relConsumoMedidor.dtInsert + "</small></td>" +
-    		            "			<td><small>" + formatarTresDecimais(relConsumoMedidor.volume) + "</small></td>" +
-    		            "			<td><small>" + relConsumoMedidor.alarmDesc + "</small></td>" +
-    		            "			<td><small>" + relConsumoMedidor.battery + "</small></td>" +
-    		            "			<td><small>" + relConsumoMedidor.temperature + "</small></td>" +
+    		            "			<td><small>" + relConsumoCondominio.meterId + "</small></td>" +
+    		            "			<td><small>" + relConsumoCondominio.endereco + " " + relConsumoCondominio.numero + " " + relConsumoCondominio.compl + "</small></td>" +
+    		            "			<td><small>" + formatarTresDecimais(relConsumoCondominio.volumeInicio) + "</small></td>" +
+    		            "			<td><small>" + formatarTresDecimais(relConsumoCondominio.volumeFim) + "</small></td>" +
+    		            "			<td><small>" + formatarTresDecimais(relConsumoCondominio.consumo) + "</small></td>" +
+	                	"			<td>" +
+	                	"               <small>" ;
+	                	var listRelUserMedidor = relConsumoCondominio.listRelUserMedidor;
+	                	for(j = 0; j < listRelUserMedidor.length; j++) {
+	                		
+	                		var relUserMedidor = listRelUserMedidor[j];
+	                		texto +=
+	    	                "			" + relUserMedidor.cpfUser + " - " + relUserMedidor.nomeUser  ;
+	                	}
+	                	texto +=
+	                	"               </small>" +
+	                    "           </td>" +
     		            "		    <td align='right'></td>" +
     		            "		</tr>" ;
 	                }
 		            texto +=
 					"        <tr>" +
-					"	         <td colspan='7' style='text-align: center'>" +				
+					"	         <td colspan='8' style='text-align: center'>" +				
 					"		         <label>Consumo total no período em m&#179; (1m&#179; = 1.000 Litros): " + formatarTresDecimais(Number(consumo)) + "</label>" +
 					"	         </td>" +
 					"        </tr>" +
 					"        <tr>" +
-					"	         <td colspan='7' style='text-align: center'>" +
-					"		         <form action='ConsumoMedidorBO?acao=6' method='post' target='_blank'>" +
+					"	         <td colspan='8' style='text-align: center'>" +
+					"		         <form action='ConsumoCondominioBO?acao=6' method='post' target='_blank'>" +
 					"                    <input type='hidden' name='idEmpresa' value='" + idEmpresa.value + "'>" +
 					"                    <input type='hidden' name='idCondominio' value='" + idCondominio.value + "'>" +
 					"                    <input type='hidden' name='idBridge' value='" + idBridge.value + "'>" +

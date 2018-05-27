@@ -19,15 +19,21 @@ import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.BridgeDAO;
 import br.com.waterbridge.dao.CondominioDAO;
+import br.com.waterbridge.dao.ConsumoDAO;
 import br.com.waterbridge.dao.EmpresaDAO;
 import br.com.waterbridge.dao.MedidorDAO;
 import br.com.waterbridge.modelo.Bridge;
 import br.com.waterbridge.modelo.Condominio;
+import br.com.waterbridge.modelo.Consumo;
 import br.com.waterbridge.modelo.Empresa;
 import br.com.waterbridge.modelo.Medidor;
 import br.com.waterbridge.modelo.User;
 import br.com.waterbridge.reldao.RelConsumoMedidorDAO;
+import br.com.waterbridge.reldao.RelMedidorDAO;
+import br.com.waterbridge.relmodelo.RelConsumoCondominio;
 import br.com.waterbridge.relmodelo.RelConsumoMedidor;
+import br.com.waterbridge.relmodelo.RelMedidor;
+import br.com.waterbridge.relmodelo.RelUserMedidor;
 
 public class ConsumoCondominioBO extends HttpServlet {
 
@@ -176,7 +182,7 @@ public class ConsumoCondominioBO extends HttpServlet {
 			
 			try {
 
-				sql += "WHERE ID_CONSUMO > 0 " ;
+				sql += "WHERE ID_EMPRESA > 0 " ;
 				if(req.getParameter("idEmpresa") != null && !req.getParameter("idEmpresa").equals("")) {
 					sql += "AND   ID_EMPRESA = " + req.getParameter("idEmpresa") + " ";
 				}
@@ -189,19 +195,38 @@ public class ConsumoCondominioBO extends HttpServlet {
 				if(req.getParameter("idMedidor") != null && !req.getParameter("idMedidor").equals("")) {
 					sql += "AND   ID_MEDIDOR = " + req.getParameter("idMedidor") + " ";
 				}
-				if(req.getParameter("dtInicio") != null && !req.getParameter("dtInicio").equals("")) {
-					
-					sql += "AND   DTINSERT >= '" + Auxiliar.formataDtBanco(req.getParameter("dtInicio")) + " 00:00' " +
-						   "AND   DTINSERT <= '" + Auxiliar.formataDtBanco(req.getParameter("dtFim")) + " 23:59' " ;
-				}
-				sql += "ORDER BY DTINSERT ";
+				sql += "ORDER BY METERID ";
 
 				connection = ConnectionFactory.getConnection();
 				
-				RelConsumoMedidorDAO relConsumoMedidorDAO = new RelConsumoMedidorDAO(connection);
-				List<RelConsumoMedidor> listRelConsumoMedidor = relConsumoMedidorDAO.listar(sql);
+				ConsumoDAO consumoDAO = new ConsumoDAO(connection);
 				
-				json = new Gson().toJson(listRelConsumoMedidor);
+				RelMedidorDAO relMedidorDAO = new RelMedidorDAO(connection);
+				List<RelMedidor> listRelMedidor = relMedidorDAO.listar(sql);
+				
+				List<RelConsumoCondominio> listRelConsumoCondominio = new ArrayList<RelConsumoCondominio>();
+				for(RelMedidor relMedidor: listRelMedidor) {
+							
+					RelConsumoCondominio relConsumoCondominio = new RelConsumoCondominio();
+					relConsumoCondominio.setIdMedidor(relMedidor.getIdMedidor());
+					relConsumoCondominio.setMeterId(relMedidor.getMeterId());
+					relConsumoCondominio.setEndereco(relMedidor.getEndereco());
+					relConsumoCondominio.setNumero(relMedidor.getNumero());
+					relConsumoCondominio.setCompl(relMedidor.getCompl());
+					relConsumoCondominio.setMunicipio(relMedidor.getMunicipio());
+					relConsumoCondominio.setUf(relMedidor.getUf());
+					relConsumoCondominio.setCep(relMedidor.getCep());
+					relConsumoCondominio.setCoordX(relMedidor.getCoordX());
+					relConsumoCondominio.setCoordY(relMedidor.getCoordY());
+					relConsumoCondominio.setVolumeInicio(consumoDAO.buscarVolumeInicio(relMedidor.getIdMedidor(), Auxiliar.formataDtBanco(req.getParameter("dtInicio")) + " 00:00"));
+					relConsumoCondominio.setVolumeFim(consumoDAO.buscarVolumeFim(relMedidor.getIdMedidor(), Auxiliar.formataDtBanco(req.getParameter("dtFim")) + " 23:59"));
+					relConsumoCondominio.setConsumo(relConsumoCondominio.getVolumeFim() - relConsumoCondominio.getVolumeInicio());
+					relConsumoCondominio.setListRelUserMedidor(relMedidor.getListRelUserMedidor());
+					
+					listRelConsumoCondominio.add(relConsumoCondominio);
+				}
+				
+				json = new Gson().toJson(listRelConsumoCondominio);
 				
 				res.setContentType("application/json");
 				res.setCharacterEncoding("UTF-8");
@@ -227,7 +252,7 @@ public class ConsumoCondominioBO extends HttpServlet {
 			
 			try {
 
-				sql += "WHERE ID_CONSUMO > 0 " ;
+				sql += "WHERE ID_EMPRESA > 0 " ;
 				if(req.getParameter("idEmpresa") != null && !req.getParameter("idEmpresa").equals("")) {
 					sql += "AND   ID_EMPRESA = " + req.getParameter("idEmpresa") + " ";
 				}
@@ -240,56 +265,45 @@ public class ConsumoCondominioBO extends HttpServlet {
 				if(req.getParameter("idMedidor") != null && !req.getParameter("idMedidor").equals("")) {
 					sql += "AND   ID_MEDIDOR = " + req.getParameter("idMedidor") + " ";
 				}
-				if(req.getParameter("dtInicio") != null && !req.getParameter("dtInicio").equals("")) {
-					
-					sql += "AND   DTINSERT >= '" + Auxiliar.formataDtBanco(req.getParameter("dtInicio")) + " 00:00' " +
-						   "AND   DTINSERT <= '" + Auxiliar.formataDtBanco(req.getParameter("dtFim")) + " 23:59' " ;
-				}
-				sql += "ORDER BY DTINSERT ";
+				sql += "ORDER BY METERID ";
 
 				connection = ConnectionFactory.getConnection();
 				
-				RelConsumoMedidorDAO relConsumoMedidorDAO = new RelConsumoMedidorDAO(connection);
-				List<RelConsumoMedidor> listRelConsumoMedidor = relConsumoMedidorDAO.listar(sql);
+				CondominioDAO condominioDAO = new CondominioDAO(connection);
+				Condominio condominio = condominioDAO.buscarPorId(Long.parseLong(req.getParameter("idCondominio")));
 				
-//				ConsumoDAO consumoDAO = new ConsumoDAO(connection);
-//				Consumo consumoAnterior = consumoDAO.buscarAnterior(Long.parseLong(req.getParameter("idMedidor")), Auxiliar.formataDtBanco(req.getParameter("dtInicio")));
+				ConsumoDAO consumoDAO = new ConsumoDAO(connection);
 				
-				String medidor = "";
-				List<String> listData = new ArrayList<String>();
-				List<Double> listConsumo = new ArrayList<Double>();
-				Double volume1 = 0d;
-				Double volume2 = 0d;
-				Double consumo = 0d;
-				for(int i = 0; i < listRelConsumoMedidor.size(); i++) {
+				RelMedidorDAO relMedidorDAO = new RelMedidorDAO(connection);
+				List<RelMedidor> listRelMedidor = relMedidorDAO.listar(sql);
+				
+				List<RelConsumoCondominio> listRelConsumoCondominio = new ArrayList<RelConsumoCondominio>();
+				for(RelMedidor relMedidor: listRelMedidor) {
+							
+					RelConsumoCondominio relConsumoCondominio = new RelConsumoCondominio();
+					relConsumoCondominio.setIdMedidor(relMedidor.getIdMedidor());
+					relConsumoCondominio.setMeterId(relMedidor.getMeterId());
+					relConsumoCondominio.setEndereco(relMedidor.getEndereco());
+					relConsumoCondominio.setNumero(relMedidor.getNumero());
+					relConsumoCondominio.setCompl(relMedidor.getCompl());
+					relConsumoCondominio.setMunicipio(relMedidor.getMunicipio());
+					relConsumoCondominio.setUf(relMedidor.getUf());
+					relConsumoCondominio.setCep(relMedidor.getCep());
+					relConsumoCondominio.setCoordX(relMedidor.getCoordX());
+					relConsumoCondominio.setCoordY(relMedidor.getCoordY());
+					relConsumoCondominio.setVolumeInicio(consumoDAO.buscarVolumeInicio(relMedidor.getIdMedidor(), Auxiliar.formataDtBanco(req.getParameter("dtInicio")) + " 00:00"));
+					relConsumoCondominio.setVolumeFim(consumoDAO.buscarVolumeFim(relMedidor.getIdMedidor(), Auxiliar.formataDtBanco(req.getParameter("dtFim")) + " 23:59"));
+					relConsumoCondominio.setConsumo(relConsumoCondominio.getVolumeFim() - relConsumoCondominio.getVolumeInicio());
+					relConsumoCondominio.setListRelUserMedidor(relMedidor.getListRelUserMedidor());
 					
-					RelConsumoMedidor relConsumoMedidor = listRelConsumoMedidor.get(i);
-
-					if(i == 0) {
-						
-						medidor = relConsumoMedidor.getNumeroMedidor();
-						volume1 = relConsumoMedidor.getVolume();
-						volume2 = relConsumoMedidor.getVolume();
-						consumo = volume2 - volume1;
-					}
-					else {
-						
-						volume2 = relConsumoMedidor.getVolume();
-						consumo = volume2 - volume1;
-						volume1 = volume2;
-					}
-					
-					listData.add(relConsumoMedidor.getDtInsert());
-					listConsumo.add(consumo);
+					listRelConsumoCondominio.add(relConsumoCondominio);
 				}
 				
-				req.setAttribute("medidor", medidor);
+				req.setAttribute("condominio", condominio);
 				req.setAttribute("dtInicio", req.getParameter("dtInicio"));
 				req.setAttribute("dtFim", req.getParameter("dtFim"));
-				req.setAttribute("listData", listData);
-				req.setAttribute("listConsumo", listConsumo);
-				req.setAttribute("listRelConsumoMedidor", listRelConsumoMedidor);
-        		req.getRequestDispatcher("/jsp/relatorios/consumomedidordiagrafico.jsp").forward(req, res);   
+				req.setAttribute("listRelConsumoCondominio", listRelConsumoCondominio);
+        		req.getRequestDispatcher("/jsp/relatorios/consumocondominiodiagrafico.jsp").forward(req, res);   
 			}
 	        catch (Exception e) {
 	        	System.out.println("erro: " + e.toString());

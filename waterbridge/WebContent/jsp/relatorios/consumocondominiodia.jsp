@@ -123,10 +123,9 @@
 					</div>
 				</div>
 			</form>	
-			<div class="col-sm-8 col-md-offset-2">
-				<div class="form-group">
-					<div class="table-responsive" id="divTable">
-					</div>
+			<div class="form-group">
+				<div class="col-sm-12">
+					<div class="table-responsive" id="divTable"></div>
 				</div>
 			</div>
 		</div>

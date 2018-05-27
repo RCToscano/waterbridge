@@ -32,7 +32,7 @@
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="ConsumoMedidorBO?acao=1">Consumos por Medidor</a></li>
                         <li class="divider"></li>
-                        <li><a href="RelatoriosBO?acao=condominio">Consumo por Condomínio</a></li>
+                        <li><a href="RelatoriosBO?acao=condominio">Consumo por Local</a></li>
                         <li class="divider"></li>
                     </ul>
                 </li>
