@@ -40,7 +40,7 @@
                         <li class="divider"></li>
                         <li><a href="ConsumoCondominioBO?acao=1">Consumos por Local</a></li>
                         <li class="divider"></li>
-                        <li><a href="RelatorioPressaoBO?acao=1">Pressão Bridge</a></li>
+                        <li><a href="RelatorioPressaoBO?acao=1">Pressure Bridge</a></li>
                         <li class="divider"></li>
                     </ul>
                 </li>
