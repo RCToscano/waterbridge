@@ -23,7 +23,8 @@
 		<jsp:include page="/menu/${sessionScope.user.perfil.menu}"></jsp:include>
 		<div class="container">
 			<div class="row">
-				<c:if test="${sessionScope.user.perfil.perfil != 'CONSUMIDOR' or sessionScope.user.perfil.perfil == 'CONDOMINIO'}">
+                <!--SOMENTE PERFIL PROGRAMADOR - GERENTE - REPRESENTANTE -->
+				<c:if test="${sessionScope.user.perfil.idPerfil == 1 or sessionScope.user.perfil.idPerfil == 2  or sessionScope.user.perfil.idPerfil == 3 }">
 					<div class="col-sm-4 col-md-3">
 						<div class="thumbnail">
 							<div class="caption">
@@ -33,23 +34,27 @@
 							</div>
 						</div>
 					</div>
-				</c:if>
-				<div class="col-sm-5 col-md-3">
-					<div class="thumbnail">
-						<div class="caption">
-							<h3>Consumo por Medidor</h3>
-							<p>Veja o consumo do Medidor em um período.</p>
-							<p><a href="ConsumoMedidorBO?acao=1" class="btn btn-primary" role="button">Acessar</a></p>
-						</div>
-					</div>
-				</div>
-				<c:if test="${sessionScope.user.perfil.perfil != 'CONSUMIDOR'}">
+				</c:if>		
+				<!--SOMENTE PERFIL LOCAL -->		
+				<c:if test="${sessionScope.user.perfil.idPerfil == 1 or sessionScope.user.perfil.idPerfil == 2 or sessionScope.user.perfil.idPerfil == 3 or sessionScope.user.perfil.idPerfil == 4}">
 					<div class="col-sm-5 col-md-3">
 						<div class="thumbnail">
 							<div class="caption">
 								<h3>Consumo por Local</h3>
 								<p>Veja o consumo do Local em um período.</p>
 								<p><a href="ConsumoCondominioBO?acao=1" class="btn btn-primary" role="button">Acessar</a></p>
+							</div>
+						</div>
+					</div>
+				</c:if>
+				<!--SOMENTE PERFIL CONSUMIDOR -->
+				<c:if test="${sessionScope.user.perfil.idPerfil == 1 or sessionScope.user.perfil.idPerfil == 2 or sessionScope.user.perfil.idPerfil == 3 or sessionScope.user.perfil.idPerfil == 4 or sessionScope.user.perfil.idPerfil == 5}">
+					<div class="col-sm-5 col-md-3">
+						<div class="thumbnail">
+							<div class="caption">
+								<h3>Consumo por Medidor</h3>
+								<p>Veja o consumo do Medidor em um período.</p>
+								<p><a href="ConsumoMedidorBO?acao=1" class="btn btn-primary" role="button">Acessar</a></p>
 							</div>
 						</div>
 					</div>
