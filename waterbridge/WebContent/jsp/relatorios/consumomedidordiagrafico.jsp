@@ -38,7 +38,7 @@
 						        	type: 'column'
 						    	},
 						    	title: {
-						        	text: 'Gráfico de Consumo Diário<br/><label>Medidor  ${medidor} </label>'
+						        	text: 'Gráfico de Consumo Diário<br/><label>Medidor  ${medidor.numeroMedidor} </label>'
 						    	},
 						    	subtitle: {
 						        	text: 'Período ${dtInicio} a ${dtFim}'
@@ -59,7 +59,7 @@
 							    yAxis: {
 							        min: 0,
 							        title: {
-							            text: 'Consumo (L)'
+							            text: 'Consumo (m3)'
 							        }
 							    },
 		// 					    xAxis: {
@@ -70,19 +70,19 @@
 		// 					    },
 							    tooltip: {
 							        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-							        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:.0f} m3</b></td></tr>',
+							        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:.3f} m3</b></td></tr>',
 							        footerFormat: '</table>',
 							        shared: true,
 							        useHTML: true
 							    },
 							    plotOptions: {
 							        column: {
-							            pointPadding: 0.3,
+							            pointPadding: 0.2,
 							            borderWidth: 0
 							        }
 							    },
 							    series: [{
-							        name: '${medidor}',
+							        name: '${medidor.numeroMedidor}',
 							        data: [
 							        	<c:set var="count" value="0" scope="page" />
 							        	<c:forEach var="consumo" items='${listConsumo}'>

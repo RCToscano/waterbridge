@@ -219,6 +219,102 @@ public class ConsumoDAO {
         }
     }
     
+    public Double buscarVolumeInicio(Long idMedidor, String dtInicio) throws SQLException {
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Double volume = 0d;
+        
+        try {
+            
+            stmt = connection.prepareStatement(
+    		"SELECT VOLUME " +
+        	"FROM   TB_CONSUMO " +
+        	"WHERE  ID_CONSUMO = ( " +
+	        "	SELECT MAX(ID_CONSUMO) " + 
+	        "	FROM   TB_CONSUMO " +
+	        "	WHERE  ID_MEDIDOR = ? " + 
+	        "	AND    DTINSERT < ? " +
+        	") "
+    		);
+            
+            stmt.setObject(1, idMedidor);
+            stmt.setObject(2, dtInicio);
+            
+            rs = stmt.executeQuery();
+
+            if(rs.next()) {
+                
+            	volume = rs.getDouble("VOLUME");
+            }
+
+            return volume;
+        }
+        catch(SQLException e) {            
+            
+            throw e;
+        }
+        finally {
+
+            if(stmt != null) {
+                
+                stmt.close();
+            }
+            if(rs != null) {              
+                
+                rs.close();
+            }
+        }
+    }
+    
+    public Double buscarVolumeFim(Long idMedidor, String dtFim) throws SQLException {
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Double volume = 0d;
+        
+        try {
+            
+            stmt = connection.prepareStatement(
+    		"SELECT VOLUME " +
+        	"FROM   TB_CONSUMO " +
+        	"WHERE  ID_CONSUMO = ( " +
+	        "	SELECT MAX(ID_CONSUMO) " + 
+	        "	FROM   TB_CONSUMO " +
+	        "	WHERE  ID_MEDIDOR = ? " + 
+	        "	AND    DTINSERT <= ? " +
+        	") "
+    		);
+            
+            stmt.setObject(1, idMedidor);
+            stmt.setObject(2, dtFim);
+            
+            rs = stmt.executeQuery();
+
+            if(rs.next()) {
+                
+            	volume = rs.getDouble("VOLUME");
+            }
+
+            return volume;
+        }
+        catch(SQLException e) {            
+            
+            throw e;
+        }
+        finally {
+
+            if(stmt != null) {
+                
+                stmt.close();
+            }
+            if(rs != null) {              
+                
+                rs.close();
+            }
+        }
+    }
+    
     public void alterar(Consumo consumo) throws SQLException {
 
         PreparedStatement stmt = null;

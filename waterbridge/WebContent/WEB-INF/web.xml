@@ -65,6 +65,10 @@
     <servlet-class>br.com.waterbridge.bo.ConsumoMedidorBO</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>ConsumoCondominioBO</servlet-name>
+    <servlet-class>br.com.waterbridge.bo.ConsumoCondominioBO</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>RelatorioPressaoBO</servlet-name>
     <servlet-class>br.com.waterbridge.bo.RelatorioPressaoBO</servlet-class>
   </servlet>
@@ -131,6 +135,10 @@
   <servlet-mapping>
     <servlet-name>ConsumoMedidorBO</servlet-name>
     <url-pattern>/ConsumoMedidorBO</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ConsumoCondominioBO</servlet-name>
+    <url-pattern>/ConsumoCondominioBO</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>RelatorioPressaoBO</servlet-name>

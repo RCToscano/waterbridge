@@ -27,15 +27,8 @@
 	</head>
 	<body>
 		<jsp:include page="/menu/${sessionScope.user.perfil.menu}"></jsp:include>
-		
 		<div class="container">		
 			<div class="col-sm-12" style="float: none; margin: 0 auto;">
-				${medidor}<br/>
-				${dtInicio}<br/>
-				${dtFim}<br/>
-				${listData}<br/>
-				${listConsumo}<br/>
-				
 				<div class="form-group">
 					<div class="col-sm-12">
 						<div id="graficoconsumodiario" style="margin-top: 30px;"></div>
@@ -45,48 +38,28 @@
 						        	type: 'column'
 						    	},
 						    	title: {
-						        	text: 'Gráfico de Consumo Diário<br/><label>Medidor  74474706</label>'
+						        	text: 'Gráfico de Consumo<br/><label>${condominio.nome} </label>'
 						    	},
 						    	subtitle: {
-						        	text: 'Período 01/02/2018 a 28/02/2018'
+						        	text: 'Período ${dtInicio} a ${dtFim}'
 						    	},
 							    xAxis: {
-							        categories: [
-							            '01/03/2018',
-							            '02/03/2018',
-							            '03/03/2018',
-							            '04/03/2018',
-							            '05/03/2018',
-							            '06/03/2018',
-							            '07/03/2018',
-							            '08/03/2018',
-							            '09/03/2018',
-							            '10/03/2018',
-							            '11/03/2018',
-							            '12/03/2018',
-							            '13/03/2018',
-							            '14/03/2018',
-							            '15/03/2018',
-							            '16/03/2018',
-							            '17/03/2018',
-							            '18/03/2018',
-							            '19/03/2018',
-							            '20/03/2018',
-							            '21/03/2018',
-							            '22/03/2018',
-							            '23/03/2018',
-							            '24/03/2018',
-							            '25/03/2018',
-							            '26/03/2018',
-							            '27/03/2018',
-							            '28/03/2018'
+							        categories: [	
+							        	<c:set var="count" value="0" scope="page" />
+							        	<c:forEach var="relConsumoCondominio" items='${listRelConsumoCondominio}'>
+						   			   		'${relConsumoCondominio.meterId}'
+						   			   		<c:if test="${(count + 1) < fn:length(listRelConsumoCondominio)}">
+												,
+											</c:if>
+						   			   		<c:set var="count" value="${count + 1}" scope="page"/>
+							        	</c:forEach>
 							        ],
 							        crosshair: true
 							    },
 							    yAxis: {
 							        min: 0,
 							        title: {
-							            text: 'Consumo (L)'
+							            text: 'Consumo (m3)'
 							        }
 							    },
 		// 					    xAxis: {
@@ -97,7 +70,7 @@
 		// 					    },
 							    tooltip: {
 							        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-							        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:.0f} m3</b></td></tr>',
+							        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:.3f} m3</b></td></tr>',
 							        footerFormat: '</table>',
 							        shared: true,
 							        useHTML: true
@@ -109,36 +82,16 @@
 							        }
 							    },
 							    series: [{
-							        name: '74474706',
+							        name: 'Medidor',
 							        data: [
-							        	360,
-							        	430,
-							        	389,
-							        	360,
-							        	355,
-							        	395,
-							        	372,
-							        	382,
-							        	391,
-							        	421,
-							        	426,
-							        	368,
-							        	361,
-							        	398,
-							        	369,
-							        	472,
-							        	462,
-							        	462,
-							        	395,
-							        	381,
-							        	397,
-							        	320,
-							        	392,
-							        	438,
-							        	482,
-							        	435,
-							        	375,
-							        	320
+							        	<c:set var="count" value="0" scope="page" />
+							        	<c:forEach var="relConsumoCondominio" items='${listRelConsumoCondominio}'>
+						   			   		${relConsumoCondominio.consumo}
+						   			   		<c:if test="${(count + 1) < fn:length(listRelConsumoCondominio)}">
+												,	
+											</c:if>
+						   			   		<c:set var="count" value="${count + 1}" scope="page"/>
+							        	</c:forEach>
 							        ]
 							    }]
 							});
