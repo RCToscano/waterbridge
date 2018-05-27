@@ -46,9 +46,9 @@
 							    xAxis: {
 							        categories: [	
 							        	<c:set var="count" value="0" scope="page" />
-							        	<c:forEach var="data" items='${listData}'>
-						   			   		'${data}'
-						   			   		<c:if test="${(count + 1) < fn:length(listData)}">
+							        	<c:forEach var="relConsumoMedidor" items='${listRelConsumoMedidor}'>
+						   			   		'${relConsumoMedidor.dtInsert}'
+						   			   		<c:if test="${(count + 1) < fn:length(listRelConsumoMedidor)}">
 												,
 											</c:if>
 						   			   		<c:set var="count" value="${count + 1}" scope="page"/>
@@ -85,9 +85,9 @@
 							        name: '${medidor.numeroMedidor}',
 							        data: [
 							        	<c:set var="count" value="0" scope="page" />
-							        	<c:forEach var="consumo" items='${listConsumo}'>
-						   			   		${consumo}
-						   			   		<c:if test="${(count + 1) < fn:length(listConsumo)}">
+							        	<c:forEach var="relConsumoMedidor" items='${listRelConsumoMedidor}'>
+						   			   		${relConsumoMedidor.consumo}
+						   			   		<c:if test="${(count + 1) < fn:length(listRelConsumoMedidor)}">
 												,	
 											</c:if>
 						   			   		<c:set var="count" value="${count + 1}" scope="page"/>

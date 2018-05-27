@@ -39,7 +39,7 @@
 						<div class="caption">
 							<h3>Consumo por Medidor</h3>
 							<p>Veja o consumo do Medidor em um período.</p>
-							<p><a href="RelatoriosBO?acao=medidor" class="btn btn-primary" role="button">Acessar</a></p>
+							<p><a href="ConsumoMedidorBO?acao=1" class="btn btn-primary" role="button">Acessar</a></p>
 						</div>
 					</div>
 				</div>
@@ -47,9 +47,9 @@
 					<div class="col-sm-5 col-md-3">
 						<div class="thumbnail">
 							<div class="caption">
-								<h3>Consumo por Condomínio</h3>
-								<p>Veja o consumo do Condomínio em um período.</p>
-								<p><a href="RelatoriosBO?acao=condominio" class="btn btn-primary" role="button">Acessar</a></p>
+								<h3>Consumo por Local</h3>
+								<p>Veja o consumo do Local em um período.</p>
+								<p><a href="ConsumoCondominioBO?acao=1" class="btn btn-primary" role="button">Acessar</a></p>
 							</div>
 						</div>
 					</div>

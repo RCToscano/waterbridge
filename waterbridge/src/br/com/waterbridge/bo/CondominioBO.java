@@ -55,7 +55,7 @@ public class CondominioBO extends HttpServlet {
 				EmpresaDAO empresaDAO = new EmpresaDAO(connection);
 				List<Empresa> listEmpresa = empresaDAO.listarPorUsuario(user.getIdUser());
 
-				req.setAttribute("tituloTela", "Cadastro de Condom&iacute;nio");
+				req.setAttribute("tituloTela", "Cadastro de Local");
 				req.setAttribute("acao", "CondominioBO?acao=2");
 				req.setAttribute("btNome", "Cadastrar");
 				req.setAttribute("listCnpTp", listCnpTp);
@@ -151,7 +151,7 @@ public class CondominioBO extends HttpServlet {
 				SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
 				List<Situacao> listSituacao = situacaoDAO.listar();
 
-				req.setAttribute("tituloTela", "Cadastro de Condom&iacute;nio");
+				req.setAttribute("tituloTela", "Cadastro de Local");
 				req.setAttribute("acao", "CondominioBO?acao=2");
 				req.setAttribute("btNome", "Cadastrar");
 				req.setAttribute("listCnpTp", listCnpTp);
@@ -191,7 +191,7 @@ public class CondominioBO extends HttpServlet {
 				CondominioDAO condominioDAO = new CondominioDAO(connection);
 				Condominio condominio = condominioDAO.buscarPorId(Long.parseLong(req.getParameter("idCondominio")));
 				
-				req.setAttribute("tituloTela", "Altera&ccedil;&atilde;o de Condom&iacute;nio");
+				req.setAttribute("tituloTela", "Altera&ccedil;&atilde;o de Local");
 				req.setAttribute("acao", "CondominioBO?acao=4");
 				req.setAttribute("btNome", "Alterar");
 				req.setAttribute("listCnpTp", listCnpTp);
@@ -272,7 +272,7 @@ public class CondominioBO extends HttpServlet {
 				"    Altera&ccedil;&atilde;o realizada com sucesso!" +		
 				"</div>"
 				);
-				req.setAttribute("tituloTela", "Altera&ccedil;&atilde;o de Condom&iacute;nio");
+				req.setAttribute("tituloTela", "Altera&ccedil;&atilde;o de Local");
 				req.setAttribute("acao", "CondominioBO?acao=4");
 				req.setAttribute("btNome", "Alterar");
 				req.setAttribute("listCnpTp", listCnpTp);
@@ -299,7 +299,7 @@ public class CondominioBO extends HttpServlet {
 			
 			try {
 				
-				req.setAttribute("tituloTela", "Consulta Condomínio");
+				req.setAttribute("tituloTela", "Consulta Local");
 				req.getRequestDispatcher("/jsp/condominio/listacondominio.jsp").forward(req, res);
 			}
 	        catch (Exception e) {
@@ -351,7 +351,7 @@ public class CondominioBO extends HttpServlet {
 					"</div>"
 					);
 				}
-				req.setAttribute("tituloTela", "Consulta Condomínio");
+				req.setAttribute("tituloTela", "Consulta Local");
 				req.setAttribute("listCondominio", listCondominio);
 				req.getRequestDispatcher("/jsp/condominio/listacondominio.jsp").forward(req, res);
 			}

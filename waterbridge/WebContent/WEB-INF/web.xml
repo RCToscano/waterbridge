@@ -53,10 +53,6 @@
     <servlet-class>br.com.waterbridge.auxiliar.Serializacao</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>RelatoriosBO</servlet-name>
-    <servlet-class>br.com.waterbridge.bo.RelatoriosBO</servlet-class>
-  </servlet>
-  <servlet>
     <servlet-name>UsuarioCondominioBO</servlet-name>
     <servlet-class>br.com.waterbridge.bo.UsuarioCondominioBO</servlet-class>
   </servlet>
@@ -123,10 +119,6 @@
   <servlet-mapping>
     <servlet-name>Serializacao</servlet-name>
     <url-pattern>/Serializacao</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>RelatoriosBO</servlet-name>
-    <url-pattern>/RelatoriosBO</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>UsuarioCondominioBO</servlet-name>
