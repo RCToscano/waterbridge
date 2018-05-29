@@ -32,6 +32,18 @@
 	    <link href="./css/menucustomcolor.css" rel="stylesheet"/>
 	    <link href="./css/footercustom.css" rel="stylesheet"/>
 	    
+	    <style>
+			.footer {
+			   position: fixed;
+			   left: 0;
+			   bottom: 0;
+			   width: 100%;
+			   background-color: red;
+			   color: white;
+			   text-align: center;
+			   margin-bottom: 20px;
+			}
+		</style>
     </head>
     <body>
         <jsp:include page="/menu/${sessionScope.user.perfil.menu}" ></jsp:include>
@@ -131,7 +143,7 @@
 			</div>
 		</div>
         <footer class="footer" style="background-color: #fff">
-            <div class="container-fluid text-center" style="background-color: #fff; padding: 10px">
+            <div class="container-fluid text-center" style="background-color: #fff; padding: 10px;">
             	<div class="col-sm-4 text-center"><p class="text-muted">Todos os direitos reservados</p></div>
             	<div class="col-sm-4 text-center"><p class="text-muted"><label>Desenvolvido por Desoltec Engenharia</label></p></div>
             	<div class="col-sm-4 text-center"><img class="img-responsive center-block" src="./images/logo_desoltec_rodape.png" alt=""></div>
