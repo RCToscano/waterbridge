@@ -52,7 +52,7 @@
             </ul>
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Condomínio <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Local <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="CondominioBO?acao=1">Cadastro</a></li>
                          <li class="divider"></li>

@@ -139,7 +139,7 @@
 						</select>
 					</div>
 					<div class="col-sm-8">
-						<label>Condomínio</label> 
+						<label>Local</label> 
 						<select class="form-control" id="idCondominio" name="idCondominio" required >
 							<option value="" selected>Selecione...</option>
 							<c:forEach var="condominio" items="${listCondominio}">

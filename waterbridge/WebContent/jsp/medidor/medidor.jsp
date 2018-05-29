@@ -133,7 +133,7 @@
 							
 							<div class="col-sm-12">
 								<div class="form-group"> 
-									<label>Condomínio</label> 
+									<label>Local</label> 
 									<select class="form-control" id="idCondominio" name="idCondominio" onchange="listarBridgeCadastro()" required >
 										<option value="" selected>Selecione...</option>
 										<c:forEach var="condominio" items="${listCondominio}">
