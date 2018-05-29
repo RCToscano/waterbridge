@@ -36,17 +36,12 @@ public class UserDAO {
             "          TB_PERFIL.PERFIL, " +
             "          TB_PERFIL.MENU, " +
             "          TB_PASS.ID_PASS, " +
-            "          TB_PASS.PASS, " +
-            "          TB_EMPRESA.* " +
+            "          TB_PASS.PASS " +
             "FROM      TB_USER " +
             "LEFT JOIN TB_PERFIL " +
             "ON        TB_USER.ID_PERFIL = TB_PERFIL.ID_PERFIL " +
             "LEFT JOIN TB_PASS " +
             "ON        TB_USER.ID_USER = TB_PASS.ID_USER " +
-            "LEFT JOIN TB_USEREMPRESA " +
-            "ON        TB_USER.ID_USER = TB_USEREMPRESA.ID_USER " +
-            "LEFT JOIN TB_EMPRESA " +
-            "ON        TB_USEREMPRESA.ID_EMPRESA = TB_EMPRESA.ID_EMPRESA " +
             "WHERE     TB_USER.USUARIO = ? " +
             "AND       TB_PASS.PASS = ? "
             );
@@ -84,7 +79,10 @@ public class UserDAO {
         		user.setCep(rs.getString("CEP"));
                 user.setListPermissao(new PermissaoDAO(connection).listar(rs.getLong("ID_USER")));
                 
-                if(rs.getLong("ID_EMPRESA") > 0) {
+                
+                List<Empresa> listaEmpresa = new EmpresaDAO(connection).listarPorUsuario(user.getIdUser());
+                
+                if(!listaEmpresa.isEmpty() && listaEmpresa.size() == 1) {
 	                Empresa empresa = new Empresa();
 	            	empresa.setIdEmpresa(rs.getLong("ID_EMPRESA"));
 	            	empresa.setNome(rs.getString("NOME"));
@@ -111,12 +109,10 @@ public class UserDAO {
             return user;
         } 
         finally {
-            if (stmt != null) {
+            if (stmt != null)
                 stmt.close();
-            }
-            if (rs != null) {
+            if (rs != null)
                 rs.close();
-            }
         }
     }    
     
