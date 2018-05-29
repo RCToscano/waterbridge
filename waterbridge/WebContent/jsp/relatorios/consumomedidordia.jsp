@@ -31,19 +31,6 @@
 	    
 	    <link href="./css/menucustomcolor.css" rel="stylesheet"/>
 	    <link href="./css/footercustom.css" rel="stylesheet"/>
-	    
-	    <style>
-			.footer {
-			   position: fixed;
-			   left: 0;
-			   bottom: 0;
-			   width: 100%;
-			   background-color: red;
-			   color: white;
-			   text-align: center;
-			   margin-bottom: 20px;
-			}
-		</style>
     </head>
     <body>
         <jsp:include page="/menu/${sessionScope.user.perfil.menu}" ></jsp:include>
