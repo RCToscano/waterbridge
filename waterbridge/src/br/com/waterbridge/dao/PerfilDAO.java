@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.waterbridge.modelo.Perfil;
+import br.com.waterbridge.modelo.User;
 
 public class PerfilDAO {
 	
@@ -83,5 +84,38 @@ public class PerfilDAO {
                 rs.close();
         }
     }
+	
+	public List<Perfil> listarPorOrdemPermissao(User user) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		List<Perfil> list = new ArrayList<>();
+		try {
+			stmt = connection.prepareStatement(
+					"  SELECT TB_PERFIL.* " +
+					"    FROM TB_PERFIL " +
+					"    WHERE TB_PERFIL.ID_PERFIL > ? " +
+					"ORDER BY TB_PERFIL.ID_PERFIL "
+					);
+			stmt.setObject(1, user.getPerfil().getIdPerfil());
+			rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+				Perfil perfil = new Perfil();
+				perfil.setIdPerfil(rs.getLong("ID_PERFIL"));
+				perfil.setPerfil(rs.getString("PERFIL"));
+				perfil.setMenu(rs.getString("MENU"));
+				
+				if(!perfil.getPerfil().equals("PROGRAMADOR"))
+					list.add(perfil);
+			}
+			return list;
+		} 
+		finally {
+			if(stmt != null)
+				stmt.close();
+			if(rs != null)
+				rs.close();
+		}
+	}
 
 }

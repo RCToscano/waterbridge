@@ -47,8 +47,9 @@ public class UsuarioBO extends HttpServlet {
             }
 
             if (relat.equals("cadUsuario")) {
+            	User user = (User) req.getSession().getAttribute("user");
             	PerfilDAO perfilDAO = new PerfilDAO(connection);
-            	List<Perfil> listaPerfil = perfilDAO.listarTodos();
+            	List<Perfil> listaPerfil = perfilDAO.listarPorOrdemPermissao(user);
         		List<SexoEnum> listaSexo = SexoEnum.listCodigos();
         		
         		SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
