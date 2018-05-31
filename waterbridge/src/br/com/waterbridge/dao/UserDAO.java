@@ -79,35 +79,11 @@ public class UserDAO {
         		user.setCep(rs.getString("CEP"));
                 user.setListPermissao(new PermissaoDAO(connection).listar(rs.getLong("ID_USER")));
                 
-                List<Empresa> listaEmpresa = new EmpresaDAO(connection).listarPorUsuario(user.getIdUser());
+                List<Empresa> listaEmpresa = new EmpresaDAO(connection).listarPorUsuarioLogin(user.getIdUser());
 
                 if(!listaEmpresa.isEmpty() && listaEmpresa.size() > 0) {
-	            
 	            	user.setEmpresa(listaEmpresa.get(0));
 	            }
-
-//                if(!listaEmpresa.isEmpty() && listaEmpresa.size() == 1) {
-//	                Empresa empresa = new Empresa();
-//	            	empresa.setIdEmpresa(rs.getLong("ID_EMPRESA"));
-//	            	empresa.setNome(rs.getString("NOME"));
-//	            	empresa.setCnp(rs.getString("CNP"));
-//	            	empresa.setTelFixo(rs.getString("TELFIXO"));
-//	            	empresa.setTelCel(rs.getString("TELCEL"));
-//	            	empresa.setEmail(rs.getString("EMAIL"));
-//	            	empresa.setResponsavel(rs.getString("RESPONSAVEL"));
-//	            	empresa.setEndereco(rs.getString("ENDERECO"));
-//	            	empresa.setNumero(Auxiliar.converteLong(rs.getString("NUMERO")));
-//	            	empresa.setCompl(rs.getString("COMPL"));
-//	            	empresa.setMunicipio(rs.getString("MUNICIPIO"));
-//	            	empresa.setUf(rs.getString("UF"));
-//	            	empresa.setCep(rs.getString("CEP"));
-//	            	empresa.setCoordX(rs.getString("COORDX"));
-//	            	empresa.setCoordY(rs.getString("COORDY"));
-//	            	empresa.setLogoPDir(rs.getString("LOGOPDIR"));;
-//	            	empresa.setLogoPNome(rs.getString("LOGOPNOME"));;
-//	            	empresa.setSituacao(rs.getString("SITUACAO"));
-//	            	user.setEmpresa(empresa);
-//                }
             }
 
             return user;
