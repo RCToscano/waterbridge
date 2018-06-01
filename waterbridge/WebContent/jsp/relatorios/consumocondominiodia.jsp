@@ -49,8 +49,6 @@
 				<form data-toggle="validator" role="form" id="formUsuarioMedidor" action="#" method="POST" accept-charset="iso-8859-1,utf-8">
 					<fieldset>
 						<legend class="text-left">Consumo por Local</legend>
-					
-						
 						<div class="col-sm-4">
 							<div class="form-group">
 								<label class="control-label">Empresa</label><label class="text-danger">*</label>
@@ -69,7 +67,6 @@
 								</select>
 							</div>
 						</div>
-						
 						<div class="col-sm-4">
 							<div class="form-group">	
 								<label class="control-label">Local</label><label class="text-danger">*</label>
@@ -78,26 +75,22 @@
 								</select>					
 							</div>
 						</div>
-							
 						<div class="col-sm-2">
 							<div class="form-group">
-								<label class="control-label">Bridge</label><label class="text-danger">*</label>
-								<select class="form-control input-sm" id="idBridge" name="idBridge" onchange="listarMedidor()" required>
+								<label class="control-label">Bridge</label>
+								<select class="form-control input-sm" id="idBridge" name="idBridge" onchange="listarMedidor()">
 									<option value="" selected>Selecione...</option>
 								</select>					
 							</div>
 						</div>
-		
 						<div class="col-sm-2">
 							<div class="form-group">
-								<label class="control-label">Medidor</label><label class="text-danger">*</label>
-								<select class="form-control input-sm" id="idMedidor" name="idMedidor" required >
+								<label class="control-label">Medidor</label>
+								<select class="form-control input-sm" id="idMedidor" name="idMedidor">
 									<option value="" selected>Selecione...</option>
 								</select>					
 							</div>
 						</div>
-						
-						
 						<div class="col-sm-2">
 							<div class="form-group">
 								<label class="control-label">Data Início</label><label class="text-danger">*</label>
@@ -116,7 +109,6 @@
 				                </div> 
 							</div>
 						</div>
-							
 						<div class="col-sm-2">
 							<div class="form-group">	
 								<label class="control-label">Data Fim</label><label class="text-danger">*</label>
@@ -135,23 +127,19 @@
 				                </div> 
 							</div>
 						</div>
-						
 						<div class="col-sm-12">
 							<div class="form-group">
 								<label class="control-label"></label><label class="text-danger">* Campos Obrigatórios</label>
 							</div>
 						</div>
-						
 						<div class="form-group">
 							<div class="col-md-12 text-center">
 								<button type="button" class="btn btn-primary" onclick="listarConsumoMedidor()">Consultar</button>
 							</div>
 						</div>
-						
 					</fieldset>
 				</form>	
 			</div>
-			
 			<div class="form-group">
 				<div class="col-sm-12">
 					<div class="table-responsive" id="divTable"></div>
