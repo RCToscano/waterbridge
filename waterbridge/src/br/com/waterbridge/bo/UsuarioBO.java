@@ -47,8 +47,9 @@ public class UsuarioBO extends HttpServlet {
             }
 
             if (relat.equals("cadUsuario")) {
+            	User user = (User) req.getSession().getAttribute("user");
             	PerfilDAO perfilDAO = new PerfilDAO(connection);
-            	List<Perfil> listaPerfil = perfilDAO.listarTodos();
+            	List<Perfil> listaPerfil = perfilDAO.listarPorOrdemPermissao(user);
         		List<SexoEnum> listaSexo = SexoEnum.listCodigos();
         		
         		SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
@@ -63,6 +64,8 @@ public class UsuarioBO extends HttpServlet {
         		req.getRequestDispatcher("/jsp/usuario/usuario.jsp").forward(req, res);
             } 
             else if (relat.equals("inserir")) {
+            	User userSessao = (User) req.getSession().getAttribute("user");
+            	
             	SimpleDateFormat formatoBanco = new SimpleDateFormat("yyyy-MM-dd");
         		SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
         		User user = new User();
@@ -175,7 +178,7 @@ public class UsuarioBO extends HttpServlet {
 				}
             	finally {
             		PerfilDAO perfilDAO = new PerfilDAO(connection);
-                	List<Perfil> listaPerfil = perfilDAO.listarTodos();
+                	List<Perfil> listaPerfil = perfilDAO.listarPorOrdemPermissao(userSessao);
             		List<SexoEnum> listaSexo = SexoEnum.listCodigos();
             		
             		SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
@@ -190,18 +193,20 @@ public class UsuarioBO extends HttpServlet {
             
             //Consulta
             else if (relat.equals("consulta")) {
+            	User userSessao = (User) req.getSession().getAttribute("user");
             	PerfilDAO perfilDAO = new PerfilDAO(connection);
-            	List<Perfil> listaPerfil = perfilDAO.listarTodos();
+            	List<Perfil> listaPerfil = perfilDAO.listarPorOrdemPermissao(userSessao);
         		
             	req.setAttribute("listaPerfil", listaPerfil);
             	req.setAttribute("display", "none");
             	req.getRequestDispatcher("/jsp/usuario/consulta.jsp").forward(req, res);
             }
             else if (relat.equals("pesquisar")) {
+            	User userSessao = (User) req.getSession().getAttribute("user");
             	try {
 	            	if(req.getParameter("usuario") != null && !req.getParameter("usuario").isEmpty()) {
 	            		PerfilDAO perfilDAO = new PerfilDAO(connection);
-	                	List<Perfil> listaPerfil = perfilDAO.listarTodos();
+	                	List<Perfil> listaPerfil = perfilDAO.listarPorOrdemPermissao(userSessao);
 	                	req.setAttribute("listaPerfil", listaPerfil);
 
 	                	UserDAO userDAO = new UserDAO(connection);
@@ -221,7 +226,7 @@ public class UsuarioBO extends HttpServlet {
 	            	}
 	            	else if(req.getParameter("cpf") != null && !req.getParameter("cpf").isEmpty()) {
 	            		PerfilDAO perfilDAO = new PerfilDAO(connection);
-	                	List<Perfil> listaPerfil = perfilDAO.listarTodos();
+	                	List<Perfil> listaPerfil = perfilDAO.listarPorOrdemPermissao(userSessao);
 	                	req.setAttribute("listaPerfil", listaPerfil);
 	            		
 	            		UserDAO userDAO = new UserDAO(connection);
@@ -247,7 +252,7 @@ public class UsuarioBO extends HttpServlet {
 	            	}
 	            	else if(req.getParameter("endereco") != null && !req.getParameter("endereco").isEmpty()) {
 	            		PerfilDAO perfilDAO = new PerfilDAO(connection);
-	                	List<Perfil> listaPerfil = perfilDAO.listarTodos();
+	                	List<Perfil> listaPerfil = perfilDAO.listarPorOrdemPermissao(userSessao);
 	                	req.setAttribute("listaPerfil", listaPerfil);
 	            		
 	            		UserDAO userDAO = new UserDAO(connection);
@@ -266,7 +271,7 @@ public class UsuarioBO extends HttpServlet {
 	            	}
 	            	else {
 	            		PerfilDAO perfilDAO = new PerfilDAO(connection);
-	                	List<Perfil> listaPerfil = perfilDAO.listarTodos();
+	                	List<Perfil> listaPerfil = perfilDAO.listarPorOrdemPermissao(userSessao);
 	                	req.setAttribute("listaPerfil", listaPerfil);
 	            		
 	            		UserDAO userDAO = new UserDAO(connection);
@@ -302,11 +307,12 @@ public class UsuarioBO extends HttpServlet {
             	}
             }
             else if (relat.equals("detalhe")) {
+            	User userSessao = (User) req.getSession().getAttribute("user");
             	UserDAO userDAO = new UserDAO(connection);
         		User user = userDAO.buscarPorId(req.getParameter("id"));
         		
         		PerfilDAO perfilDAO = new PerfilDAO(connection);
-            	List<Perfil> listaPerfil = perfilDAO.listarTodos();
+            	List<Perfil> listaPerfil = perfilDAO.listarPorOrdemPermissao(userSessao);
         		List<SexoEnum> listaSexo = SexoEnum.listCodigos();
         		SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
 				List<Situacao> listSituacao = situacaoDAO.listar();

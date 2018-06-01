@@ -162,20 +162,18 @@ public class EmpresaBO extends HttpServlet {
             else if (relat.equals("pesquisar")) {
             	try {
             		EmpresaDAO empresaDAO = new EmpresaDAO(connection);
-            		if(!req.getParameter("empresa").isEmpty() && req.getParameter("empresa").equals("todos")) {
-                    	List<Empresa> listaEmpresa = empresaDAO.listarTodos();
-            		
-    	            	if(listaEmpresa.isEmpty()) {
-    	            		req.setAttribute("display", "none");
-		            		req.setAttribute("informacao", "Nenhum resultado encontrado!");
-		            		req.getRequestDispatcher("/jsp/empresa/consulta.jsp").forward(req, res);
-    	            	}
-    	            	else {
-    	            		req.setAttribute("listaEmpresa", listaEmpresa);
-    	            		req.setAttribute("lista", listaEmpresa);
-    	            		req.setAttribute("display", "none");
-    	            		req.getRequestDispatcher("/jsp/empresa/consulta.jsp").forward(req, res);
-    	            	}
+            		if(!req.getParameter("empresa").isEmpty()) {
+            			Empresa empresa = empresaDAO.buscarPorId(Long.valueOf(req.getParameter("empresa")));
+            			
+            			SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
+        				List<Situacao> listSituacao = situacaoDAO.listar();
+        				
+        				req.setAttribute("listSituacao", listSituacao);
+        				req.setAttribute("empresa", empresa);
+        				req.setAttribute("titulo", "Alteração");
+            			req.setAttribute("botao", "Alterar");
+            			req.setAttribute("display", "none");
+            			req.getRequestDispatcher("/jsp/empresa/empresa.jsp").forward(req, res);
             		}
             		else if(!req.getParameter("cnpj").isEmpty()) {
             			Empresa empresa = empresaDAO.buscarPorCnp(req.getParameter("medidor"));
@@ -204,17 +202,19 @@ public class EmpresaBO extends HttpServlet {
             			}
             		}
             		else {
-            			Empresa empresa = empresaDAO.buscarPorId(Long.valueOf(req.getParameter("empresa")));
-            			
-            			SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
-        				List<Situacao> listSituacao = situacaoDAO.listar();
-        				
-        				req.setAttribute("listSituacao", listSituacao);
-        				req.setAttribute("empresa", empresa);
-        				req.setAttribute("titulo", "Alteração");
-            			req.setAttribute("botao", "Alterar");
-            			req.setAttribute("display", "none");
-            			req.getRequestDispatcher("/jsp/empresa/empresa.jsp").forward(req, res);
+            			List<Empresa> listaEmpresa = empresaDAO.listarTodos();
+                		
+    	            	if(listaEmpresa.isEmpty()) {
+    	            		req.setAttribute("display", "none");
+		            		req.setAttribute("informacao", "Nenhum resultado encontrado!");
+		            		req.getRequestDispatcher("/jsp/empresa/consulta.jsp").forward(req, res);
+    	            	}
+    	            	else {
+    	            		req.setAttribute("listaEmpresa", listaEmpresa);
+    	            		req.setAttribute("lista", listaEmpresa);
+    	            		req.setAttribute("display", "none");
+    	            		req.getRequestDispatcher("/jsp/empresa/consulta.jsp").forward(req, res);
+    	            	}
             		}
             	} 
             	catch (Exception e) {

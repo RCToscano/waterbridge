@@ -317,7 +317,6 @@ public class BridgeBO extends HttpServlet {
 
 			Connection connection = null;
 			HttpSession session = req.getSession(true);
-            User user = (User) session.getValue("user");
             String sql = "WHERE  ID_BRIDGE > 0 ";
             
 			try {

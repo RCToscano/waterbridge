@@ -22,6 +22,7 @@
 	    <link href="./css/menucustomcolor.css" rel="stylesheet"/>
 	    <link href="./css/footercustom.css" rel="stylesheet"/>
 	    <script src='./js/usuario/consulta.js'></script>
+	    <script src='./js/validator.min.js'></script>
         <script>
             $(function () {
                 $("#cpf").mask("999.999.999-99");
@@ -55,7 +56,7 @@
 			</c:if>
 		
 			<div class="form-group">
-				<form action="UsuarioBO?acao=pesquisar" method="post" accept-charset="iso-8859-1,utf-8" onSubmit="return validaForm()">
+				<form data-toggle="validator" role="form" action="UsuarioBO?acao=pesquisar" method="post" accept-charset="iso-8859-1,utf-8" onSubmit="return validaForm()">
 					<fieldset>
 						<legend class="text-left">Consulta de Usu&aacute;rio</legend>
 						
@@ -151,10 +152,6 @@
 					</div>
 				</div>
 			</c:if>
-				
-				
-				
-				
 		</div>
         <footer class="footer" style="background-color: #fff">
             <div class="container-fluid text-center" style="background-color: #fff; padding: 10px">
@@ -163,5 +160,27 @@
             	<div class="col-sm-4 text-center"><img class="img-responsive center-block" src="./images/logo_desoltec_rodape.png" alt=""></div>
             </div>
         </footer>
+        
+        <script>
+        	$(document).ready(function(){
+			  $("#myInput").on("keyup", function() {
+			    var value = $(this).val().toLowerCase();
+			    $("#myTable tr").filter(function() {
+			      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+			    });
+			  });
+			});
+        
+	        jQuery(document).ready(function($) {
+	            $(".clickable-row").click(function() {
+	                window.location = $(this).data("href");
+	            });
+	        });
+	        
+	        $(document).ready(function(){
+	            $('[data-toggle="tooltip"]').tooltip(); 
+	        });
+		</script>
+        
     </body>
 </html>

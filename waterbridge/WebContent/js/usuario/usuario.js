@@ -14,29 +14,35 @@ function validaForm(){
 	        valida = false;
     	}
     }
-    if(validarDataAtual(document.getElementById("dtNascimento").value)) {
+    else if(validarDataAtual(document.getElementById("dtNascimento").value)) {
     	texto = "Data de Nascimento maior que Data Atual!";
         focar = document.getElementById("dtNascimento");
         valida = false;
     }
-    if(document.getElementById("street_number").value <= 0) {
+    else if(document.getElementById("street_number").value <= 0) {
     	texto = "Número do endereço inválido!";
         focar = document.getElementById("street_number");
         valida = false;
     }
-    if(document.getElementById("telefoneFixo").value != '' 
+    else if(document.getElementById("telefoneFixo").value != ''
+    	&& document.getElementById("telefoneCelular").value != '') {
+    	texto = "Informe pelo menos um telefone para contato!";
+        focar = document.getElementById("telefoneFixo");
+        valida = false;
+    }
+    else if(document.getElementById("telefoneFixo").value != '' 
     		&& document.getElementById("telefoneFixo").value.length < 14) {
     	texto = "Telefone informado inválido!";
         focar = document.getElementById("telefoneFixo");
         valida = false;
     }
-    if(document.getElementById("telefoneCelular").value != '' 
+    else if(document.getElementById("telefoneCelular").value != '' 
     	&& document.getElementById("telefoneCelular").value.length < 14) {
     	texto = "Celular informado inválido!";
     	focar = document.getElementById("telefoneCelular");
     	valida = false;
     }
-    if(document.getElementById("postal_code").value.length < 9) {
+    else if(document.getElementById("postal_code").value.length < 9) {
     	texto = "CEP informado inválido!";
     	focar = document.getElementById("postal_code");
     	valida = false;

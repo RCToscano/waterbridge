@@ -72,7 +72,6 @@ public class ConsumoMedidorBO extends HttpServlet {
 			Connection connection = null;
 			HttpSession session = req.getSession(true);
             User user = (User) session.getValue("user");
-            String sql = "";
             String json = "";
 			
 			try {
@@ -105,7 +104,6 @@ public class ConsumoMedidorBO extends HttpServlet {
 			Connection connection = null;
 			HttpSession session = req.getSession(true);
             User user = (User) session.getValue("user");
-            String sql = "";
             String json = "";
 			
 			try {
@@ -138,7 +136,6 @@ public class ConsumoMedidorBO extends HttpServlet {
 			Connection connection = null;
 			HttpSession session = req.getSession(true);
             User user = (User) session.getValue("user");
-            String sql = "";
             String json = "";
 			
 			try {
@@ -169,8 +166,6 @@ public class ConsumoMedidorBO extends HttpServlet {
 		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("5")) { //LISTAR CONSUMO MEDIDOR DIA
 
 			Connection connection = null;
-			HttpSession session = req.getSession(true);
-            User user = (User) session.getValue("user");
             String sql = "";
             String json = "";
 			
@@ -221,8 +216,6 @@ public class ConsumoMedidorBO extends HttpServlet {
 		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("6")) { //LISTAR CONSUMO MEDIDOR DIA GRAFICO
 
 			Connection connection = null;
-			HttpSession session = req.getSession(true);
-            User user = (User) session.getValue("user");
             String sql = "";
 			
 			try {
@@ -236,7 +229,7 @@ public class ConsumoMedidorBO extends HttpServlet {
 				}
 				if(req.getParameter("idBridge") != null && !req.getParameter("idBridge").equals("")) {
 					sql += "AND   ID_BRIDGE = " + req.getParameter("idBridge") + " ";
-				}
+		 		}
 				if(req.getParameter("idMedidor") != null && !req.getParameter("idMedidor").equals("")) {
 					sql += "AND   ID_MEDIDOR = " + req.getParameter("idMedidor") + " ";
 				}

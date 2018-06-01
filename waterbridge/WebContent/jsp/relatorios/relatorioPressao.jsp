@@ -31,6 +31,8 @@
 	    
 	    <link href="./css/menucustomcolor.css" rel="stylesheet"/>
 	    <link href="./css/footercustom.css" rel="stylesheet"/>
+	    
+	    <script src='./js/validator.min.js'></script>
     </head>
     <body>
         <jsp:include page="/menu/${sessionScope.user.perfil.menu}" ></jsp:include>
@@ -58,13 +60,13 @@
 			</c:if>
 			
 			<div class="form-group">
-				<form id="formUsuarioMedidor" action="#" method="POST" accept-charset="iso-8859-1,utf-8">
+				<form data-toggle="validator" role="form" id="formUsuarioMedidor" action="#" method="POST" accept-charset="iso-8859-1,utf-8">
 					<fieldset>
 						<legend class="text-left">Pressure Bridge</legend>
 					
 						<div class="col-sm-5">
 							<div class="form-group">
-								<label>Empresa</label> 
+								<label class="control-label">Empresa</label><label class="text-danger">*</label>
 								<select class="form-control" id="idEmpresa" name="idEmpresa" required onchange="listarCondominio()">
 									<option value="" selected>Selecione...</option>
 									<c:forEach var="empresa" items="${listEmpresa}">
@@ -83,7 +85,7 @@
 							
 						<div class="col-sm-5">
 							<div class="form-group">
-								<label>Local</label> 
+								<label class="control-label">Local</label><label class="text-danger">*</label>
 								<select class="form-control" id="idCondominio" name="idCondominio" required onchange="listarBridge()">
 									<option value="" selected>Selecione...</option>
 								</select>					
@@ -92,7 +94,7 @@
 						
 						<div class="col-sm-2">
 							<div class="form-group">
-								<label>Bridge</label> 
+								<label class="control-label">Bridge</label><label class="text-danger">*</label>
 								<select class="form-control" id="idBridge" name="idBridge" required>
 									<option value="" selected>Selecione...</option>
 								</select>					
@@ -101,7 +103,7 @@
 							
 						<div class="col-sm-2">
 							<div class="form-group">
-								<label class="control-label">Período</label>
+								<label class="control-label">Data Início</label><label class="text-danger">*</label>
 								<div class='input-group date' id='datetimepicker1'>
 									<input type="text" class="form-control" id="dtInicio" name="dtInicio" data-date-format="DD/MM/YYYY" placeholder="dd/mm/aaaa" value="${usuario.dtNasc}" required/>
 									<span class="input-group-addon">
@@ -120,7 +122,7 @@
 						
 						<div class="col-sm-2">
 							<div class="form-group">
-								<label class="control-label">&nbsp; </label>
+								<label class="control-label">Data Fim</label><label class="text-danger">*</label>
 								<div class='input-group date' id='datetimepicker2'>
 									<input type="text" class="form-control" id="dtFim" name="dtFim" data-date-format="DD/MM/YYYY" placeholder="dd/mm/aaaa" value="${usuario.dtNasc}" required/>
 									<span class="input-group-addon">
@@ -134,6 +136,12 @@
 									    });
 									</script>
 								</div>
+							</div>
+						</div>
+						
+						<div class="col-sm-12">
+							<div class="form-group">
+								<label class="control-label"></label><label class="text-danger">* Campos Obrigatórios</label>
 							</div>
 						</div>
 						

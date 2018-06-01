@@ -66,7 +66,7 @@ function validarForm() {
     else if(cnpTp.value == '1' && validarCPF(cnp.value.trim()) == false) {
 
     	cnp.style.borderColor = colorRed;
-    	exibirAviso('O CPF digitado não válido');
+    	exibirAviso('O CPF digitado não é válido');
     	cnp.focus();
         return false;
     }
@@ -80,7 +80,7 @@ function validarForm() {
     else if(cnpTp.value == '2' && validarCNPJ(cnp.value.trim()) == false) {
 
     	cnp.style.borderColor = colorRed;
-    	exibirAviso('O CNPJ digitado não válido');
+    	exibirAviso('O CNPJ digitado não é válido');
     	cnp.focus();
         return false;
     }
@@ -116,14 +116,14 @@ function validarForm() {
     else if(email.value.trim() == '') {
 
     	email.style.borderColor = colorRed;
-    	exibirAviso('Informe o email');
+    	exibirAviso('Informe o e-mail');
     	email.focus();
         return false;
     }
     else if(validarEmail(email.value.trim()) == false) {
 
     	email.style.borderColor = colorRed;
-    	exibirAviso('O email digitado não é válido');
+    	exibirAviso('O e-mail digitado não é válido');
     	email.focus();
         return false;
     }
@@ -203,6 +203,13 @@ function validarForm() {
     	exibirAviso('Informe o CEP');
     	cep.focus();
         return false;
+    }
+    else if(cep.value.length < 9) {
+    	
+    	cep.style.borderColor = colorRed;
+    	exibirAviso('O CEP digitado não é válido');
+    	cep.focus();
+    	return false;
     }
     else {
     

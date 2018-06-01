@@ -21,6 +21,7 @@
 		<script type="text/javascript" src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
 		<script src="http://malsup.github.io/jquery.blockUI.js"></script>
 		<script src="./js/empresa/empresa.js" type="text/javascript"></script>
+		<script src='./js/validator.min.js'></script>
 		<script>
             $(function () {
                 $("#telefoneFixo").mask("(99) 9999-9999");
@@ -55,7 +56,7 @@
 						</div>
 					</c:if>
 				
-					<form action="EmpresaBO?acao=inserir" method="post" enctype="multipart/form-data" accept-charset="iso-8859-1,utf-8" onsubmit="return validaForm()">
+					<form data-toggle="validator" role="form" action="EmpresaBO?acao=inserir" method="post" enctype="multipart/form-data" accept-charset="iso-8859-1,utf-8" onsubmit="return validaForm()">
 						<input type="hidden" id="id" name="id" value="${empresa.idEmpresa}" />
 						
 						<fieldset>
@@ -63,21 +64,21 @@
 							
 							<div class="col-sm-6">
 								<div class="form-group">
-									<label class="control-label">Nome/Razão Social:</label>
+									<label class="control-label">Nome/Razão Social:</label><label class="text-danger">*</label>
 									<input type="text" class="form-control" id="nome" name="nome" value="${empresa.nome}" maxlength="100" required/>
 								</div>
 							</div>
 							
 							<div class="col-sm-3">
 								<div class="form-group">
-									<label class="control-label">CNPJ:</label>
+									<label class="control-label">CNPJ:</label><label class="text-danger">*</label>
 									<input type="tel" class="form-control" id="cnpj" name="cnpj" placeholder="99.999.999/9999-99" value="${empresa.cnp}" maxlength="20" required/>
 								</div>
 							</div>
 							
 							<div class="col-sm-6">
 								<div class="form-group">
-									<label class="control-label">Nome do Responsável:</label>
+									<label class="control-label">Nome do Responsável:</label><label class="text-danger">*</label>
 									<input type="text" class="form-control" id="responsavel" name="responsavel" value="${empresa.responsavel}" maxlength="100" required/>
 								</div>
 							</div>
@@ -97,14 +98,14 @@
 							</div>
 							<div class="col-sm-6">
 								<div class="form-group">
-									<label class="control-label">Email:</label>
+									<label class="control-label">Email:</label><label class="text-danger">*</label>
 									<input type="email" class="form-control" id="email" name="email" value="${empresa.email}" required/>
 								</div>
 							</div>
 							
 							<div class="col-sm-3">
 								<div class="form-group">
-									<label class="control-label">Situação</label>
+									<label class="control-label">Situação</label><label class="text-danger">*</label>
 									<select class="form-control" name="situacao" id="situacao" required>
 										<option value="" selected>Selecione...</option>
 										<c:forEach var="situacao" items="${listSituacao}">
@@ -146,42 +147,43 @@
 	                            
                             <div class="col-sm-7">
 								<div class="form-group">
-	                                <label>Endere&ccedil;o</label>
+	                                <label class="control-label">Endere&ccedil;o</label><label class="text-danger">*</label>
 	                                <input class="form-control" type="text" name="endereco" id="route" maxlength="100" value="${empresa.endereco}" required/>
 	                            </div>
                             </div>
 	                            
                             <div class="col-sm-2">
                             	<div class="form-group">
-	                                <label>N&uacute;mero</label>
-	                                <input class="form-control" type="number" name="numero" id="street_number" maxlength="6" value="${empresa.numero}" onKeyPress="validaTamanho(this,6)" required/>
+	                                <label class="control-label">N&uacute;mero</label><label class="text-danger">*</label>
+	                                <input class="form-control" type="number" name="numero" id="street_number" max="9999" min="0" value="${empresa.numero}" data-error="N&deg; inválido" required/>
+	                            	<div class="help-block with-errors"></div>
 	                            </div>
                             </div>
 	                            
                             <div class="col-sm-3">
                             	<div class="form-group">
-	                                <label>Complemento</label>
+	                                <label class="control-label">Complemento</label>
 	                                <input class="form-control" type="text" name="compl" id="locality" type="text" maxlength="50" value="${empresa.compl}"/>
 	                            </div>
 	                        </div>
 	                        
                             <div class="col-sm-5">
 	                        	<div class="form-group">
-	                                <label>Munic&iacute;pio</label>
+	                                <label class="control-label">Munic&iacute;pio</label>
 	                                <input class="form-control" type="text" name="municipio" id="municipio" maxlength="100" value="${empresa.municipio}"/>
 	                            </div>
                             </div>
 	                        
                             <div class="col-sm-4">
 	                        	<div class="form-group">
-	                                <label>Estado</label>
+	                                <label class="control-label">Estado</label><label class="text-danger">*</label>
 	                                <input class="form-control" type="text" name="estado" id="administrative_area_level_1" maxlength="2" value="${empresa.uf}" required/>
 	                            </div>
                             </div>
 	                            
 	                        <div class="col-sm-3">
 	                        	<div class="form-group">
-	                                <label>CEP</label>
+	                                <label class="control-label">CEP</label><label class="text-danger">*</label>
 	                                <input class="form-control" type="tel" name="cep" id="postal_code" maxlength="9" value="${empresa.cep}" required/>
 	                            </div>
 	                        </div>
@@ -207,8 +209,14 @@
 
 							<div class="col-sm-12">
 								<div class="form-group">
-									<label class="control-label" for="descricao">Informa&ccedil;&atilde;es Adicionais:</label>
+									<label class="control-label">Informa&ccedil;&atilde;es Adicionais:</label>
 									<textarea class="form-control" rows="3" name="obs" id="obs" style="resize:none;" onKeyPress="validaTamanho(this,150)">${empresa.obs}</textarea>
+								</div>
+							</div>
+							
+							<div class="col-sm-3">
+	                        	<div class="form-group">
+	                        		<label class="control-label"></label><label class="text-danger">* Campos Obrigatórios</label>
 								</div>
 							</div>
 							

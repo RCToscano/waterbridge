@@ -65,7 +65,7 @@
 					</div>					
 					<div class="form-group">
 						<div class="col-md-12 text-center">
-							<button type="submit" class="btn btn-primary">Buscar</button>
+							<button type="submit" class="btn btn-primary">Consultar</button>
 						</div>
 					</div>
 				</form>			

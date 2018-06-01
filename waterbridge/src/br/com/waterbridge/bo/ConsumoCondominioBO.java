@@ -107,7 +107,6 @@ public class ConsumoCondominioBO extends HttpServlet {
 			Connection connection = null;
 			HttpSession session = req.getSession(true);
             User user = (User) session.getValue("user");
-            String sql = "";
             String json = "";
 			
 			try {
@@ -140,7 +139,6 @@ public class ConsumoCondominioBO extends HttpServlet {
 			Connection connection = null;
 			HttpSession session = req.getSession(true);
             User user = (User) session.getValue("user");
-            String sql = "";
             String json = "";
 			
 			try {
@@ -171,8 +169,6 @@ public class ConsumoCondominioBO extends HttpServlet {
 		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("5")) { //LISTAR CONSUMO MEDIDOR DIA
 
 			Connection connection = null;
-			HttpSession session = req.getSession(true);
-            User user = (User) session.getValue("user");
             String sql = "";
             String json = "";
 			
@@ -242,8 +238,6 @@ public class ConsumoCondominioBO extends HttpServlet {
 		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("6")) { //LISTAR CONSUMO MEDIDOR DIA GRAFICO
 
 			Connection connection = null;
-			HttpSession session = req.getSession(true);
-            User user = (User) session.getValue("user");
             String sql = "";
 			
 			try {

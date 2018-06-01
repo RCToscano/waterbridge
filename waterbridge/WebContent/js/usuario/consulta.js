@@ -29,6 +29,7 @@ function validaForm(){
     	divAviso.style.display = "block";
         aviso.innerHTML = texto;
     	focar.focus();
+    	$('html, body').animate({ scrollTop: 0 }, 'fast');
         return false;
     }
 }
@@ -37,19 +38,28 @@ function verificaUsuario() {
 	document.getElementById("usuario").disabled = false;
 	document.getElementById("cpf").disabled = false;
 	document.getElementById("endereco").disabled = false;
+	document.getElementById("perfil").disabled = false;
 	
 	if(document.getElementById("usuario").value != "") {
 		document.getElementById("usuario").disabled = false;
 		document.getElementById("cpf").disabled = true;
 		document.getElementById("endereco").disabled = true;
+		document.getElementById("perfil").disabled = true;
 	}
 	else if(document.getElementById("cpf").value != "") {
 		document.getElementById("cpf").disabled = false;
 		document.getElementById("usuario").disabled = true;
 		document.getElementById("endereco").disabled = true;
+		document.getElementById("perfil").disabled = true;
 	}
 	else if(document.getElementById("endereco").value != "") {
 		document.getElementById("endereco").disabled = false;
+		document.getElementById("usuario").disabled = true;
+		document.getElementById("cpf").disabled = true;
+	}
+	else if(document.getElementById("perfil").value != "") {
+		document.getElementById("perfil").disabled = false;
+		document.getElementById("endereco").disabled = true;
 		document.getElementById("usuario").disabled = true;
 		document.getElementById("cpf").disabled = true;
 	}

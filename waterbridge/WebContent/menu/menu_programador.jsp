@@ -23,7 +23,7 @@
                 <span class="icon-bar"></span>
             </button>
             <c:choose>
-				<c:when test="${empty sessionScope.user.empresa.idEmpresa}">
+				<c:when test="${empty sessionScope.user.empresa.logoPNome}">
             		<a class="navbar-brand" href="HomeBO?acao=home"style="padding: 8px;"><img src="./images/logo_waterbridge_menu.png" alt="" style="margin: 0px;"></a>
 				</c:when>
 				<c:otherwise>
