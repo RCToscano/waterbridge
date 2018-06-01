@@ -52,61 +52,80 @@
 			    <li class="active">Consulta</li>
 			</ul>
 			<div class="col-sm-12" style="float: none; margin: 0 auto;">
-				<fieldset>
-				    <legend>${tituloTela}</legend>
-			  	</fieldset>
-				<div id="divAviso">${aviso}</div>
-				<form role="form" id="formConsultaBridge" action="BridgeBO?acao=6" method="POST" class="form-horizontal" accept-charset="iso-8859-1,utf-8">
-					<div class="form-group">
-						<div class="col-sm-2">
-							<label class="control-label">N&deg; Device</label>
-							<input type="text" class="form-control" id="deviceNum" name="deviceNum" value="" maxlength="20" />			
-						</div>
-						<div class="col-sm-6">
-							<label class="control-label">Condomínio</label> 
-							<select class="form-control" id="idCondominio" name="idCondominio">
-								<option value="" selected>Selecione...</option>
-								<c:forEach var="condominio" items="${listCondominio}">
-									<option value="${condominio.idCondominio}">${condominio.nome} - ${condominio.endereco} ${condominio.numero} ${condominio.compl}</option>
-		                     	</c:forEach>
-							</select>					
-						</div>
-                        <div class="col-sm-4 text-center">
-			            	<label class="control-label">Período Cadastro</label>
-			            	<div class="col-sm-12" style="padding: 0px;">
-			            		<div class="col-sm-6">
-				            		<input type='text' class="form-control" id='dtInicio' name='dtInicio' value=""/>
-				                    <script type="text/javascript">
-				                        $(function () {
-				                            $('#dtInicio').datetimepicker({
-				                                //inline: true,
-				                                //sideBySide: true
-				                                format: 'DD/MM/YYYY'
-				                            });
-				                        });
-				                    </script>
-			            		</div>
-			            		<div class="col-sm-6">
-			            			<input type='text' class="form-control" id='dtFim' name='dtFim' value=""/>
-				                    <script type="text/javascript">
-				                        $(function () {
-				                            $('#dtFim').datetimepicker({
-				                                //inline: true,
-				                                //sideBySide: true
-				                                format: 'DD/MM/YYYY'
-				                            });
-				                        });
-				                    </script>
-			            		</div>	
-			            	</div>
-						</div>					
-					</div>					
-					<div class="form-group">
-						<div class="col-md-12 text-center">
-							<button type="submit" class="btn btn-primary">Buscar</button>
-						</div>
-					</div>
-				</form>			
+				<div class="form-group">
+					<form role="form" id="formConsultaBridge" action="BridgeBO?acao=6" method="POST" accept-charset="iso-8859-1,utf-8">
+						<fieldset>
+						    <legend>${tituloTela}</legend>
+					  	
+							<div id="divAviso">${aviso}</div>
+						
+							<div class="col-sm-2">
+								<div class="form-group">
+									<label class="control-label">N&deg; Device</label>
+									<input type="text" class="form-control" id="deviceNum" name="deviceNum" value="" maxlength="20" />			
+								</div>
+							</div>
+								
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="control-label">Condomínio</label> 
+									<select class="form-control" id="idCondominio" name="idCondominio">
+										<option value="" selected>Selecione...</option>
+										<c:forEach var="condominio" items="${listCondominio}">
+											<option value="${condominio.idCondominio}">${condominio.nome} - ${condominio.endereco} ${condominio.numero} ${condominio.compl}</option>
+				                     	</c:forEach>
+									</select>					
+								</div>
+							</div>
+		                      
+							<div class="col-sm-2">
+								<div class="form-group">
+									<label class="control-label">Início Cadastro</label>
+				                    <div class='input-group date' id='dpDtInicio'>
+					                    <input type='text' class="form-control input-sm" id='dtInicio' name='dtInicio' placeholder="dd/mm/aaaa" />
+				            			<span class="input-group-addon">
+											<span class="glyphicon glyphicon-calendar"></span>
+										</span>
+					                    <script type="text/javascript">
+						                    $(function () {
+					                            $('#dpDtInicio').datetimepicker({
+					                            	format: 'DD/MM/YYYY'
+					                            });
+					                        });
+					                    </script>
+									</div> 
+								</div>
+							</div>
+									
+							<div class="col-sm-2">
+								<div class="form-group">	
+									<label class="control-label">Fim Cadastro</label>
+									<div class='input-group date' id='dpDtFim'>
+					                    <input type='text' class="form-control input-sm" id='dtFim' name='dtFim' placeholder="dd/mm/aaaa" />
+				            			<span class="input-group-addon">
+											<span class="glyphicon glyphicon-calendar"></span>
+										</span>
+					                    <script type="text/javascript">
+						                    $(function () {
+					                            $('#dpDtFim').datetimepicker({
+					                            	format: 'DD/MM/YYYY'
+					                            });
+					                        });
+					                    </script>
+					                </div> 
+								</div>
+							</div>				
+							
+							<div class="form-group">
+								<div class="col-md-12 text-center">
+									<button type="submit" class="btn btn-primary">Consultar</button>
+								</div>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+				
+				
 				<c:if test = "${fn:length(listBridge) > 0}">
 					<div class="form-group">
 						<div class="col-sm-12">
@@ -164,5 +183,27 @@
             	<div class="col-sm-4 text-center"><img class="img-responsive center-block" src="./images/logo_desoltec_rodape.png" alt=""></div>
             </div>
         </footer>
+        
+        <script>
+        	$(document).ready(function(){
+			  $("#myInput").on("keyup", function() {
+			    var value = $(this).val().toLowerCase();
+			    $("#myTable tr").filter(function() {
+			      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+			    });
+			  });
+			});
+        
+	        jQuery(document).ready(function($) {
+	            $(".clickable-row").click(function() {
+	                window.location = $(this).data("href");
+	            });
+	        });
+	        
+	        $(document).ready(function(){
+	            $('[data-toggle="tooltip"]').tooltip(); 
+	        });
+		</script>
+        
     </body>
 </html>

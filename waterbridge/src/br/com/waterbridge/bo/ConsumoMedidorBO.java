@@ -19,12 +19,10 @@ import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.BridgeDAO;
 import br.com.waterbridge.dao.CondominioDAO;
-import br.com.waterbridge.dao.ConsumoDAO;
 import br.com.waterbridge.dao.EmpresaDAO;
 import br.com.waterbridge.dao.MedidorDAO;
 import br.com.waterbridge.modelo.Bridge;
 import br.com.waterbridge.modelo.Condominio;
-import br.com.waterbridge.modelo.Consumo;
 import br.com.waterbridge.modelo.Empresa;
 import br.com.waterbridge.modelo.Medidor;
 import br.com.waterbridge.modelo.User;
@@ -74,7 +72,6 @@ public class ConsumoMedidorBO extends HttpServlet {
 			Connection connection = null;
 			HttpSession session = req.getSession(true);
             User user = (User) session.getValue("user");
-            String sql = "";
             String json = "";
 			
 			try {
@@ -107,7 +104,6 @@ public class ConsumoMedidorBO extends HttpServlet {
 			Connection connection = null;
 			HttpSession session = req.getSession(true);
             User user = (User) session.getValue("user");
-            String sql = "";
             String json = "";
 			
 			try {
@@ -140,7 +136,6 @@ public class ConsumoMedidorBO extends HttpServlet {
 			Connection connection = null;
 			HttpSession session = req.getSession(true);
             User user = (User) session.getValue("user");
-            String sql = "";
             String json = "";
 			
 			try {
@@ -171,8 +166,6 @@ public class ConsumoMedidorBO extends HttpServlet {
 		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("5")) { //LISTAR CONSUMO MEDIDOR DIA
 
 			Connection connection = null;
-			HttpSession session = req.getSession(true);
-            User user = (User) session.getValue("user");
             String sql = "";
             String json = "";
 			
@@ -223,8 +216,6 @@ public class ConsumoMedidorBO extends HttpServlet {
 		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("6")) { //LISTAR CONSUMO MEDIDOR DIA GRAFICO
 
 			Connection connection = null;
-			HttpSession session = req.getSession(true);
-            User user = (User) session.getValue("user");
             String sql = "";
 			
 			try {
@@ -238,7 +229,7 @@ public class ConsumoMedidorBO extends HttpServlet {
 				}
 				if(req.getParameter("idBridge") != null && !req.getParameter("idBridge").equals("")) {
 					sql += "AND   ID_BRIDGE = " + req.getParameter("idBridge") + " ";
-				}
+		 		}
 				if(req.getParameter("idMedidor") != null && !req.getParameter("idMedidor").equals("")) {
 					sql += "AND   ID_MEDIDOR = " + req.getParameter("idMedidor") + " ";
 				}

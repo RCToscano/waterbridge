@@ -66,7 +66,6 @@
 								<label>Empresa:</label>
 								<select class="form-control" name="empresa" id="empresa" onChange="validaForm()">
 			                        <option value="" selected>Selecione...</option>
-			                        <option value="todos">TODOS</option>
 			                        <c:forEach var="listaEmpresa" items="${listaEmpresa}">
                              			<option value="${listaEmpresa.idEmpresa}" >${listaEmpresa.nome} - ${listaEmpresa.cnp}</option>
 			                        </c:forEach>
@@ -157,5 +156,27 @@
             	<div class="col-sm-4 text-center"><img class="img-responsive center-block" src="./images/logo_desoltec_rodape.png" alt=""></div>
             </div>
         </footer>
+        
+        <script>
+        	$(document).ready(function(){
+			  $("#myInput").on("keyup", function() {
+			    var value = $(this).val().toLowerCase();
+			    $("#myTable tr").filter(function() {
+			      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+			    });
+			  });
+			});
+        
+	        jQuery(document).ready(function($) {
+	            $(".clickable-row").click(function() {
+	                window.location = $(this).data("href");
+	            });
+	        });
+	        
+	        $(document).ready(function(){
+	            $('[data-toggle="tooltip"]').tooltip(); 
+	        });
+		</script>
+        
     </body>
 </html>

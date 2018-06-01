@@ -27,6 +27,7 @@
 	    <link href="./css/menucustomcolor.css" rel="stylesheet"/>
 	    <link href="./css/footercustom.css" rel="stylesheet"/>
 	    
+	    <script src='./js/validator.min.js'></script>
 	    <script src="./js/jquery.mask.min.js" type="text/javascript"></script>   
         <script>
             $(function () {
@@ -53,158 +54,205 @@
 			    <li class="active">Local</li>
 			    <li class="active">Cadastro</li>
 			</ul>
+			
 			<div class="col-sm-9" style="float: none; margin: 0 auto;">
-				<fieldset>
-				    <legend>${tituloTela}</legend>
-			  	</fieldset>
-				<div id="divAviso">${aviso}</div>
-				<form role="form" id="formCadBridge" action="${acao}" method="POST" class="form-horizontal" accept-charset="iso-8859-1,utf-8" onsubmit="return validarForm()">
-					<input type="hidden" id="idCondominio" name="idCondominio" value="${condominio.idCondominio}"/>
-					<div class="form-group">
+				<form data-toggle="validator" role="form" id="formCadBridge" action="${acao}" method="POST" accept-charset="iso-8859-1,utf-8" onsubmit="return validarForm()">
+					<fieldset>
+					    <legend>${tituloTela}</legend>
+				  	
+						<div id="divAviso">${aviso}</div>
+						
+						<input type="hidden" id="idCondominio" name="idCondominio" value="${condominio.idCondominio}"/>
+						
 						<div class="col-sm-6">
-							<label class="control-label">Nome/Razão Social:</label>
-							<input type="text" class="form-control" id="nome" name="nome" value="${condominio.nome}" maxlength="100" required/>
+							<div class="form-group">
+								<label class="control-label">Nome/Razão Social:</label><label class="text-danger">*</label>
+								<input type="text" class="form-control" id="nome" name="nome" value="${condominio.nome}" maxlength="100" required/>
+							</div>
 						</div>
+						
 						<div class="col-sm-3">
-							<label>Tipo</label> 
-							<select class="form-control" id="cnpTp" name="cnpTp" onchange="mascaraCnp()" required >
-								<option value="" selected>Selecione...</option>
-								<c:forEach var="cnpTp" items="${listCnpTp}">
-               			            <c:choose>
-                                    	<c:when test="${cnpTp.idCnpTp == condominio.cnpTp.idCnpTp}">
-                                    		<option value="${cnpTp.idCnpTp}" selected="true">${cnpTp.descricao}</option> 
-                                      	</c:when>
-                                      	<c:otherwise>
-                                      		<option value="${cnpTp.idCnpTp}">${cnpTp.descricao}</option>
-                                      	</c:otherwise>
-                                     </c:choose>
-		                     	</c:forEach>
-							</select>
+							<div class="form-group">	
+								<label class="control-label">Tipo</label><label class="text-danger">*</label>
+								<select class="form-control" id="cnpTp" name="cnpTp" onchange="mascaraCnp()" required >
+									<option value="" selected>Selecione...</option>
+									<c:forEach var="cnpTp" items="${listCnpTp}">
+	               			            <c:choose>
+	                                    	<c:when test="${cnpTp.idCnpTp == condominio.cnpTp.idCnpTp}">
+	                                    		<option value="${cnpTp.idCnpTp}" selected="true">${cnpTp.descricao}</option> 
+	                                      	</c:when>
+	                                      	<c:otherwise>
+	                                      		<option value="${cnpTp.idCnpTp}">${cnpTp.descricao}</option>
+	                                      	</c:otherwise>
+	                                     </c:choose>
+			                     	</c:forEach>
+								</select>
+							</div>
 						</div>
+
 						<div class="col-sm-3">
-							<label class="control-label">CPF / CNPJ:</label>
-							<input type="text" class="form-control" id="cnp" name="cnp" value="${condominio.cnp}" maxlength="20" required/>
-						</div>					
-					</div>					
-					<div class="form-group">
+							<div class="form-group">
+								<label class="control-label">CPF / CNPJ:</label><label class="text-danger">*</label>
+								<input type="tel" class="form-control" id="cnp" name="cnp" value="${condominio.cnp}" maxlength="20" required/>
+							</div>					
+						</div>
+
 						<div class="col-sm-6">
-							<label class="control-label">Nome do Responsável:</label>
-							<input type="text" class="form-control" id="responsavel" name="responsavel" value="${condominio.responsavel}" maxlength="100" required/>
+							<div class="form-group">
+								<label class="control-label">Nome do Responsável:</label><label class="text-danger">*</label>
+								<input type="text" class="form-control" id="responsavel" name="responsavel" value="${condominio.responsavel}" maxlength="100" required/>
+							</div>
 						</div>
+						
 						<div class="col-sm-3">
-							<label class="control-label">Telefone Fixo:</label>
-							<input type="text" class="form-control" id="telFixo" name="telFixo" placeholder="(XX) XXXX-XXXX" value="${condominio.telFixo}" maxlength="20" />
+							<div class="form-group">
+								<label class="control-label">Telefone Fixo:</label>
+								<input type="tel" class="form-control" id="telFixo" name="telFixo" placeholder="(XX) XXXX-XXXX" value="${condominio.telFixo}" maxlength="20" />
+							</div>
 						</div>
+						
 						<div class="col-sm-3">
-							<label class="control-label">Telefone Celular:</label>
-							<input type="text" class="form-control" id="telCel" name="telCel" placeholder="(XX) XXXXX-XXXX" value="${condominio.telCel}"  maxlength="20" />
+							<div class="form-group">
+								<label class="control-label">Telefone Celular:</label>
+								<input type="tel" class="form-control" id="telCel" name="telCel" placeholder="(XX) XXXXX-XXXX" value="${condominio.telCel}"  maxlength="20" />
+							</div>
 						</div>
-					</div>
-					<div class="form-group">
+						
 						<div class="col-sm-6">
-							<label class="control-label">E-mail:</label>
-							<input type="email" class="form-control" id="email" name="email" value="${condominio.email}" maxlength="100" required />
+							<div class="form-group">
+								<label class="control-label">E-mail:</label><label class="text-danger">*</label>
+								<input type="email" class="form-control" id="email" name="email" value="${condominio.email}" maxlength="100" required />
+							</div>
 						</div>
+
 						<div class="col-sm-3">
-							<label class="control-label">Número do Contrato:</label>
-							<input type="text" class="form-control" id="contratoNum" name="contratoNum" value="${condominio.contratoNum}" maxlength="100" required />
+							<div class="form-group">
+								<label class="control-label">Número do Contrato:</label><label class="text-danger">*</label>
+								<input type="text" class="form-control" id="contratoNum" name="contratoNum" value="${condominio.contratoNum}" maxlength="100" required />
+							</div>
 						</div>
+						
 						<div class="col-sm-3">
-							<label class="control-label">Ciclo da Conta:</label>
-							<input type="text" class="form-control" id="contaCiclo" name="contaCiclo" value="${condominio.contaCiclo}" maxlength="2" required />
+							<div class="form-group">
+								<label class="control-label">Ciclo da Conta:</label><label class="text-danger">*</label>
+								<input type="text" class="form-control" id="contaCiclo" name="contaCiclo" value="${condominio.contaCiclo}" maxlength="2" required />
+							</div>
 						</div>
-					</div>
-					<div class="form-group">
+						
 						<div class="col-sm-6">
-							<label>Empresa</label> 
-							<select class="form-control" id="idEmpresa" name="idEmpresa" required >
-								<option value="" selected>Selecione...</option>
-								<c:forEach var="empresa" items="${listEmpresa}">
-                      		        <c:choose>
-                                    	<c:when test="${empresa.idEmpresa eq condominio.idEmpresa}">
-                                    		<option value="${empresa.idEmpresa}" selected="true">${empresa.nome}</option> 
-                                      	</c:when>
-                                      	<c:otherwise>
-                                      		<option value="${empresa.idEmpresa}">${empresa.nome}</option>
-                                      	</c:otherwise>
-                                     </c:choose>
-		                     	</c:forEach>
-							</select>
+							<div class="form-group">
+								<label class="control-label">Empresa</label><label class="text-danger">*</label>
+								<select class="form-control" id="idEmpresa" name="idEmpresa" required >
+									<option value="" selected>Selecione...</option>
+									<c:forEach var="empresa" items="${listEmpresa}">
+	                      		        <c:choose>
+	                                    	<c:when test="${empresa.idEmpresa eq condominio.idEmpresa}">
+	                                    		<option value="${empresa.idEmpresa}" selected="true">${empresa.nome}</option> 
+	                                      	</c:when>
+	                                      	<c:otherwise>
+	                                      		<option value="${empresa.idEmpresa}">${empresa.nome}</option>
+	                                      	</c:otherwise>
+	                                     </c:choose>
+			                     	</c:forEach>
+								</select>
+							</div>
 						</div>
+							
 						<div class="col-sm-3">
-							<label>Situa&ccedil;&atilde;o</label> 
-							<select class="form-control" id="situacao" name="situacao" required >
-								<option value="" selected>Selecione...</option>
-								<c:forEach var="situacao" items="${listSituacao}">
-                      		        <c:choose>
-                                    	<c:when test="${situacao.situacao eq condominio.situacao}">
-                                    		<option value="${situacao.situacao}" selected="true">${situacao.descricao}</option> 
-                                      	</c:when>
-                                      	<c:otherwise>
-                                      		<option value="${situacao.situacao}">${situacao.descricao}</option>
-                                      	</c:otherwise>
-                                     </c:choose>
-		                     	</c:forEach>
-							</select>
+							<div class="form-group">
+								<label class="control-label">Situa&ccedil;&atilde;o</label><label class="text-danger">*</label>
+								<select class="form-control" id="situacao" name="situacao" required >
+									<option value="" selected>Selecione...</option>
+									<c:forEach var="situacao" items="${listSituacao}">
+	                      		        <c:choose>
+	                                    	<c:when test="${situacao.situacao eq condominio.situacao}">
+	                                    		<option value="${situacao.situacao}" selected="true">${situacao.descricao}</option> 
+	                                      	</c:when>
+	                                      	<c:otherwise>
+	                                      		<option value="${situacao.situacao}">${situacao.descricao}</option>
+	                                      	</c:otherwise>
+	                                     </c:choose>
+			                     	</c:forEach>
+								</select>
+							</div>
 						</div>
-					</div>
-					<div class="form-group">
+						
 						<div class="col-sm-6">
-	                        <label>Busca de Logradouro no Google</label>
-	                        <input id="autocomplete" class="form-control" placeholder="Digite o Endereço ou CEP" onFocus="geolocate()" type="text" size="100"></input>
-                        </div>
-                        <div class="col-sm-6">
-	                        <label>Coordenadas</label>
-	                        <div class="input-group">
-	                            <input class="form-control" type="text" name="coordenadas" id="coordenadas" value="" readonly></input>
-	                            <input class="form-control" type="hidden" name="latitude" id="latitude" value="${condominio.coordX}"></input>
-	                            <input class="form-control" type="hidden" name="longitude" id="longitude" value="${condominio.coordY}"></input>
-	                            <span class="input-group-btn"><!-- Append button addon using class input-group-lg -->
-	                                <button class="btn btn-default" type="button" onclick="abrirMapa()">Mapa <span class="glyphicon glyphicon-map-marker text-danger"></span></button>
-	                            </span>
+							<div class="form-group">
+		                        <label>Busca de Logradouro no Google</label>
+		                        <input id="autocomplete" class="form-control" placeholder="Digite o Endereço ou CEP" onFocus="geolocate()" type="text" size="100"></input>
 	                        </div>
 						</div>
-					</div>
-					<div class="form-group">
+
 						<div class="col-sm-6">
-	                        <label>Endere&ccedil;o</label>
-	                        <input class="form-control" type="text" name="endereco" id="route" value="${condominio.endereco}" maxlength="100" required/>
-                        </div>
-                        <div class="col-sm-3">
-                            <label>N&uacute;mero</label>
-                            <input class="form-control" type="text" name="numero" id="street_number" value="${condominio.numero}" maxlength="6" required/>
-                        </div>
-                        <div class="col-sm-3">
-                            <label>Complemento</label>
-                            <input class="form-control" type="text" name="compl" id="compl" type="text" value="${condominio.compl}" maxlength="50"/>
-                        </div>
-					</div>
-					<div class="form-group">
-						<div class="col-sm-6">
-	                        <label>Município</label>
-	                        <input class="form-control" type="text" name="municipio" id="locality" value="${condominio.municipio}" maxlength="100" required/>
-                        </div>
-                        <div class="col-sm-3">
-	                        <label>Estado</label>
-	                        <input class="form-control" type="text" name="estado" id="administrative_area_level_1" value="${condominio.uf}" maxlength="2" required/>
-                        </div>                            
-                        <div class="col-sm-3">
-	                        <label>CEP</label>
-	                        <input class="form-control" type="text" name="cep" id="postal_code" value="${condominio.cep}" maxlength="9" required/>
-                        </div>
-					</div>
-<!-- 					<div class="form-group"> -->
-<!-- 						<div class="col-sm-6"> -->
-<!-- 	                        <label>País</label> -->
-<%-- 	                        <input class="form-control" type="text" name="pais" id="country" value="${colaborador.municipio.pais}" maxlength="50"></input> --%>
-<!--                         </div> -->
-<!-- 					</div> -->
-					<br/>
-					<div class="form-group">
-						<div class="col-md-12 text-center">
-							<button type="submit" class="btn btn-primary">${btNome}</button>
+							<div class="form-group">
+		                        <label>Coordenadas</label>
+		                        <div class="input-group">
+		                            <input class="form-control" type="text" name="coordenadas" id="coordenadas" value="" readonly></input>
+		                            <input class="form-control" type="hidden" name="latitude" id="latitude" value="${condominio.coordX}"></input>
+		                            <input class="form-control" type="hidden" name="longitude" id="longitude" value="${condominio.coordY}"></input>
+		                            <span class="input-group-btn"><!-- Append button addon using class input-group-lg -->
+		                                <button class="btn btn-default" type="button" onclick="abrirMapa()">Mapa <span class="glyphicon glyphicon-map-marker text-danger"></span></button>
+		                            </span>
+		                        </div>
+							</div>
 						</div>
-					</div>
+						
+						<div class="col-sm-6">
+							<div class="form-group">
+		                        <label class="control-label">Endere&ccedil;o</label><label class="text-danger">*</label>
+		                        <input class="form-control" type="text" name="endereco" id="route" value="${condominio.endereco}" maxlength="100" required/>
+	                        </div>
+						</div>
+
+						<div class="col-sm-3">
+							<div class="form-group">
+								<label class="control-label">N&uacute;mero</label><label class="text-danger">*</label>
+								<input class="form-control" type="number" name="numero" id="street_number" value="${condominio.numero}" max="9999" min="0" data-error="N&deg; inválido" required/>
+								<div class="help-block with-errors"></div>
+							</div>
+						</div>
+	                        
+						<div class="col-sm-3">
+	                    	<div class="form-group">    
+	                            <label class="control-label">Complemento</label>
+	                            <input class="form-control" type="text" name="compl" id="compl" type="text" value="${condominio.compl}" maxlength="50"/>
+	                        </div>
+						</div>
+						
+						<div class="col-sm-6">
+							<div class="form-group">
+		                        <label class="control-label">Município</label><label class="text-danger">*</label>
+		                        <input class="form-control" type="text" name="municipio" id="locality" value="${condominio.municipio}" maxlength="100" required/>
+	                        </div>
+						</div>
+
+						<div class="col-sm-3">
+	                    	<div class="form-group">    
+		                        <label class="control-label">Estado</label><label class="text-danger">*</label>
+		                        <input class="form-control" type="text" name="estado" id="administrative_area_level_1" value="${condominio.uf}" maxlength="2" required/>
+	                        </div>          
+						</div>          
+
+						<div class="col-sm-3">
+							<div class="form-group">
+		                        <label class="control-label">CEP</label><label class="text-danger">*</label>
+		                        <input class="form-control" type="tel" name="cep" id="postal_code" value="${condominio.cep}" maxlength="9" required/>
+	                        </div>
+						</div>
+						
+						<div class="col-sm-3">
+	                       	<div class="form-group">
+	                       		<label class="control-label"></label><label class="text-danger">* Campos Obrigatórios</label>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-md-12 text-center">
+								<button type="submit" class="btn btn-primary">${btNome}</button>
+							</div>
+						</div>
+					</fieldset>
 				</form>
 			</div>
 					

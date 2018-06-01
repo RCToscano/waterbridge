@@ -54,7 +54,7 @@ public class PerfilDAO {
         }
     }
 	
-	public List<Perfil> listarTodos() throws Exception {
+	public List<Perfil> listarTodos1() throws Exception {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         List<Perfil> list = new ArrayList<>();

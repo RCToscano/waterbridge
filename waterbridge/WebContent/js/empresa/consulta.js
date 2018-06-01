@@ -7,13 +7,6 @@ function validaForm(){
     var valida = true;
     
 
-    if (document.getElementById("empresa").value == ""
-		&& document.getElementById("cnpj").value == "") {
-
-    	texto = "Por favor, informe pelo menos um campo para consultar!";
-		focar = document.getElementById("empresa");
-		valida = false;
-	}
     
     if (valida == false) {
     	divAviso.style.display = "block";

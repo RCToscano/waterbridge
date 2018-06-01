@@ -42,108 +42,113 @@
 			    <li class="active">Consumo por Medidor</li>
 			</ul>
 			
-			<fieldset>
-				<legend class="text-left">Consumo por Medidor</legend>
-			</fieldset>	
-			<div id="divAviso">${aviso}</div>
-			<form data-toggle="validator" role="form" id="formUsuarioMedidor" action="#" method="POST" accept-charset="iso-8859-1,utf-8">
-				
-				<div class="col-sm-4">
-					<div class="form-group">
-						<label class="control-label">Empresa</label><label class="text-danger">*</label>
-						<select class="form-control input-sm" id="idEmpresa" name="idEmpresa" required onchange="listarCondominio()">
-							<option value="" selected>Selecione...</option>
-							<c:forEach var="empresa" items="${listEmpresa}">
-	               		        <c:choose>
-	                            	<c:when test="${empresa.idEmpresa eq condominio.idEmpresa}">
-	                            		<option value="${empresa.idEmpresa}" selected="true">${empresa.nome}</option> 
-	                                </c:when>
-	                                <c:otherwise>
-	                                  	<option value="${empresa.idEmpresa}">${empresa.nome}</option>
-	                                </c:otherwise>
-	                     		</c:choose>
-	                     	</c:forEach>
-						</select>
-					</div>
-				</div>
-					
-				<div class="col-sm-4">
-					<div class="form-group">
-						<label class="control-label">Local</label><label class="text-danger">*</label>
-						<select class="form-control input-sm" id="idCondominio" name="idCondominio" required onchange="listarBridge()">
-							<option value="" selected>Selecione...</option>
-						</select>					
-					</div>
-				</div>
-				
-				<div class="col-sm-2">
-					<div class="form-group">
-						<label class="control-label">Bridge</label><label class="text-danger">*</label>
-						<select class="form-control input-sm" id="idBridge" name="idBridge" onchange="listarMedidor()" required>
-							<option value="" selected>Selecione...</option>
-						</select>					
-					</div>
-				</div>
-
-				<div class="col-sm-2">
-					<div class="form-group">
-						<label class="control-label">Medidor</label><label class="text-danger">*</label>
-						<select class="form-control input-sm" id="idMedidor" name="idMedidor" required >
-							<option value="" selected>Selecione...</option>
-						</select>					
-					</div>
-				</div>
-				
-				<div class="col-sm-2">
-					<div class="form-group">
-						<label class="control-label">Data Início</label><label class="text-danger">*</label>
-	                    <div class='input-group date' id='dpDtInicio'>
-		                    <input type='text' class="form-control input-sm" id='dtInicio' name='dtInicio' required />
-	            			<span class="input-group-addon">
-								<span class="glyphicon glyphicon-calendar"></span>
-							</span>
-		                    <script type="text/javascript">
-			                    $(function () {
-		                            $('#dpDtInicio').datetimepicker({
-		                            	format: 'DD/MM/YYYY'
-		                            });
-		                        });
-		                    </script>
-		                </div> 
-					</div>
-				</div>
-					
-				<div class="col-sm-2">
-					<div class="form-group">
-						<label class="control-label">Data Fim</label><label class="text-danger">*</label>
-	                    <div class='input-group date' id='dpDtFim'>
-		                    <input type='text' class="form-control input-sm" id='dtFim' name='dtFim' required />
-	            			<span class="input-group-addon">
-								<span class="glyphicon glyphicon-calendar"></span>
-							</span>
-		                    <script type="text/javascript">
-			                    $(function () {
-		                            $('#dpDtFim').datetimepicker({
-		                            	format: 'DD/MM/YYYY'
-		                            });
-		                        });
-		                    </script>
-		                </div> 
-					</div>
-				</div>
-				
-				<div class="col-sm-12">
-					<div class="form-group">
-						<label class="control-label"></label><label class="text-danger">* Campos Obrigatórios</label>
-					</div>
-				</div>
-				
-				<div class="form-group">
-					<div class="col-md-12 text-center">
-						<button type="button" class="btn btn-primary" onclick="listarConsumoMedidor()">Consultar</button>
-					</div>
-				</div>
-			</form>	
+			<div class="form-group">
+				<form data-toggle="validator" role="form" id="formUsuarioMedidor" action="#" method="POST" accept-charset="iso-8859-1,utf-8">
+					<fieldset>
+						<legend class="text-left">Consumo por Medidor</legend>
+						
+						<div id="divAviso">${aviso}</div>
+						
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label class="control-label">Empresa</label><label class="text-danger">*</label>
+								<select class="form-control input-sm" id="idEmpresa" name="idEmpresa" required onchange="listarCondominio()">
+									<option value="" selected>Selecione...</option>
+									<c:forEach var="empresa" items="${listEmpresa}">
+			               		        <c:choose>
+			                            	<c:when test="${empresa.idEmpresa eq condominio.idEmpresa}">
+			                            		<option value="${empresa.idEmpresa}" selected="true">${empresa.nome}</option> 
+			                                </c:when>
+			                                <c:otherwise>
+			                                  	<option value="${empresa.idEmpresa}">${empresa.nome}</option>
+			                                </c:otherwise>
+			                     		</c:choose>
+			                     	</c:forEach>
+								</select>
+							</div>
+						</div>
+							
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label class="control-label">Local</label><label class="text-danger">*</label>
+								<select class="form-control input-sm" id="idCondominio" name="idCondominio" required onchange="listarBridge()">
+									<option value="" selected>Selecione...</option>
+								</select>					
+							</div>
+						</div>
+						
+						<div class="col-sm-2">
+							<div class="form-group">
+								<label class="control-label">Bridge</label><label class="text-danger">*</label>
+								<select class="form-control input-sm" id="idBridge" name="idBridge" onchange="listarMedidor()" required>
+									<option value="" selected>Selecione...</option>
+								</select>					
+							</div>
+						</div>
+		
+						<div class="col-sm-2">
+							<div class="form-group">
+								<label class="control-label">Medidor</label><label class="text-danger">*</label>
+								<select class="form-control input-sm" id="idMedidor" name="idMedidor" required >
+									<option value="" selected>Selecione...</option>
+								</select>					
+							</div>
+						</div>
+						
+						<div class="col-sm-2">
+							<div class="form-group">
+								<label class="control-label">Data Início</label><label class="text-danger">*</label>
+			                    <div class='input-group date' id='dpDtInicio'>
+				                    <input type='text' class="form-control input-sm" id='dtInicio' name='dtInicio' required />
+			            			<span class="input-group-addon">
+										<span class="glyphicon glyphicon-calendar"></span>
+									</span>
+				                    <script type="text/javascript">
+					                    $(function () {
+				                            $('#dpDtInicio').datetimepicker({
+				                            	format: 'DD/MM/YYYY'
+				                            });
+				                        });
+				                    </script>
+				                </div> 
+							</div>
+						</div>
+							
+						<div class="col-sm-2">
+							<div class="form-group">
+								<label class="control-label">Data Fim</label><label class="text-danger">*</label>
+			                    <div class='input-group date' id='dpDtFim'>
+				                    <input type='text' class="form-control input-sm" id='dtFim' name='dtFim' required />
+			            			<span class="input-group-addon">
+										<span class="glyphicon glyphicon-calendar"></span>
+									</span>
+				                    <script type="text/javascript">
+					                    $(function () {
+				                            $('#dpDtFim').datetimepicker({
+				                            	format: 'DD/MM/YYYY'
+				                            });
+				                        });
+				                    </script>
+				                </div> 
+							</div>
+						</div>
+						
+						<div class="col-sm-12">
+							<div class="form-group">
+								<label class="control-label"></label><label class="text-danger">* Campos Obrigatórios</label>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="col-md-12 text-center">
+								<button type="button" class="btn btn-primary" onclick="listarConsumoMedidor()">Consultar</button>
+							</div>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+			
+			
 			<div class="col-sm-8 col-md-offset-2">
 				<div class="form-group">
 					<div class="table-responsive" id="divTable">

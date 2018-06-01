@@ -20,7 +20,9 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
 		<script type="text/javascript" src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
 		<script src="http://malsup.github.io/jquery.blockUI.js"></script>
+		
 		<script src="./js/medidor/medidor.js" type="text/javascript"></script>
+		<script src='./js/validator.min.js'></script>
     </head>
     <body>
         <jsp:include page="/menu/${sessionScope.user.perfil.menu}" ></jsp:include>
@@ -45,7 +47,7 @@
 						</div>
 					</c:if>
 				
-					<form action="MedidorBO?acao=inserir" method="post" accept-charset="iso-8859-1,utf-8" onsubmit="return validaForm()">
+					<form data-toggle="validator" role="form" action="MedidorBO?acao=inserir" method="post" accept-charset="iso-8859-1,utf-8" onsubmit="return validaForm()">
 						<input type="hidden" id="id" name="id" value="${medidor.idMedidor}" />
 						
 						<fieldset>
@@ -53,7 +55,7 @@
 							
 							<div class="col-sm-4">
 								<div class="form-group">
-									<label class="control-label">Fabricante</label>
+									<label class="control-label">Fabricante</label><label class="text-danger">*</label>
 									<select class="form-control" name="fabricante" id="fabricante" required>
 										<option value="" selected>Selecione...</option>
 										<c:forEach var="fabricante" items="${listFabricante}">
@@ -72,49 +74,49 @@
 							
 							<div class="col-sm-4">
 								<div class="form-group">
-									<label class="control-label" for="name">Modelo:</label>
+									<label class="control-label">Modelo:</label><label class="text-danger">*</label>
 									<input type="text" class="form-control" id="modelo" name="modelo" maxlength="100" value="${medidor.modelo}" required/>
 								</div>
 							</div>
 							
 							<div class="col-sm-4">
 								<div class="form-group">
-									<label class="control-label" for="name">N&deg; S&eacute;rie:</label>
+									<label class="control-label">N&deg; S&eacute;rie:</label><label class="text-danger">*</label>
 									<input type="text" class="form-control" id="serie" name="serie" maxlength="100" value="${medidor.serie}" required/>
 								</div>
 							</div>
 							
 							<div class="col-sm-4">
 								<div class="form-group">
-									<label class="control-label" for="name">Tipo:</label>
+									<label class="control-label">Tipo:</label><label class="text-danger">*</label>
 									<input type="text" class="form-control" id="tipo" name="tipo" maxlength="100" value="${medidor.tipo}" required/>
 								</div>
 							</div>
 							
 							<div class="col-sm-4">
 								<div class="form-group">
-									<label class="control-label" for="name">Chave de Decriptografia:</label>
+									<label class="control-label">Chave de Decriptografia:</label><label class="text-danger">*</label>
 									<input type="text" class="form-control" id="chave" name="chave" maxlength="100" value="${medidor.chaveDeCripto}" required/>
 								</div>
 							</div>
 							
 							<div class="col-sm-4">
 								<div class="form-group">
-									<label class="control-label" for="name">Validade Bateria:</label>
+									<label class="control-label">Validade Bateria:</label><label class="text-danger">*</label>
 									<input type="number" class="form-control" id="bateria" name="bateria" max="99" min="0" value="${medidor.validBateria}" onKeyPress="validaTamanho(this,2)" required/>
 								</div>
 							</div>
 							
 							<div class="col-sm-4">
 								<div class="form-group">
-									<label class="control-label" for="name">Número:</label>
+									<label class="control-label">Número:</label><label class="text-danger">*</label>
 									<input type="text" class="form-control" id="numeroMedidor" name="numeroMedidor" maxlength="15" value="${medidor.numeroMedidor}" required/>
 								</div>
 							</div>
 							
 							<div class="col-sm-4">
 								<div class="form-group">
-									<label class="control-label">Situação</label>
+									<label class="control-label">Situação</label><label class="text-danger">*</label>
 									<select class="form-control" name="situacao" id="situacao" required>
 										<option value="" selected>Selecione...</option>
 										<c:forEach var="situacao" items="${listSituacao}">
@@ -133,7 +135,7 @@
 							
 							<div class="col-sm-12">
 								<div class="form-group"> 
-									<label>Local</label> 
+									<label class="control-label">Local</label><label class="text-danger">*</label>
 									<select class="form-control" id="idCondominio" name="idCondominio" onchange="listarBridgeCadastro()" required >
 										<option value="" selected>Selecione...</option>
 										<c:forEach var="condominio" items="${listCondominio}">
@@ -155,7 +157,7 @@
 							
 							<div class="col-sm-4">
 								<div class="form-group">
-									<label class="control-label">Bridge</label>
+									<label class="control-label">Bridge</label><label class="text-danger">*</label>
 									<select class="form-control" name="bridge" id="bridge" required>
 										<option value="" selected>Selecione...</option>
 									</select>																		
@@ -163,7 +165,7 @@
 							</div>
 							<div class="col-sm-4">
 								<div class="form-group">
-									<label class="control-label" for="name">Posição:</label>
+									<label class="control-label">Posição:</label><label class="text-danger">*</label>
 									<input type="number" class="form-control" id="posicao" name="posicao" maxlength="2" value="${medidor.meterPosition}" onKeyPress="validaTamanho(this,2)" required/>
 								</div>
 							</div>
@@ -193,50 +195,57 @@
 	                            
                             <div class="col-sm-7">
 								<div class="form-group">
-	                                <label>Endere&ccedil;o</label>
+	                                <label class="control-label">Endere&ccedil;o</label><label class="text-danger">*</label>
 	                                <input class="form-control" type="text" name="endereco" id="route" maxlength="100" value="${medidor.endereco}" required/>
 	                            </div>
                             </div>
 	                            
                             <div class="col-sm-2">
                             	<div class="form-group">
-	                                <label>N&uacute;mero</label>
-	                                <input class="form-control" type="number" name="numero" id="street_number" maxlength="6" value="${medidor.numero}" onKeyPress="validaTamanho(this,6)" required/>
+	                                <label class="control-label">N&uacute;mero</label><label class="text-danger">*</label>
+	                                <input class="form-control" type="number" name="numero" id="street_number" max="9999" min="0" value="${medidor.numero}" data-error="N&deg; inválido" required/>
+	                            	<div class="help-block with-errors"></div>
 	                            </div>
                             </div>
 	                            
                             <div class="col-sm-3">
                             	<div class="form-group">
-	                                <label>Complemento</label>
+	                                <label class="control-label">Complemento</label>
 	                                <input class="form-control" type="text" name="compl" id="locality" type="text" maxlength="50" value="${medidor.compl}"/>
 	                            </div>
 	                        </div>
 	                        
                             <div class="col-sm-5">
 	                        	<div class="form-group">
-	                                <label>Munic&iacute;pio</label>
+	                                <label class="control-label">Munic&iacute;pio</label>
 	                                <input class="form-control" type="text" name="municipio" id="municipio" maxlength="100" value="${medidor.municipio}"/>
 	                            </div>
                             </div>
 	                        
                             <div class="col-sm-4">
 	                        	<div class="form-group">
-	                                <label>Estado</label>
+	                                <label class="control-label">Estado</label><label class="text-danger">*</label>
 	                                <input class="form-control" type="text" name="estado" id="administrative_area_level_1" maxlength="2" value="${medidor.uf}" required/>
 	                            </div>
                             </div>
 	                            
 	                        <div class="col-sm-3">
 	                        	<div class="form-group">
-	                                <label>CEP</label>
+	                                <label class="control-label">CEP</label><label class="text-danger">*</label>
 	                                <input class="form-control" type="tel" name="cep" id="postal_code" maxlength="9" value="${medidor.cep}" required/>
 	                            </div>
 	                        </div>
 
 							<div class="col-sm-12">
 								<div class="form-group">
-									<label class="control-label" for="descricao">Informa&ccedil;&atilde;es Adicionais:</label>
+									<label class="control-label">Informa&ccedil;&atilde;es Adicionais:</label>
 									<textarea class="form-control" rows="3" name="descricao" id="descricao" style="resize:none;" onKeyPress="validaTamanho(this,150)">${medidor.obs}</textarea>
+								</div>
+							</div>
+							
+							<div class="col-sm-3">
+	                        	<div class="form-group">
+	                        		<label class="control-label"></label><label class="text-danger">* Campos Obrigatórios</label>
 								</div>
 							</div>
 							
