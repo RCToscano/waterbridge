@@ -34,24 +34,11 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Relatórios <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Empresa <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="ConsumoMedidorBO?acao=1">Consumos por Medidor</a></li>
-                        <li class="divider"></li>
-                        <li><a href="ConsumoCondominioBO?acao=1">Consumo por Local</a></li>
-                        <li class="divider"></li>
-                        <li><a href="RelatorioPressaoBO?acao=1">Pressure Bridge</a></li>
-                        <li class="divider"></li>
-                    </ul>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav">
-                <li>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Usuário <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="UsuarioBO?acao=cadUsuario">Cadastro</a></li>
+                        <li><a href="EmpresaBO?acao=cadastro">Cadastro</a></li>
                          <li class="divider"></li>
-                        <li><a href="UsuarioBO?acao=consulta">Consulta</a></li>
+                        <li><a href="EmpresaBO?acao=consulta">Consulta</a></li>
                          <li class="divider"></li>
                     </ul>
                 </li>
@@ -97,11 +84,11 @@
             </ul>
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Empresa <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Usuário <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="EmpresaBO?acao=cadastro">Cadastro</a></li>
+                        <li><a href="UsuarioBO?acao=cadUsuario">Cadastro</a></li>
                          <li class="divider"></li>
-                        <li><a href="EmpresaBO?acao=consulta">Consulta</a></li>
+                        <li><a href="UsuarioBO?acao=consulta">Consulta</a></li>
                          <li class="divider"></li>
                     </ul>
                 </li>
@@ -115,6 +102,19 @@
                         <li><a href="UsuarioCondominioBO?acao=1">Local</a></li>
                         <li class="divider"></li>
                         <li><a href="UsuarioMedidorBO?acao=1">Consumidor</a></li>
+                        <li class="divider"></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Relatórios <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="ConsumoMedidorBO?acao=1">Consumos por Medidor</a></li>
+                        <li class="divider"></li>
+                        <li><a href="ConsumoCondominioBO?acao=1">Consumo por Local</a></li>
+                        <li class="divider"></li>
+                        <li><a href="RelatorioPressaoBO?acao=1">Pressure Bridge</a></li>
                         <li class="divider"></li>
                     </ul>
                 </li>
