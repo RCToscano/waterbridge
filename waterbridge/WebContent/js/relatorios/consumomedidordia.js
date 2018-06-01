@@ -241,8 +241,7 @@ function listarConsumoMedidor() {
 	            var listRelConsumoMedidor = result;
 	            if(listRelConsumoMedidor != null && listRelConsumoMedidor.length > 0) {
 	            	
-	            	texto +=
-	            	"bridge tp " + listRelConsumoMedidor[i].idBridgeTp +	
+	            	texto +=	
 	            	"<table class='table table-hover table-striped'>" +
 		            "	<thead>" +
 		            "		<tr>" +
