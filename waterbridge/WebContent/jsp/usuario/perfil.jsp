@@ -24,6 +24,7 @@
 	    
         <script src='./js/funcoes.auxiliares.js'></script>
 	    <script src='./js/usuario/usuario.js'></script>
+	    <script src='./js/validator.min.js'></script>
         <script>
             $(function () {
                 $("#telefoneFixo").mask("(99) 9999-9999");
@@ -70,28 +71,28 @@
 				    </ul>
 					<div id="myTabContent" class="tab-content">
 			      		<div class="tab-pane active in" id="perfil">
-					      	<form action="UsuarioBO?acao=alterarPerfil" method="post" accept-charset="iso-8859-1,utf-8" onSubmit="return validaPerfil()">
+					      	<form data-toggle="validator" role="form" action="UsuarioBO?acao=alterarPerfil" method="post" accept-charset="iso-8859-1,utf-8" onSubmit="return validaPerfil()">
 								<input type="hidden" id="id" name="id" value="${usuario.idUser}" />
 								
 								<div class="col-sm-12"></div>
 								
 								<div class="col-sm-6" style="padding-top: 2%;">
 									<div class="form-group">
-										<label class="control-label">Nome</label>
+										<label class="control-label">Nome</label><label class="text-danger">*</label>
 										<input type="text" class="form-control" id="name" name="name" value="${usuario.nome}" required/>
 									</div>
 								</div>							
 
 								<div class="col-sm-4" style="padding-top: 2%;">
 									<div class="form-group">
-										<label class="control-label">CPF</label>
+										<label class="control-label">CPF</label><label class="text-danger">*</label>
 										<input type="tel" class="form-control" id="cpf" name="cpf" placeholder="999.999.999-99" value="${usuario.cpf}" required/>
 									</div>
 								</div>
 								
 								<div class="col-sm-3">
 									<div class="form-group">
-										<label class="control-label">Data de Nascimento</label>
+										<label class="control-label">Data de Nascimento</label><label class="text-danger">*</label>
 										<div class='input-group date' id='datetimepicker1'>
 											<input type="text" class="form-control" id="dtNascimento" name="dtNascimento" data-date-format="DD/MM/YYYY" placeholder="dd/mm/aaaa" value="${usuario.dtNasc}"/>
 											<span class="input-group-addon">
@@ -110,7 +111,7 @@
 								
 								<div class="col-sm-3">
 									<div class="form-group">
-										<label class="control-label">Sexo</label>
+										<label class="control-label">Sexo</label><label class="text-danger">*</label>
 										<select class="form-control" name="sexo" id="sexo" required>
 											<option value="" selected>Selecione...</option>
 											<c:forEach items="${listaSexo}" var="total">
@@ -143,7 +144,7 @@
 								
 								<div class="col-sm-6">
 									<div class="form-group">
-										<label class="control-label">E-mail:</label>
+										<label class="control-label">E-mail:</label><label class="text-danger">*</label>
 										<input type="email" class="form-control" id="email" name="email" value="${usuario.email}" required/>
 									</div>
 								</div>
@@ -173,45 +174,52 @@
 		                            
 	                            <div class="col-sm-7">
 									<div class="form-group">
-		                                <label>Endere&ccedil;o</label>
+		                                <label class="control-label">Endere&ccedil;o</label><label class="text-danger">*</label>
 		                                <input class="form-control" type="text" name="endereco" id="route" maxlength="100" value="${usuario.endereco}" required/>
 		                            </div>
 	                            </div>
 		                            
 	                            <div class="col-sm-2">
 	                            	<div class="form-group">
-		                                <label>N&uacute;mero</label>
-		                                <input class="form-control" type="number" name="numero" id="street_number" maxlength="6" value="${usuario.numero}" required/>
+		                                <label class="control-label">N&uacute;mero</label><label class="text-danger">*</label>
+		                                <input class="form-control" type="number" name="numero" id="street_number" max="9999" min="0" value="${usuario.numero}" data-error="N&deg; inválido" required/>
+		                            	<div class="help-block with-errors"></div>
 		                            </div>
 	                            </div>
 		                            
 	                            <div class="col-sm-3">
 	                            	<div class="form-group">
-		                                <label>Complemento</label>
+		                                <label class="control-label">Complemento</label>
 		                                <input class="form-control" type="text" name="compl" id="locality" type="text" maxlength="50" value="${usuario.compl}"/>
 		                            </div>
 		                        </div>
 		                        
 	                            <div class="col-sm-5">
 		                        	<div class="form-group">
-		                                <label>Munic&iacute;pio</label>
+		                                <label class="control-label">Munic&iacute;pio</label>
 		                                <input class="form-control" type="text" name="municipio" id="municipio" maxlength="100" value="${usuario.municipio}"/>
 		                            </div>
 	                            </div>
 		                        
 	                            <div class="col-sm-4">
 		                        	<div class="form-group">
-		                                <label>Estado</label>
+		                                <label class="control-label">Estado</label><label class="text-danger">*</label>
 		                                <input class="form-control" type="text" name="estado" id="administrative_area_level_1" maxlength="2" value="${usuario.uf}" required/>
 		                            </div>
 	                            </div>
 		                            
 		                        <div class="col-sm-3">
 		                        	<div class="form-group">
-		                                <label>CEP</label>
+		                                <label class="control-label">CEP</label><label class="text-danger">*</label>
 		                                <input class="form-control" type="tel" name="cep" id="postal_code" maxlength="9" value="${usuario.cep}" required/>
 		                            </div>
 		                        </div>
+		                        
+		                        <div class="col-sm-3">
+		                        	<div class="form-group">
+		                        		<label class="control-label"></label><label class="text-danger">* Campos Obrigatórios</label>
+									</div>
+								</div>
 		                        
 		    					<div class="col-sm-12">
 									<div class="form-group">
@@ -223,25 +231,31 @@
 							</form>
 						</div>
 						<div class="tab-pane fade" id="senha">
-					    	<form action="UsuarioBO?acao=alterarSenha" method="post" accept-charset="iso-8859-1,utf-8" onSubmit="return validaSenha()">
+					    	<form data-toggle="validator" role="form" action="UsuarioBO?acao=alterarSenha" method="post" accept-charset="iso-8859-1,utf-8" onSubmit="return validaSenha()">
 					        	<div class="col-sm-4" style="padding-top: 2%;">
 									<div class="form-group">
-					        			<label>Senha Atual</label> 
+					        			<label class="control-label">Senha Atual</label><label class="text-danger">*</label>
 										<input type="password" class="form-control input-sm" name="senha" id="senha" maxlength="50" required/>
 									</div>
 								</div>
 								<div class="col-sm-12"></div>
 					        	<div class="col-sm-4">
 									<div class="form-group">
-					        			<label>Nova Senha</label> 
+					        			<label class="control-label">Nova Senha</label><label class="text-danger">*</label>
 										<input type="password" class="form-control input-sm" name="novaSenha" id="novaSenha" maxlength="50" required/>
 									</div>
 								</div>
 								<div class="col-sm-12"></div>
 					        	<div class="col-sm-4">
 									<div class="form-group">
-					        			<label>Confirmação de Senha</label> 
+					        			<label class="control-label">Confirmação de Senha</label><label class="text-danger">*</label>
 										<input type="password" class="form-control input-sm" name="confSenha" id="confSenha" maxlength="50" required/>
+									</div>
+								</div>
+								<div class="col-sm-12"></div>
+								<div class="col-sm-3">
+		                        	<div class="form-group">
+		                        		<label class="control-label"></label><label class="text-danger">* Campos Obrigatórios</label>
 									</div>
 								</div>
 								<div class="col-sm-12"></div>

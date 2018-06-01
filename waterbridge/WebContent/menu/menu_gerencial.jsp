@@ -27,7 +27,7 @@
             		<a class="navbar-brand" href="HomeBO?acao=home"style="padding: 8px;"><img src="./images/logo_waterbridge_menu.png" alt="" style="margin: 0px;"></a>
 				</c:when>
 				<c:otherwise>
-            		<a class="navbar-brand" href="HomeBO?acao=home"style="padding: 8px;"><img src="Serializacao?path=${sessionScope.user.empresa.logoPDir}&imagem=${sessionScope.user.empresa.logoPNome}" alt="" style="margin: 0px;"></a>
+            		<a class="navbar-brand" href="HomeBO?acao=home"style="padding: 8px;"><img src="Serializacao?path=${sessionScope.user.empresa.logoPDir}&imagem=${sessionScope.user.empresa.logoPNome}" alt="" style="max-width: 122px; max-height: 35px; margin: 0px;"></a>
 				</c:otherwise>
 			</c:choose>
         </div>

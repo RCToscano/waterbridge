@@ -93,7 +93,7 @@ public class PerfilDAO {
 			stmt = connection.prepareStatement(
 					"  SELECT TB_PERFIL.* " +
 					"    FROM TB_PERFIL " +
-					"    WHERE TB_PERFIL.ID_PERFIL > ? " +
+					"    WHERE TB_PERFIL.ID_PERFIL >= ? " +
 					"ORDER BY TB_PERFIL.ID_PERFIL "
 					);
 			stmt.setObject(1, user.getPerfil().getIdPerfil());

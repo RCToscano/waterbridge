@@ -52,23 +52,28 @@
 			    <li class="active">Consulta</li>
 			</ul>
 			<div class="col-sm-8" style="float: none; margin: 0 auto;">
-				<fieldset>
-				    <legend>${tituloTela}</legend>
-			  	</fieldset>
-				<div id="divAviso">${aviso}</div>
-				<form role="form" id="formConsultaFabricMedidor" action="FabricMedidorBO?acao=6" method="POST" class="form-horizontal" accept-charset="iso-8859-1,utf-8">
-					<div class="form-group">
+				
+				<form role="form" id="formConsultaFabricMedidor" action="FabricMedidorBO?acao=6" method="POST" accept-charset="iso-8859-1,utf-8">
+					<fieldset>
+					    <legend>${tituloTela}</legend>
+				  	
+						<div id="divAviso">${aviso}</div>
+	
 						<div class="col-sm-12">
-							<label class="control-label">Digite o nome do fabricante</label>
-							<input type="text" class="form-control" id="fabricNome" name="fabricNome" value="" maxlength="50" />			
+							<div class="form-group">
+								<label class="control-label">Digite o nome do fabricante</label>
+								<input type="text" class="form-control" id="fabricNome" name="fabricNome" value="" maxlength="50" />			
+							</div>
+						</div>					
+						
+						<div class="form-group">
+							<div class="col-md-12 text-center">
+								<button type="submit" class="btn btn-primary">Consultar</button>
+							</div>
 						</div>
-					</div>					
-					<div class="form-group">
-						<div class="col-md-12 text-center">
-							<button type="submit" class="btn btn-primary">Consultar</button>
-						</div>
-					</div>
-				</form>			
+					</fieldset>
+				</form>
+							
 				<c:if test = "${fn:length(listFabricMedidor) > 0}">
 					<div class="form-group">
 						<div class="col-sm-12">
