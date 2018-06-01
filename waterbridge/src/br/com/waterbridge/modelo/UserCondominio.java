@@ -6,6 +6,7 @@ public class UserCondominio {
 	private Long idInsert;
 	private Long idUser;
 	private Long idCondominio;
+	private String obs;
 	private String situacao;
 	private String dtInicio;
 	private String dtFim;
@@ -33,6 +34,12 @@ public class UserCondominio {
 	}
 	public void setIdCondominio(Long idCondominio) {
 		this.idCondominio = idCondominio;
+	}
+	public String getObs() {
+		return obs;
+	}
+	public void setObs(String obs) {
+		this.obs = obs;
 	}
 	public String getSituacao() {
 		return situacao;

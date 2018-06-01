@@ -31,20 +31,22 @@ public class UserMedidorDAO {
             "		ID_INSERT, " +
             "		ID_USER, " +
             "		ID_MEDIDOR, " +
+            "       OBS, " +
             "		SITUACAO, " +
             "		DTINICIO, " +
             "		DTFIM " +
             ") VALUES ( " +
-            "       ?,?,?,?,SYSDATE(),NULL " +
+            "       ?,?,?,?,?,SYSDATE(),NULL " +
             ")");
             
             //stmt.setObject(1, userMedidor.getIdUserMedidor());
             stmt.setObject(1, userMedidor.getIdInsert());
             stmt.setObject(2, userMedidor.getIdUser());
             stmt.setObject(3, userMedidor.getIdMedidor());
-            stmt.setObject(4, userMedidor.getSituacao());
-            //stmt.setObject(5, userMedidor.getDtInicio());
-            //stmt.setObject(6, userMedidor.getDtFim());
+            stmt.setObject(4, userMedidor.getObs());
+            stmt.setObject(5, userMedidor.getSituacao());
+            //stmt.setObject(6, userMedidor.getDtInicio());
+            //stmt.setObject(7, userMedidor.getDtFim());
             
             stmt.execute();
         }
@@ -61,22 +63,24 @@ public class UserMedidorDAO {
         }
     }
     
-    public void inativar(Long idUserMedidor) throws SQLException {
+    public void inativar(UserMedidor userMedidor) throws SQLException {
 
         PreparedStatement stmt = null;
                 
         try {
             
             //LOGA REGISTRO ANTES DE ALTERAR
-            logar(idUserMedidor);
+            logar(userMedidor.getIdUserMedidor());
         
             stmt = connection.prepareStatement(
             "UPDATE TB_USERMEDIDOR SET " +
+            "       OBS = ?, " +
             "	    SITUACAO = 'I', " +
             "		DTFIM = SYSDATE() " +
             "WHERE  ID_USERMEDIDOR = ? ");
             
-            stmt.setObject(1, idUserMedidor);
+            stmt.setObject(1, userMedidor.getObs());
+            stmt.setObject(2, userMedidor.getIdUserMedidor());
 
             stmt.execute();
         }
@@ -106,6 +110,7 @@ public class UserMedidorDAO {
         	"		ID_INSERT, " +
         	"		ID_USER, " +
         	"		ID_MEDIDOR, " +
+        	"       OBS, " +
         	"		SITUACAO, " +
         	"		DTINICIO, " +
         	"		DTFIM " +
@@ -128,6 +133,7 @@ public class UserMedidorDAO {
             	userMedidor.setIdInsert(rs.getLong("ID_INSERT"));
             	userMedidor.setIdUser(rs.getLong("ID_USER"));
             	userMedidor.setIdMedidor(rs.getLong("ID_MEDIDOR"));
+            	userMedidor.setObs(rs.getString("OBS"));
             	userMedidor.setSituacao(rs.getString("SITUACAO"));
             	userMedidor.setDtInicio(Auxiliar.formataDtTelaHr(rs.getString("DTINICIO")));
             	userMedidor.setDtFim(Auxiliar.formataDtTelaHr(rs.getString("DTFIM")));

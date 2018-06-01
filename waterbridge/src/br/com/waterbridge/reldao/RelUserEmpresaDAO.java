@@ -38,6 +38,7 @@ public class RelUserEmpresaDAO {
     		"		  CPFUSER, " +
     		"		  ID_EMPRESA, " +
     		"		  CNP, " +
+    		"         OBS, " +
     		"		  SITUACAO, " +
     		"		  DTINICIO, " +
     		"		  DTFIM " +
@@ -61,6 +62,7 @@ public class RelUserEmpresaDAO {
             	relUserEmpresa.setCpfUser(rs.getString("CPFUSER"));
             	relUserEmpresa.setIdEmpresa(rs.getLong("ID_EMPRESA"));
             	relUserEmpresa.setCnp(rs.getLong("CNP"));
+            	relUserEmpresa.setObs(rs.getString("OBS"));
             	relUserEmpresa.setSituacao(rs.getString("SITUACAO"));
             	relUserEmpresa.setDtInicio(Auxiliar.formataDtTelaHr(rs.getString("DTINICIO")));
             	relUserEmpresa.setDtFim(Auxiliar.formataDtTelaHr(rs.getString("DTFIM")));
@@ -104,6 +106,7 @@ public class RelUserEmpresaDAO {
     		"		  CPFUSER, " +
     		"		  ID_EMPRESA, " +
     		"		  CNP, " +
+    		"         OBS, " +
     		"		  SITUACAO, " +
     		"		  DTINICIO, " +
     		"		  DTFIM " +
@@ -124,6 +127,7 @@ public class RelUserEmpresaDAO {
             	relUserEmpresa.setCpfUser(rs.getString("CPFUSER"));
             	relUserEmpresa.setIdEmpresa(rs.getLong("ID_EMPRESA"));
             	relUserEmpresa.setCnp(rs.getLong("CNP"));
+            	relUserEmpresa.setObs(rs.getString("OBS"));
             	relUserEmpresa.setSituacao(rs.getString("SITUACAO"));
             	relUserEmpresa.setDtInicio(Auxiliar.formataDtTelaHr(rs.getString("DTINICIO")));
             	relUserEmpresa.setDtFim(Auxiliar.formataDtTelaHr(rs.getString("DTFIM")));

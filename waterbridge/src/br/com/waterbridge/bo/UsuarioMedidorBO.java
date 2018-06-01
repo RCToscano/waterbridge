@@ -372,12 +372,16 @@ public class UsuarioMedidorBO extends HttpServlet {
             String json = "";
 			
 			try {
+				
+				UserMedidor userMedidor = new UserMedidor();
+				userMedidor.setIdUserMedidor(Long.parseLong(req.getParameter("idUserMedidor")));
+				userMedidor.setObs(req.getParameter("obs").toUpperCase());
 
 				connection = ConnectionFactory.getConnection();
 
 				UserMedidorDAO userMedidorDAO = new UserMedidorDAO(connection);
 
-				userMedidorDAO.inativar(Long.parseLong(req.getParameter("idUserMedidor")));
+				userMedidorDAO.inativar(userMedidor);
 
 				RelUserMedidorDAO relUserMedidorDAO = new RelUserMedidorDAO(connection);
 				List<RelUserMedidor> listRelUserMedidor = relUserMedidorDAO.listar(Long.parseLong(req.getParameter("idMedidor")));

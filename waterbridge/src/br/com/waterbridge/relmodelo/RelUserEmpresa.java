@@ -10,6 +10,7 @@ public class RelUserEmpresa {
 	private String cpfUser;
 	private Long idEmpresa;
 	private Long cnp;
+	private String obs;
 	private String situacao;
 	private String dtInicio;
 	private String dtFim;
@@ -61,6 +62,12 @@ public class RelUserEmpresa {
 	}
 	public void setCnp(Long cnp) {
 		this.cnp = cnp;
+	}
+	public String getObs() {
+		return obs;
+	}
+	public void setObs(String obs) {
+		this.obs = obs;
 	}
 	public String getSituacao() {
 		return situacao;

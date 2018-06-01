@@ -79,7 +79,7 @@
 									<select class="form-control" name="perfil" id="perfil" required>
 										<option value="" selected>Selecione...</option>
 										<c:forEach var="listaPerfil" items="${listaPerfil}">
-	                                    	<c:choose>
+											<c:choose>
 		                                        <c:when test="${usuario.perfil.idPerfil == listaPerfil.idPerfil}">
 		                                            <option value="${listaPerfil.idPerfil}" selected="true">${listaPerfil.perfil}</option>
 		                                        </c:when>

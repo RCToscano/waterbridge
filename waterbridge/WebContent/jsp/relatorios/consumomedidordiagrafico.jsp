@@ -99,6 +99,71 @@
 						</script>	
 					</div>
 				</div>
+				
+				<c:if test = "${bridge.bridgeTp.idBridgeTp == 1}">
+				
+   					<div class="form-group">
+						<div class="col-sm-12">
+							<div id="graficopressaodiaria" style="margin-top: 30px;"></div>
+							<script>
+								Highcharts.chart('graficopressaodiaria', {
+								    chart: {
+								        type: 'line'
+								    },
+								    title: {
+								        text: 'Gráfico de Pressão<br/><label>Bridge  ${bridge.deviceNum} </label>'
+								    },
+								    subtitle: {
+								        text: 'Período ${dtInicio} a ${dtFim}'
+								    },
+								    xAxis: {
+								        categories: [
+								        	<c:set var="count" value="0" scope="page" />
+								        	<c:forEach var="relConsumoMedidor" items='${listRelConsumoMedidor}'>
+							   			   		'${relConsumoMedidor.dtInsert}'
+							   			   		<c:if test="${(count + 1) < fn:length(listRelConsumoMedidor)}">
+													,
+												</c:if>
+							   			   		<c:set var="count" value="${count + 1}" scope="page"/>
+								        	</c:forEach>
+								        ]
+								    },
+								    yAxis: {
+								        title: {
+								            text: 'MCA'
+								        }
+								    },
+								    tooltip: {
+								        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+								        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:.3f} m3</b></td></tr>',
+								        footerFormat: '</table>',
+								        shared: true,
+								        useHTML: true
+								    },
+								    plotOptions: {
+								        column: {
+								            pointPadding: 0.2,
+								            borderWidth: 0
+								        }
+								    },
+								    series: [{
+								        name: '${bridge.deviceNum}',
+								        data: [
+								        	<c:set var="count" value="0" scope="page" />
+								        	<c:forEach var="relConsumoMedidor" items='${listRelConsumoMedidor}'>
+							   			   		${relConsumoMedidor.pressure}
+							   			   		<c:if test="${(count + 1) < fn:length(listRelConsumoMedidor)}">
+													,	
+												</c:if>
+							   			   		<c:set var="count" value="${count + 1}" scope="page"/>
+								        	</c:forEach>
+								        ]
+								    }]
+								});
+							</script>	
+						</div>
+					</div>
+		      	</c:if>
 			</div>
 		</div>
 		<footer class="footer" style="background-color: #fff">

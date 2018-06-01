@@ -288,11 +288,15 @@ public class UsuarioCondominioBO extends HttpServlet {
 			
 			try {
 
+				UserCondominio userCondominio = new UserCondominio();
+				userCondominio.setIdUserCondominio(Long.parseLong(req.getParameter("idUserCondominio")));
+				userCondominio.setObs(req.getParameter("obs").toUpperCase());
+				
 				connection = ConnectionFactory.getConnection();
 
 				UserCondominioDAO userCondominioDAO = new UserCondominioDAO(connection);
 
-				userCondominioDAO.inativar(Long.parseLong(req.getParameter("idUserCondominio")));
+				userCondominioDAO.inativar(userCondominio);
 
 				RelUserCondominioDAO relUserCondominioDAO = new RelUserCondominioDAO(connection);
 				List<RelUserCondominio> listRelUserCondominio = relUserCondominioDAO.listar(Long.parseLong(req.getParameter("idCondominio")));

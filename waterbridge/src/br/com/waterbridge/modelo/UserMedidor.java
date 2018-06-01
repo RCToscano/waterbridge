@@ -6,6 +6,7 @@ public class UserMedidor {
 	private Long idInsert;
 	private Long idUser;
 	private Long idMedidor;
+	private String obs;
 	private String situacao;
 	private String dtInicio;
 	private String dtFim;
@@ -34,6 +35,12 @@ public class UserMedidor {
 	public void setIdMedidor(Long idMedidor) {
 		this.idMedidor = idMedidor;
 	}
+	public String getObs() {
+		return obs;
+	}
+	public void setObs(String obs) {
+		this.obs = obs;
+	}
 	public String getSituacao() {
 		return situacao;
 	}
@@ -52,5 +59,5 @@ public class UserMedidor {
 	public void setDtFim(String dtFim) {
 		this.dtFim = dtFim;
 	}
-	
+
 }

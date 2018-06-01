@@ -59,6 +59,18 @@
 						</div>
 					</div>
 				</c:if>
+				<!--SOMENTE PERFIL LOCAL -->		
+				<c:if test="${sessionScope.user.perfil.idPerfil == 1 or sessionScope.user.perfil.idPerfil == 2 or sessionScope.user.perfil.idPerfil == 3 or sessionScope.user.perfil.idPerfil == 4}">
+					<div class="col-sm-5 col-md-3">
+						<div class="thumbnail">
+							<div class="caption">
+								<h3>Pressure Bridge</h3>
+								<p>Acompanhe a pressão por período. </p>
+								<p><a href="RelatorioPressaoBO?acao=1" class="btn btn-primary" role="button">Acessar</a></p>
+							</div>
+						</div>
+					</div>
+				</c:if>
 			</div>
 		</div>
 		<footer class="footer" style="background-color: #fff">

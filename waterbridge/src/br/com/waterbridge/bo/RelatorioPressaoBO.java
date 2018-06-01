@@ -96,7 +96,7 @@ public class RelatorioPressaoBO extends HttpServlet {
 				try {
 					BridgeDAO bridgeDAO = new BridgeDAO(connection);
 					List<Bridge> listBridge = new ArrayList<Bridge>();	
-					listBridge = bridgeDAO.listarPorUsuario(user.getIdUser(),
+					listBridge = bridgeDAO.listarPressureBridgePorUsuario(user.getIdUser(),
 							Long.parseLong(req.getParameter("idCondominio")));
 	
 					String json = new Gson().toJson(listBridge);

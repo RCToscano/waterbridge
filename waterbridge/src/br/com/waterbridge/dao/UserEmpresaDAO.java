@@ -30,20 +30,22 @@ public class UserEmpresaDAO {
             "       ID_INSERT, " +
             "		ID_USER, " +
             "		ID_EMPRESA, " +
+            "       OBS, " +
             " 		SITUACAO, " +
             "		DTINICIO, " +
             "		DTFIM " +
             ") VALUES ( " +
-            "       ?,?,?,?,SYSDATE(),NULL " +
+            "       ?,?,?,?,?,SYSDATE(),NULL " +
             ")");
 
             //stmt.setObject(1, userEmpresa.getIdUserEmpresa());
             stmt.setObject(1, userEmpresa.getIdInsert());
             stmt.setObject(2, userEmpresa.getIdUser());
             stmt.setObject(3, userEmpresa.getIdEmpresa());
-            stmt.setObject(4, userEmpresa.getSituacao());
-            //stmt.setObject(4, userEmpresa.getDtInicio());
-            //stmt.setObject(5, userEmpresa.getDtFim());
+            stmt.setObject(4, userEmpresa.getObs());
+            stmt.setObject(5, userEmpresa.getSituacao());
+            //stmt.setObject(6, userEmpresa.getDtInicio());
+            //stmt.setObject(7, userEmpresa.getDtFim());
             
             stmt.execute();
         }
@@ -60,22 +62,24 @@ public class UserEmpresaDAO {
         }
     }
     
-    public void inativar(Long idUserEmpresa) throws SQLException {
+    public void inativar(UserEmpresa userEmpresa) throws SQLException {
 
         PreparedStatement stmt = null;
                 
         try {
             
             //LOGA REGISTRO ANTES DE ALTERAR
-            logar(idUserEmpresa);
+            logar(userEmpresa.getIdUserEmpresa());
         
             stmt = connection.prepareStatement(
             "UPDATE TB_USEREMPRESA SET " +
+            "       OBS = ?, " +
             "	    SITUACAO = 'I', " +
             "		DTFIM = SYSDATE() " +
             "WHERE  ID_USEREMPRESA = ? ");
             
-            stmt.setObject(1, idUserEmpresa);
+            stmt.setObject(1, userEmpresa.getObs());
+            stmt.setObject(2, userEmpresa.getIdUserEmpresa());
 
             stmt.execute();
         }
@@ -105,6 +109,7 @@ public class UserEmpresaDAO {
         	"		ID_INSERT, " +
         	"		ID_USER, " +
         	"		ID_EMPRESA, " +
+        	"       OBS, " +
         	"		SITUACAO, " +
         	"		DTINICIO, " +
         	"		DTFIM " +
@@ -127,6 +132,7 @@ public class UserEmpresaDAO {
             	userEmpresa.setIdInsert(rs.getLong("ID_INSERT"));
             	userEmpresa.setIdUser(rs.getLong("ID_USER"));
             	userEmpresa.setIdEmpresa(rs.getLong("ID_EMPRESA"));
+            	userEmpresa.setObs(rs.getString("OBS"));
             	userEmpresa.setSituacao(rs.getString("SITUACAO"));
             	userEmpresa.setDtInicio(Auxiliar.formataDtTelaHr(rs.getString("DTINICIO")));
             	userEmpresa.setDtFim(Auxiliar.formataDtTelaHr(rs.getString("DTFIM")));

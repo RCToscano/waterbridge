@@ -37,6 +37,7 @@ public class RelUserMedidorDAO {
         	"         CPFUSER, " +
         	"         ID_MEDIDOR, " +
         	"         METERID, " +
+        	"         OBS, " +
         	"         SITUACAO, " +
         	"         DTINICIO, " +
         	"         DTFIM " +
@@ -60,6 +61,7 @@ public class RelUserMedidorDAO {
             	relUserMedidor.setCpfUser(rs.getString("CPFUSER"));
             	relUserMedidor.setIdMedidor(rs.getLong("ID_MEDIDOR"));
             	relUserMedidor.setMeterId(rs.getLong("METERID"));
+            	relUserMedidor.setObs(rs.getString("OBS"));
             	relUserMedidor.setSituacao(rs.getString("SITUACAO"));
             	relUserMedidor.setDtInicio(Auxiliar.formataDtTelaHr(rs.getString("DTINICIO")));
             	relUserMedidor.setDtFim(Auxiliar.formataDtTelaHr(rs.getString("DTFIM")));
@@ -103,6 +105,7 @@ public class RelUserMedidorDAO {
         	"       CPFUSER, " +
         	"       ID_MEDIDOR, " +
         	"       METERID, " +
+        	"       OBS, " +
         	"       SITUACAO, " +
         	"       DTINICIO, " +
         	"       DTFIM " +
@@ -123,6 +126,7 @@ public class RelUserMedidorDAO {
             	relUserMedidor.setCpfUser(rs.getString("CPFUSER"));
             	relUserMedidor.setIdMedidor(rs.getLong("ID_MEDIDOR"));
             	relUserMedidor.setMeterId(rs.getLong("METERID"));
+            	relUserMedidor.setObs(rs.getString("OBS"));
             	relUserMedidor.setSituacao(rs.getString("SITUACAO"));
             	relUserMedidor.setDtInicio(Auxiliar.formataDtTelaHr(rs.getString("DTINICIO")));
             	relUserMedidor.setDtFim(Auxiliar.formataDtTelaHr(rs.getString("DTFIM")));

@@ -9,6 +9,7 @@ public class RelUserCondominio {
 	private String nomeUser;
 	private String cpfUser;
 	private Long idCondominio;
+	private String obs;
 	private String situacao;
 	private String dtInicio;
 	private String dtFim;
@@ -54,6 +55,12 @@ public class RelUserCondominio {
 	}
 	public void setIdCondominio(Long idCondominio) {
 		this.idCondominio = idCondominio;
+	}
+	public String getObs() {
+		return obs;
+	}
+	public void setObs(String obs) {
+		this.obs = obs;
 	}
 	public String getSituacao() {
 		return situacao;
