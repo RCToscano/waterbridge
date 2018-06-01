@@ -112,7 +112,7 @@ public class ConsumoMedidorBO extends HttpServlet {
 				
 				BridgeDAO bridgeDAO = new BridgeDAO(connection);
 				List<Bridge> listBridge = new ArrayList<Bridge>();	
-				listBridge = bridgeDAO.listarPorUsuario(user.getIdUser(), Long.parseLong(req.getParameter("idCondominio")));
+				listBridge = bridgeDAO.listarWaterBridgePorUsuario(user.getIdUser(), Long.parseLong(req.getParameter("idCondominio")));
 
 				json = new Gson().toJson(listBridge);
 				
@@ -242,12 +242,17 @@ public class ConsumoMedidorBO extends HttpServlet {
 
 				connection = ConnectionFactory.getConnection();
 				
+				BridgeDAO bridgeDAO = new BridgeDAO(connection);
+				Bridge bridge = bridgeDAO.buscarPorId(Long.parseLong(req.getParameter("idBridge")));
+				System.out.println("bridge " + bridge);
+				
 				MedidorDAO medidorDAO = new MedidorDAO(connection);
 				Medidor medidor = medidorDAO.buscarPorId(req.getParameter("idMedidor"));
 				
 				RelConsumoMedidorDAO relConsumoMedidorDAO = new RelConsumoMedidorDAO(connection);
 				List<RelConsumoMedidor> listRelConsumoMedidor = relConsumoMedidorDAO.listar(sql);
 				
+				req.setAttribute("bridge", bridge);
 				req.setAttribute("medidor", medidor);
 				req.setAttribute("dtInicio", req.getParameter("dtInicio"));
 				req.setAttribute("dtFim", req.getParameter("dtFim"));

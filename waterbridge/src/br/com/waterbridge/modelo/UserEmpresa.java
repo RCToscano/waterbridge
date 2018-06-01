@@ -6,6 +6,7 @@ public class UserEmpresa {
 	private Long idInsert;
 	private Long idUser;
 	private Long idEmpresa;
+	private String obs;
 	private String situacao;
 	private String dtInicio;
 	private String dtFim;
@@ -33,6 +34,12 @@ public class UserEmpresa {
 	}
 	public void setIdEmpresa(Long idEmpresa) {
 		this.idEmpresa = idEmpresa;
+	}
+	public String getObs() {
+		return obs;
+	}
+	public void setObs(String obs) {
+		this.obs = obs;
 	}
 	public String getSituacao() {
 		return situacao;

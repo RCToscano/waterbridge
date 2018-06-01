@@ -36,6 +36,7 @@ public class RelUserCondominioDAO {
     		"		  NOMEUSER, " +
     		"		  CPFUSER, " +
     		"		  ID_CONDOMINIO, " +
+    		"		  OBS, " +
     		"		  SITUACAO, " +
     		"		  DTINICIO, " +
     		"		  DTFIM " +
@@ -58,6 +59,7 @@ public class RelUserCondominioDAO {
             	relUserCondominio.setNomeUser(rs.getString("NOMEUSER"));
             	relUserCondominio.setCpfUser(rs.getString("CPFUSER"));
             	relUserCondominio.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
+            	relUserCondominio.setObs(rs.getString("OBS"));
             	relUserCondominio.setSituacao(rs.getString("SITUACAO"));
             	relUserCondominio.setDtInicio(Auxiliar.formataDtTelaHr(rs.getString("DTINICIO")));
             	relUserCondominio.setDtFim(Auxiliar.formataDtTelaHr(rs.getString("DTFIM")));
@@ -100,6 +102,7 @@ public class RelUserCondominioDAO {
     		"		  NOMEUSER, " +
     		"		  CPFUSER, " +
     		"		  ID_CONDOMINIO, " +
+    		"		  OBS, " +
     		"		  SITUACAO, " +
     		"		  DTINICIO, " +
     		"		  DTFIM " +
@@ -119,6 +122,7 @@ public class RelUserCondominioDAO {
             	relUserCondominio.setNomeUser(rs.getString("NOMEUSER"));
             	relUserCondominio.setCpfUser(rs.getString("CPFUSER"));
             	relUserCondominio.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
+            	relUserCondominio.setObs(rs.getString("OBS"));
             	relUserCondominio.setSituacao(rs.getString("SITUACAO"));
             	relUserCondominio.setDtInicio(Auxiliar.formataDtTelaHr(rs.getString("DTINICIO")));
             	relUserCondominio.setDtFim(Auxiliar.formataDtTelaHr(rs.getString("DTFIM")));

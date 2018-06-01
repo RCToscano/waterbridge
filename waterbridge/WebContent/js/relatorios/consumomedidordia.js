@@ -236,18 +236,26 @@ function listarConsumoMedidor() {
 	        success: function(result) {
 	        	
 	        	var texto = '';
+	        	var colspan = 6;
 	        	var consumo = 0;
 	            var listRelConsumoMedidor = result;
 	            if(listRelConsumoMedidor != null && listRelConsumoMedidor.length > 0) {
 	            	
-	            	texto +=
+	            	texto +=	
 	            	"<table class='table table-hover table-striped'>" +
 		            "	<thead>" +
 		            "		<tr>" +
 		            "			<th>Nº</th>" +
 		            "			<th>Data</th>" +
-		            "			<th>Volume (m&#179;)</th>" +
-		            "			<th>Alarme</th>" +
+		            "			<th>Volume (m&#179;)</th>" ;
+	            	if(listRelConsumoMedidor[i].idBridgeTp != null
+	            		&& listRelConsumoMedidor[i].idBridgeTp != undefined
+	            			&& listRelConsumoMedidor[i].idBridgeTp == 1) {
+	            		texto += "			<th>Pressão</th>" ;
+	            		colspan = colspan + 1;
+	            	}
+	            	texto +=
+	            	"			<th>Alarme</th>" +
 		            "			<th>Bateria (V)</th>" +
 		            "			<th>Temperatura (ºC)</th>" +
 		            "			<th></th>" +
@@ -262,7 +270,13 @@ function listarConsumoMedidor() {
     		            "		<tr>" +
     		            "			<td><small>" + (i + 1) + "</small></td>" +
     		            "			<td><small>" + relConsumoMedidor.dtInsert + "</small></td>" +
-    		            "			<td><small>" + formatarTresDecimais(relConsumoMedidor.volume) + "</small></td>" +
+    		            "			<td><small>" + formatarTresDecimais(relConsumoMedidor.volume) + "</small></td>" ;
+	                	if(relConsumoMedidor.idBridgeTp != null
+		            		&& relConsumoMedidor.idBridgeTp != undefined
+	                			&& relConsumoMedidor.idBridgeTp == 1) {
+		            		texto += "			<td><small>" + formatarTresDecimais(relConsumoMedidor.pressure) + "</small></td>" ;
+		            	}
+	                	texto +=
     		            "			<td><small>" + relConsumoMedidor.alarmDesc + "</small></td>" +
     		            "			<td><small>" + relConsumoMedidor.battery + "</small></td>" +
     		            "			<td><small>" + relConsumoMedidor.temperature + "</small></td>" +
@@ -271,12 +285,12 @@ function listarConsumoMedidor() {
 	                }
 		            texto +=
 					"        <tr>" +
-					"	         <td colspan='7' style='text-align: center'>" +				
+					"	         <td colspan='" + colspan + "' style='text-align: center'>" +				
 					"		         <label>Consumo total no período em m&#179; (1m&#179; = 1.000 Litros): " + formatarTresDecimais(Number(consumo)) + "</label>" +
 					"	         </td>" +
 					"        </tr>" +
 					"        <tr>" +
-					"	         <td colspan='7' style='text-align: center'>" +
+					"	         <td colspan='" + colspan + "' style='text-align: center'>" +
 					"		         <form action='ConsumoMedidorBO?acao=6' method='post' target='_blank'>" +
 					"                    <input type='hidden' name='idEmpresa' value='" + idEmpresa.value + "'>" +
 					"                    <input type='hidden' name='idCondominio' value='" + idCondominio.value + "'>" +

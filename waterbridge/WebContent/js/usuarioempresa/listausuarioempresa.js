@@ -119,7 +119,7 @@ function exibirUsuarioEmpresa(cont, idEmpresa) {
 	            "			<th>Cpf</th>" +
 	            "			<th>Inicio</th>" +
 	            "			<th>Fim</th>" +
-	            "			<th>Situação</th>" +
+	            "			<th>Obs</th>" +
 	            "			<th></th>" +
 	            "		</tr>" +
 	            "	</thead>" +
@@ -134,15 +134,15 @@ function exibirUsuarioEmpresa(cont, idEmpresa) {
 		            "			<td><small>" + relUserEmpresa.cpfUser + "</small></td>" +
 		            "			<td><small>" + relUserEmpresa.dtInicio + "</small></td>" +
 		            "			<td><small>" + nullParaVazio(relUserEmpresa.dtFim) + "</small></td>" +
-		            "			<td><small>" + relUserEmpresa.situacao + "</small></td>" +
+		            "			<td><small><input type='text' class='form-control input-sm' id='obs" + (i + 1) + "' value='" + nullParaVazio(relUserEmpresa.obs) + "' maxlength='60'></small></td>" +
 		            "			<td align='right'>" ;
 		            if(relUserEmpresa.situacao == 'A') {
 		            	texto +=
-		                "               <small><button type='button' class='btn btn-danger btn-xs' onclick='inativarUsuarioEmpresa(" + relUserEmpresa.idUserEmpresa + ")'>Inativar</button></small>" ;
+		                "               <small><button type='button' class='btn btn-danger btn-xs' onclick='inativarUsuarioEmpresa(" + (i + 1) + "," + relUserEmpresa.idUserEmpresa + ")'>Inativar</button></small>" ;
 		            }
 		            else {
 		            	texto +=
-			            "               <small><button type='button' class='btn btn-default btn-xs disabled' onclick='inativarUsuarioEmpresa(" + relUserEmpresa.idUserEmpresa + ")'>Inativo</button></small>" ;
+			            "               <small><button type='button' class='btn btn-default btn-xs disabled' onclick='inativarUsuarioEmpresa(" + (i + 1) + "," + relUserEmpresa.idUserEmpresa + ")'>Inativo</button></small>" ;
 		            }
                 	texto +=
 		            "			</td>" +
@@ -220,7 +220,7 @@ function inserirUsuarioEmpresa() {
 		            "			<th>Cpf</th>" +
 		            "			<th>Inicio</th>" +
 		            "			<th>Fim</th>" +
-		            "			<th>Situação</th>" +
+		            "			<th>Obs</th>" +
 		            "			<th></th>" +
 		            "		</tr>" +
 		            "	</thead>" +
@@ -235,15 +235,15 @@ function inserirUsuarioEmpresa() {
 			            "			<td><small>" + relUserEmpresa.cpfUser + "</small></td>" +
 			            "			<td><small>" + relUserEmpresa.dtInicio + "</small></td>" +
 			            "			<td><small>" + nullParaVazio(relUserEmpresa.dtFim) + "</small></td>" +
-			            "			<td><small>" + relUserEmpresa.situacao + "</small></td>" +
+			            "			<td><small><input type='text' class='form-control input-sm' id='obs" + (i + 1) + "' value='" + nullParaVazio(relUserEmpresa.obs) + "' maxlength='60'></small></td>" +
 			            "			<td align='right'>" ;
 			            if(relUserEmpresa.situacao == 'A') {
 			            	texto +=
-			                "               <small><button type='button' class='btn btn-danger btn-xs' onclick='inativarUsuarioEmpresa(" + relUserEmpresa.idUserEmpresa + ")'>Inativar</button></small>" ;
+			                "               <small><button type='button' class='btn btn-danger btn-xs' onclick='inativarUsuarioEmpresa(" + (i + 1) + "," + relUserEmpresa.idUserEmpresa + ")'>Inativar</button></small>" ;
 			            }
 			            else {
 			            	texto +=
-				            "               <small><button type='button' class='btn btn-default btn-xs disabled' onclick='inativarUsuarioEmpresa(" + relUserEmpresa.idUserEmpresa + ")'>Inativo</button></small>" ;
+				            "               <small><button type='button' class='btn btn-default btn-xs disabled' onclick='inativarUsuarioEmpresa(" + (i + 1) + "," + relUserEmpresa.idUserEmpresa + ")'>Inativo</button></small>" ;
 			            }
 	                	texto +=
 			            "			</td>" +
@@ -275,11 +275,12 @@ function inserirUsuarioEmpresa() {
 	}
 }
 
-function inativarUsuarioEmpresa(idUserEmpresa) {
+function inativarUsuarioEmpresa(cont, idUserEmpresa) {
 
 	var avisoDivUsuarioEmpresa = document.getElementById('avisoDivUsuarioEmpresa');
 	var divUsuarioEmpresaLista = document.getElementById('divUsuarioEmpresaLista');
 	var idEmpresa = document.getElementById('idEmpresa1');
+	var obs = document.getElementById('obs' + cont);
 
 	avisoDivUsuarioEmpresa.innerHTML = '';
 	
@@ -292,7 +293,8 @@ function inativarUsuarioEmpresa(idUserEmpresa) {
 	    $.ajax({
 	        url: 'UsuarioEmpresaBO?acao=6' +
 	             '&idEmpresa=' + idEmpresa.value +
-	             '&idUserEmpresa=' + idUserEmpresa 
+	             '&idUserEmpresa=' + idUserEmpresa +
+	             '&obs=' + replaceSpecialChars(obs.value)
 	        ,
 	        type: "POST",
 	        dataType: 'json',
@@ -311,7 +313,7 @@ function inativarUsuarioEmpresa(idUserEmpresa) {
 		            "			<th>Cpf</th>" +
 		            "			<th>Inicio</th>" +
 		            "			<th>Fim</th>" +
-		            "			<th>Situação</th>" +
+		            "			<th>Obs</th>" +
 		            "			<th></th>" +
 		            "		</tr>" +
 		            "	</thead>" +
@@ -326,15 +328,15 @@ function inativarUsuarioEmpresa(idUserEmpresa) {
 			            "			<td><small>" + relUserEmpresa.cpfUser + "</small></td>" +
 			            "			<td><small>" + relUserEmpresa.dtInicio + "</small></td>" +
 			            "			<td><small>" + nullParaVazio(relUserEmpresa.dtFim) + "</small></td>" +
-			            "			<td><small>" + relUserEmpresa.situacao + "</small></td>" +
+			            "			<td><small><input type='text' class='form-control input-sm' id='obs" + (i + 1) + "' value='" + nullParaVazio(relUserEmpresa.obs) + "' maxlength='60'></small></td>" +
 			            "			<td align='right'>" ;
 			            if(relUserEmpresa.situacao == 'A') {
 			            	texto +=
-			                "               <small><button type='button' class='btn btn-danger btn-xs' onclick='inativarUsuarioEmpresa(" + relUserEmpresa.idUserEmpresa + ")'>Inativar</button></small>" ;
+			                "               <small><button type='button' class='btn btn-danger btn-xs' onclick='inativarUsuarioEmpresa(" + (i + 1) + "," + relUserEmpresa.idUserEmpresa + ")'>Inativar</button></small>" ;
 			            }
 			            else {
 			            	texto +=
-				            "               <small><button type='button' class='btn btn-default btn-xs disabled' onclick='inativarUsuarioEmpresa(" + relUserEmpresa.idUserEmpresa + ")'>Inativo</button></small>" ;
+				            "               <small><button type='button' class='btn btn-default btn-xs disabled' onclick='inativarUsuarioEmpresa(" + (i + 1) + "," + relUserEmpresa.idUserEmpresa + ")'>Inativo</button></small>" ;
 			            }
 	                	texto +=
 			            "			</td>" +

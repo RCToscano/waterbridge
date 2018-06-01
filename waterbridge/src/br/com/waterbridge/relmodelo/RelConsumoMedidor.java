@@ -5,6 +5,7 @@ public class RelConsumoMedidor {
 	private Long idEmpresa;
 	private Long idCondominio;
 	private Long idBridge;
+	private Long idBridgeTp;
 	private Long idConsumo;
 	private Long idUser;
 	private Long idMedidor;
@@ -48,6 +49,12 @@ public class RelConsumoMedidor {
 	}
 	public void setIdBridge(Long idBridge) {
 		this.idBridge = idBridge;
+	}	
+	public Long getIdBridgeTp() {
+		return idBridgeTp;
+	}
+	public void setIdBridgeTp(Long idBridgeTp) {
+		this.idBridgeTp = idBridgeTp;
 	}
 	public Long getIdConsumo() {
 		return idConsumo;

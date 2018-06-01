@@ -24,7 +24,7 @@
 	    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
 	    
 	    <link href="./css/menucustomcolor.css" rel="stylesheet"/>
-	    <link href="./css/footercustom.css" rel="stylesheet"/>   
+	    <link href="./css/footercustom.css" rel="stylesheet"/> 
 	    
 	    <script src='./js/validator.min.js'></script>
 	    

@@ -31,20 +31,22 @@ public class UserCondominioDAO {
             "       ID_INSERT, " +
             "		ID_USER, " +
             "		ID_CONDOMINIO, " +
+            "       OBS, " +
             " 		SITUACAO, " +
             "		DTINICIO, " +
             "		DTFIM " +
             ") VALUES ( " +
-            "       ?,?,?,?,SYSDATE(),NULL " +
+            "       ?,?,?,?,?,SYSDATE(),NULL " +
             ")");
             
             //stmt.setObject(1, userCondominio.getIdUserCondominio());
             stmt.setObject(1, userCondominio.getIdInsert());
             stmt.setObject(2, userCondominio.getIdUser());
             stmt.setObject(3, userCondominio.getIdCondominio());
-            stmt.setObject(4, userCondominio.getSituacao());
-            //stmt.setObject(5, userCondominio.getDtInicio());
-            //stmt.setObject(6, userCondominio.getDtFim());
+            stmt.setObject(4, userCondominio.getObs());
+            stmt.setObject(5, userCondominio.getSituacao());
+            //stmt.setObject(6, userCondominio.getDtInicio());
+            //stmt.setObject(7, userCondominio.getDtFim());
             
             stmt.execute();
         }
@@ -61,22 +63,24 @@ public class UserCondominioDAO {
         }
     }
     
-    public void inativar(Long idUserCondominio) throws SQLException {
+    public void inativar(UserCondominio userCondominio) throws SQLException {
 
         PreparedStatement stmt = null;
                 
         try {
             
             //LOGA REGISTRO ANTES DE ALTERAR
-            logar(idUserCondominio);
+            logar(userCondominio.getIdUserCondominio());
         
             stmt = connection.prepareStatement(
             "UPDATE TB_USERCONDOMINIO SET " +
+    		"	    OBS = ?, " +
             "	    SITUACAO = 'I', " +
             "		DTFIM = SYSDATE() " +
             "WHERE  ID_USERCONDOMINIO = ? ");
             
-            stmt.setObject(1, idUserCondominio);
+            stmt.setObject(1, userCondominio.getObs());
+            stmt.setObject(2, userCondominio.getIdUserCondominio());
 
             stmt.execute();
         }
@@ -106,6 +110,7 @@ public class UserCondominioDAO {
         	"		ID_INSERT, " +
         	"		ID_USER, " +
         	"		ID_CONDOMINIO, " +
+        	"       OBS, " +
         	"		SITUACAO, " +
         	"		DTINICIO, " +
         	"		DTFIM " +
@@ -128,6 +133,7 @@ public class UserCondominioDAO {
             	userCondominio.setIdInsert(rs.getLong("ID_INSERT"));
             	userCondominio.setIdUser(rs.getLong("ID_USER"));
             	userCondominio.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
+            	userCondominio.setObs(rs.getString("OBS"));
             	userCondominio.setSituacao(rs.getString("SITUACAO"));
             	userCondominio.setDtInicio(Auxiliar.formataDtTelaHr(rs.getString("DTINICIO")));
             	userCondominio.setDtFim(Auxiliar.formataDtTelaHr(rs.getString("DTFIM")));

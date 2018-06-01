@@ -301,7 +301,7 @@ function exibirUsuarioMedidor(cont, idMedidor) {
 	            "			<th>Cpf</th>" +
 	            "			<th>Inicio</th>" +
 	            "			<th>Fim</th>" +
-	            "			<th>Situação</th>" +
+	            "			<th>Obs</th>" +
 	            "			<th></th>" +
 	            "		</tr>" +
 	            "	</thead>" +
@@ -316,15 +316,15 @@ function exibirUsuarioMedidor(cont, idMedidor) {
 		            "			<td><small>" + relUserMedidor.cpfUser + "</small></td>" +
 		            "			<td><small>" + relUserMedidor.dtInicio + "</small></td>" +
 		            "			<td><small>" + nullParaVazio(relUserMedidor.dtFim) + "</small></td>" +
-		            "			<td><small>" + relUserMedidor.situacao + "</small></td>" +
+		            "			<td><small><input type='text' class='form-control input-sm' id='obs" + (i + 1) + "' value='" + nullParaVazio(relUserMedidor.obs) + "' maxlength='60'></small></td>" +
 		            "			<td align='right'>" ;
 		            if(relUserMedidor.situacao == 'A') {
 		            	texto +=
-		                "               <small><button type='button' class='btn btn-danger btn-xs' onclick='inativarUsuarioMedidor(" + relUserMedidor.idUserMedidor + ")'>Inativar</button></small>" ;
+		                "               <small><button type='button' class='btn btn-danger btn-xs' onclick='inativarUsuarioMedidor(" + (i + 1) + "," + relUserMedidor.idUserMedidor + ")'>Inativar</button></small>" ;
 		            }
 		            else {
 		            	texto +=
-			            "               <small><button type='button' class='btn btn-default btn-xs disabled' onclick='inativarUsuarioMedidor(" + relUserMedidor.idUserMedidor + ")'>Inativo</button></small>" ;
+			            "               <small><button type='button' class='btn btn-default btn-xs disabled' onclick='inativarUsuarioMedidor(" + (i + 1) + "," + relUserMedidor.idUserMedidor + ")'>Inativo</button></small>" ;
 		            }
                 	texto +=
 		            "			</td>" +
@@ -402,7 +402,7 @@ function inserirUsuarioMedidor() {
 		            "			<th>Cpf</th>" +
 		            "			<th>Inicio</th>" +
 		            "			<th>Fim</th>" +
-		            "			<th>Situação</th>" +
+		            "			<th>Obs</th>" +
 		            "			<th></th>" +
 		            "		</tr>" +
 		            "	</thead>" +
@@ -417,15 +417,15 @@ function inserirUsuarioMedidor() {
 			            "			<td><small>" + relUserMedidor.cpfUser + "</small></td>" +
 			            "			<td><small>" + relUserMedidor.dtInicio + "</small></td>" +
 			            "			<td><small>" + nullParaVazio(relUserMedidor.dtFim) + "</small></td>" +
-			            "			<td><small>" + relUserMedidor.situacao + "</small></td>" +
+			            "			<td><small><input type='text' class='form-control input-sm' id='obs" + (i + 1) + "' value='" + nullParaVazio(relUserMedidor.obs) + "' maxlength='60'></small></td>" +
 			            "			<td align='right'>" ;
 			            if(relUserMedidor.situacao == 'A') {
 			            	texto +=
-			                "               <small><button type='button' class='btn btn-danger btn-xs' onclick='inativarUsuarioMedidor(" + relUserMedidor.idUserMedidor + ")'>Inativar</button></small>" ;
+			                "               <small><button type='button' class='btn btn-danger btn-xs' onclick='inativarUsuarioMedidor(" + (i + 1) + "," + relUserMedidor.idUserMedidor + ")'>Inativar</button></small>" ;
 			            }
 			            else {
 			            	texto +=
-				            "               <small><button type='button' class='btn btn-default btn-xs disabled' onclick='inativarUsuarioMedidor(" + relUserMedidor.idUserMedidor + ")'>Inativo</button></small>" ;
+				            "               <small><button type='button' class='btn btn-default btn-xs disabled' onclick='inativarUsuarioMedidor(" + (i + 1) + "," + relUserMedidor.idUserMedidor + ")'>Inativo</button></small>" ;
 			            }
 	                	texto +=
 			            "			</td>" +
@@ -457,11 +457,12 @@ function inserirUsuarioMedidor() {
 	}
 }
 
-function inativarUsuarioMedidor(idUserMedidor) {
+function inativarUsuarioMedidor(cont, idUserMedidor) {
 
 	var avisoDivUsuarioMedidor = document.getElementById('avisoDivUsuarioMedidor');
 	var divUsuarioMedidorLista = document.getElementById('divUsuarioMedidorLista');
 	var idMedidor = document.getElementById('idMedidor1');
+	var obs = document.getElementById('obs' + cont);
 
 	avisoDivUsuarioMedidor.innerHTML = '';
 	
@@ -474,7 +475,8 @@ function inativarUsuarioMedidor(idUserMedidor) {
 	    $.ajax({
 	        url: 'UsuarioMedidorBO?acao=9' +
 	             '&idMedidor=' + idMedidor.value +
-	             '&idUserMedidor=' + idUserMedidor 
+	             '&idUserMedidor=' + idUserMedidor +
+	             '&obs=' + obs.value 
 	        ,
 	        type: "POST",
 	        dataType: 'json',
@@ -493,7 +495,7 @@ function inativarUsuarioMedidor(idUserMedidor) {
 		            "			<th>Cpf</th>" +
 		            "			<th>Inicio</th>" +
 		            "			<th>Fim</th>" +
-		            "			<th>Situação</th>" +
+		            "			<th>Obs</th>" +
 		            "			<th></th>" +
 		            "		</tr>" +
 		            "	</thead>" +
@@ -508,15 +510,15 @@ function inativarUsuarioMedidor(idUserMedidor) {
 			            "			<td><small>" + relUserMedidor.cpfUser + "</small></td>" +
 			            "			<td><small>" + relUserMedidor.dtInicio + "</small></td>" +
 			            "			<td><small>" + nullParaVazio(relUserMedidor.dtFim) + "</small></td>" +
-			            "			<td><small>" + relUserMedidor.situacao + "</small></td>" +
+			            "			<td><small><input type='text' class='form-control input-sm' id='obs" + (i + 1) + "' value='" + nullParaVazio(relUserMedidor.obs) + "' maxlength='60'></small></td>" +
 			            "			<td align='right'>" ;
 			            if(relUserMedidor.situacao == 'A') {
 			            	texto +=
-			                "               <small><button type='button' class='btn btn-danger btn-xs' onclick='inativarUsuarioMedidor(" + relUserMedidor.idUserMedidor + ")'>Inativar</button></small>" ;
+			                "               <small><button type='button' class='btn btn-danger btn-xs' onclick='inativarUsuarioMedidor(" + (i + 1) + "," + relUserMedidor.idUserMedidor + ")'>Inativar</button></small>" ;
 			            }
 			            else {
 			            	texto +=
-				            "               <small><button type='button' class='btn btn-default btn-xs disabled' onclick='inativarUsuarioMedidor(" + relUserMedidor.idUserMedidor + ")'>Inativo</button></small>" ;
+				            "               <small><button type='button' class='btn btn-default btn-xs disabled' onclick='inativarUsuarioMedidor(" + (i + 1) + "," + relUserMedidor.idUserMedidor + ")'>Inativo</button></small>" ;
 			            }
 	                	texto +=
 			            "			</td>" +

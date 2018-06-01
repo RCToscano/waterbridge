@@ -10,6 +10,7 @@ public class RelUserMedidor {
 	private String cpfUser;
 	private Long idMedidor;
 	private Long meterId;
+	private String obs;
 	private String situacao;
 	private String dtInicio;
 	private String dtFim;
@@ -61,6 +62,12 @@ public class RelUserMedidor {
 	}
 	public void setMeterId(Long meterId) {
 		this.meterId = meterId;
+	}
+	public String getObs() {
+		return obs;
+	}
+	public void setObs(String obs) {
+		this.obs = obs;
 	}
 	public String getSituacao() {
 		return situacao;

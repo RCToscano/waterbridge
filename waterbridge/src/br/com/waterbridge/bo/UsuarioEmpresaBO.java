@@ -254,11 +254,15 @@ public class UsuarioEmpresaBO extends HttpServlet {
 			
 			try {
 
+				UserEmpresa userEmpresa = new UserEmpresa();
+				userEmpresa.setIdUserEmpresa(Long.parseLong(req.getParameter("idUserEmpresa")));
+				userEmpresa.setObs(req.getParameter("obs").toUpperCase());
+				
 				connection = ConnectionFactory.getConnection();
 
 				UserEmpresaDAO userEmpresaDAO = new UserEmpresaDAO(connection);
 
-				userEmpresaDAO.inativar(Long.parseLong(req.getParameter("idUserEmpresa")));
+				userEmpresaDAO.inativar(userEmpresa);
 
 				RelUserEmpresaDAO relUserEmpresaDAO = new RelUserEmpresaDAO(connection);
 				List<RelUserEmpresa> listRelUserEmpresa = relUserEmpresaDAO.listar(Long.parseLong(req.getParameter("idEmpresa")));

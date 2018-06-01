@@ -32,6 +32,7 @@ public class RelConsumoMedidorDAO {
     		"SELECT ID_EMPRESA, " +
             "		ID_CONDOMINIO, " +
             "		ID_BRIDGE, " +
+            "		ID_BRIDGETP, " +
     		"       ID_CONSUMO, " +
     		"		ID_USER, " +
     		"		ID_MEDIDOR, " +
@@ -69,6 +70,7 @@ public class RelConsumoMedidorDAO {
             	relConsumoMedidor.setIdEmpresa(rs.getLong("ID_EMPRESA"));
             	relConsumoMedidor.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
             	relConsumoMedidor.setIdBridge(rs.getLong("ID_BRIDGE"));
+            	relConsumoMedidor.setIdBridgeTp(rs.getLong("ID_BRIDGETP"));
             	relConsumoMedidor.setIdConsumo(rs.getLong("ID_CONSUMO"));
             	relConsumoMedidor.setIdUser(rs.getLong("ID_USER"));
             	relConsumoMedidor.setIdMedidor(rs.getLong("ID_MEDIDOR"));

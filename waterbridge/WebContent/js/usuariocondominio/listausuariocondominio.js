@@ -178,7 +178,7 @@ function exibirUsuarioCondominio(cont, idCondominio) {
 	            "			<th>Cpf</th>" +
 	            "			<th>Inicio</th>" +
 	            "			<th>Fim</th>" +
-	            "			<th>Situação</th>" +
+	            "			<th>Obs</th>" +
 	            "			<th></th>" +
 	            "		</tr>" +
 	            "	</thead>" +
@@ -193,15 +193,15 @@ function exibirUsuarioCondominio(cont, idCondominio) {
 		            "			<td><small>" + relUserCondominio.cpfUser + "</small></td>" +
 		            "			<td><small>" + relUserCondominio.dtInicio + "</small></td>" +
 		            "			<td><small>" + nullParaVazio(relUserCondominio.dtFim) + "</small></td>" +
-		            "			<td><small>" + relUserCondominio.situacao + "</small></td>" +
+		            "			<td><small><input type='text' class='form-control input-sm' id='obs" + (i + 1) + "' value='" + nullParaVazio(relUserCondominio.obs) + "' maxlength='60'></small></td>" +
 		            "			<td align='right'>" ;
 		            if(relUserCondominio.situacao == 'A') {
 		            	texto +=
-		                "               <small><button type='button' class='btn btn-danger btn-xs' onclick='inativarUsuarioCondominio(" + relUserCondominio.idUserCondominio + ")'>Inativar</button></small>" ;
+		                "               <small><button type='button' class='btn btn-danger btn-xs' onclick='inativarUsuarioCondominio(" + (i + 1) + "," + relUserCondominio.idUserCondominio + ")'>Inativar</button></small>" ;
 		            }
 		            else {
 		            	texto +=
-			            "               <small><button type='button' class='btn btn-default btn-xs disabled' onclick='inativarUsuarioCondominio(" + relUserCondominio.idUserCondominio + ")'>Inativo</button></small>" ;
+			            "               <small><button type='button' class='btn btn-default btn-xs disabled' onclick='inativarUsuarioCondominio(" + (i + 1) + "," + relUserCondominio.idUserCondominio + ")'>Inativo</button></small>" ;
 		            }
                 	texto +=
 		            "			</td>" +
@@ -279,7 +279,7 @@ function inserirUsuarioCondominio() {
 		            "			<th>Cpf</th>" +
 		            "			<th>Inicio</th>" +
 		            "			<th>Fim</th>" +
-		            "			<th>Situação</th>" +
+		            "			<th>Obs</th>" +
 		            "			<th></th>" +
 		            "		</tr>" +
 		            "	</thead>" +
@@ -294,15 +294,15 @@ function inserirUsuarioCondominio() {
 			            "			<td><small>" + relUserCondominio.cpfUser + "</small></td>" +
 			            "			<td><small>" + relUserCondominio.dtInicio + "</small></td>" +
 			            "			<td><small>" + nullParaVazio(relUserCondominio.dtFim) + "</small></td>" +
-			            "			<td><small>" + relUserCondominio.situacao + "</small></td>" +
+			            "			<td><small><input type='text' class='form-control input-sm' id='obs" + (i + 1) + "' value='" + nullParaVazio(relUserCondominio.obs) + "' maxlength='60'></small></td>" +
 			            "			<td align='right'>" ;
 			            if(relUserCondominio.situacao == 'A') {
 			            	texto +=
-			                "               <small><button type='button' class='btn btn-danger btn-xs' onclick='inativarUsuarioCondominio(" + relUserCondominio.idUserCondominio + ")'>Inativar</button></small>" ;
+			                "               <small><button type='button' class='btn btn-danger btn-xs' onclick='inativarUsuarioCondominio(" + (i + 1) + "," + relUserCondominio.idUserCondominio + ")'>Inativar</button></small>" ;
 			            }
 			            else {
 			            	texto +=
-				            "               <small><button type='button' class='btn btn-default btn-xs disabled' onclick='inativarUsuarioCondominio(" + relUserCondominio.idUserCondominio + ")'>Inativo</button></small>" ;
+				            "               <small><button type='button' class='btn btn-default btn-xs disabled' onclick='inativarUsuarioCondominio(" + (i + 1) + "," + relUserCondominio.idUserCondominio + ")'>Inativo</button></small>" ;
 			            }
 	                	texto +=
 			            "			</td>" +
@@ -334,11 +334,12 @@ function inserirUsuarioCondominio() {
 	}
 }
 
-function inativarUsuarioCondominio(idUserCondominio) {
+function inativarUsuarioCondominio(cont, idUserCondominio) {
 
 	var avisoDivUsuarioCondominio = document.getElementById('avisoDivUsuarioCondominio');
 	var divUsuarioCondominioLista = document.getElementById('divUsuarioCondominioLista');
 	var idCondominio = document.getElementById('idCondominio1');
+	var obs = document.getElementById('obs' + cont);
 
 	avisoDivUsuarioCondominio.innerHTML = '';
 	
@@ -351,7 +352,8 @@ function inativarUsuarioCondominio(idUserCondominio) {
 	    $.ajax({
 	        url: 'UsuarioCondominioBO?acao=7' +
 	             '&idCondominio=' + idCondominio.value +
-	             '&idUserCondominio=' + idUserCondominio 
+	             '&idUserCondominio=' + idUserCondominio +
+	             '&obs=' + replaceSpecialChars(obs.value) 
 	        ,
 	        type: "POST",
 	        dataType: 'json',
@@ -370,7 +372,7 @@ function inativarUsuarioCondominio(idUserCondominio) {
 		            "			<th>Cpf</th>" +
 		            "			<th>Inicio</th>" +
 		            "			<th>Fim</th>" +
-		            "			<th>Situação</th>" +
+		            "			<th>Obs</th>" +
 		            "			<th></th>" +
 		            "		</tr>" +
 		            "	</thead>" +
@@ -385,15 +387,15 @@ function inativarUsuarioCondominio(idUserCondominio) {
 			            "			<td><small>" + relUserCondominio.cpfUser + "</small></td>" +
 			            "			<td><small>" + relUserCondominio.dtInicio + "</small></td>" +
 			            "			<td><small>" + nullParaVazio(relUserCondominio.dtFim) + "</small></td>" +
-			            "			<td><small>" + relUserCondominio.situacao + "</small></td>" +
+			            "			<td><small><input type='text' class='form-control input-sm' id='obs" + (i + 1) + "' value='" + nullParaVazio(relUserCondominio.obs) + "' maxlength='60'></small></td>" +
 			            "			<td align='right'>" ;
 			            if(relUserCondominio.situacao == 'A') {
 			            	texto +=
-			                "               <small><button type='button' class='btn btn-danger btn-xs' onclick='inativarUsuarioCondominio(" + relUserCondominio.idUserCondominio + ")'>Inativar</button></small>" ;
+			                "               <small><button type='button' class='btn btn-danger btn-xs' onclick='inativarUsuarioCondominio(" + (i + 1) + "," + relUserCondominio.idUserCondominio + ")'>Inativar</button></small>" ;
 			            }
 			            else {
 			            	texto +=
-				            "               <small><button type='button' class='btn btn-default btn-xs disabled' onclick='inativarUsuarioCondominio(" + relUserCondominio.idUserCondominio + ")'>Inativo</button></small>" ;
+				            "               <small><button type='button' class='btn btn-default btn-xs disabled' onclick='inativarUsuarioCondominio(" + (i + 1) + "," + relUserCondominio.idUserCondominio + ")'>Inativo</button></small>" ;
 			            }
 	                	texto +=
 			            "			</td>" +

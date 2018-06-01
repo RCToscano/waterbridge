@@ -275,7 +275,7 @@ function listarConsumoMedidor() {
 	                		
 	                		var relUserMedidor = listRelUserMedidor[j];
 	                		texto +=
-	    	                "			" + relUserMedidor.cpfUser + " - " + relUserMedidor.nomeUser  ;
+	    	                "			" + relUserMedidor.cpfUser + " - " + relUserMedidor.nomeUser + "<br/>";
 	                	}
 	                	texto +=
 	                	"               </small>" +

@@ -606,6 +606,166 @@ public class BridgeDAO {
         }
     }
     
+    public List<Bridge> listarWaterBridgePorUsuario(Long idUser, Long idCondominio) throws SQLException {
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Bridge> listBridge = new ArrayList<Bridge>();
+        
+        try {
+            
+            stmt = connection.prepareStatement(
+    		"SELECT    TB_BRIDGE.ID_BRIDGE, " +
+			"		   TB_BRIDGE.ID_BRIDGETP, " +
+            "          TB_BRIDGE.ID_BRIDGETPALIM, " +
+            "          TB_BRIDGE.ID_USER, " +
+            "          TB_BRIDGE.ID_CONDOMINIO, " +
+            "	       TB_BRIDGE.DEVICENUM, " +
+            "          TB_BRIDGE.ATIVATIONDATE, " +
+            "          TB_BRIDGE.TOKENVALID, " +
+            "          TB_BRIDGE.DESCRICAO, " +
+            "          TB_BRIDGE.CUSTOMENSAL, " +
+            "          TB_BRIDGE.TAXAENVIO, " +
+            "          TB_BRIDGE.SITUACAO, " +
+            " 	       TB_BRIDGE.DTINSERT " +
+            "FROM      TB_BRIDGE " +
+            "LEFT JOIN VW_USERBRIDGEID " +
+		    "ON        TB_BRIDGE.ID_BRIDGE = VW_USERBRIDGEID.ID_BRIDGE " +
+		    "WHERE     VW_USERBRIDGEID.ID_USER = ? " +
+		    "AND       TB_BRIDGE.ID_CONDOMINIO = ? " +
+		    "AND       TB_BRIDGE.ID_BRIDGETP IN(1,3) "
+            );
+            
+            stmt.setObject(1, idUser);
+            stmt.setObject(2, idCondominio);
+
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+            	
+            	BridgeTp bridgeTp = new BridgeTp();
+            	bridgeTp = new BridgeTpDAO(connection).buscar(rs.getLong("ID_BRIDGETP"));
+            	
+            	BridgeTpAlim bridgeTpAlim = new BridgeTpAlim();
+            	bridgeTpAlim = new BridgeTpAlimDAO(connection).buscar(rs.getLong("ID_BRIDGETPALIM"));
+            	
+            	Bridge bridge = new Bridge();
+            	bridge.setIdBridge(rs.getLong("ID_BRIDGE"));
+            	bridge.setBridgeTp(bridgeTp);
+                bridge.setBridgeTpAlim(bridgeTpAlim);
+                bridge.setIdUser(rs.getLong("ID_USER"));
+                bridge.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
+                bridge.setDeviceNum(rs.getString("DEVICENUM"));
+                bridge.setDtAtivacao(Auxiliar.formataDtTelaHr(rs.getString("ATIVATIONDATE")));
+                bridge.setValidadeToken(Auxiliar.formataDtTela(rs.getString("TOKENVALID")));
+                bridge.setDescricao(rs.getString("DESCRICAO"));
+                bridge.setCustoMensal(rs.getDouble("CUSTOMENSAL"));
+                bridge.setTaxaEnvio(rs.getLong("TAXAENVIO"));
+                bridge.setSituacao(rs.getString("SITUACAO"));
+                bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));        
+                
+                listBridge.add(bridge);
+            }
+            
+            return listBridge;
+        }
+        catch(SQLException e) {
+            
+            throw e;
+        }
+        finally {
+
+            if(stmt != null) {
+                
+                stmt.close();
+            }
+            if(rs != null) {
+                
+                rs.close();
+            }
+        }
+    }
+    
+    public List<Bridge> listarPressureBridgePorUsuario(Long idUser, Long idCondominio) throws SQLException {
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Bridge> listBridge = new ArrayList<Bridge>();
+        
+        try {
+            
+            stmt = connection.prepareStatement(
+    		"SELECT    TB_BRIDGE.ID_BRIDGE, " +
+			"		   TB_BRIDGE.ID_BRIDGETP, " +
+            "          TB_BRIDGE.ID_BRIDGETPALIM, " +
+            "          TB_BRIDGE.ID_USER, " +
+            "          TB_BRIDGE.ID_CONDOMINIO, " +
+            "	       TB_BRIDGE.DEVICENUM, " +
+            "          TB_BRIDGE.ATIVATIONDATE, " +
+            "          TB_BRIDGE.TOKENVALID, " +
+            "          TB_BRIDGE.DESCRICAO, " +
+            "          TB_BRIDGE.CUSTOMENSAL, " +
+            "          TB_BRIDGE.TAXAENVIO, " +
+            "          TB_BRIDGE.SITUACAO, " +
+            " 	       TB_BRIDGE.DTINSERT " +
+            "FROM      TB_BRIDGE " +
+            "LEFT JOIN VW_USERBRIDGEID " +
+		    "ON        TB_BRIDGE.ID_BRIDGE = VW_USERBRIDGEID.ID_BRIDGE " +
+		    "WHERE     VW_USERBRIDGEID.ID_USER = ? " +
+		    "AND       TB_BRIDGE.ID_CONDOMINIO = ? " +
+		    "AND       TB_BRIDGE.ID_BRIDGETP = 2 "
+            );
+            
+            stmt.setObject(1, idUser);
+            stmt.setObject(2, idCondominio);
+
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+            	
+            	BridgeTp bridgeTp = new BridgeTp();
+            	bridgeTp = new BridgeTpDAO(connection).buscar(rs.getLong("ID_BRIDGETP"));
+            	
+            	BridgeTpAlim bridgeTpAlim = new BridgeTpAlim();
+            	bridgeTpAlim = new BridgeTpAlimDAO(connection).buscar(rs.getLong("ID_BRIDGETPALIM"));
+            	
+            	Bridge bridge = new Bridge();
+            	bridge.setIdBridge(rs.getLong("ID_BRIDGE"));
+            	bridge.setBridgeTp(bridgeTp);
+                bridge.setBridgeTpAlim(bridgeTpAlim);
+                bridge.setIdUser(rs.getLong("ID_USER"));
+                bridge.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
+                bridge.setDeviceNum(rs.getString("DEVICENUM"));
+                bridge.setDtAtivacao(Auxiliar.formataDtTelaHr(rs.getString("ATIVATIONDATE")));
+                bridge.setValidadeToken(Auxiliar.formataDtTela(rs.getString("TOKENVALID")));
+                bridge.setDescricao(rs.getString("DESCRICAO"));
+                bridge.setCustoMensal(rs.getDouble("CUSTOMENSAL"));
+                bridge.setTaxaEnvio(rs.getLong("TAXAENVIO"));
+                bridge.setSituacao(rs.getString("SITUACAO"));
+                bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));        
+                
+                listBridge.add(bridge);
+            }
+            
+            return listBridge;
+        }
+        catch(SQLException e) {
+            
+            throw e;
+        }
+        finally {
+
+            if(stmt != null) {
+                
+                stmt.close();
+            }
+            if(rs != null) {
+                
+                rs.close();
+            }
+        }
+    }
+    
     public List<Bridge> listarTodos() throws Exception {
     	
     	PreparedStatement stmt = null;
