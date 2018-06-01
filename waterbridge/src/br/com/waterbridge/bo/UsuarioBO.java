@@ -141,25 +141,28 @@ public class UsuarioBO extends HttpServlet {
 	            			PassDAO passDAO = new PassDAO(connection);
 	            			passDAO.inserir(pass);
 	            			
-	            			try {
-	            				String mensagem = Email.corpoEmailCadastro(user.getNome(), user.getUsuario(), senha);
-	    						Email.enviarEmail("WaterBridge - Cadastro", mensagem, user.getEmail());
-	    						req.setAttribute("display", "none");
-	    						req.setAttribute("sucesso", "Usuário "+user.getNome()+" cadastrado com sucesso! "
-	    								+ "Um e-mail foi enviado para "+user.getEmail());
-							} 
-	            			catch (Exception e) {
-								System.out.println(e);
-								try {
-									new LogSqlDAO(connection).inserir(((User) req.getSession().getAttribute("user")).getIdUser(),
-											"", e.getMessage(), "UsuarioBO", relat);
-								} catch (SQLException e1) {
-									e1.printStackTrace();
-								}
-								req.setAttribute("display", "none");
-	    						req.setAttribute("sucesso", "Usuário "+user.getNome()+" cadastrado com sucesso! "
-	    								+ "Não foi possível enviar o e-mail para "+user.getEmail());
-							}
+	            			req.setAttribute("display", "none");
+    						req.setAttribute("sucesso", "Usuário "+user.getNome()+" cadastrado com sucesso! ");
+	            			
+//	            			try {
+//	            				String mensagem = Email.corpoEmailCadastro(user.getNome(), user.getUsuario(), senha);
+//	    						Email.enviarEmail("WaterBridge - Cadastro", mensagem, user.getEmail());
+//	    						req.setAttribute("display", "none");
+//	    						req.setAttribute("sucesso", "Usuário "+user.getNome()+" cadastrado com sucesso! "
+//	    								+ "Um e-mail foi enviado para "+user.getEmail());
+//							} 
+//	            			catch (Exception e) {
+//								System.out.println(e);
+//								try {
+//									new LogSqlDAO(connection).inserir(((User) req.getSession().getAttribute("user")).getIdUser(),
+//											"", e.getMessage(), "UsuarioBO", relat);
+//								} catch (SQLException e1) {
+//									e1.printStackTrace();
+//								}
+//								req.setAttribute("display", "none");
+//	    						req.setAttribute("sucesso", "Usuário "+user.getNome()+" cadastrado com sucesso! "
+//	    								+ "Não foi possível enviar o e-mail para "+user.getEmail());
+//							}
 	            		}
 	            		
             		}
