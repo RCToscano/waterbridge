@@ -93,8 +93,19 @@ public class EmpresaBO extends HttpServlet {
 						empresa.setCoordY(mpr.getParameter("longitude"));
 					}
 					
-					
+
 					EmpresaDAO empresaDAO = new EmpresaDAO(connection);
+					
+					//Logo
+					if(!arquivoTemp.isEmpty()) {
+						String nomeFinal = empresa.getNome().replace(" ", "_") + "_" + Auxiliar.dataAtual()
+								+ Auxiliar.recuperaExtensao(arquivoTemp);
+						Auxiliar.copiarArquivo(pathTemp + arquivoTemp, pathFinal + nomeFinal);
+
+						empresa.setLogoPDir(pathFinal);
+						empresa.setLogoPNome(nomeFinal);
+					}
+					
 					
 					//Alteracao
             		if(mpr.getParameter("id") != null && !mpr.getParameter("id").isEmpty()) {
@@ -113,15 +124,8 @@ public class EmpresaBO extends HttpServlet {
             			req.setAttribute("titulo", "Cadastro");
             			req.setAttribute("botao", "Cadastrar");
             			
-						String nomeFinal = empresa.getNome().replace(" ", "_") + "_" + Auxiliar.dataAtual()
-								+ Auxiliar.recuperaExtensao(arquivoTemp);
-						Auxiliar.copiarArquivo(pathTemp + arquivoTemp,
-								pathFinal + nomeFinal);
-						
-						empresa.setLogoPDir(pathFinal);
-						empresa.setLogoPNome(nomeFinal);
             			empresaDAO.inserir(empresa);
-						
+            			
 						req.setAttribute("display", "none");
 						req.setAttribute("sucesso", "Empresa cadastrada com sucesso!");
             		}
