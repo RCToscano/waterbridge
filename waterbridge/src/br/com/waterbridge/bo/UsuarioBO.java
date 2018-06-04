@@ -332,6 +332,7 @@ public class UsuarioBO extends HttpServlet {
             //Perfil
             else if (relat.equals("perfil")) {
             	User user = (User) req.getSession().getAttribute("user");
+            	user = new UserDAO(connection).buscarPorId(user.getIdUser().toString());
             	
             	List<SexoEnum> listaSexo = SexoEnum.listCodigos();
             	req.setAttribute("usuario", user);
