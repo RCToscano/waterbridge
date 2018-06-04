@@ -49,7 +49,7 @@ function listarCondominio() {
 	            if(listCondominio != null && listCondominio.length > 0) {
 	                for(i = 0; i < listCondominio.length; i++) {
 	                	var condominio = listCondominio[i];
-	                    $('#idCondominio').append('<option value=' + condominio.idCondominio + '>' + condominio.nome + '</option>');
+	                    $('#idCondominio').append('<option value=' + condominio.idCondominio + '>' + condominio.nome + ' - ' + condominio.endereco + ' ' + condominio.numero + ' ' + condominio.compl + '</option>');
 	                }
 	            }
 	            $.unblockUI();

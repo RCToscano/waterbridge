@@ -9,7 +9,7 @@ public class RelUserMedidor {
 	private String nomeUser;
 	private String cpfUser;
 	private Long idMedidor;
-	private Long meterId;
+	private String meterId;
 	private String obs;
 	private String situacao;
 	private String dtInicio;
@@ -57,10 +57,10 @@ public class RelUserMedidor {
 	public void setIdMedidor(Long idMedidor) {
 		this.idMedidor = idMedidor;
 	}
-	public Long getMeterId() {
+	public String getMeterId() {
 		return meterId;
 	}
-	public void setMeterId(Long meterId) {
+	public void setMeterId(String meterId) {
 		this.meterId = meterId;
 	}
 	public String getObs() {
@@ -87,5 +87,5 @@ public class RelUserMedidor {
 	public void setDtFim(String dtFim) {
 		this.dtFim = dtFim;
 	}
-	
+
 }

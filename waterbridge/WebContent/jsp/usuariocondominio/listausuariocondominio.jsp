@@ -131,7 +131,7 @@
 		                     	</c:forEach>
 							</select>
 						</div>
-						<div class="col-sm-4">
+						<div class="col-sm-6">
 							<label>Local</label> 
 							<select class="form-control" id="idCondominio" name="idCondominio" required >
 								<option value="" selected>Selecione...</option>

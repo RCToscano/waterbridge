@@ -114,7 +114,7 @@
 				<div id="divAviso">${aviso}</div>
 				<form role="form" id="formUsuarioEmpresa" action="#" method="POST" class="form-horizontal" accept-charset="iso-8859-1,utf-8">
 					<div class="form-group">
-						<div class="col-sm-5">
+						<div class="col-sm-6">
 							<label>Empresa</label> 
 							<select class="form-control" id="idEmpresa" name="idEmpresa" required">
 								<option value="" selected>Selecione...</option>
