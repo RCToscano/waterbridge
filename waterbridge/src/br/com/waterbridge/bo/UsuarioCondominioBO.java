@@ -55,7 +55,7 @@ public class UsuarioCondominioBO extends HttpServlet {
 				EmpresaDAO empresaDAO = new EmpresaDAO(connection);
 				List<Empresa> listEmpresa = empresaDAO.listarPorUsuario(user.getIdUser());
 				
-				req.setAttribute("tituloTela", "Víncular Usuário Condomínio");
+				req.setAttribute("tituloTela", "Víncular Usuário Local");
 				req.setAttribute("acao", "UsuarioCondominioBO?acao=2");
 				req.setAttribute("btNome", "Buscar");
 				req.setAttribute("listEmpresa", listEmpresa);
