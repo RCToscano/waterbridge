@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
+import br.com.waterbridge.auxiliar.Email;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.BridgeDAO;
 import br.com.waterbridge.dao.CondominioDAO;
@@ -301,6 +302,7 @@ public class UsuarioMedidorBO extends HttpServlet {
             User user = (User) session.getValue("user");
             String aviso = "";
             String json = "";
+            final User user1;
 			
 			try {
 
@@ -309,11 +311,15 @@ public class UsuarioMedidorBO extends HttpServlet {
 				String cpf = req.getParameter("cpf").split(" - ")[0];
 				
 				UserDAO userDAO = new UserDAO(connection);
-				User user1 = userDAO.buscarPorCpf(cpf.trim());
+				user1 = userDAO.buscarPorCpf(cpf.trim());
 				
 				if(user1 == null) {//USUARIO NAO ENCONTRADO
 					
 					aviso = "O cpf informado não foi localizado";
+				}
+				else if(user1.getPerfil().getIdPerfil().longValue() != 5) {//PERFIL DO USUARIO NAO COMPATIVEL COM VINCULO
+					
+					aviso = "O usuário informado não possui perfil compatível com vínculo";
 				}
 				else {
 
@@ -336,7 +342,15 @@ public class UsuarioMedidorBO extends HttpServlet {
 						userMedidor.setDtInicio(null);
 						userMedidor.setDtFim(null);
 						userMedidor.setSituacao("A");
+						
 						userMedidorDAO.inserir(userMedidor);
+						
+						new Thread() {	       
+					        @Override
+					        public void run() {
+					        	Email.enviarEmail("WaterBridge - Acesso", Email.corpoAcessoUsuario(user1), user1.getEmail());
+					        }
+					    }.start();
 					}
 				}
 				

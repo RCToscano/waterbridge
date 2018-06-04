@@ -104,7 +104,7 @@
         <div class="container">
         	<ul class="breadcrumb">
 			    <li><a href="HomeBO?acao=home">Home</a></li>
-			    <li class="active">Vínculo Usuário Empresa</li>
+			    <li class="active">Vínculo Usuário x Empresa</li>
 			</ul>
 			<div class="col-sm-12" style="float: none; margin: 0 auto;">
 				<fieldset>

@@ -15,21 +15,18 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
+import br.com.waterbridge.auxiliar.Email;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.EmpresaDAO;
 import br.com.waterbridge.dao.UserDAO;
 import br.com.waterbridge.dao.UserEmpresaDAO;
-import br.com.waterbridge.dao.UserMedidorDAO;
 import br.com.waterbridge.modelo.Empresa;
 import br.com.waterbridge.modelo.User;
 import br.com.waterbridge.modelo.UserEmpresa;
-import br.com.waterbridge.modelo.UserMedidor;
 import br.com.waterbridge.reldao.RelEmpresaDAO;
 import br.com.waterbridge.reldao.RelUserEmpresaDAO;
-import br.com.waterbridge.reldao.RelUserMedidorDAO;
 import br.com.waterbridge.relmodelo.RelEmpresa;
 import br.com.waterbridge.relmodelo.RelUserEmpresa;
-import br.com.waterbridge.relmodelo.RelUserMedidor;
 
 public class UsuarioEmpresaBO extends HttpServlet {
 
@@ -181,6 +178,7 @@ public class UsuarioEmpresaBO extends HttpServlet {
             User user = (User) session.getValue("user");
             String aviso = "";
             String json = "";
+            final User user1;
 			
 			try {
 
@@ -189,11 +187,15 @@ public class UsuarioEmpresaBO extends HttpServlet {
 				String cpf = req.getParameter("cpf").split(" - ")[0];
 				
 				UserDAO userDAO = new UserDAO(connection);
-				User user1 = userDAO.buscarPorCpf(cpf.trim());
+				user1 = userDAO.buscarPorCpf(cpf.trim());
 				
 				if(user1 == null) {//USUARIO NAO ENCONTRADO
 					
 					aviso = "O cpf informado não foi localizado";
+				}
+				else if(user1.getPerfil().getIdPerfil().longValue() != 3) {//PERFIL DO USUARIO NAO COMPATIVEL COM VINCULO
+					
+					aviso = "O usuário informado não possui perfil compatível com vínculo";
 				}
 				else {
 
@@ -218,6 +220,13 @@ public class UsuarioEmpresaBO extends HttpServlet {
 						userEmpresa.setDtFim(null);
 						
 						userEmpresaDAO.inserir(userEmpresa);
+
+					    new Thread() {	       
+					        @Override
+					        public void run() {
+					        	Email.enviarEmail("WaterBridge - Acesso", Email.corpoAcessoUsuario(user1), user1.getEmail());
+					        }
+					    }.start();			
 					}
 				}
 				

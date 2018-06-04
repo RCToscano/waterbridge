@@ -827,6 +827,4 @@ public class BridgeDAO {
     			rs.close();
     	}
     }
-    
-    
 }
