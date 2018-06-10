@@ -135,20 +135,20 @@ public class ContaRateioDAO {
         }
     }    
 
-    public void logar(Long idCondominio) throws SQLException {
+    public void logar(Long idContaRateio) throws SQLException {
 
         PreparedStatement stmt = null;
         
         try {
             
             stmt = connection.prepareStatement(
-            "INSERT INTO TB_CONDOMINIOLOG " +
+            "INSERT INTO TB_CONTARATEIOLOG " +
             "SELECT * " +
-            "FROM   TB_CONDOMINIO " +
-            "WHERE  ID_CONDOMINIO = ? "
+            "FROM   TB_CONTARATEIO " +
+            "WHERE  ID_CONTARATEIO = ? "
             );
 
-            stmt.setLong(1, idCondominio);
+            stmt.setLong(1, idContaRateio);
             
             stmt.executeUpdate();
         }
@@ -165,76 +165,57 @@ public class ContaRateioDAO {
         }
     }
     
-    public Condominio buscarPorId(Long idCondominio) throws SQLException {
+    public ContaRateio buscarPorId(Long idContaRateio) throws SQLException {
 
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        Condominio condominio = null;
+        ContaRateio contaRateio = null;
         
         try {
             
             stmt = connection.prepareStatement(
-	    	"SELECT ID_CONDOMINIO, " +
-	    	"		ID_EMPRESA, " +
-	    	"       ID_USER, " +
-	    	"       ID_CNPTP, " +
-	    	"       NOME, " +
-	    	"       CNP, " +
-	    	"       TELFIXO, " +
-	    	"       TELCEL, " +
-	    	"       EMAIL, " +
-	    	"       ENDERECO, " +
-	    	"       NUMERO, " +
-	    	"       COMPL, " +
-	    	"       MUNICIPIO, " +
-	        "       UF, " +
-	    	"       CEP, " +
-	    	"       COORDX, " +
-	    	"       COORDY, " +
-	    	"       RESPONSAVEL, " +
-	    	"       CONTRNUM, " +
-	    	"       CONTACICLO, " +
-	    	"       SITUACAO, " +
-	    	"       DTINSERT " +
-	    	"FROM   TB_CONDOMINIO " +		
-            "WHERE  ID_CONDOMINIO = ? "		            		
+    		"SELECT ID_CONTARATEIO, " +
+        	"       ID_CONTA, " +
+        	"       ID_EMPRESA, " +
+        	"       ID_CONDOMINIO, " +
+        	"       ID_MEDIDOR, " +
+        	"       ID_USER, " +
+        	"	    VOLUMEINICIAL, " +
+        	"       VOLUMEFINAL, " +
+        	"       CONSUMOREAL, " +
+        	"       CONSUMORATEIO, " +
+        	"       VALORRATEIO, " +
+        	"       PERCRATEIO, " +
+        	"       OBS, " +
+        	"       DTINSERT " +
+        	"FROM   TB_CONTARATEIO " + 		
+            "WHERE  ID_CONTARATEIO = ? "		            		
             );
 
-            stmt.setLong(1, idCondominio);
+            stmt.setLong(1, idContaRateio);
 
             rs = stmt.executeQuery();
 
             if (rs.next()) {
             	
-            	CnpTp cnpTp = new CnpTp();
-            	cnpTp = new CnpTpDAO(connection).buscar(rs.getLong("ID_CNPTP"));
-            	
-            	condominio = new Condominio();
-            	condominio.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
-            	condominio.setIdEmpresa(rs.getLong("ID_EMPRESA"));
-            	condominio.setIdUser(rs.getLong("ID_USER"));
-            	condominio.setCnpTp(cnpTp);
-            	condominio.setNome(rs.getString("NOME"));
-            	condominio.setCnp(rs.getString("CNP"));
-            	condominio.setTelFixo(rs.getString("TELFIXO"));
-            	condominio.setTelCel(rs.getString("TELCEL"));
-            	condominio.setEmail(rs.getString("EMAIL"));
-            	condominio.setEndereco(rs.getString("ENDERECO"));
-            	condominio.setNumero(rs.getLong("NUMERO"));
-            	condominio.setCompl(rs.getString("COMPL"));
-            	condominio.setMunicipio(rs.getString("MUNICIPIO"));
-            	condominio.setUf(rs.getString("UF"));
-            	condominio.setCep(rs.getString("CEP"));
-            	condominio.setCoordX(rs.getString("COORDX"));
-            	condominio.setCoordY(rs.getString("COORDY"));
-            	condominio.setResponsavel(rs.getString("RESPONSAVEL"));
-            	condominio.setContratoNum(rs.getString("CONTRNUM"));
-            	condominio.setContaCiclo(rs.getLong("CONTACICLO"));
-            	condominio.setSituacao(rs.getString("SITUACAO"));
-            	condominio.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));            	                
+            	contaRateio = new ContaRateio();
+            	contaRateio.setIdContaRateio(rs.getLong("ID_CONTARATEIO"));
+            	contaRateio.setIdConta(rs.getLong("ID_CONTA"));
+            	contaRateio.setIdEmpresa(rs.getLong("ID_EMPRESA"));
+            	contaRateio.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
+            	contaRateio.setIdMedidor(rs.getLong("ID_MEDIDOR"));
+            	contaRateio.setIdUser(rs.getLong("ID_USER"));
+            	contaRateio.setVolumeInicial(rs.getDouble("VOLUMEINICIAL"));
+            	contaRateio.setVolumeFinal(rs.getDouble("VOLUMEFINAL"));
+            	contaRateio.setConsumoReal(rs.getDouble("CONSUMOREAL"));
+            	contaRateio.setConsumoRateio(rs.getDouble("CONSUMORATEIO"));
+            	contaRateio.setValorRateio(rs.getDouble("VALORRATEIO"));
+            	contaRateio.setPercRateio(rs.getDouble("PERCRATEIO"));
+            	contaRateio.setObs(rs.getString("OBS"));
+            	contaRateio.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));
             }
             
-            return condominio;
+            return contaRateio;
         }
         catch(SQLException e) {
             
@@ -252,365 +233,4 @@ public class ContaRateioDAO {
             }
         }
     } 
-    
-    public Condominio buscarPorCnp(String cnp) throws SQLException {
-
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        Condominio condominio = null;
-        
-        try {
-            
-            stmt = connection.prepareStatement(
-	    	"SELECT ID_CONDOMINIO, " +
-			"		ID_EMPRESA, " +
-	    	"       ID_USER, " +
-	    	"       ID_CNPTP, " +
-	    	"       NOME, " +
-	    	"       CNP, " +
-	    	"       TELFIXO, " +
-	    	"       TELCEL, " +
-	    	"       EMAIL, " +
-	    	"       ENDERECO, " +
-	    	"       NUMERO, " +
-	    	"       COMPL, " +
-	    	"       MUNICIPIO, " +
-	        "       UF, " +
-	    	"       CEP, " +
-	    	"       COORDX, " +
-	    	"       COORDY, " +
-	    	"       RESPONSAVEL, " +
-	    	"       CONTRNUM, " +
-	    	"       CONTACICLO, " +
-	    	"       SITUACAO, " +
-	    	"       DTINSERT " +
-	    	"FROM   TB_CONDOMINIO " +		
-            "WHERE  CNP = ? "		            		
-            );
-
-            stmt.setString(1, cnp);
-
-            rs = stmt.executeQuery();
-
-            if (rs.next()) {
-            	
-            	CnpTp cnpTp = new CnpTp();
-            	cnpTp = new CnpTpDAO(connection).buscar(rs.getLong("ID_CNPTP"));
-            	
-            	condominio = new Condominio();
-            	condominio.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
-            	condominio.setIdEmpresa(rs.getLong("ID_EMPRESA"));
-            	condominio.setIdUser(rs.getLong("ID_USER"));
-            	condominio.setCnpTp(cnpTp);
-            	condominio.setNome(rs.getString("NOME"));
-            	condominio.setCnp(rs.getString("CNP"));
-            	condominio.setTelFixo(rs.getString("TELFIXO"));
-            	condominio.setTelCel(rs.getString("TELCEL"));
-            	condominio.setEmail(rs.getString("EMAIL"));
-            	condominio.setEndereco(rs.getString("ENDERECO"));
-            	condominio.setNumero(rs.getLong("NUMERO"));
-            	condominio.setCompl(rs.getString("COMPL"));
-            	condominio.setMunicipio(rs.getString("MUNICIPIO"));
-            	condominio.setUf(rs.getString("UF"));
-            	condominio.setCep(rs.getString("CEP"));
-            	condominio.setCoordX(rs.getString("COORDX"));
-            	condominio.setCoordY(rs.getString("COORDY"));
-            	condominio.setResponsavel(rs.getString("RESPONSAVEL"));
-            	condominio.setContratoNum(rs.getString("CONTRNUM"));
-            	condominio.setContaCiclo(rs.getLong("CONTACICLO"));
-            	condominio.setSituacao(rs.getString("SITUACAO"));
-            	condominio.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));            	                
-            }
-            
-            return condominio;
-        }
-        catch(SQLException e) {
-            
-            throw e;
-        }
-        finally {
-
-            if(stmt != null) {
-                
-                stmt.close();
-            }
-            if(rs != null) {
-                
-                rs.close();
-            }
-        }
-    } 
-    
-    public List<Condominio> listar() throws SQLException {
-
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        List<Condominio> listCondominio = new ArrayList<Condominio>();
-        
-        try {
-            
-            stmt = connection.prepareStatement(
-	    	"SELECT   ID_CONDOMINIO, " +
-			"		  ID_EMPRESA, " +
-	    	"         ID_USER, " +
-	    	"         ID_CNPTP, " +
-	    	"         NOME, " +
-	    	"         CNP, " +
-	    	"         TELFIXO, " +
-	    	"         TELCEL, " +
-	    	"         EMAIL, " +
-	    	"         ENDERECO, " +
-	    	"         NUMERO, " +
-	    	"         COMPL, " +
-	    	"         MUNICIPIO, " +
-	        "         UF, " +
-	    	"         CEP, " +
-	    	"         COORDX, " +
-	    	"         COORDY, " +
-	    	"         RESPONSAVEL, " +
-	    	"         CONTRNUM, " +
-	    	"         CONTACICLO, " +
-	    	"         SITUACAO, " +
-	    	"         DTINSERT " +
-	    	"FROM     TB_CONDOMINIO " +		
-	    	"ORDER BY NOME, " +
-	    	"         ENDERECO, " + 
-	    	"         NUMERO, " +
-	    	"         COMPL "   	
-            );
-
-            rs = stmt.executeQuery();
-
-            while (rs.next()) {
-            	
-            	CnpTp cnpTp = new CnpTp();
-            	cnpTp = new CnpTpDAO(connection).buscar(rs.getLong("ID_CNPTP"));
-            	
-            	Condominio condominio = new Condominio();
-            	condominio.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
-            	condominio.setIdEmpresa(rs.getLong("ID_EMPRESA"));
-            	condominio.setIdUser(rs.getLong("ID_USER"));
-            	condominio.setCnpTp(cnpTp);
-            	condominio.setNome(rs.getString("NOME"));
-            	condominio.setCnp(rs.getString("CNP"));
-            	condominio.setTelFixo(rs.getString("TELFIXO"));
-            	condominio.setTelCel(rs.getString("TELCEL"));
-            	condominio.setEmail(rs.getString("EMAIL"));
-            	condominio.setEndereco(rs.getString("ENDERECO"));
-            	condominio.setNumero(rs.getLong("NUMERO"));
-            	condominio.setCompl(rs.getString("COMPL"));
-            	condominio.setMunicipio(rs.getString("MUNICIPIO"));
-            	condominio.setUf(rs.getString("UF"));
-            	condominio.setCep(rs.getString("CEP"));
-            	condominio.setCoordX(rs.getString("COORDX"));
-            	condominio.setCoordY(rs.getString("COORDY"));
-            	condominio.setResponsavel(rs.getString("RESPONSAVEL"));
-            	condominio.setContratoNum(rs.getString("CONTRNUM"));
-            	condominio.setContaCiclo(rs.getLong("CONTACICLO"));
-            	condominio.setSituacao(rs.getString("SITUACAO"));
-            	condominio.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));     
-            	
-            	listCondominio.add(condominio);
-            }
-            
-            return listCondominio;
-        }
-        catch(SQLException e) {
-            
-            throw e;
-        }
-        finally {
-
-            if(stmt != null) {
-                
-                stmt.close();
-            }
-            if(rs != null) {
-                
-                rs.close();
-            }
-        }
-    }    
-    
-    public List<Condominio> listar(String sql) throws SQLException {
-
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        List<Condominio> listCondominio = new ArrayList<Condominio>();
-        
-        try {
-            
-            stmt = connection.prepareStatement(
-	    	"SELECT   ID_CONDOMINIO, " +
-			"		  ID_EMPRESA, " +
-	    	"         ID_USER, " +
-	    	"         ID_CNPTP, " +
-	    	"         NOME, " +
-	    	"         CNP, " +
-	    	"         TELFIXO, " +
-	    	"         TELCEL, " +
-	    	"         EMAIL, " +
-	    	"         ENDERECO, " +
-	    	"         NUMERO, " +
-	    	"         COMPL, " +
-	    	"         MUNICIPIO, " +
-	        "         UF, " +
-	    	"         CEP, " +
-	    	"         COORDX, " +
-	    	"         COORDY, " +
-	    	"         RESPONSAVEL, " +
-	    	"         CONTRNUM, " +
-	    	"         CONTACICLO, " +
-	    	"         SITUACAO, " +
-	    	"         DTINSERT " +
-	    	"FROM     TB_CONDOMINIO " +		
-	    	sql
-            );
-
-            rs = stmt.executeQuery();
-
-            while (rs.next()) {
-            	
-            	CnpTp cnpTp = new CnpTp();
-            	cnpTp = new CnpTpDAO(connection).buscar(rs.getLong("ID_CNPTP"));
-            	
-            	Condominio condominio = new Condominio();
-            	condominio.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
-            	condominio.setIdEmpresa(rs.getLong("ID_EMPRESA"));
-            	condominio.setIdUser(rs.getLong("ID_USER"));
-            	condominio.setCnpTp(cnpTp);
-            	condominio.setNome(rs.getString("NOME"));
-            	condominio.setCnp(rs.getString("CNP"));
-            	condominio.setTelFixo(rs.getString("TELFIXO"));
-            	condominio.setTelCel(rs.getString("TELCEL"));
-            	condominio.setEmail(rs.getString("EMAIL"));
-            	condominio.setEndereco(rs.getString("ENDERECO"));
-            	condominio.setNumero(rs.getLong("NUMERO"));
-            	condominio.setCompl(rs.getString("COMPL"));
-            	condominio.setMunicipio(rs.getString("MUNICIPIO"));
-            	condominio.setUf(rs.getString("UF"));
-            	condominio.setCep(rs.getString("CEP"));
-            	condominio.setCoordX(rs.getString("COORDX"));
-            	condominio.setCoordY(rs.getString("COORDY"));
-            	condominio.setResponsavel(rs.getString("RESPONSAVEL"));
-            	condominio.setContratoNum(rs.getString("CONTRNUM"));
-            	condominio.setContaCiclo(rs.getLong("CONTACICLO"));
-            	condominio.setSituacao(rs.getString("SITUACAO"));
-            	condominio.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));     
-            	
-            	listCondominio.add(condominio);
-            }
-            
-            return listCondominio;
-        }
-        catch(SQLException e) {
-            
-            throw e;
-        }
-        finally {
-
-            if(stmt != null) {
-                
-                stmt.close();
-            }
-            if(rs != null) {
-                
-                rs.close();
-            }
-        }
-    }    
-    
-    public List<Condominio> listarPorUsuario(Long idUser, Long idEmpresa) throws SQLException {
-
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        List<Condominio> listCondominio = new ArrayList<Condominio>();
-        
-        try {
-            
-            stmt = connection.prepareStatement(
-	    	"SELECT    TB_CONDOMINIO.ID_CONDOMINIO, " +
-			"		   TB_CONDOMINIO.ID_EMPRESA, " +
-	    	"          TB_CONDOMINIO.ID_USER, " +
-	    	"          TB_CONDOMINIO.ID_CNPTP, " +
-	    	"          TB_CONDOMINIO.NOME, " +
-	    	"          TB_CONDOMINIO.CNP, " +
-	    	"          TB_CONDOMINIO.TELFIXO, " +
-	    	"          TB_CONDOMINIO.TELCEL, " +
-	    	"          TB_CONDOMINIO.EMAIL, " +
-	    	"          TB_CONDOMINIO.ENDERECO, " +
-	    	"          TB_CONDOMINIO.NUMERO, " +
-	    	"          TB_CONDOMINIO.COMPL, " +
-	    	"          TB_CONDOMINIO.MUNICIPIO, " +
-	        "          TB_CONDOMINIO.UF, " +
-	    	"          TB_CONDOMINIO.CEP, " +
-	    	"          TB_CONDOMINIO.COORDX, " +
-	    	"          TB_CONDOMINIO.COORDY, " +
-	    	"          TB_CONDOMINIO.RESPONSAVEL, " +
-	    	"          TB_CONDOMINIO.CONTRNUM, " +
-	    	"          TB_CONDOMINIO.CONTACICLO, " +
-	    	"          TB_CONDOMINIO.SITUACAO, " +
-	    	"          TB_CONDOMINIO.DTINSERT " +
-	    	"FROM      TB_CONDOMINIO " +		
-	    	"LEFT JOIN VW_USERCONDOMINIOID " +
-		    "ON        TB_CONDOMINIO.ID_CONDOMINIO = VW_USERCONDOMINIOID.ID_CONDOMINIO " +
-		    "WHERE     VW_USERCONDOMINIOID.ID_USER = ? " +
-		    "AND       TB_CONDOMINIO.ID_EMPRESA = ? "
-		    );
-            
-            stmt.setObject(1, idUser);
-            stmt.setObject(2, idEmpresa);
-
-            rs = stmt.executeQuery();
-
-            while (rs.next()) {
-            	
-            	CnpTp cnpTp = new CnpTp();
-            	cnpTp = new CnpTpDAO(connection).buscar(rs.getLong("ID_CNPTP"));
-            	
-            	Condominio condominio = new Condominio();
-            	condominio.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
-            	condominio.setIdEmpresa(rs.getLong("ID_EMPRESA"));
-            	condominio.setIdUser(rs.getLong("ID_USER"));
-            	condominio.setCnpTp(cnpTp);
-            	condominio.setNome(rs.getString("NOME"));
-            	condominio.setCnp(rs.getString("CNP"));
-            	condominio.setTelFixo(rs.getString("TELFIXO"));
-            	condominio.setTelCel(rs.getString("TELCEL"));
-            	condominio.setEmail(rs.getString("EMAIL"));
-            	condominio.setEndereco(rs.getString("ENDERECO"));
-            	condominio.setNumero(rs.getLong("NUMERO"));
-            	condominio.setCompl(rs.getString("COMPL"));
-            	condominio.setMunicipio(rs.getString("MUNICIPIO"));
-            	condominio.setUf(rs.getString("UF"));
-            	condominio.setCep(rs.getString("CEP"));
-            	condominio.setCoordX(rs.getString("COORDX"));
-            	condominio.setCoordY(rs.getString("COORDY"));
-            	condominio.setResponsavel(rs.getString("RESPONSAVEL"));
-            	condominio.setContratoNum(rs.getString("CONTRNUM"));
-            	condominio.setContaCiclo(rs.getLong("CONTACICLO"));
-            	condominio.setSituacao(rs.getString("SITUACAO"));
-            	condominio.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));     
-            	
-            	listCondominio.add(condominio);
-            }
-            
-            return listCondominio;
-        }
-        catch(SQLException e) {
-            
-            throw e;
-        }
-        finally {
-
-            if(stmt != null) {
-                
-                stmt.close();
-            }
-            if(rs != null) {
-                
-                rs.close();
-            }
-        }
-    }    
 }

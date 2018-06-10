@@ -12,7 +12,7 @@
 		<link rel="icon" type="image/png" href="./images/favicon.ico"/>
         
         <script src="./js/funcoes.auxiliares.js" type="text/javascript"></script>
-	    <script src="./js/rateio/rateiocondominiolista.js" type="text/javascript"></script>
+	    <script src="./js/rateio/rateiocondominioexecutar.js" type="text/javascript"></script>
 	    
    		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	    <script src="http://code.jquery.com/jquery-2.2.4.js" ></script>	
