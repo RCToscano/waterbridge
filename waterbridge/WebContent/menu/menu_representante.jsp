@@ -104,6 +104,15 @@
                     </ul>
                 </li>
             </ul>
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Rateio <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="RateioBO?acao=1">Executar Rateio</a></li>
+                         <li class="divider"></li>
+                    </ul>
+                </li>
+            </ul>            
             <ul class="nav navbar-nav navbar-right">
 	        	<span class="navbar-text">Ol&aacute; ${sessionScope.user.nome}, seja bem-vindo!</span>
 		    	<li><a href="UsuarioBO?acao=perfil"><span class="glyphicon glyphicon-user"></span> Perfil</a></li>
