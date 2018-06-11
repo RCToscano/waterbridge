@@ -12,14 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.connection.ConnectionFactory;
-import br.com.waterbridge.dao.BridgeDAO;
-import br.com.waterbridge.dao.CondominioDAO;
 import br.com.waterbridge.dao.FabricMedidorDAO;
 import br.com.waterbridge.dao.SituacaoDAO;
-import br.com.waterbridge.modelo.Bridge;
-import br.com.waterbridge.modelo.Condominio;
 import br.com.waterbridge.modelo.FabricMedidor;
 import br.com.waterbridge.modelo.Situacao;
 import br.com.waterbridge.modelo.User;

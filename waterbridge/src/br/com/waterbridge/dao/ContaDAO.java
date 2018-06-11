@@ -20,15 +20,177 @@ public class ContaDAO {
         this.connection = connection;
     }
     
+    public void inserir(Conta conta) throws Exception {
+    	PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+        	stmt = connection.prepareStatement(
+        			"INSERT INTO TB_CONTA ( " +
+        			"ID_EMPRESA, " +
+        			"ID_CONDOMINIO, " +
+        			"ID_USER, " +
+        			"DTLEITURAATUAL, " +
+        			"DTLEITURAANTERIOR, " +
+        			"VALOR, " +
+        			"CONSUMO, " +
+        			"OBS, " +
+        			"DTINSERT " +
+        			")" +
+					" VALUES ( " +
+            		"?, ?, ?, ?, ?, ?, ?, ?, sysdate() ) " 
+    				);
+        			
+            		
+            stmt.setObject(1, conta.getIdEmpresa());
+            stmt.setObject(2, conta.getIdCondominio());
+            stmt.setObject(3, conta.getIdUser());
+            stmt.setObject(4, conta.getDtLeituraAnterior());
+            stmt.setObject(5, conta.getDtLeituraAtual());
+            stmt.setObject(6, conta.getValor());
+            stmt.setObject(7, conta.getConsumo());
+            stmt.setObject(8, conta.getObs());
+            stmt.executeUpdate();
+		} 
+        finally {
+            if(stmt != null)
+                stmt.close();
+            if(rs != null)
+                rs.close();
+        }
+    }
+    
+    public void alterar(Conta conta) throws Exception {
+    	PreparedStatement stmt = null;
+    	ResultSet rs = null;
+    	try {
+    		stmt = connection.prepareStatement(
+    				"UPDATE TB_CONTA SET " +
+					"ID_EMPRESA = ?, " +
+					"ID_CONDOMINIO = ?, " +
+					"ID_USER = ?, " +
+					"DTLEITURAATUAL = ?, " +
+					"DTLEITURAANTERIOR = ?, " +
+					"VALOR = ?, " +
+					"CONSUMO = ?, " +
+					"OBS = ?, " +
+					"DTINSERT = sysdate() " +
+					"WHERE ID_CONTA = ? "
+    				);
+    		
+    		
+    		stmt.setObject(1, conta.getIdEmpresa());
+    		stmt.setObject(2, conta.getIdCondominio());
+    		stmt.setObject(3, conta.getIdUser());
+    		stmt.setObject(4, conta.getDtLeituraAnterior());
+    		stmt.setObject(5, conta.getDtLeituraAtual());
+    		stmt.setObject(6, conta.getValor());
+    		stmt.setObject(7, conta.getConsumo());
+    		stmt.setObject(8, conta.getObs());
+    		stmt.setObject(9, conta.getIdConta());
+    		stmt.executeUpdate();
+    	} 
+    	finally {
+    		if(stmt != null)
+    			stmt.close();
+    		if(rs != null)
+    			rs.close();
+    	}
+    }
+    
+    public Long buscarUltimo() throws Exception {
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = connection.prepareStatement(
+    		"SELECT MAX(ID_CONTA) as ID_CONTA " +
+        	"  FROM TB_CONTA "	
+            );
+
+            rs = stmt.executeQuery();
+
+            if(rs.next()) {
+            	return rs.getLong("ID_CONTA");
+            }
+            return null;
+        }
+        finally {
+            if(stmt != null)
+                stmt.close();
+            if(rs != null) 
+                rs.close();
+        }
+    }  
+    
     public Conta buscar(Long idConta) throws SQLException {
+    	
+    	PreparedStatement stmt = null;
+    	ResultSet rs = null;
+    	Conta conta = null;
+    	
+    	try {
+    		
+    		stmt = connection.prepareStatement(
+    				"SELECT ID_CONTA, " +
+					"       ID_EMPRESA, " +
+					"       ID_CONDOMINIO, " +
+					"       ID_USER, " +
+					"	    DTLEITURAATUAL, " +
+					"       DTLEITURAANTERIOR, " +
+					"       VALOR, " +
+					"       CONSUMO, " +
+					"       OBS, " +
+					"       DTINSERT " +
+					"FROM   TB_CONTA " +	
+					"WHERE  ID_CONTA = ? "
+    				);
+    		
+    		stmt.setLong(1, idConta);
+    		
+    		rs = stmt.executeQuery();
+    		
+    		if(rs.next()) {
+    			
+    			conta = new Conta();
+    			conta.setIdConta(rs.getLong("ID_CONTA"));
+    			conta.setIdEmpresa(rs.getLong("ID_EMPRESA"));
+    			conta.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
+    			conta.setIdUser(rs.getLong("ID_USER"));
+    			conta.setDtLeituraAtual(Auxiliar.formataDtTela(rs.getString("DTLEITURAATUAL")));
+    			conta.setDtLeituraAnterior(Auxiliar.formataDtTela(rs.getString("DTLEITURAANTERIOR")));
+    			conta.setValor(rs.getDouble("VALOR"));
+    			conta.setConsumo(rs.getDouble("CONSUMO"));
+    			conta.setObs(rs.getString("OBS"));
+    			conta.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));
+    		}
+    		
+    		return conta;
+    	}
+    	catch(SQLException e) {
+    		
+    		throw e;
+    	}
+    	finally {
+    		
+    		if(stmt != null) {
+    			
+    			stmt.close();
+    		}
+    		if(rs != null) {
+    			
+    			rs.close();
+    		}
+    	}
+    }  
+    
+    public List<Conta> listarPorCondominio(Long idCondominio) throws SQLException {
 
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        Conta conta = null;
+        List<Conta> list = new ArrayList<Conta>();
         
         try {
             
-            stmt = connection.prepareStatement(
+        	stmt = connection.prepareStatement(
     		"SELECT ID_CONTA, " +
         	"       ID_EMPRESA, " +
         	"       ID_CONDOMINIO, " +
@@ -40,16 +202,16 @@ public class ContaDAO {
         	"       OBS, " +
         	"       DTINSERT " +
         	"FROM   TB_CONTA " +	
-            "WHERE  ID_CONTA = ? "
+            "WHERE  ID_CONDOMINIO = ? "
             );
 
-            stmt.setLong(1, idConta);
-            
+        	stmt.setLong(1, idCondominio);
+        	
             rs = stmt.executeQuery();
 
-            if(rs.next()) {
+            while(rs.next()) {
 
-            	conta = new Conta();
+            	Conta conta = new Conta();
             	conta.setIdConta(rs.getLong("ID_CONTA"));
             	conta.setIdEmpresa(rs.getLong("ID_EMPRESA"));
             	conta.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
@@ -60,9 +222,11 @@ public class ContaDAO {
             	conta.setConsumo(rs.getDouble("CONSUMO"));
             	conta.setObs(rs.getString("OBS"));
             	conta.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));
+            	
+            	list.add(conta);
             }
             
-            return conta;
+            return list;
         }
         catch(SQLException e) {
             
@@ -79,7 +243,7 @@ public class ContaDAO {
                 rs.close();
             }
         }
-    }  
+    }
     
     public List<Conta> listarContaRateio(Long idCondominio) throws SQLException {
 
@@ -145,6 +309,59 @@ public class ContaDAO {
                 rs.close();
             }
         }
+    }
+    
+    public List<Conta> listarPorEmpresaLocal(Long idEmpresa, Long idCondominio) throws Exception {
+    	PreparedStatement stmt = null;
+    	ResultSet rs = null;
+    	List<Conta> list = new ArrayList<Conta>();
+    	try {
+    		stmt = connection.prepareStatement(
+    				"  SELECT ID_CONTA, " +
+					"         ID_EMPRESA, " +
+					"         ID_CONDOMINIO, " +
+					"         ID_USER, " +
+					"	      DTLEITURAATUAL, " +
+					"         DTLEITURAANTERIOR, " +
+					"         VALOR, " +
+					"         CONSUMO, " +
+					"         OBS, " +
+					"         DTINSERT " +
+					"    FROM TB_CONTA " +	
+					"   WHERE ID_CONDOMINIO = ? " +
+					"     AND ID_EMPRESA = ? " +
+					"ORDER BY DTLEITURAATUAL DESC "
+    				);
+    		
+    		stmt.setLong(1, idCondominio);
+    		stmt.setLong(2, idEmpresa);
+    		rs = stmt.executeQuery();
+    		
+    		while(rs.next()) {
+    			Conta conta = new Conta();
+    			conta.setIdConta(rs.getLong("ID_CONTA"));
+    			conta.setIdEmpresa(rs.getLong("ID_EMPRESA"));
+    			conta.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
+    			conta.setIdUser(rs.getLong("ID_USER"));
+    			conta.setDtLeituraAtual(Auxiliar.formataDtTela(rs.getString("DTLEITURAATUAL")));
+    			conta.setDtLeituraAnterior(Auxiliar.formataDtTela(rs.getString("DTLEITURAANTERIOR")));
+    			conta.setValor(rs.getDouble("VALOR"));
+    			conta.setConsumo(rs.getDouble("CONSUMO"));
+    			conta.setObs(rs.getString("OBS"));
+    			conta.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));
+    			
+//    			conta.setIdContaRateio(new Long(1));
+    			
+    			list.add(conta);
+    		}
+    		return list;
+    	}
+    	finally {
+    		if(stmt != null)
+    			stmt.close();
+    		if(rs != null)
+    			rs.close();
+    	}
     }
 
     public String addDiaData(String data, Long qtdeDias) throws SQLException {

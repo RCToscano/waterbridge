@@ -72,6 +72,10 @@
     <servlet-name>RateioBO</servlet-name>
     <servlet-class>br.com.waterbridge.bo.RateioBO</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>ContaBO</servlet-name>
+    <servlet-class>br.com.waterbridge.bo.ContaBO</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
     <url-pattern>/Login</url-pattern>
@@ -143,6 +147,10 @@
   <servlet-mapping>
     <servlet-name>RateioBO</servlet-name>
     <url-pattern>/RateioBO</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ContaBO</servlet-name>
+    <url-pattern>/ContaBO</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>30</session-timeout>

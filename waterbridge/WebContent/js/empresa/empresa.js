@@ -166,6 +166,7 @@ function validate_fileupload(fileName) {
         }
     }
     divArquivo.style.display = "block";
+    document.getElementById("botao").disabled = true;
     el.innerHTML="Arquivo com formato inválido. Formatos aceitos: .jpg .png .bmp";
     return false;
 }
@@ -189,15 +190,18 @@ function validar_dimensao() {
 
             if(width <= 122 && height <= 35 ) {
                 //OK
+            	document.getElementById("botao").disabled = false;
             }
             else {
             	divArquivo.style.display = "block";
+            	document.getElementById("botao").disabled = true;
 	            el.innerHTML="Arquivo com dimensão maior que o permitido. Dimensão máxima: 122x35";
             }
         };
         
         if(file.size > 3000000) {
         	divArquivo.style.display = "block";
+        	document.getElementById("botao").disabled = true;
             el.innerHTML="Arquivo maior que o permitido. Tamanho máximo: 3MB";
         }
         
@@ -221,6 +225,7 @@ function bs_input_file() {
 					element.click();
 				});
 				$(this).find("button.btn-reset").click(function(){
+					document.getElementById("botao").disabled = false;
 					document.getElementById("divArquivo").style.display = "none";
 					element.val(null);
 					$(this).parents(".input-file").find('input').val('');
