@@ -58,7 +58,10 @@ function listarCondominio() {
 
 function listarConta() {
 
+	var divAviso = document.getElementById('divAviso');
     var idCondominio = document.getElementById('idCondominio');
+    
+    divAviso.innerHTML = '';
 
     if(idCondominio.value == '') {
     	
@@ -94,6 +97,10 @@ function listarConta() {
 	                	var conta = listConta[i];
 	                    $('#idConta').append('<option value=' + conta.idConta + '>' + conta.dtLeituraAnterior + ' à ' + conta.dtLeituraAtual + ' - Valor ' + conta.valor + ' - Consumo ' + conta.consumo + ' m3</option>');
 	                }
+	            }
+	            else {
+	            	
+	            	exibirAviso("Não foram localizadas contas para rateio");
 	            }
 	            $.unblockUI();
 	        },
@@ -196,9 +203,9 @@ function listarConsumoMedidor() {
 	                	texto +=
     		            "		<tr>" +
     		            "			<td>" +
-	        		    "               <small><input type='checkbox' id='idMedidor" + cont + "' name='idMedidor" + cont + "' value='" + relConsumoCondominio.idMedidor + "' checked='checked' /></small>" +
-    		            "               <input type='hidden' id='idConta" + cont + "' name='idConta" + cont + "' value='" + idConta.value + "'>" +
-    		            "               <input type='hidden' id='idEmpresa" + cont + "' name='idEmpresa" + cont + "' value='" + idEmpresa.value + "'>" +
+	        		    "               <small><input type='checkbox' id='ckMedidor" + cont + "' name='ckMedidor" + cont + "' value='' checked='checked' /></small>" +    		            
+	        		    "               <input type='hidden' id='idMedidor" + cont + "' name='idMedidor" + cont + "' value='" + relConsumoCondominio.idMedidor + "'>" +
+	        		    "               <input type='hidden' id='idEmpresa" + cont + "' name='idEmpresa" + cont + "' value='" + idEmpresa.value + "'>" +
     		            "               <input type='hidden' id='idCondominio" + cont + "' name='idCondominio" + cont + "' value='" + idCondominio.value + "'>" +    		          
     		            "               <input type='hidden' id='volumeInicio" + cont + "' name='volumeInicio" + cont + "' value='" + relConsumoCondominio.volumeInicio + "'>" +
     		            "               <input type='hidden' id='volumeFim" + cont + "' name='volumeFim" + cont + "' value='" + relConsumoCondominio.volumeFim + "'>" +
@@ -225,6 +232,8 @@ function listarConsumoMedidor() {
 					"        <tr>" +
 					"	         <td colspan='9' style='text-align: center'>" +					
 					"                <input type='hidden' id='cont' name='cont' value='" + cont + "'>" +
+					"                <input type='hidden' id='idConta' name='idConta' value='" + idConta.value + "'>" +
+					"                <input type='hidden' id='consumoTotal' name='consumoTotal' value='" + consumo + "'>" +
 					"			     <button type='submit' class='btn btn-warning'>" +
 					"		             <i class='fa fa-bar-chart'></i> Executar Rateio" +
 					"		         </button>" +					
@@ -255,10 +264,10 @@ function validarForm() {
 	
 	for(i = 1; i < Number(cont.value); i++) {
 
-		var idMedidor = document.getElementById('idMedidor' + i);	
+		var ckMedidor = document.getElementById('ckMedidor' + i);	
 		var obs = document.getElementById('obs' + i);
 		obs.style.removeProperty('border');
-		if(idMedidor.checked == false && obs.value.trim() == '') {
+		if(ckMedidor.checked == false && obs.value.trim() == '') {
 			
 			obs.style.borderColor = colorRed;
 			exibirAviso('Preencha o campo de observações para medidores que não forem entrar no rateio');

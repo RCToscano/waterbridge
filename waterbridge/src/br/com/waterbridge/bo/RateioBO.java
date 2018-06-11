@@ -20,15 +20,17 @@ import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.CondominioDAO;
 import br.com.waterbridge.dao.ConsumoDAO;
 import br.com.waterbridge.dao.ContaDAO;
+import br.com.waterbridge.dao.ContaRateioDAO;
 import br.com.waterbridge.dao.EmpresaDAO;
-import br.com.waterbridge.dao.MedidorDAO;
 import br.com.waterbridge.modelo.Condominio;
 import br.com.waterbridge.modelo.Conta;
+import br.com.waterbridge.modelo.ContaRateio;
 import br.com.waterbridge.modelo.Empresa;
-import br.com.waterbridge.modelo.Medidor;
 import br.com.waterbridge.modelo.User;
+import br.com.waterbridge.reldao.RelContaRateioDAO;
 import br.com.waterbridge.reldao.RelMedidorDAO;
 import br.com.waterbridge.relmodelo.RelConsumoCondominio;
+import br.com.waterbridge.relmodelo.RelContaRateio;
 import br.com.waterbridge.relmodelo.RelMedidor;
 
 public class RateioBO extends HttpServlet {
@@ -57,7 +59,7 @@ public class RateioBO extends HttpServlet {
 				List<Empresa> listEmpresa = empresaDAO.listarPorUsuario(user.getIdUser());
 				
 				req.setAttribute("listEmpresa", listEmpresa);
-        		req.getRequestDispatcher("/jsp/rateio/rateiocondominiolista.jsp").forward(req, res);
+        		req.getRequestDispatcher("/jsp/rateio/rateiocondominioexecutar.jsp").forward(req, res);
 			}
 	        catch (Exception e) {
 	            req.setAttribute("erro", e.toString());
@@ -115,7 +117,7 @@ public class RateioBO extends HttpServlet {
 				
 				ContaDAO contaDAO = new ContaDAO(connection);
 				List<Conta> listConta = new ArrayList<Conta>();	
-				listConta = contaDAO.listarPorCondominio(Long.parseLong(req.getParameter("idCondominio")));
+				listConta = contaDAO.listarContaRateio(Long.parseLong(req.getParameter("idCondominio")));
 
 				json = new Gson().toJson(listConta);
 				
@@ -217,27 +219,100 @@ public class RateioBO extends HttpServlet {
 			
 			try {
 				
+				connection = ConnectionFactory.getConnection();
+				
+				ContaRateioDAO contaRateioDAO = new ContaRateioDAO(connection);
+				
+				ContaDAO contaDAO = new ContaDAO(connection);
+				Conta conta = contaDAO.buscar(Long.parseLong(req.getParameter("idConta")));
+				
+				Integer qtdeMedidorRateioS = 0;
+				Integer qtdeMedidorRateioN = 0;
+				Double consumoTotal = Double.parseDouble(req.getParameter("consumoTotal"));
+				Double consumoComum = 0d;
+				Double consumoReal = 0d;
+				Double consumoRateio = 0d;
+				Double valorRateio = 0d;
+				Double percRateio = 0d;
 				
 				for(int i = 1; i < Integer.parseInt(req.getParameter("cont")); i++ ) {
 					
-					System.out.println("idMedidor " + req.getParameter("idMedidor" + i));
-					System.out.println("idConta " + req.getParameter("idConta" + i));
-					System.out.println("idEmpresa " + req.getParameter("idEmpresa" + i));
-					System.out.println("idCondominio " + req.getParameter("idCondominio" + i));
-					System.out.println("volumeInicio " + req.getParameter("volumeInicio" + i));
-					System.out.println("volumeFim " + req.getParameter("volumeFim" + i));
-					System.out.println("consumo " + req.getParameter("consumo" + i));
-					System.out.println("obs " + req.getParameter("obs" + i));
-					System.out.println("************************************ ");
+					if(req.getParameter("ckMedidor" + i) == null) {
+						
+						consumoComum += Double.parseDouble(req.getParameter("consumo" + i));
+						qtdeMedidorRateioN++;						
+					}
+					else {
+						
+						qtdeMedidorRateioS++;
+					}
 				}
 				
-				connection = ConnectionFactory.getConnection();
+				consumoComum = consumoComum / qtdeMedidorRateioS;
+				
+				for(int i = 1; i < Integer.parseInt(req.getParameter("cont")); i++ ) {
+					
+					if(req.getParameter("ckMedidor" + i) == null) {
+				
+						ContaRateio contaRateio = new ContaRateio();
+						contaRateio.setIdContaRateio(0l);
+						contaRateio.setIdConta(conta.getIdConta());
+						contaRateio.setIdEmpresa(Long.parseLong(req.getParameter("idEmpresa" + i)));
+						contaRateio.setIdCondominio(Long.parseLong(req.getParameter("idCondominio" + i)));
+						contaRateio.setIdMedidor(Long.parseLong(req.getParameter("idMedidor" + i)));
+						contaRateio.setIdUser(user.getIdUser());
+						contaRateio.setVolumeInicial(Double.parseDouble(req.getParameter("volumeInicio" + i)));
+						contaRateio.setVolumeFinal(Double.parseDouble(req.getParameter("volumeFim" + i)));						
+						contaRateio.setConsumoReal(Double.parseDouble(req.getParameter("consumo" + i)));
+						contaRateio.setConsumoRateio(0d);
+						contaRateio.setValorRateio(0d);
+						contaRateio.setPercRateio(0d);
+						contaRateio.setObs(Auxiliar.removerCaracteres(req.getParameter("obs" + i)).toUpperCase());
+						contaRateio.setDtInsert(null);
+						
+						contaRateioDAO.inserir(contaRateio);
+					}
+					else {
+						
+						consumoReal = Double.parseDouble(req.getParameter("consumo" + i));
+						consumoRateio = consumoReal + consumoComum;
+						percRateio = consumoRateio * 100 / consumoTotal;
+						valorRateio = conta.getValor() * (percRateio / 100);
+						
+						ContaRateio contaRateio = new ContaRateio();
+						contaRateio.setIdContaRateio(0l);
+						contaRateio.setIdConta(conta.getIdConta());
+						contaRateio.setIdEmpresa(Long.parseLong(req.getParameter("idEmpresa" + i)));
+						contaRateio.setIdCondominio(Long.parseLong(req.getParameter("idCondominio" + i)));
+						contaRateio.setIdMedidor(Long.parseLong(req.getParameter("idMedidor" + i)));
+						contaRateio.setIdUser(user.getIdUser());
+						contaRateio.setVolumeInicial(Double.parseDouble(req.getParameter("volumeInicio" + i)));
+						contaRateio.setVolumeFinal(Double.parseDouble(req.getParameter("volumeFim" + i)));
+						contaRateio.setConsumoReal(consumoReal);
+						contaRateio.setConsumoRateio(consumoRateio);
+						contaRateio.setValorRateio(valorRateio);
+						contaRateio.setPercRateio(percRateio);
+						contaRateio.setObs(Auxiliar.removerCaracteres(req.getParameter("obs" + i)).toUpperCase());
+						contaRateio.setDtInsert(null);
+						
+						contaRateioDAO.inserir(contaRateio);
+					}
+				}
 				
 				EmpresaDAO empresaDAO = new EmpresaDAO(connection);
-				List<Empresa> listEmpresa = empresaDAO.listarPorUsuario(user.getIdUser());
+				Empresa empresa = empresaDAO.buscarPorId(conta.getIdEmpresa());
 				
-				req.setAttribute("listEmpresa", listEmpresa);
-				req.getRequestDispatcher("/jsp/rateio/rateiocondominiolista.jsp").forward(req, res); 
+				CondominioDAO condominioDAO = new CondominioDAO(connection);
+				Condominio condominio = condominioDAO.buscarPorId(conta.getIdCondominio());
+				
+				RelContaRateioDAO relContaRateioDAO = new RelContaRateioDAO(connection);
+				List<RelContaRateio> listRelContaRateio = relContaRateioDAO.listarPorIdConta(conta.getIdConta());
+				
+				req.setAttribute("conta", conta);
+				req.setAttribute("empresa", empresa);
+				req.setAttribute("condominio", condominio);
+				req.setAttribute("listRelContaRateio", listRelContaRateio);
+        		req.getRequestDispatcher("/jsp/rateio/rateiocondominiolista.jsp").forward(req, res);
 			}
 	        catch (Exception e) {
 	        	System.out.println("erro: " + e.toString());
@@ -249,6 +324,74 @@ public class RateioBO extends HttpServlet {
 					try {connection.close();} catch (SQLException e) {}
 				}
 			}	
+        }
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("6")) {//LISTA RATEIO 
+			
+			Connection connection = null;
+			HttpSession session = req.getSession(true);
+            User user = (User) session.getValue("user");
+			
+			try {
+				
+				connection = ConnectionFactory.getConnection();
+				
+				ContaDAO contaDAO = new ContaDAO(connection);
+				Conta conta = contaDAO.buscar(Long.parseLong(req.getParameter("idConta")));
+				
+				EmpresaDAO empresaDAO = new EmpresaDAO(connection);
+				Empresa empresa = empresaDAO.buscarPorId(conta.getIdEmpresa());
+				
+				CondominioDAO condominioDAO = new CondominioDAO(connection);
+				Condominio condominio = condominioDAO.buscarPorId(conta.getIdCondominio());
+				
+				RelContaRateioDAO relContaRateioDAO = new RelContaRateioDAO(connection);
+				List<RelContaRateio> listRelContaRateio = relContaRateioDAO.listarPorIdConta(conta.getIdConta());
+				
+				req.setAttribute("conta", conta);
+				req.setAttribute("empresa", empresa);
+				req.setAttribute("condominio", condominio);
+				req.setAttribute("listRelContaRateio", listRelContaRateio);
+        		req.getRequestDispatcher("/jsp/rateio/rateiocondominiolista.jsp").forward(req, res);
+			}
+	        catch (Exception e) {
+	            req.setAttribute("erro", e.toString());
+	            req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
+	        }
+			finally {
+				if(connection != null) {
+					try {connection.close();} catch (SQLException e) {}
+				}
+			}
+        }
+		
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("excluirrateio")) {//EXCLUIR RATEIO METODO PROVIDORIO 
+			
+			Connection connection = null;
+			HttpSession session = req.getSession(true);
+            User user = (User) session.getValue("user");
+			
+			try {
+				
+				connection = ConnectionFactory.getConnection();
+					
+				ContaRateioDAO contaRateioDAO = new ContaRateioDAO(connection);
+				contaRateioDAO.excluirTudo();
+				
+				EmpresaDAO empresaDAO = new EmpresaDAO(connection);
+				List<Empresa> listEmpresa = empresaDAO.listarPorUsuario(user.getIdUser());
+				
+				req.setAttribute("listEmpresa", listEmpresa);
+        		req.getRequestDispatcher("/jsp/rateio/rateiocondominioexecutar.jsp").forward(req, res);
+			}
+	        catch (Exception e) {
+	            req.setAttribute("erro", e.toString());
+	            req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
+	        }
+			finally {
+				if(connection != null) {
+					try {connection.close();} catch (SQLException e) {}
+				}
+			}
         }
     }
 }

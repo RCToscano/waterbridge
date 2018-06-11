@@ -101,5 +101,4 @@ public class ContaRateio {
 	public void setDtInsert(String dtInsert) {
 		this.dtInsert = dtInsert;
 	}
-	
 }

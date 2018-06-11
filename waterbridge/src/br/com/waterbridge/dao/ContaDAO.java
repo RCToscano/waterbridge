@@ -245,6 +245,72 @@ public class ContaDAO {
         }
     }
     
+    public List<Conta> listarContaRateio(Long idCondominio) throws SQLException {
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Conta> list = new ArrayList<Conta>();
+        
+        try {
+            
+        	stmt = connection.prepareStatement(
+    		"SELECT    TB_CONTA.ID_CONTA, " +
+        	"          TB_CONTA.ID_EMPRESA, " +
+        	"          TB_CONTA.ID_CONDOMINIO, " +
+        	"          TB_CONTA.ID_USER, " +
+        	"	       TB_CONTA.DTLEITURAATUAL, " +
+        	"          TB_CONTA.DTLEITURAANTERIOR, " +
+        	"          TB_CONTA.VALOR, " +
+        	"          TB_CONTA.CONSUMO, " +
+        	"          TB_CONTA.OBS, " +
+        	"          TB_CONTA.DTINSERT " +
+        	"FROM      TB_CONTA " +	
+        	"LEFT JOIN TB_CONTARATEIO " +
+        	"ON        TB_CONTA.ID_CONTA = TB_CONTARATEIO.ID_CONTA " +
+            "WHERE     TB_CONTA.ID_CONDOMINIO = ? " +
+        	"AND       TB_CONTARATEIO.ID_CONTARATEIO IS NULL "
+            );
+
+        	stmt.setLong(1, idCondominio);
+        	
+            rs = stmt.executeQuery();
+
+            while(rs.next()) {
+
+            	Conta conta = new Conta();
+            	conta.setIdConta(rs.getLong("ID_CONTA"));
+            	conta.setIdEmpresa(rs.getLong("ID_EMPRESA"));
+            	conta.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
+            	conta.setIdUser(rs.getLong("ID_USER"));
+            	conta.setDtLeituraAtual(Auxiliar.formataDtTela(rs.getString("DTLEITURAATUAL")));
+            	conta.setDtLeituraAnterior(Auxiliar.formataDtTela(rs.getString("DTLEITURAANTERIOR")));
+            	conta.setValor(rs.getDouble("VALOR"));
+            	conta.setConsumo(rs.getDouble("CONSUMO"));
+            	conta.setObs(rs.getString("OBS"));
+            	conta.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));
+            	
+            	list.add(conta);
+            }
+            
+            return list;
+        }
+        catch(SQLException e) {
+            
+            throw e;
+        }
+        finally {
+
+            if(stmt != null) {
+                
+                stmt.close();
+            }
+            if(rs != null) {
+                
+                rs.close();
+            }
+        }
+    }
+    
     public List<Conta> listarPorEmpresaLocal(Long idEmpresa, Long idCondominio) throws Exception {
     	PreparedStatement stmt = null;
     	ResultSet rs = null;
