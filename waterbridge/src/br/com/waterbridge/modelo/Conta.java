@@ -6,6 +6,7 @@ public class Conta {
 	private Long idEmpresa;
 	private Long idCondominio;
 	private Long idUser;
+	private Long idContaRateio;
 	private String dtLeituraAtual;
 	private String dtLeituraAnterior;
 	private Double valor;
@@ -13,6 +14,14 @@ public class Conta {
 	private String obs;
 	private String dtInsert;
 	
+	
+	
+	public Long getIdContaRateio() {
+		return idContaRateio;
+	}
+	public void setIdContaRateio(Long idContaRateio) {
+		this.idContaRateio = idContaRateio;
+	}
 	public Long getIdConta() {
 		return idConta;
 	}

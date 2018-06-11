@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.auxiliar.Constantes;
-import br.com.waterbridge.auxiliar.Email;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.LogSqlDAO;
 import br.com.waterbridge.dao.PassDAO;

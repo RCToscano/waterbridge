@@ -67,7 +67,10 @@ public class EmpresaBO extends HttpServlet {
             		}
             		
             		MultipartRequest mpr = new MultipartRequest(req, pathTemp, 200 * 1024 * 1024);
-                    String arquivoTemp = mpr.getFilesystemName((String) mpr.getFileNames().nextElement( ));
+            		String arquivoTemp = "";
+            		if(mpr.getFileNames() != null && mpr.getFileNames().hasMoreElements()) {
+            			arquivoTemp = mpr.getFilesystemName((String) mpr.getFileNames().nextElement( ));
+            		}
             		
             		empresa.setIdUser(user.getIdUser());
             		empresa.setNome(Auxiliar.removerCaracteres(mpr.getParameter("nome").trim()).toUpperCase());
@@ -97,7 +100,7 @@ public class EmpresaBO extends HttpServlet {
 					EmpresaDAO empresaDAO = new EmpresaDAO(connection);
 					
 					//Logo
-					if(!arquivoTemp.isEmpty()) {
+					if(arquivoTemp != null && !arquivoTemp.isEmpty()) {
 						String nomeFinal = empresa.getNome().replace(" ", "_") + "_" + Auxiliar.dataAtual()
 								+ Auxiliar.recuperaExtensao(arquivoTemp);
 						Auxiliar.copiarArquivo(pathTemp + arquivoTemp, pathFinal + nomeFinal);
