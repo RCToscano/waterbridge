@@ -41,7 +41,7 @@
         	<ul class="breadcrumb" style="margin-top: 60px;">
 			    <li><a href="HomeBO?acao=home">Home</a></li>
 			    <li class="active">Rateio</li>
-			    <li class="active">Conta Rateio</li>
+			    <li class="active">Rateio Conta</li>
 			</ul>
 			
 			<div class="form-group">
@@ -86,7 +86,7 @@
 				</div>
 				<div class="col-sm-3">
 					<div class="form-group">
-						<label>Consumo Total da Conta (m3)</label><br/>
+						<label>Consumo Total da Conta (m³)</label><br/>
 						<fmt:formatNumber type = "number" maxIntegerDigits = "3" value = "${conta.consumo}" />
 						
 					</div>	
@@ -99,6 +99,13 @@
 				<div class="col-sm-12">
 					<div class="table-responsive" id="divTable">
 						<c:set var="cont" scope="page" value="1"/>
+						
+						<c:set var="consumoRealTotal" scope="page" value="0"/>
+						<c:set var="consumoRateioTotal" scope="page" value="0"/>
+						<c:set var="valorTotal" scope="page" value="0"/>
+						<c:set var="percTotal" scope="page" value="0"/>
+						
+						
 						<table class="table table-hover table-striped">	
 							<thead>		
 								<tr>				
@@ -107,10 +114,10 @@
 									<th style="text-align: center">Endereço</th>			
 									<th style="text-align: center">Consumidor</th>			
 									<th style="text-align: center">Volume Inicial (m³)</th>			
-									<th style="text-align: center">Volume Final (m³)</th>			
-									<th style="text-align: center">Consumo Real</th>
-									<th style="text-align: center">Consumo Rateio</th>
-									<th style="text-align: center">Valor</th>
+									<th style="text-align: center">Volume Final (m³)</th>
+									<th style="text-align: center">Consumo Real(m³)</th>
+									<th style="text-align: center">Consumo Rateio(m³)</th>
+									<th style="text-align: center">Valor (R$)</th>
 									<th style="text-align: center">%</th>			
 									<th style="text-align: center">Obs</th>		
 								</tr>	
@@ -137,7 +144,26 @@
 										<td><small>${relContaRateio.obs}</small></td>		
 									</tr>
 		               		        <c:set var="cont" scope="page" value="${cont + 1}"/>
+		               		        <c:set var="consumoRealTotal" scope="page" value="${consumoRealTotal + relContaRateio.consumoReal}"/>
+									<c:set var="consumoRateioTotal" scope="page" value="${consumoRateioTotal + relContaRateio.consumoRateio}"/>
+									<c:set var="valorTotal" scope="page" value="${valorTotal + relContaRateio.valorRateio}"/>
+									<c:set var="percTotal" scope="page" value="${percTotal + relContaRateio.percRateio}"/>
 		                     	</c:forEach>
+		                     	<tfoot>
+			                     	<tr>				
+										<td align="right"></td>			
+										<td align="right"></td>			
+										<td align="right"></td>			
+										<td align="right"></td>			
+										<td align="right"></td>			
+										<td align="right"><small><label>Total</label></small></td>			
+										<td align="right"><small><label><fmt:formatNumber type = "number" maxFractionDigits="3" value = "${consumoRealTotal}" /></label></small></td>
+										<td align="right"><small><label><fmt:formatNumber type = "number" maxFractionDigits="3" value = "${consumoRateioTotal}" /></label></small></td>
+										<td align="right"><small><label><fmt:formatNumber value="${valorTotal}" type="currency" currencySymbol=""/></label></small></td>
+										<td align="right"><small><label><fmt:formatNumber value="${percTotal}" type="currency" currencySymbol=""/></label></small></td>			
+										<td align="right"></td>		
+									</tr>	
+								</tfoot>
 							</tbody>
 						</table>
 					</div>
