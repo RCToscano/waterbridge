@@ -317,19 +317,20 @@ public class ContaDAO {
     	List<Conta> list = new ArrayList<Conta>();
     	try {
     		stmt = connection.prepareStatement(
-    				"SELECT ID_CONTA, " +
-					"       ID_EMPRESA, " +
-					"       ID_CONDOMINIO, " +
-					"       ID_USER, " +
-					"	    DTLEITURAATUAL, " +
-					"       DTLEITURAANTERIOR, " +
-					"       VALOR, " +
-					"       CONSUMO, " +
-					"       OBS, " +
-					"       DTINSERT " +
-					"  FROM TB_CONTA " +	
-					" WHERE ID_CONDOMINIO = ? " +
-					"   AND ID_EMPRESA = ? "
+    				"  SELECT ID_CONTA, " +
+					"         ID_EMPRESA, " +
+					"         ID_CONDOMINIO, " +
+					"         ID_USER, " +
+					"	      DTLEITURAATUAL, " +
+					"         DTLEITURAANTERIOR, " +
+					"         VALOR, " +
+					"         CONSUMO, " +
+					"         OBS, " +
+					"         DTINSERT " +
+					"    FROM TB_CONTA " +	
+					"   WHERE ID_CONDOMINIO = ? " +
+					"     AND ID_EMPRESA = ? " +
+					"ORDER BY DTLEITURAATUAL DESC "
     				);
     		
     		stmt.setLong(1, idCondominio);

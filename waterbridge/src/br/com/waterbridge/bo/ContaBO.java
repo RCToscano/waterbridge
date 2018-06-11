@@ -196,7 +196,13 @@ public class ContaBO extends HttpServlet {
 						ContaFotoDAO contaFotoDAO = new ContaFotoDAO(connection);
 						ContaFoto contaFoto = new ContaFoto();
 						
-						contaFoto.setIdConta(contaDAO.buscarUltimo());
+						if(mpr.getParameter("id") != null && !mpr.getParameter("id").isEmpty()) {
+							contaFoto.setIdConta(conta.getIdConta());
+						}
+						else {
+							contaFoto.setIdConta(contaDAO.buscarUltimo());
+						}
+						
 						contaFoto.setIdUser(user.getIdUser());
 						contaFoto.setDiretorio(pathFinal);
 						contaFoto.setNome(nomeFinal);

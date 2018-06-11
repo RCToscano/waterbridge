@@ -1,13 +1,5 @@
 var colorRed = '#e52213';
 
-window.onload = function iniciarForm() {
-
-	var consumo = document.getElementById("consumo").value;;
-	consumo = consumo.replace(".","");
-	document.getElementById("consumo").value = consumo;
-	
-}
-
 function validaForm(){
     var focar;
     var texto;
@@ -109,11 +101,11 @@ function validate_fileupload(fileName) {
     for(var i = 0; i <= allowed_extensions.length; i++) {
         if(allowed_extensions[i]==file_extension) {
             divArquivo.style.display = "none";
-            validar_dimensao();
             return true;
         }
     }
     divArquivo.style.display = "block";
+    document.getElementById("botao").disabled = true;
     el.innerHTML="Arquivo com formato inválido. Formatos aceitos: .jpg .png .bmp";
     return false;
 }
@@ -132,6 +124,7 @@ function bs_input_file() {
 					element.click();
 				});
 				$(this).find("button.btn-reset").click(function(){
+					document.getElementById("botao").disabled = false;
 					document.getElementById("divArquivo").style.display = "none";
 					element.val(null);
 					$(this).parents(".input-file").find('input').val('');

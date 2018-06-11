@@ -122,7 +122,7 @@ function listarConta() {
     		            "			<td>" + formatarTresDecimais(conta.valor) + "</small></td>" +
     		            "			<td>" + formatarTresDecimais(conta.consumo) + "</small></td>" +
     		            "           <td>" +
-				    	"	            <a href='ContaBO?acao=detalhe&idConta="+conta.idConta+"'>" +
+				    	"	            <a href='ContaBO?acao=detalhe&idConta="+conta.idConta+"' target='_blank'>" +
 						"					<button type='button' class='btn btn-info btn-sm' title='Clique para visualizar o detalhe da Conta'>" +
 						"						<span class='glyphicon glyphicon-list-alt'></span>" +
 						"					</button>" +

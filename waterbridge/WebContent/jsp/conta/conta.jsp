@@ -214,7 +214,7 @@
 	    					<div class="col-sm-12">
 								<div class="form-group">
 									<div class="col-md-12 text-center">
-										<button type="submit" class="btn btn-primary">${botao}</button>
+										<button type="submit" class="btn btn-primary" id="botao">${botao}</button>
 									</div>
 								</div>
 							</div>
