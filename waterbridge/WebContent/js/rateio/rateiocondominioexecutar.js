@@ -58,7 +58,10 @@ function listarCondominio() {
 
 function listarConta() {
 
+	var divAviso = document.getElementById('divAviso');
     var idCondominio = document.getElementById('idCondominio');
+    
+    divAviso.innerHTML = '';
 
     if(idCondominio.value == '') {
     	
@@ -94,6 +97,10 @@ function listarConta() {
 	                	var conta = listConta[i];
 	                    $('#idConta').append('<option value=' + conta.idConta + '>' + conta.dtLeituraAnterior + ' à ' + conta.dtLeituraAtual + ' - Valor ' + conta.valor + ' - Consumo ' + conta.consumo + ' m3</option>');
 	                }
+	            }
+	            else {
+	            	
+	            	exibirAviso("Não foram localizadas contas para rateio");
 	            }
 	            $.unblockUI();
 	        },

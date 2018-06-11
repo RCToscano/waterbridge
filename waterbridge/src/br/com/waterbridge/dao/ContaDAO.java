@@ -81,7 +81,7 @@ public class ContaDAO {
         }
     }  
     
-    public List<Conta> listarPorCondominio(Long idCondominio) throws SQLException {
+    public List<Conta> listarContaRateio(Long idCondominio) throws SQLException {
 
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -90,18 +90,21 @@ public class ContaDAO {
         try {
             
         	stmt = connection.prepareStatement(
-    		"SELECT ID_CONTA, " +
-        	"       ID_EMPRESA, " +
-        	"       ID_CONDOMINIO, " +
-        	"       ID_USER, " +
-        	"	    DTLEITURAATUAL, " +
-        	"       DTLEITURAANTERIOR, " +
-        	"       VALOR, " +
-        	"       CONSUMO, " +
-        	"       OBS, " +
-        	"       DTINSERT " +
-        	"FROM   TB_CONTA " +	
-            "WHERE  ID_CONDOMINIO = ? "
+    		"SELECT    TB_CONTA.ID_CONTA, " +
+        	"          TB_CONTA.ID_EMPRESA, " +
+        	"          TB_CONTA.ID_CONDOMINIO, " +
+        	"          TB_CONTA.ID_USER, " +
+        	"	       TB_CONTA.DTLEITURAATUAL, " +
+        	"          TB_CONTA.DTLEITURAANTERIOR, " +
+        	"          TB_CONTA.VALOR, " +
+        	"          TB_CONTA.CONSUMO, " +
+        	"          TB_CONTA.OBS, " +
+        	"          TB_CONTA.DTINSERT " +
+        	"FROM      TB_CONTA " +	
+        	"LEFT JOIN TB_CONTARATEIO " +
+        	"ON        TB_CONTA.ID_CONTA = TB_CONTARATEIO.ID_CONTA " +
+            "WHERE     TB_CONTA.ID_CONDOMINIO = ? " +
+        	"AND       TB_CONTARATEIO.ID_CONTARATEIO IS NULL "
             );
 
         	stmt.setLong(1, idCondominio);

@@ -5,12 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import br.com.waterbridge.auxiliar.Auxiliar;
-import br.com.waterbridge.modelo.CnpTp;
-import br.com.waterbridge.modelo.Condominio;
 import br.com.waterbridge.modelo.ContaRateio;
 
 public class ContaRateioDAO {
@@ -233,4 +229,27 @@ public class ContaRateioDAO {
             }
         }
     } 
+    
+    public void excluirTudo() throws SQLException {
+
+        PreparedStatement stmt = null;
+                
+        try {
+        
+            stmt = connection.prepareStatement("DELETE FROM TB_CONTARATEIO");		
+          
+            stmt.execute();
+        }
+        catch(SQLException e) {
+            
+            throw e;
+        }
+        finally {
+            
+            if(stmt != null) {
+                
+                stmt.close();
+            }
+        }
+    }  
 }
