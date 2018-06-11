@@ -27,6 +27,8 @@ import br.com.waterbridge.modelo.Conta;
 import br.com.waterbridge.modelo.ContaFoto;
 import br.com.waterbridge.modelo.Empresa;
 import br.com.waterbridge.modelo.User;
+import br.com.waterbridge.reldao.RelContaDAO;
+import br.com.waterbridge.relmodelo.RelConta;
 
 public class ContaBO extends HttpServlet {
 
@@ -63,13 +65,18 @@ public class ContaBO extends HttpServlet {
             //Pesquisar
             if (relat.equals("pesquisar")) {
             	try {
+            		
 					ContaDAO contaDAO = new ContaDAO(connection);
 					
 					List<Conta> listConta = contaDAO.listarPorEmpresaLocal(
 							Long.parseLong(req.getParameter("idEmpresa")),
 							Long.parseLong(req.getParameter("idCondominio")));
+					
+					RelContaDAO relContaDAO = new RelContaDAO(connection);
+					
+					List<RelConta> listRelConta = relContaDAO.listarPorIdCondominio(Long.parseLong(req.getParameter("idCondominio")));
 							
-					String json = new Gson().toJson(listConta);
+					String json = new Gson().toJson(listRelConta);
     				
     				res.setContentType("application/json");
     				res.setCharacterEncoding("UTF-8");

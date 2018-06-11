@@ -1,6 +1,6 @@
-package br.com.waterbridge.modelo;
+package br.com.waterbridge.relmodelo;
 
-public class Conta {
+public class RelConta {
 
 	private Long idConta;
 	private Long idEmpresa;
@@ -11,6 +11,7 @@ public class Conta {
 	private Double valor;
 	private Double consumo;
 	private String obs;
+	private Long rateio;
 	private String dtInsert;
 	
 	public Long getIdConta() {
@@ -67,10 +68,17 @@ public class Conta {
 	public void setObs(String obs) {
 		this.obs = obs;
 	}
+	public Long getRateio() {
+		return rateio;
+	}
+	public void setRateio(Long rateio) {
+		this.rateio = rateio;
+	}
 	public String getDtInsert() {
 		return dtInsert;
 	}
 	public void setDtInsert(String dtInsert) {
 		this.dtInsert = dtInsert;
-	}	
+	}
+	
 }

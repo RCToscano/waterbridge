@@ -93,8 +93,8 @@ function listarConta() {
 	        	
 	        	var texto = '';
 	        	var consumo = 0;
-	            var listConta = result;
-	            if(listConta != null && listConta.length > 0) {
+	            var listRelConta = result;
+	            if(listRelConta != null && listRelConta.length > 0) {
 	            	document.getElementById("divAviso").style.display = "none";
 	            	texto +=
 	            	"<table class='table table-hover table-striped'>" +
@@ -111,9 +111,9 @@ function listarConta() {
 		            "		</tr>" +
 		            "	</thead>" +
 		            "	<tbody id='myTable'>" ;
-            		for(i = 0; i < listConta.length; i++) {
+            		for(i = 0; i < listRelConta.length; i++) {
 	                	
-	                	var conta = listConta[i];	                		                
+	                	var conta = listRelConta[i];	                		                
 	                	texto +=
     		            "		<tr>" +
     		            "			<td>" + (i + 1) + "</small></td>" +
@@ -135,7 +135,7 @@ function listarConta() {
 	                	"					</button>" +
 	                	"				</a>" +
 	                	"		    </td>";
-    		            if(conta.idContaRateio > 0) {
+    		            if(conta.rateio > 0) {
     		            	texto +="   <td>" +
     		            	"	            <a href='RateioBO?acao=6&idConta="+conta.idConta+"' target='_blank'>" +
     		            	"					<button type='button' class='btn btn-info btn-sm' title='Clique para visualizar o Rateio'>" +

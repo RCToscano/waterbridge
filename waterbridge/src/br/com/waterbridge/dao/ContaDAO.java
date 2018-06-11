@@ -338,6 +338,7 @@ public class ContaDAO {
     		rs = stmt.executeQuery();
     		
     		while(rs.next()) {
+    			
     			Conta conta = new Conta();
     			conta.setIdConta(rs.getLong("ID_CONTA"));
     			conta.setIdEmpresa(rs.getLong("ID_EMPRESA"));
@@ -349,8 +350,6 @@ public class ContaDAO {
     			conta.setConsumo(rs.getDouble("CONSUMO"));
     			conta.setObs(rs.getString("OBS"));
     			conta.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));
-    			
-//    			conta.setIdContaRateio(new Long(1));
     			
     			list.add(conta);
     		}
