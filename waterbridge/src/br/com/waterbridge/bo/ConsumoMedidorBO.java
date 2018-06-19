@@ -19,10 +19,12 @@ import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.BridgeDAO;
 import br.com.waterbridge.dao.CondominioDAO;
+import br.com.waterbridge.dao.ConsumoDAO;
 import br.com.waterbridge.dao.EmpresaDAO;
 import br.com.waterbridge.dao.MedidorDAO;
 import br.com.waterbridge.modelo.Bridge;
 import br.com.waterbridge.modelo.Condominio;
+import br.com.waterbridge.modelo.Consumo;
 import br.com.waterbridge.modelo.Empresa;
 import br.com.waterbridge.modelo.Medidor;
 import br.com.waterbridge.modelo.User;
@@ -192,6 +194,18 @@ public class ConsumoMedidorBO extends HttpServlet {
 				sql += "ORDER BY DTINSERT ";
 
 				connection = ConnectionFactory.getConnection();
+				
+				ConsumoDAO consumoDAO = new ConsumoDAO(connection);
+				Consumo consumoAnterior = consumoDAO.buscarAnterior(Long.parseLong(req.getParameter("idMedidor")), "'" + Auxiliar.formataDtBanco(req.getParameter("dtInicio")) + " 00:00'");
+				
+				Double volume1 = 0d;
+				Double volume2 = 0d;
+				
+				if(consumoAnterior != null 
+						&& consumoAnterior.getVolume().doubleValue() != 0 
+						&& consumoAnterior.getVolume().doubleValue() != 0.0) {
+					volume1 = consumoAnterior.getVolume();
+				}
 				
 				RelConsumoMedidorDAO relConsumoMedidorDAO = new RelConsumoMedidorDAO(connection);
 				List<RelConsumoMedidor> listRelConsumoMedidor = relConsumoMedidorDAO.listar(sql);

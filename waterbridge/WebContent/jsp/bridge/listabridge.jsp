@@ -68,7 +68,7 @@
 								
 							<div class="col-sm-6">
 								<div class="form-group">
-									<label class="control-label">Condomínio</label> 
+									<label class="control-label">Local</label> 
 									<select class="form-control" id="idCondominio" name="idCondominio">
 										<option value="" selected>Selecione...</option>
 										<c:forEach var="condominio" items="${listCondominio}">

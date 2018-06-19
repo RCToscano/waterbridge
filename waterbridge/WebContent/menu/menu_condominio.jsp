@@ -36,11 +36,11 @@
                 <li>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Relatórios <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="ContaBO?acao=cadastro">Cadastrar Conta</a></li>
+                        <li><a href="ConsumoMedidorBO?acao=1">Consumos por Medidor</a></li>
                         <li class="divider"></li>
-                        <li><a href="ContaBO?acao=consulta">Consultar Conta</a></li>
+                        <li><a href="ConsumoCondominioBO?acao=1">Consumos por Local</a></li>
                         <li class="divider"></li>
-                        <li><a href="RateioBO?acao=1">Executar Rateio</a></li>
+                        <li><a href="RelatorioPressaoBO?acao=1">Pressure Bridge</a></li>
                         <li class="divider"></li>
                     </ul>
                 </li>
@@ -49,8 +49,12 @@
                 <li>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Rateio <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
+                        <li><a href="ContaBO?acao=cadastro">Cadastrar Conta</a></li>
+                        <li class="divider"></li>
+                        <li><a href="ContaBO?acao=consulta">Consultar Conta</a></li>
+                        <li class="divider"></li>
                         <li><a href="RateioBO?acao=1">Executar Rateio</a></li>
-                         <li class="divider"></li>
+                        <li class="divider"></li>
                     </ul>
                 </li>
             </ul>
