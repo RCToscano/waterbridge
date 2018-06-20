@@ -191,16 +191,16 @@ public class ConsumoMedidorBO extends HttpServlet {
 					sql += "AND   DTINSERT >= '" + Auxiliar.formataDtBanco(req.getParameter("dtInicio")) + " 00:00' " +
 						   "AND   DTINSERT <= '" + Auxiliar.formataDtBanco(req.getParameter("dtFim")) + " 23:59' " ;
 				}
-				sql += "ORDER BY DTINSERT ";
+				sql += "ORDER BY DTINSERT, " +
+				       "         VOLUME ";
 
 				connection = ConnectionFactory.getConnection();
 				
 				ConsumoDAO consumoDAO = new ConsumoDAO(connection);
-				Consumo consumoAnterior = consumoDAO.buscarAnterior(Long.parseLong(req.getParameter("idMedidor")), "'" + Auxiliar.formataDtBanco(req.getParameter("dtInicio")) + " 00:00'");
-				
+				Consumo consumoAnterior = consumoDAO.buscarAnterior(Long.parseLong(req.getParameter("idMedidor")), Auxiliar.formataDtBanco(req.getParameter("dtInicio")) + " 00:00");				
 				Double volume1 = 0d;
 				Double volume2 = 0d;
-				
+
 				if(consumoAnterior != null 
 						&& consumoAnterior.getVolume().doubleValue() != 0 
 						&& consumoAnterior.getVolume().doubleValue() != 0.0) {
