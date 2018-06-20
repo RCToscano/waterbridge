@@ -209,6 +209,22 @@ public class ConsumoMedidorBO extends HttpServlet {
 				
 				RelConsumoMedidorDAO relConsumoMedidorDAO = new RelConsumoMedidorDAO(connection);
 				List<RelConsumoMedidor> listRelConsumoMedidor = relConsumoMedidorDAO.listar(sql);
+				for(int i =0 ; i < listRelConsumoMedidor.size(); i++) {
+					
+					RelConsumoMedidor relConsumoMedidor = listRelConsumoMedidor.get(i);
+					if(relConsumoMedidor.getAlarm().longValue() == 1 
+							|| relConsumoMedidor.getAlarmDesc() == null
+							|| relConsumoMedidor.getVolume().doubleValue() < volume1.doubleValue()) {
+						
+						relConsumoMedidor.setConsumo(0d);
+					}
+					else {
+						
+						volume2 = relConsumoMedidor.getVolume();
+						relConsumoMedidor.setConsumo(volume2 - volume1);
+						volume1 = volume2;
+					}
+				}
 				
 				json = new Gson().toJson(listRelConsumoMedidor);
 				

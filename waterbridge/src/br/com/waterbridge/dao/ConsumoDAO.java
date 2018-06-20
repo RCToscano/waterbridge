@@ -100,7 +100,7 @@ public class ConsumoDAO {
         	"FROM     TB_CONSUMO " +
         	"WHERE    TB_CONSUMO.ID_MEDIDOR = ? " +
         	"AND      TB_CONSUMO.DTINSERT < ? " +
-        	"AND      TB_CONSUMO.VOLUME <> 0 " +
+        	"AND      TB_CONSUMO.ALARM <> 1 " +
         	"ORDER BY TB_CONSUMO.DTINSERT DESC " +
         	"LIMIT 1 "
     		);
