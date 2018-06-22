@@ -227,7 +227,7 @@ public class ConsumoMedidorBO extends HttpServlet {
 				}
 				
 				json = new Gson().toJson(listRelConsumoMedidor);
-				
+
 				res.setContentType("application/json");
 				res.setCharacterEncoding("UTF-8");
 				res.getWriter().write(json);   
@@ -274,7 +274,6 @@ public class ConsumoMedidorBO extends HttpServlet {
 				
 				BridgeDAO bridgeDAO = new BridgeDAO(connection);
 				Bridge bridge = bridgeDAO.buscarPorId(Long.parseLong(req.getParameter("idBridge")));
-				System.out.println("bridge " + bridge);
 				
 				MedidorDAO medidorDAO = new MedidorDAO(connection);
 				Medidor medidor = medidorDAO.buscarPorId(req.getParameter("idMedidor"));
