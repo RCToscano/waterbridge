@@ -260,23 +260,41 @@ function listarConsumoMedidor() {
 	        type: "POST",
 	        dataType: 'json',
 	        success: function(result) {
-	        	
+
 	        	var texto = '';
-	        	var colspan = 6;
+	        	var colspan = 7;
 	        	var consumo = 0;
+	        	var bgColor = '';
 	            var listRelConsumoMedidor = result;
 	            if(listRelConsumoMedidor != null && listRelConsumoMedidor.length > 0) {
-	            	
+
 	            	texto +=	
 	            	"<table class='table table-hover table-striped'>" +
+	            	"	<thead>" +
+	            	"		<tr>" +
+	            	"			<th>" +
+	            	"		         <form action='ConsumoMedidorBO?acao=6' method='post' target='_blank'>" +
+					"                    <input type='hidden' name='idEmpresa' value='" + idEmpresa.value + "'>" +
+					"                    <input type='hidden' name='idCondominio' value='" + idCondominio.value + "'>" +
+					"                    <input type='hidden' name='idBridge' value='" + idBridge.value + "'>" +
+					"                    <input type='hidden' name='idMedidor' value='" + idMedidor.value + "'>" +
+					"                    <input type='hidden' name='dtInicio' value='" + dtInicio.value + "'>" +
+					"                    <input type='hidden' name='dtFim' value='" + dtFim.value + "'>" +
+					"			         <button type='submit' class='btn btn-warning'>" +
+					"		                 <i class='fa fa-bar-chart'></i>" +
+					"		             </button>" +
+					"		         </form>" +
+	            	"			</th>" +
+	            	"		</tr>" +
+	            	"	</thead>" +
 		            "	<thead>" +
 		            "		<tr>" +
 		            "			<th>Nº</th>" +
 		            "			<th>Data</th>" +
 		            "			<th>Volume (m&#179;)</th>" ;
-	            	if(listRelConsumoMedidor[i].idBridgeTp != null
-	            		&& listRelConsumoMedidor[i].idBridgeTp != undefined
-	            			&& listRelConsumoMedidor[i].idBridgeTp == 1) {
+	            	if(listRelConsumoMedidor[0].idBridgeTp != null
+	            		&& listRelConsumoMedidor[0].idBridgeTp != undefined
+	            			&& listRelConsumoMedidor[0].idBridgeTp == 1) {
 	            		texto += "			<th>Pressão</th>" ;
 	            		colspan = colspan + 1;
 	            	}
@@ -292,22 +310,26 @@ function listarConsumoMedidor() {
 	                	
 	                	var relConsumoMedidor = listRelConsumoMedidor[i];	                		                
 	                	consumo = consumo + relConsumoMedidor.consumo;
+	                	if(relConsumoMedidor.alarm != 0) {
+	                		bgColor = 'bgcolor="#f2dede"';
+	                	}
 	                	texto +=
     		            "		<tr>" +
-    		            "			<td><small>" + (i + 1) + "</small></td>" +
-    		            "			<td><small>" + relConsumoMedidor.dtInsert + "</small></td>" +
-    		            "			<td><small>" + formatarTresDecimais(relConsumoMedidor.volume) + "</small></td>" ;
+    		            "			<td " + bgColor + "><small>" + (i + 1) + "</small></td>" +
+    		            "			<td " + bgColor + "><small>" + relConsumoMedidor.dtInsert + "</small></td>" +
+    		            "			<td " + bgColor + "><small>" + formatarTresDecimais(relConsumoMedidor.volume) + "</small></td>" ;
 	                	if(relConsumoMedidor.idBridgeTp != null
 		            		&& relConsumoMedidor.idBridgeTp != undefined
 	                			&& relConsumoMedidor.idBridgeTp == 1) {
-		            		texto += "			<td><small>" + formatarTresDecimais(relConsumoMedidor.pressure) + "</small></td>" ;
+		            		texto += "			<td " + bgColor + "><small>" + formatarTresDecimais(relConsumoMedidor.pressure) + "</small></td>" ;
 		            	}
 	                	texto +=
-    		            "			<td><small>" + relConsumoMedidor.alarmDesc + "</small></td>" +
-    		            "			<td><small>" + relConsumoMedidor.battery + "</small></td>" +
-    		            "			<td><small>" + relConsumoMedidor.temperature + "</small></td>" +
-    		            "		    <td align='right'></td>" +
+    		            "			<td " + bgColor + "><small>" + relConsumoMedidor.alarmDesc + "</small></td>" +
+    		            "			<td " + bgColor + "><small>" + relConsumoMedidor.battery + "</small></td>" +
+    		            "			<td " + bgColor + "><small>" + relConsumoMedidor.temperature + "</small></td>" +
+    		            "		    <td " + bgColor + " align='right'></td>" +
     		            "		</tr>" ;
+	                	bgColor = '';
 	                }
 		            texto +=
 					"        <tr>" +
@@ -316,7 +338,7 @@ function listarConsumoMedidor() {
 					"	         </td>" +
 					"        </tr>" +
 					"        <tr>" +
-					"	         <td colspan='" + colspan + "' style='text-align: center'>" +
+					"	         <td>" +
 					"		         <form action='ConsumoMedidorBO?acao=6' method='post' target='_blank'>" +
 					"                    <input type='hidden' name='idEmpresa' value='" + idEmpresa.value + "'>" +
 					"                    <input type='hidden' name='idCondominio' value='" + idCondominio.value + "'>" +
@@ -325,7 +347,7 @@ function listarConsumoMedidor() {
 					"                    <input type='hidden' name='dtInicio' value='" + dtInicio.value + "'>" +
 					"                    <input type='hidden' name='dtFim' value='" + dtFim.value + "'>" +
 					"			         <button type='submit' class='btn btn-warning'>" +
-					"		                 <i class='fa fa-bar-chart'></i> Gráfico" +
+					"		                 <i class='fa fa-bar-chart'></i>" +
 					"		             </button>" +
 					"		         </form>" +
 					"	         </td>" +

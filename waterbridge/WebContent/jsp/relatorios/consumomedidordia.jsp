@@ -29,6 +29,8 @@
 	    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
 	    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
 	    
+	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	    
         <script src='./js/validator.min.js'></script>
 	    <link href="./css/menucustomcolor.css" rel="stylesheet"/>
 	    <link href="./css/footercustom.css" rel="stylesheet"/>
@@ -147,8 +149,6 @@
 					</fieldset>
 				</form>
 			</div>
-			
-			
 			<div class="col-sm-8 col-md-offset-2">
 				<div class="form-group">
 					<div class="table-responsive" id="divTable">

@@ -22,6 +22,7 @@
 		
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script src="https://code.highcharts.com/highcharts.js"></script>
+		<script src="https://code.highcharts.com/maps/modules/map.js"></script>
 		<script src="https://code.highcharts.com/modules/exporting.js"></script>
 	
 	</head>
@@ -35,8 +36,13 @@
 						<script>
 							Highcharts.chart('graficoconsumodiario', {
 						    	chart: {
-						        	type: 'column'
+						        	type: 'column',
+						            panning: true
 						    	},
+						    	mapNavigation: {
+					                enabled: true,
+					                enableButtons: false
+					            },
 						    	title: {
 						        	text: 'Gráfico de Consumo Diário<br/><label>Medidor  ${medidor.numeroMedidor} </label>'
 						    	},
@@ -47,10 +53,12 @@
 							        categories: [	
 							        	<c:set var="count" value="0" scope="page" />
 							        	<c:forEach var="relConsumoMedidor" items='${listRelConsumoMedidor}'>
-						   			   		'${relConsumoMedidor.dtInsert}'
-						   			   		<c:if test="${(count + 1) < fn:length(listRelConsumoMedidor)}">
-												,
-											</c:if>
+							        	    <c:if test="${relConsumoMedidor.alarmDesc != null && relConsumoMedidor.alarm != 1}">
+								        	    '${relConsumoMedidor.dtInsert}'
+							   			   		<c:if test="${(count + 1) < fn:length(listRelConsumoMedidor)}">
+													,
+												</c:if>
+							        	    </c:if>
 						   			   		<c:set var="count" value="${count + 1}" scope="page"/>
 							        	</c:forEach>
 							        ],
@@ -86,10 +94,12 @@
 							        data: [
 							        	<c:set var="count" value="0" scope="page" />
 							        	<c:forEach var="relConsumoMedidor" items='${listRelConsumoMedidor}'>
-						   			   		${relConsumoMedidor.consumo}
-						   			   		<c:if test="${(count + 1) < fn:length(listRelConsumoMedidor)}">
-												,	
-											</c:if>
+							        		<c:if test="${relConsumoMedidor.alarmDesc != null && relConsumoMedidor.alarm != 1}">
+								        		${relConsumoMedidor.consumo}
+							   			   		<c:if test="${(count + 1) < fn:length(listRelConsumoMedidor)}">
+													,	
+												</c:if>
+							        		</c:if>
 						   			   		<c:set var="count" value="${count + 1}" scope="page"/>
 							        	</c:forEach>
 							        ]
@@ -108,8 +118,13 @@
 							<script>
 								Highcharts.chart('graficopressaodiaria', {
 								    chart: {
-								        type: 'line'
+								        type: 'column',
+								        panning: true
 								    },
+								    mapNavigation: {
+						                enabled: true,
+						                enableButtons: false
+						            },
 								    title: {
 								        text: 'Gráfico de Pressão<br/><label>Bridge  ${bridge.deviceNum} </label>'
 								    },

@@ -227,7 +227,7 @@ public class ConsumoMedidorBO extends HttpServlet {
 				}
 				
 				json = new Gson().toJson(listRelConsumoMedidor);
-				
+
 				res.setContentType("application/json");
 				res.setCharacterEncoding("UTF-8");
 				res.getWriter().write(json);   
@@ -274,13 +274,42 @@ public class ConsumoMedidorBO extends HttpServlet {
 				
 				BridgeDAO bridgeDAO = new BridgeDAO(connection);
 				Bridge bridge = bridgeDAO.buscarPorId(Long.parseLong(req.getParameter("idBridge")));
-				System.out.println("bridge " + bridge);
 				
 				MedidorDAO medidorDAO = new MedidorDAO(connection);
 				Medidor medidor = medidorDAO.buscarPorId(req.getParameter("idMedidor"));
 				
+//				RelConsumoMedidorDAO relConsumoMedidorDAO = new RelConsumoMedidorDAO(connection);
+//				List<RelConsumoMedidor> listRelConsumoMedidor = relConsumoMedidorDAO.listar(sql);
+				
+				ConsumoDAO consumoDAO = new ConsumoDAO(connection);
+				Consumo consumoAnterior = consumoDAO.buscarAnterior(Long.parseLong(req.getParameter("idMedidor")), Auxiliar.formataDtBanco(req.getParameter("dtInicio")) + " 00:00");				
+				Double volume1 = 0d;
+				Double volume2 = 0d;
+
+				if(consumoAnterior != null 
+						&& consumoAnterior.getVolume().doubleValue() != 0 
+						&& consumoAnterior.getVolume().doubleValue() != 0.0) {
+					volume1 = consumoAnterior.getVolume();
+				}
+				
 				RelConsumoMedidorDAO relConsumoMedidorDAO = new RelConsumoMedidorDAO(connection);
 				List<RelConsumoMedidor> listRelConsumoMedidor = relConsumoMedidorDAO.listar(sql);
+				for(int i =0 ; i < listRelConsumoMedidor.size(); i++) {
+					
+					RelConsumoMedidor relConsumoMedidor = listRelConsumoMedidor.get(i);
+					if(relConsumoMedidor.getAlarm().longValue() == 1 
+							|| relConsumoMedidor.getAlarmDesc() == null
+							|| relConsumoMedidor.getVolume().doubleValue() < volume1.doubleValue()) {
+						
+						relConsumoMedidor.setConsumo(0d);
+					}
+					else {
+						
+						volume2 = relConsumoMedidor.getVolume();
+						relConsumoMedidor.setConsumo(volume2 - volume1);
+						volume1 = volume2;
+					}
+				}
 				
 				req.setAttribute("bridge", bridge);
 				req.setAttribute("medidor", medidor);
