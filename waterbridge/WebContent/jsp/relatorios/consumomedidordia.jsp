@@ -42,12 +42,12 @@
 			    <li class="active">Consumo por Medidor</li>
 			</ul>
 			
+			<div id="divAviso" name="divAviso">${aviso}</div>
+			
 			<div class="form-group">
 				<form data-toggle="validator" role="form" id="formUsuarioMedidor" action="#" method="POST" accept-charset="iso-8859-1,utf-8">
 					<fieldset>
 						<legend class="text-left">Consumo por Medidor</legend>
-						
-						<div id="divAviso">${aviso}</div>
 						
 						<div class="col-sm-4">
 							<div class="form-group">
@@ -99,7 +99,7 @@
 							<div class="form-group">
 								<label class="control-label">Data Início</label><label class="text-danger">*</label>
 			                    <div class='input-group date' id='dpDtInicio'>
-				                    <input type='text' class="form-control input-sm" id='dtInicio' name='dtInicio' required />
+				                    <input type='text' class="form-control input-sm" id='dtInicio' name='dtInicio' placeholder="dd/mm/aaaa" required />
 			            			<span class="input-group-addon">
 										<span class="glyphicon glyphicon-calendar"></span>
 									</span>
@@ -107,7 +107,7 @@
 					                    $(function () {
 				                            $('#dpDtInicio').datetimepicker({
 				                            	format: 'DD/MM/YYYY'
-				                            });
+				                            })
 				                        });
 				                    </script>
 				                </div> 
@@ -118,15 +118,15 @@
 							<div class="form-group">
 								<label class="control-label">Data Fim</label><label class="text-danger">*</label>
 			                    <div class='input-group date' id='dpDtFim'>
-				                    <input type='text' class="form-control input-sm" id='dtFim' name='dtFim' required />
+				                    <input type='text' class="form-control input-sm" id='dtFim' name='dtFim' placeholder="dd/mm/aaaa" required />
 			            			<span class="input-group-addon">
 										<span class="glyphicon glyphicon-calendar"></span>
 									</span>
 				                    <script type="text/javascript">
 					                    $(function () {
 				                            $('#dpDtFim').datetimepicker({
-				                            	format: 'DD/MM/YYYY'
-				                            });
+				                            	format: 'DD/MM/YYYY',
+				                            })
 				                        });
 				                    </script>
 				                </div> 

@@ -43,9 +43,9 @@
 			    <li class="active">Consumo por Medidor</li>
 			</ul>
 			
+			<div id="divAviso" name="divAviso">${aviso}</div>
+			
 			<div class="form-group">
-						<div id="divAviso">${aviso}</div>
-
 				<form data-toggle="validator" role="form" id="formUsuarioMedidor" action="#" method="POST" accept-charset="iso-8859-1,utf-8">
 					<fieldset>
 						<legend class="text-left">Consumo por Local</legend>

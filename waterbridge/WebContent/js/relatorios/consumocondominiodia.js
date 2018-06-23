@@ -211,6 +211,31 @@ function listarConsumoMedidor() {
     	dtFim.style.borderColor = colorRed;
     }
     else {
+    	var numeroDtInicio = dtInicio.value.split('/');
+    	var numeroDtFim = dtFim.value.split('/');
+    	var dataInicio = new Date(numeroDtInicio[2], (numeroDtInicio[1]-1), numeroDtInicio[0]);
+    	var dataFim = new Date(numeroDtFim[2], (numeroDtFim[1]-1), numeroDtFim[0]);
+    	
+    	if(dataFim < dataInicio) {
+    		dtInicio.style.borderColor = colorRed;
+    		dtFim.style.borderColor = colorRed;
+    		divAviso.innerHTML ="<div class='alert alert-danger'>" +
+				 				"  <strong><label id='aviso' name='aviso'/>Data Fim não pode ser menor que Data Início</strong>" +
+				 				"</div>";
+    		return false;
+    	}
+    	
+    	dataInicio.setDate(dataInicio.getDate() + 30);
+
+    	if(dataFim > dataInicio) {
+    		dtInicio.style.borderColor = colorRed;
+    		dtFim.style.borderColor = colorRed;
+    		divAviso.innerHTML ="<div class='alert alert-danger'>" +
+				 				"  <strong><label id='aviso' name='aviso'/>O período não deve ultrapassar 30 dias</strong>" +
+				 				"</div>";
+    		return false;
+    	}
+    	
     	
 	    $.blockUI({ 
 	    	message: '<img src="./images/busy.gif" />',

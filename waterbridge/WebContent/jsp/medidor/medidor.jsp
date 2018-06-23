@@ -103,7 +103,8 @@
 							<div class="col-sm-4">
 								<div class="form-group">
 									<label class="control-label">Validade Bateria:</label><label class="text-danger">*</label>
-									<input type="number" class="form-control" id="bateria" name="bateria" max="99" min="0" value="${medidor.validBateria}" required/>
+									<input type="number" class="form-control" id="bateria" name="bateria" max="99" min="0" value="${medidor.validBateria}" data-error="Número inválido" required/>
+									<div class="help-block with-errors"></div>
 								</div>
 							</div>
 							
@@ -166,7 +167,8 @@
 							<div class="col-sm-4">
 								<div class="form-group">
 									<label class="control-label">Posição:</label><label class="text-danger">*</label>
-									<input type="number" class="form-control" id="posicao" name="posicao" maxlength="2" value="${medidor.meterPosition}" onKeyPress="validaTamanho(this,2)" required/>
+									<input type="number" class="form-control" id="posicao" name="posicao" max="99" min="0" value="${medidor.meterPosition}" data-error="Número inválido" required/>
+									<div class="help-block with-errors"></div>
 								</div>
 							</div>
 							
