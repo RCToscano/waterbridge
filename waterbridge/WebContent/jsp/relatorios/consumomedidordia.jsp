@@ -119,7 +119,7 @@
 						<div class="col-sm-2">
 							<div class="form-group">
 								<label class="control-label">Data Fim</label><label class="text-danger">*</label>
-			                    <div class='input-group date' id='dpDtFim'>
+			                    <div class='inp placeholder="dd/mm/aaaa"m'>
 				                    <input type='text' class="form-control input-sm" id='dtFim' name='dtFim' placeholder="dd/mm/aaaa" required />
 			            			<span class="input-group-addon">
 										<span class="glyphicon glyphicon-calendar"></span>
@@ -151,8 +151,7 @@
 			</div>
 			<div class="col-sm-8 col-md-offset-2">
 				<div class="form-group">
-					<div class="table-responsive" id="divTable">
-					</div>
+					<div class="table-responsive" id="divTable"></div>
 				</div>
 			</div>
 		</div>

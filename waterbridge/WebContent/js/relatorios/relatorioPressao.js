@@ -201,6 +201,22 @@ function listarConsumoMedidor() {
 	            	document.getElementById("divAviso").style.display = "none";
 	            	texto +=
 	            	"<table class='table table-hover table-striped'>" +
+	            	"	<thead>" +
+	            	"		<tr>" +
+	            	"			<th>" +
+	            	"		         <form action='RelatorioPressaoBO?acao=6' method='post' target='_blank'>" +
+					"                    <input type='hidden' name='idEmpresa' value='" + idEmpresa.value + "'>" +
+					"                    <input type='hidden' name='idCondominio' value='" + idCondominio.value + "'>" +
+					"                    <input type='hidden' name='idBridge' value='" + idBridge.value + "'>" +
+					"                    <input type='hidden' name='dtInicio' value='" + dtInicio.value + "'>" +
+					"                    <input type='hidden' name='dtFim' value='" + dtFim.value + "'>" +
+					"			         <button type='submit' class='btn btn-warning'>" +
+					"		                 <i class='fa fa-bar-chart'></i>" +
+					"		             </button>" +
+					"		         </form>" +
+	            	"			</th>" +
+	            	"		</tr>" +
+	            	"	</thead>" +
 		            "	<thead>" +
 		            "		<tr>" +
 		            "			<th>Nº</th>" +
@@ -229,7 +245,7 @@ function listarConsumoMedidor() {
 	                }
 		            texto +=
 					"        <tr>" +
-					"	         <td colspan='7' style='text-align: center'>" +
+					"	         <td colspan='7' style='text-align: left'>" +
 					"		         <form action='RelatorioPressaoBO?acao=6' method='post' target='_blank'>" +
 					"                    <input type='hidden' name='idEmpresa' value='" + idEmpresa.value + "'>" +
 					"                    <input type='hidden' name='idCondominio' value='" + idCondominio.value + "'>" +
@@ -237,7 +253,7 @@ function listarConsumoMedidor() {
 					"                    <input type='hidden' name='dtInicio' value='" + dtInicio.value + "'>" +
 					"                    <input type='hidden' name='dtFim' value='" + dtFim.value + "'>" +
 					"			         <button type='submit' class='btn btn-warning'>" +
-					"		                 <i class='fa fa-bar-chart'></i> Gráfico" +
+					"		                 <i class='fa fa-bar-chart'></i>" +
 					"		             </button>" +
 					"		         </form>" +
 					"	         </td>" +

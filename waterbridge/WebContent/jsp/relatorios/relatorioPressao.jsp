@@ -29,6 +29,8 @@
 	    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
 	    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
 	    
+	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	    
 	    <link href="./css/menucustomcolor.css" rel="stylesheet"/>
 	    <link href="./css/footercustom.css" rel="stylesheet"/>
 	    
@@ -67,7 +69,7 @@
 						<div class="col-sm-5">
 							<div class="form-group">
 								<label class="control-label">Empresa</label><label class="text-danger">*</label>
-								<select class="form-control" id="idEmpresa" name="idEmpresa" required onchange="listarCondominio()">
+								<select class="form-control input-sm" id="idEmpresa" name="idEmpresa" required onchange="listarCondominio()">
 									<option value="" selected>Selecione...</option>
 									<c:forEach var="empresa" items="${listEmpresa}">
 			               		        <c:choose>
@@ -86,7 +88,7 @@
 						<div class="col-sm-5">
 							<div class="form-group">
 								<label class="control-label">Local</label><label class="text-danger">*</label>
-								<select class="form-control" id="idCondominio" name="idCondominio" required onchange="listarBridge()">
+								<select class="form-control input-sm" id="idCondominio" name="idCondominio" required onchange="listarBridge()">
 									<option value="" selected>Selecione...</option>
 								</select>					
 							</div>
@@ -95,7 +97,7 @@
 						<div class="col-sm-2">
 							<div class="form-group">
 								<label class="control-label">Bridge</label><label class="text-danger">*</label>
-								<select class="form-control" id="idBridge" name="idBridge" required>
+								<select class="form-control input-sm" id="idBridge" name="idBridge" required>
 									<option value="" selected>Selecione...</option>
 								</select>					
 							</div>
@@ -105,7 +107,7 @@
 							<div class="form-group">
 								<label class="control-label">Data Início</label><label class="text-danger">*</label>
 								<div class='input-group date' id='datetimepicker1'>
-									<input type="text" class="form-control" id="dtInicio" name="dtInicio" data-date-format="DD/MM/YYYY" placeholder="dd/mm/aaaa" value="${usuario.dtNasc}" required/>
+									<input type="text" class="form-control input-sm" id="dtInicio" name="dtInicio" data-date-format="DD/MM/YYYY" placeholder="dd/mm/aaaa" value="${usuario.dtNasc}" required/>
 									<span class="input-group-addon">
 										<span class="glyphicon glyphicon-calendar"></span>
 									</span>
@@ -124,7 +126,7 @@
 							<div class="form-group">
 								<label class="control-label">Data Fim</label><label class="text-danger">*</label>
 								<div class='input-group date' id='datetimepicker2'>
-									<input type="text" class="form-control" id="dtFim" name="dtFim" data-date-format="DD/MM/YYYY" placeholder="dd/mm/aaaa" value="${usuario.dtNasc}" required/>
+									<input type="text" class="form-control input-sm" id="dtFim" name="dtFim" data-date-format="DD/MM/YYYY" placeholder="dd/mm/aaaa" value="${usuario.dtNasc}" required/>
 									<span class="input-group-addon">
 										<span class="glyphicon glyphicon-calendar"></span>
 									</span>
@@ -156,8 +158,7 @@
 			
 			<div class="col-sm-8 col-md-offset-2">
 				<div class="form-group">
-					<div class="table-responsive" id="divTable">
-					</div>
+					<div class="table-responsive" id="divTable"></div>
 				</div>
 			</div>
 		</div>
