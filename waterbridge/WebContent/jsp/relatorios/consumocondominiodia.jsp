@@ -42,7 +42,7 @@
         	<ul class="breadcrumb">
 			    <li><a href="HomeBO?acao=home">Home</a></li>
 			    <li class="active">Relatórios</li>
-			    <li class="active">Consumo por Medidor</li>
+			    <li class="active">Consumo por Local</li>
 			</ul>
 			
 			<div id="divAviso" name="divAviso">${aviso}</div>

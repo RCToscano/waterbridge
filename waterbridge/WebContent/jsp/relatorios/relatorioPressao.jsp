@@ -45,9 +45,7 @@
 			    <li class="active">Pressure Bridge</li>
 			</ul>
 			
-			<div id="divAviso" name="divAviso" class="alert alert-danger" style="display:${display};">
-				<strong><label id='aviso' name='aviso'/>${aviso}</strong>
-			</div>
+			<div id="divAviso" name="divAviso">${aviso}</div>
 			
 			<c:if test="${not empty sucesso}">
 				<div class="alert alert-success">

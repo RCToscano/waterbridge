@@ -11,7 +11,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
@@ -26,9 +25,7 @@ import br.com.waterbridge.modelo.Bridge;
 import br.com.waterbridge.modelo.Condominio;
 import br.com.waterbridge.modelo.Empresa;
 import br.com.waterbridge.modelo.User;
-import br.com.waterbridge.reldao.RelConsumoMedidorDAO;
 import br.com.waterbridge.reldao.RelPressaoDAO;
-import br.com.waterbridge.relmodelo.RelConsumoMedidor;
 import br.com.waterbridge.relmodelo.RelPressao;
 
 public class RelatorioPressaoBO extends HttpServlet {
@@ -47,8 +44,7 @@ public class RelatorioPressaoBO extends HttpServlet {
 		Connection connection = null;
         try {
         	connection = ConnectionFactory.getConnection();
-        	HttpSession session = req.getSession(true);
-            User user = (User) session.getValue("user");
+        	User user = (User) req.getSession().getAttribute("user");
 		
 			if (req.getParameter("acao") != null) {
 	            relat = req.getParameter("acao");
@@ -86,7 +82,6 @@ public class RelatorioPressaoBO extends HttpServlet {
 		        catch (Exception e) {
 		        	System.out.println(e);
 	        		req.setAttribute("aviso", Constantes.CONTATO_SUPORTE);
-	        		req.setAttribute("display", "block");
 		            req.getRequestDispatcher("/jsp/relatorios/relatorioPressao.jsp").forward(req, res);
 		        }
 	        }
@@ -108,7 +103,6 @@ public class RelatorioPressaoBO extends HttpServlet {
 		        catch (Exception e) {
 		        	System.out.println(e);
 	        		req.setAttribute("aviso", Constantes.CONTATO_SUPORTE);
-	        		req.setAttribute("display", "block");
 		            req.getRequestDispatcher("/jsp/relatorios/relatorioPressao.jsp").forward(req, res);
 		        }
 	        }
@@ -146,7 +140,6 @@ public class RelatorioPressaoBO extends HttpServlet {
 		        catch (Exception e) {
 		        	System.out.println(e);
 	        		req.setAttribute("aviso", Constantes.CONTATO_SUPORTE);
-	        		req.setAttribute("display", "block");
 		            req.getRequestDispatcher("/jsp/relatorios/relatorioPressao.jsp").forward(req, res);
 		        }
 	        }
@@ -207,7 +200,6 @@ public class RelatorioPressaoBO extends HttpServlet {
 						e1.printStackTrace();
 					}
 	        		req.setAttribute("aviso", Constantes.CONTATO_SUPORTE);
-	        		req.setAttribute("display", "block");
 		            req.getRequestDispatcher("/jsp/relatorios/relatorioPressao.jsp").forward(req, res);
 		        }
 	        }
