@@ -7,6 +7,8 @@ public class RelPressao {
 	private Long idBridge;
 	private Long idConsumo;
 	private Long idUser;
+	private String nomeEmpresa;
+	private String nomeCondominio;
 	private String device;
 	private String data;
 	private String version;
@@ -49,6 +51,18 @@ public class RelPressao {
 	}
 	public void setIdUser(Long idUser) {
 		this.idUser = idUser;
+	}
+	public String getNomeEmpresa() {
+		return nomeEmpresa;
+	}
+	public void setNomeEmpresa(String nomeEmpresa) {
+		this.nomeEmpresa = nomeEmpresa;
+	}
+	public String getNomeCondominio() {
+		return nomeCondominio;
+	}
+	public void setNomeCondominio(String nomeCondominio) {
+		this.nomeCondominio = nomeCondominio;
 	}
 	public String getDevice() {
 		return device;

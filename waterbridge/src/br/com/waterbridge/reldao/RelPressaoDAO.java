@@ -80,7 +80,49 @@ public class RelPressaoDAO {
                 rs.close();
         }
     }
-
+    
+    
+    public RelPressao buscarUmaLinha(String sql) throws SQLException {
+    	PreparedStatement stmt = null;
+    	ResultSet rs = null;
+    	try {
+    		stmt = connection.prepareStatement("SELECT * FROM VW_RELATORIOPRESSAO " + sql);
+    		rs = stmt.executeQuery();
+    		
+    		RelPressao relPressao = new RelPressao();
+    		if(rs.next()) {
+    			relPressao.setIdEmpresa(rs.getLong("ID_EMPRESA"));
+    			relPressao.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
+    			relPressao.setIdBridge(rs.getLong("ID_BRIDGE"));
+    			relPressao.setIdConsumo(rs.getLong("ID_CONSUMO"));
+    			relPressao.setIdUser(rs.getLong("ID_USER"));
+    			relPressao.setNomeEmpresa(rs.getString("NOME_EMPRESA"));
+    			relPressao.setNomeCondominio(rs.getString("NOME_CONDOMINIO"));
+    			relPressao.setIdUser(rs.getLong("ID_USER"));
+    			relPressao.setDevice(rs.getString("DEVICE"));
+    			relPressao.setData(rs.getString("DATA"));
+    			relPressao.setVersion(rs.getString("VERSION"));
+    			relPressao.setMeterPosition(rs.getLong("METERPOSITION"));
+    			relPressao.setVolume(rs.getDouble("VOLUME"));
+    			relPressao.setPressure(rs.getDouble("PRESSURE"));
+    			relPressao.setFlow(rs.getLong("FLOW"));
+    			relPressao.setTemperature(rs.getLong("TEMPERATURE"));
+    			relPressao.setBattery(rs.getDouble("BATTERY"));
+    			relPressao.setAlarm(rs.getLong("ALARM"));
+    			relPressao.setAlarmDesc(rs.getString("ALARMDESC"));
+    			relPressao.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));
+    		}
+    		
+    		return relPressao;
+    	}
+    	finally {
+    		if(stmt != null)
+    			stmt.close();
+    		if(rs != null)
+    			rs.close();
+    	}
+    }
+    
 }
 
 

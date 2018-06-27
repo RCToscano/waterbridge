@@ -210,8 +210,20 @@ function listarConsumoMedidor() {
 					"                    <input type='hidden' name='idBridge' value='" + idBridge.value + "'>" +
 					"                    <input type='hidden' name='dtInicio' value='" + dtInicio.value + "'>" +
 					"                    <input type='hidden' name='dtFim' value='" + dtFim.value + "'>" +
-					"			         <button type='submit' class='btn btn-warning'>" +
-					"		                 <i class='fa fa-bar-chart'></i>" +
+					"			         <button type='submit' class='btn btn-warning' title='Clique para visualizar o gráfico'>" +
+					"		                <i class='fa fa-bar-chart'></i>" +
+					"		             </button>" +
+					"		         </form>" +
+					"			</th>" +
+					"			<th colspan='6'>" +
+					"		         <form action='RelatorioPressaoBO?acao=excel' method='post' target='_blank'>" +
+					"                    <input type='hidden' name='idEmpresa' value='" + idEmpresa.value + "'>" +
+					"                    <input type='hidden' name='idCondominio' value='" + idCondominio.value + "'>" +
+					"                    <input type='hidden' name='idBridge' value='" + idBridge.value + "'>" +
+					"                    <input type='hidden' name='dtInicio' value='" + dtInicio.value + "'>" +
+					"                    <input type='hidden' name='dtFim' value='" + dtFim.value + "'>" +
+					"			         <button type='submit' class='btn btn-warning' title='Clique para fazer o download em excel'>" +
+					"		                 <i class='fa fa-file-excel'></i>" +
 					"		             </button>" +
 					"		         </form>" +
 	            	"			</th>" +
@@ -245,15 +257,27 @@ function listarConsumoMedidor() {
 	                }
 		            texto +=
 					"        <tr>" +
-					"	         <td colspan='7' style='text-align: left'>" +
+					"	         <td>" +
 					"		         <form action='RelatorioPressaoBO?acao=6' method='post' target='_blank'>" +
 					"                    <input type='hidden' name='idEmpresa' value='" + idEmpresa.value + "'>" +
 					"                    <input type='hidden' name='idCondominio' value='" + idCondominio.value + "'>" +
 					"                    <input type='hidden' name='idBridge' value='" + idBridge.value + "'>" +
 					"                    <input type='hidden' name='dtInicio' value='" + dtInicio.value + "'>" +
 					"                    <input type='hidden' name='dtFim' value='" + dtFim.value + "'>" +
-					"			         <button type='submit' class='btn btn-warning'>" +
+					"			         <button type='submit' class='btn btn-warning' title='Clique para visualizar o gráfico'>" +
 					"		                 <i class='fa fa-bar-chart'></i>" +
+					"		             </button>" +
+					"		         </form>" +
+					"	         </td>" +
+					"	         <td colspan='6' style='text-align: left'>" +
+					"		         <form action='RelatorioPressaoBO?acao=excel' method='post' target='_blank'>" +
+					"                    <input type='hidden' name='idEmpresa' value='" + idEmpresa.value + "'>" +
+					"                    <input type='hidden' name='idCondominio' value='" + idCondominio.value + "'>" +
+					"                    <input type='hidden' name='idBridge' value='" + idBridge.value + "'>" +
+					"                    <input type='hidden' name='dtInicio' value='" + dtInicio.value + "'>" +
+					"                    <input type='hidden' name='dtFim' value='" + dtFim.value + "'>" +
+					"			         <button type='submit' class='btn btn-warning' title='Clique para fazer o download em excel'>" +
+					"		                 <i class='fa fa-file-excel'></i>" +
 					"		             </button>" +
 					"		         </form>" +
 					"	         </td>" +

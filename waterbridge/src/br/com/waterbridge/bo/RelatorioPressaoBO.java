@@ -15,7 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import br.com.waterbridge.auxiliar.Auxiliar;
+import br.com.waterbridge.auxiliar.ColunasExcel;
 import br.com.waterbridge.auxiliar.Constantes;
+import br.com.waterbridge.auxiliar.GeradorExcel;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.BridgeDAO;
 import br.com.waterbridge.dao.CondominioDAO;
@@ -203,6 +205,85 @@ public class RelatorioPressaoBO extends HttpServlet {
 		            req.getRequestDispatcher("/jsp/relatorios/relatorioPressao.jsp").forward(req, res);
 		        }
 	        }
+			
+			//Excel
+			else if (relat.equals("excel")) {
+				try {
+					String sql = "WHERE ID_BRIDGETP <> 3 " ;
+
+					if(req.getParameter("idEmpresa") != null && !req.getParameter("idEmpresa").equals("")) {
+						sql += "AND   ID_EMPRESA = " + req.getParameter("idEmpresa") + " ";
+					}
+					if(req.getParameter("idCondominio") != null && !req.getParameter("idCondominio").equals("")) {
+						sql += "AND   ID_CONDOMINIO = " + req.getParameter("idCondominio") + " ";
+					}
+					if(req.getParameter("idBridge") != null && !req.getParameter("idBridge").equals("")) {
+						sql += "AND   ID_BRIDGE = " + req.getParameter("idBridge") + " ";
+					}
+					if(req.getParameter("dtInicio") != null && !req.getParameter("dtInicio").equals("")) {
+						sql += "AND   DTINSERT >= '" + Auxiliar.formataDtBanco(req.getParameter("dtInicio")) + " 00:00' " +
+							   "AND   DTINSERT <= '" + Auxiliar.formataDtBanco(req.getParameter("dtFim")) + " 23:59' " ;
+					}
+					sql += "ORDER BY DTINSERT ";
+					
+					
+					RelPressaoDAO relPressaoDAO = new RelPressaoDAO(connection);
+					RelPressao relPressao = relPressaoDAO.buscarUmaLinha(sql);
+					
+					//Aba Resumo
+            		List<String> abas = new ArrayList<String>();
+            		abas.add("Resumo");
+            		
+            		List<List<String>> colunas = new ArrayList<>();
+            		colunas.add(new ColunasExcel().getColunasRelPressaoResumo());
+            		
+            		List<List<List<String>>> listaFinal = new ArrayList<>();
+            		
+            		List<List<String>> lista1 = new ArrayList<>();
+        			List<String> listaValores1 = new ArrayList<>();
+        			listaValores1.add(relPressao.getNomeEmpresa());
+        			listaValores1.add(relPressao.getNomeCondominio());
+        			listaValores1.add(relPressao.getDevice());
+        			listaValores1.add(req.getParameter("dtInicio"));
+        			listaValores1.add(req.getParameter("dtFim"));
+        			lista1.add(listaValores1);
+            		listaFinal.add(lista1);
+					
+            		
+            		
+            		//Dados
+            		List<RelPressao> listaView = relPressaoDAO.listar(sql);
+		        	
+		        	abas.add("Dados");
+		        	
+		        	colunas.add(new ColunasExcel().getColunasRelPressaoDados());
+		        	
+		        	List<List<String>> lista2 = new ArrayList<>();
+		        	for (int i = 0; i < listaView.size(); i++) {
+		        		List<String> listaValores2 = new ArrayList<>();
+		        		recuperaDados(listaView, i, listaValores2);
+		        		lista2.add(listaValores2);
+		        	}
+		        	listaFinal.add(lista2);
+            		
+            		String nomeArquivo = "RelatorioPressao_"+Auxiliar.dataAtual()+".xlsx";
+            		
+		        	GeradorExcel.gerar2Abas(res, nomeArquivo, abas, colunas, listaFinal);
+					
+				} 
+				catch (Exception e) {
+					System.out.println(e);
+		        	try {
+						new LogSqlDAO(connection).inserir(((User) req.getSession().getAttribute("user")).getIdUser(),
+								"", e.getMessage(), "UsuarioBO", relat);
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+	        		req.setAttribute("aviso", Constantes.CONTATO_SUPORTE);
+		            req.getRequestDispatcher("/jsp/relatorios/relatorioPressao.jsp").forward(req, res);
+				}
+			}
+			
 		}
         catch (Exception e) {
             req.setAttribute("erro", e.toString());
@@ -220,5 +301,18 @@ public class RelatorioPressaoBO extends HttpServlet {
             }
         }
 	}
+	
+	
+	private void recuperaDados(List<RelPressao> listaView, int i, List<String> listaValores2) {
+		listaValores2.add(String.valueOf(i+1));
+		listaValores2.add(listaView.get(i).getDtInsert());
+		listaValores2.add(String.valueOf(listaView.get(i).getPressure()));
+		listaValores2.add(String.valueOf(listaView.get(i).getBattery()));
+		listaValores2.add(listaView.get(i).getAlarmDesc());
+		listaValores2.add(String.valueOf(listaView.get(i).getTemperature()));
+	}
+		
+		
+	
 }
 
