@@ -9,6 +9,8 @@ public class RelConsumoMedidor {
 	private Long idConsumo;
 	private Long idUser;
 	private Long idMedidor;
+	private String empresa;
+	private String condominio;
 	private String device;
 	private String data;
 	private String version;
@@ -73,6 +75,18 @@ public class RelConsumoMedidor {
 	}
 	public void setIdMedidor(Long idMedidor) {
 		this.idMedidor = idMedidor;
+	}
+	public String getEmpresa() {
+		return empresa;
+	}
+	public void setEmpresa(String empresa) {
+		this.empresa = empresa;
+	}
+	public String getCondominio() {
+		return condominio;
+	}
+	public void setCondominio(String condominio) {
+		this.condominio = condominio;
 	}
 	public String getDevice() {
 		return device;

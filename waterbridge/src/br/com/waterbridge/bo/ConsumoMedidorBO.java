@@ -11,11 +11,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
 import br.com.waterbridge.auxiliar.Auxiliar;
+import br.com.waterbridge.auxiliar.ColunasExcel;
+import br.com.waterbridge.auxiliar.GeradorExcel;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.BridgeDAO;
 import br.com.waterbridge.dao.CondominioDAO;
@@ -43,11 +44,11 @@ public class ConsumoMedidorBO extends HttpServlet {
 	@Override
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
                    
-		if (req.getParameter("acao") != null && req.getParameter("acao").equals("1")) {//ENTRA NA TELA LISTA USUARIO X MEDIDOR
+		//ENTRA NA TELA LISTA USUARIO X MEDIDOR
+		if (req.getParameter("acao") != null && req.getParameter("acao").equals("1")) {
 			
 			Connection connection = null;
-			HttpSession session = req.getSession(true);
-            User user = (User) session.getValue("user");
+			User user = (User) req.getSession().getAttribute("user");
 			
 			try {
 				
@@ -69,12 +70,12 @@ public class ConsumoMedidorBO extends HttpServlet {
 				}
 			}
         } 
-		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("2")) {//POPULA COMBO CONDOMINIO
+		
+		//POPULA COMBO CONDOMINIO
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("2")) {
 
 			Connection connection = null;
-			HttpSession session = req.getSession(true);
-            User user = (User) session.getValue("user");
-            String json = "";
+			User user = (User) req.getSession().getAttribute("user");
 			
 			try {
 			
@@ -84,7 +85,7 @@ public class ConsumoMedidorBO extends HttpServlet {
 				List<Condominio> listCondominio = new ArrayList<Condominio>();		
 				listCondominio = condominioDAO.listarPorUsuario(user.getIdUser(), Long.parseLong(req.getParameter("idEmpresa")));
 				
-				json = new Gson().toJson(listCondominio);
+				String json = new Gson().toJson(listCondominio);
 				
 				res.setContentType("application/json");
 				res.setCharacterEncoding("UTF-8");
@@ -101,12 +102,12 @@ public class ConsumoMedidorBO extends HttpServlet {
 				}
 			}	
         }
-		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("3")) { //POPULA COMBO BRIDGE
+		
+		//POPULA COMBO BRIDGE
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("3")) {
 
 			Connection connection = null;
-			HttpSession session = req.getSession(true);
-            User user = (User) session.getValue("user");
-            String json = "";
+			User user = (User) req.getSession().getAttribute("user");
 			
 			try {
 			
@@ -116,7 +117,7 @@ public class ConsumoMedidorBO extends HttpServlet {
 				List<Bridge> listBridge = new ArrayList<Bridge>();	
 				listBridge = bridgeDAO.listarWaterBridgePorUsuario(user.getIdUser(), Long.parseLong(req.getParameter("idCondominio")));
 
-				json = new Gson().toJson(listBridge);
+				String json = new Gson().toJson(listBridge);
 				
 				res.setContentType("application/json");
 				res.setCharacterEncoding("UTF-8");
@@ -133,12 +134,12 @@ public class ConsumoMedidorBO extends HttpServlet {
 				}
 			}	
         }
-		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("4")) { //POPULA COMBO MEDIDOR
+		
+		//POPULA COMBO MEDIDOR
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("4")) {
 
 			Connection connection = null;
-			HttpSession session = req.getSession(true);
-            User user = (User) session.getValue("user");
-            String json = "";
+			User user = (User) req.getSession().getAttribute("user");
 			
 			try {
 			
@@ -148,7 +149,7 @@ public class ConsumoMedidorBO extends HttpServlet {
 				List<Medidor> listMedidor = new ArrayList<Medidor>();		
 				listMedidor = medidorDAO.listarPorUsuario(user.getIdUser(), Long.parseLong(req.getParameter("idBridge")));
 
-				json = new Gson().toJson(listMedidor);
+				String json = new Gson().toJson(listMedidor);
 				
 				res.setContentType("application/json");
 				res.setCharacterEncoding("UTF-8");
@@ -165,7 +166,9 @@ public class ConsumoMedidorBO extends HttpServlet {
 				}
 			}	
         }
-		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("5")) { //LISTAR CONSUMO MEDIDOR DIA
+		
+		//LISTAR CONSUMO MEDIDOR DIA
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("5")) {
 
 			Connection connection = null;
             String sql = "";
@@ -201,30 +204,7 @@ public class ConsumoMedidorBO extends HttpServlet {
 				Double volume1 = 0d;
 				Double volume2 = 0d;
 
-				if(consumoAnterior != null 
-						&& consumoAnterior.getVolume().doubleValue() != 0 
-						&& consumoAnterior.getVolume().doubleValue() != 0.0) {
-					volume1 = consumoAnterior.getVolume();
-				}
-				
-				RelConsumoMedidorDAO relConsumoMedidorDAO = new RelConsumoMedidorDAO(connection);
-				List<RelConsumoMedidor> listRelConsumoMedidor = relConsumoMedidorDAO.listar(sql);
-				for(int i =0 ; i < listRelConsumoMedidor.size(); i++) {
-					
-					RelConsumoMedidor relConsumoMedidor = listRelConsumoMedidor.get(i);
-					if(relConsumoMedidor.getAlarm().longValue() == 1 
-							|| relConsumoMedidor.getAlarmDesc() == null
-							|| relConsumoMedidor.getVolume().doubleValue() < volume1.doubleValue()) {
-						
-						relConsumoMedidor.setConsumo(0d);
-					}
-					else {
-						
-						volume2 = relConsumoMedidor.getVolume();
-						relConsumoMedidor.setConsumo(volume2 - volume1);
-						volume1 = volume2;
-					}
-				}
+				List<RelConsumoMedidor> listRelConsumoMedidor = dadosTela(connection, sql, consumoAnterior, volume1, volume2);
 				
 				json = new Gson().toJson(listRelConsumoMedidor);
 
@@ -243,7 +223,9 @@ public class ConsumoMedidorBO extends HttpServlet {
 				}
 			}	
         }
-		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("6")) { //LISTAR CONSUMO MEDIDOR DIA GRAFICO
+		
+		//LISTAR CONSUMO MEDIDOR DIA GRAFICO
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("6")) {
 
 			Connection connection = null;
             String sql = "";
@@ -286,30 +268,7 @@ public class ConsumoMedidorBO extends HttpServlet {
 				Double volume1 = 0d;
 				Double volume2 = 0d;
 
-				if(consumoAnterior != null 
-						&& consumoAnterior.getVolume().doubleValue() != 0 
-						&& consumoAnterior.getVolume().doubleValue() != 0.0) {
-					volume1 = consumoAnterior.getVolume();
-				}
-				
-				RelConsumoMedidorDAO relConsumoMedidorDAO = new RelConsumoMedidorDAO(connection);
-				List<RelConsumoMedidor> listRelConsumoMedidor = relConsumoMedidorDAO.listar(sql);
-				for(int i =0 ; i < listRelConsumoMedidor.size(); i++) {
-					
-					RelConsumoMedidor relConsumoMedidor = listRelConsumoMedidor.get(i);
-					if(relConsumoMedidor.getAlarm().longValue() == 1 
-							|| relConsumoMedidor.getAlarmDesc() == null
-							|| relConsumoMedidor.getVolume().doubleValue() < volume1.doubleValue()) {
-						
-						relConsumoMedidor.setConsumo(0d);
-					}
-					else {
-						
-						volume2 = relConsumoMedidor.getVolume();
-						relConsumoMedidor.setConsumo(volume2 - volume1);
-						volume1 = volume2;
-					}
-				}
+				List<RelConsumoMedidor> listRelConsumoMedidor = dadosTela(connection, sql, consumoAnterior, volume1, volume2);
 				
 				req.setAttribute("bridge", bridge);
 				req.setAttribute("medidor", medidor);
@@ -329,6 +288,137 @@ public class ConsumoMedidorBO extends HttpServlet {
 				}
 			}	
         }
+		
+		//Excel
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("excel")) {
+			
+			Connection connection = null;
+			String sql = "";
+			
+			try {
+				
+				sql += "WHERE ID_CONSUMO > 0 " ;
+				if(req.getParameter("idEmpresa") != null && !req.getParameter("idEmpresa").equals("")) {
+					sql += "AND   ID_EMPRESA = " + req.getParameter("idEmpresa") + " ";
+				}
+				if(req.getParameter("idCondominio") != null && !req.getParameter("idCondominio").equals("")) {
+					sql += "AND   ID_CONDOMINIO = " + req.getParameter("idCondominio") + " ";
+				}
+				if(req.getParameter("idBridge") != null && !req.getParameter("idBridge").equals("")) {
+					sql += "AND   ID_BRIDGE = " + req.getParameter("idBridge") + " ";
+				}
+				if(req.getParameter("idMedidor") != null && !req.getParameter("idMedidor").equals("")) {
+					sql += "AND   ID_MEDIDOR = " + req.getParameter("idMedidor") + " ";
+				}
+				if(req.getParameter("dtInicio") != null && !req.getParameter("dtInicio").equals("")) {
+					
+					sql += "AND   DTINSERT >= '" + Auxiliar.formataDtBanco(req.getParameter("dtInicio")) + " 00:00' " +
+							"AND   DTINSERT <= '" + Auxiliar.formataDtBanco(req.getParameter("dtFim")) + " 23:59' " ;
+				}
+				sql += "ORDER BY DTINSERT ";
+				
+				connection = ConnectionFactory.getConnection();
+				
+				ConsumoDAO consumoDAO = new ConsumoDAO(connection);
+				Consumo consumoAnterior = consumoDAO.buscarAnterior(Long.parseLong(req.getParameter("idMedidor")),
+						Auxiliar.formataDtBanco(req.getParameter("dtInicio")) + " 00:00");				
+				Double volume1 = 0d;
+				Double volume2 = 0d;
+				
+				List<RelConsumoMedidor> listRelConsumoMedidor = dadosTela(connection, sql, consumoAnterior, volume1, volume2);
+				
+				
+				//Aba Resumo
+        		List<String> abas = new ArrayList<String>();
+        		abas.add("Resumo");
+        		
+        		List<List<String>> colunas = new ArrayList<>();
+        		colunas.add(new ColunasExcel().getColunasRelMedidorResumo());
+        		
+        		List<List<List<String>>> listaFinal = new ArrayList<>();
+        		
+        		List<List<String>> lista1 = new ArrayList<>();
+    			List<String> listaValores1 = new ArrayList<>();
+    			listaValores1.add(listRelConsumoMedidor.get(0).getEmpresa());
+    			listaValores1.add(listRelConsumoMedidor.get(0).getCondominio());
+    			listaValores1.add(listRelConsumoMedidor.get(0).getDevice());
+    			listaValores1.add(listRelConsumoMedidor.get(0).getNumeroMedidor());
+    			listaValores1.add(req.getParameter("dtInicio"));
+    			listaValores1.add(req.getParameter("dtFim"));
+    			lista1.add(listaValores1);
+        		listaFinal.add(lista1);
+        		
+        		
+        		//Dados
+	        	abas.add("Dados");
+	        	
+	        	colunas.add(new ColunasExcel().getColunasRelMedidorDados());
+	        	
+	        	List<List<String>> lista2 = new ArrayList<>();
+	        	for (int i = 0; i < listRelConsumoMedidor.size(); i++) {
+	        		List<String> listaValores2 = new ArrayList<>();
+	        		recuperaDados(listRelConsumoMedidor, i, listaValores2);
+	        		lista2.add(listaValores2);
+	        	}
+	        	listaFinal.add(lista2);
+        		
+        		String nomeArquivo = "Relatorio_Consumo_Medidor_"+Auxiliar.dataAtual()+".xlsx";
+        		
+	        	GeradorExcel.gerar2Abas(res, nomeArquivo, abas, colunas, listaFinal);
+				
+			}
+			catch (Exception e) {
+				System.out.println("erro: " + e.toString());
+				req.setAttribute("erro", e.toString());
+				req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
+			}
+			finally {
+				if(connection != null) {
+					try {connection.close();} catch (SQLException e) {}
+				}
+			}	
+		}
     }
+
+	private List<RelConsumoMedidor> dadosTela(Connection connection, String sql, Consumo consumoAnterior,
+			Double volume1, Double volume2) throws SQLException {
+		if(consumoAnterior != null 
+				&& consumoAnterior.getVolume().doubleValue() != 0 
+				&& consumoAnterior.getVolume().doubleValue() != 0.0) {
+			volume1 = consumoAnterior.getVolume();
+		}
+		
+		RelConsumoMedidorDAO relConsumoMedidorDAO = new RelConsumoMedidorDAO(connection);
+		List<RelConsumoMedidor> listRelConsumoMedidor = relConsumoMedidorDAO.listar(sql);
+		for(int i =0 ; i < listRelConsumoMedidor.size(); i++) {
+			
+			RelConsumoMedidor relConsumoMedidor = listRelConsumoMedidor.get(i);
+			if(relConsumoMedidor.getAlarm().longValue() == 1 
+					|| relConsumoMedidor.getAlarmDesc() == null
+					|| relConsumoMedidor.getVolume().doubleValue() < volume1.doubleValue()) {
+				
+				relConsumoMedidor.setConsumo(0d);
+			}
+			else {
+				
+				volume2 = relConsumoMedidor.getVolume();
+				relConsumoMedidor.setConsumo(volume2 - volume1);
+				volume1 = volume2;
+			}
+		}
+		return listRelConsumoMedidor;
+	}
+	
+	private void recuperaDados(List<RelConsumoMedidor> listaView, int i, List<String> listaValores2) {
+		listaValores2.add(String.valueOf(i+1));
+		listaValores2.add(listaView.get(i).getDtInsert());
+		listaValores2.add(String.valueOf(listaView.get(i).getVolume()));
+		listaValores2.add(String.valueOf(listaView.get(i).getPressure()));
+		listaValores2.add(listaView.get(i).getAlarmDesc());
+		listaValores2.add(String.valueOf(listaView.get(i).getBattery()));
+		listaValores2.add(String.valueOf(listaView.get(i).getTemperature()));
+	}
+	
+	
 }
 

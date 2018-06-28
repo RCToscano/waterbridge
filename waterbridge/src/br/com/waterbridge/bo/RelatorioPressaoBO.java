@@ -248,8 +248,7 @@ public class RelatorioPressaoBO extends HttpServlet {
         			listaValores1.add(req.getParameter("dtFim"));
         			lista1.add(listaValores1);
             		listaFinal.add(lista1);
-					
-            		
+
             		
             		//Dados
             		List<RelPressao> listaView = relPressaoDAO.listar(sql);

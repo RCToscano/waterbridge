@@ -36,6 +36,8 @@ public class RelConsumoMedidorDAO {
     		"       ID_CONSUMO, " +
     		"		ID_USER, " +
     		"		ID_MEDIDOR, " +
+    		"		EMPRESA, " +
+    		"		CONDOMINIO, " +
     		"		DEVICE, " +
     		"		DATA, " +
     		"		VERSION, " +
@@ -75,6 +77,8 @@ public class RelConsumoMedidorDAO {
             	relConsumoMedidor.setIdUser(rs.getLong("ID_USER"));
             	relConsumoMedidor.setIdMedidor(rs.getLong("ID_MEDIDOR"));
             	relConsumoMedidor.setDevice(rs.getString("DEVICE"));
+            	relConsumoMedidor.setEmpresa(rs.getString("EMPRESA"));
+            	relConsumoMedidor.setCondominio(rs.getString("CONDOMINIO"));
             	relConsumoMedidor.setData(rs.getString("DATA"));
             	relConsumoMedidor.setVersion(rs.getString("VERSION"));
             	relConsumoMedidor.setMeterPosition(rs.getLong("METERPOSITION"));
