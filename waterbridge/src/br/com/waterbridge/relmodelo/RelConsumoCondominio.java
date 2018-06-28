@@ -5,6 +5,7 @@ import java.util.List;
 public class RelConsumoCondominio {
 
 	private Long idMedidor;
+	private String device;
 	private String meterId;
 	private String endereco;
 	private Long numero;
@@ -24,6 +25,12 @@ public class RelConsumoCondominio {
 	}
 	public void setIdMedidor(Long idMedidor) {
 		this.idMedidor = idMedidor;
+	}
+	public String getDevice() {
+		return device;
+	}
+	public void setDevice(String device) {
+		this.device = device;
 	}
 	public String getMeterId() {
 		return meterId;

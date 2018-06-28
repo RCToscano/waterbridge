@@ -11,11 +11,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
 import br.com.waterbridge.auxiliar.Auxiliar;
+import br.com.waterbridge.auxiliar.ColunasExcel;
+import br.com.waterbridge.auxiliar.GeradorExcel;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.BridgeDAO;
 import br.com.waterbridge.dao.CondominioDAO;
@@ -43,11 +44,11 @@ public class ConsumoCondominioBO extends HttpServlet {
 	@Override
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
                    
-		if (req.getParameter("acao") != null && req.getParameter("acao").equals("1")) {//ENTRA NA TELA LISTA USUARIO X MEDIDOR
+		//ENTRA NA TELA LISTA USUARIO X MEDIDOR
+		if (req.getParameter("acao") != null && req.getParameter("acao").equals("1")) {
 			
 			Connection connection = null;
-			HttpSession session = req.getSession(true);
-            User user = (User) session.getValue("user");
+			User user = (User) req.getSession().getAttribute("user");
 			
 			try {
 				
@@ -69,23 +70,19 @@ public class ConsumoCondominioBO extends HttpServlet {
 				}
 			}
         } 
-		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("2")) {//POPULA COMBO CONDOMINIO
-
+		
+		//POPULA COMBO CONDOMINIO
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("2")) {
 			Connection connection = null;
-			HttpSession session = req.getSession(true);
-            User user = (User) session.getValue("user");
-            String sql = "";
-            String json = "";
-			
+			User user = (User) req.getSession().getAttribute("user");
 			try {
-			
 				connection = ConnectionFactory.getConnection();
 				
 				CondominioDAO condominioDAO = new CondominioDAO(connection);
 				List<Condominio> listCondominio = new ArrayList<Condominio>();		
 				listCondominio = condominioDAO.listarPorUsuario(user.getIdUser(), Long.parseLong(req.getParameter("idEmpresa")));
 				
-				json = new Gson().toJson(listCondominio);
+				String json = new Gson().toJson(listCondominio);
 				
 				res.setContentType("application/json");
 				res.setCharacterEncoding("UTF-8");
@@ -102,22 +99,19 @@ public class ConsumoCondominioBO extends HttpServlet {
 				}
 			}	
         }
-		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("3")) { //POPULA COMBO BRIDGE
-
+		
+		//POPULA COMBO BRIDGE
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("3")) {
 			Connection connection = null;
-			HttpSession session = req.getSession(true);
-            User user = (User) session.getValue("user");
-            String json = "";
-			
+			User user = (User) req.getSession().getAttribute("user");
 			try {
-			
 				connection = ConnectionFactory.getConnection();
 				
 				BridgeDAO bridgeDAO = new BridgeDAO(connection);
 				List<Bridge> listBridge = new ArrayList<Bridge>();	
 				listBridge = bridgeDAO.listarPorUsuario(user.getIdUser(), Long.parseLong(req.getParameter("idCondominio")));
 
-				json = new Gson().toJson(listBridge);
+				String json = new Gson().toJson(listBridge);
 				
 				res.setContentType("application/json");
 				res.setCharacterEncoding("UTF-8");
@@ -134,22 +128,19 @@ public class ConsumoCondominioBO extends HttpServlet {
 				}
 			}	
         }
-		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("4")) { //POPULA COMBO MEDIDOR
-
+		
+		//POPULA COMBO MEDIDOR
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("4")) {
 			Connection connection = null;
-			HttpSession session = req.getSession(true);
-            User user = (User) session.getValue("user");
-            String json = "";
-			
+			User user = (User) req.getSession().getAttribute("user");
 			try {
-			
 				connection = ConnectionFactory.getConnection();
 				
 				MedidorDAO medidorDAO = new MedidorDAO(connection);
 				List<Medidor> listMedidor = new ArrayList<Medidor>();		
 				listMedidor = medidorDAO.listarPorUsuario(user.getIdUser(), Long.parseLong(req.getParameter("idBridge")));
 
-				json = new Gson().toJson(listMedidor);
+				String json = new Gson().toJson(listMedidor);
 				
 				res.setContentType("application/json");
 				res.setCharacterEncoding("UTF-8");
@@ -166,8 +157,9 @@ public class ConsumoCondominioBO extends HttpServlet {
 				}
 			}	
         }
-		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("5")) { //LISTAR CONSUMO MEDIDOR DIA
-
+		
+		//LISTAR CONSUMO MEDIDOR DIA
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("5")) {
 			Connection connection = null;
             String sql = "";
             String json = "";
@@ -235,7 +227,9 @@ public class ConsumoCondominioBO extends HttpServlet {
 				}
 			}	
         }
-		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("6")) { //LISTAR CONSUMO MEDIDOR DIA GRAFICO
+		
+		//LISTAR CONSUMO MEDIDOR DIA GRAFICO
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("6")) {
 
 			Connection connection = null;
             String sql = "";
@@ -306,6 +300,124 @@ public class ConsumoCondominioBO extends HttpServlet {
 				}
 			}	
         }
+		
+
+		//Excel
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("excel")) {
+			Connection connection = null;
+			try {
+
+				String sql = "WHERE ID_EMPRESA > 0 " ;
+				if(req.getParameter("idEmpresa") != null && !req.getParameter("idEmpresa").equals("")) {
+					sql += "AND   ID_EMPRESA = " + req.getParameter("idEmpresa") + " ";
+				}
+				if(req.getParameter("idCondominio") != null && !req.getParameter("idCondominio").equals("")) {
+					sql += "AND   ID_CONDOMINIO = " + req.getParameter("idCondominio") + " ";
+				}
+				if(req.getParameter("idBridge") != null && !req.getParameter("idBridge").equals("")) {
+					sql += "AND   ID_BRIDGE = " + req.getParameter("idBridge") + " ";
+				}
+				if(req.getParameter("idMedidor") != null && !req.getParameter("idMedidor").equals("")) {
+					sql += "AND   ID_MEDIDOR = " + req.getParameter("idMedidor") + " ";
+				}
+				sql += "ORDER BY METERID ";
+
+				connection = ConnectionFactory.getConnection();
+				
+				ConsumoDAO consumoDAO = new ConsumoDAO(connection);
+				
+				RelMedidorDAO relMedidorDAO = new RelMedidorDAO(connection);
+				List<RelMedidor> listRelMedidor = relMedidorDAO.listar(sql);
+				
+				String empresa = "";
+				String condominio = "";
+				List<RelConsumoCondominio> listRelConsumoCondominio = new ArrayList<RelConsumoCondominio>();
+				for(RelMedidor relMedidor: listRelMedidor) {
+					empresa = relMedidor.getEmpresa();
+					condominio = relMedidor.getCondominio();
+					
+					RelConsumoCondominio relConsumoCondominio = new RelConsumoCondominio();
+					relConsumoCondominio.setIdMedidor(relMedidor.getIdMedidor());
+					relConsumoCondominio.setDevice(relMedidor.getDeviceNum());
+					relConsumoCondominio.setMeterId(relMedidor.getMeterId());
+					relConsumoCondominio.setEndereco(relMedidor.getEndereco());
+					relConsumoCondominio.setNumero(relMedidor.getNumero());
+					relConsumoCondominio.setCompl(relMedidor.getCompl());
+					relConsumoCondominio.setMunicipio(relMedidor.getMunicipio());
+					relConsumoCondominio.setUf(relMedidor.getUf());
+					relConsumoCondominio.setCep(relMedidor.getCep());
+					relConsumoCondominio.setCoordX(relMedidor.getCoordX());
+					relConsumoCondominio.setCoordY(relMedidor.getCoordY());
+					relConsumoCondominio.setVolumeInicio(consumoDAO.buscarVolumeInicio(relMedidor.getIdMedidor(), Auxiliar.formataDtBanco(req.getParameter("dtInicio")) + " 00:00"));
+					relConsumoCondominio.setVolumeFim(consumoDAO.buscarVolumeFim(relMedidor.getIdMedidor(), Auxiliar.formataDtBanco(req.getParameter("dtFim")) + " 23:59"));
+					relConsumoCondominio.setConsumo(relConsumoCondominio.getVolumeFim() - relConsumoCondominio.getVolumeInicio());
+					relConsumoCondominio.setListRelUserMedidor(relMedidor.getListRelUserMedidor());
+					listRelConsumoCondominio.add(relConsumoCondominio);
+				}
+				
+				
+				//Aba Resumo
+        		List<String> abas = new ArrayList<String>();
+        		abas.add("Resumo");
+        		
+        		List<List<String>> colunas = new ArrayList<>();
+        		colunas.add(new ColunasExcel().getColunasRelCondominioResumo());
+        		
+        		List<List<List<String>>> listaFinal = new ArrayList<>();
+        		
+        		List<List<String>> lista1 = new ArrayList<>();
+    			List<String> listaValores1 = new ArrayList<>();
+    			listaValores1.add(empresa);
+    			listaValores1.add(condominio);
+    			listaValores1.add(req.getParameter("dtInicio"));
+    			listaValores1.add(req.getParameter("dtFim"));
+    			lista1.add(listaValores1);
+        		listaFinal.add(lista1);
+				
+        		
+        		//Dados
+	        	abas.add("Dados");
+	        	
+	        	colunas.add(new ColunasExcel().getColunasRelCondominioDados());
+	        	
+	        	List<List<String>> lista2 = new ArrayList<>();
+	        	for (int i = 0; i < listRelConsumoCondominio.size(); i++) {
+	        		List<String> listaValores2 = new ArrayList<>();
+	        		recuperaDados(listRelConsumoCondominio, i, listaValores2);
+	        		lista2.add(listaValores2);
+	        	}
+	        	listaFinal.add(lista2);
+        		
+        		String nomeArquivo = "Relatorio_Consumo_Local_"+Auxiliar.dataAtual()+".xlsx";
+        		
+	        	GeradorExcel.gerar2Abas(res, nomeArquivo, abas, colunas, listaFinal);
+				
+				
+			}
+	        catch (Exception e) {
+	        	System.out.println("erro: " + e.toString());
+	            req.setAttribute("erro", e.toString());
+	            req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
+	        }
+			finally {
+				if(connection != null) {
+					try {connection.close();} catch (SQLException e) {}
+				}
+			}	
+        }
+		
     }
+	
+	private void recuperaDados(List<RelConsumoCondominio> listaView, int i, List<String> listaValores2) {
+		listaValores2.add(String.valueOf(i+1));
+		listaValores2.add(listaView.get(i).getDevice());
+		listaValores2.add(listaView.get(i).getMeterId());
+		listaValores2.add(listaView.get(i).getEndereco() + " " +listaView.get(i).getNumero() + " " + listaView.get(i).getCompl());
+		listaValores2.add(String.valueOf(listaView.get(i).getVolumeInicio()));
+		listaValores2.add(String.valueOf(listaView.get(i).getVolumeFim()));
+		listaValores2.add(String.valueOf(listaView.get(i).getConsumo()));
+		listaValores2.add("");
+	}
+	
 }
 
