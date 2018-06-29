@@ -230,26 +230,10 @@ public class RelatorioPressaoBO extends HttpServlet {
 					RelPressaoDAO relPressaoDAO = new RelPressaoDAO(connection);
 					RelPressao relPressao = relPressaoDAO.buscarUmaLinha(sql);
 					
-					//Aba Resumo
-            		List<String> abas = new ArrayList<String>();
-            		abas.add("Resumo");
-            		
-            		List<List<String>> colunas = new ArrayList<>();
-            		colunas.add(new ColunasExcel().getColunasRelPressaoResumo());
-            		
-            		List<List<List<String>>> listaFinal = new ArrayList<>();
-            		
-            		List<List<String>> lista1 = new ArrayList<>();
-        			List<String> listaValores1 = new ArrayList<>();
-        			listaValores1.add(relPressao.getNomeEmpresa());
-        			listaValores1.add(relPressao.getNomeCondominio());
-        			listaValores1.add(relPressao.getDevice());
-        			listaValores1.add(req.getParameter("dtInicio"));
-        			listaValores1.add(req.getParameter("dtFim"));
-        			lista1.add(listaValores1);
-            		listaFinal.add(lista1);
+					List<String> abas = new ArrayList<String>();
+					List<List<List<String>>> listaFinal = new ArrayList<>();
+					List<List<String>> colunas = new ArrayList<>();
 
-            		
             		//Dados
             		List<RelPressao> listaView = relPressaoDAO.listar(sql);
 		        	
@@ -264,6 +248,22 @@ public class RelatorioPressaoBO extends HttpServlet {
 		        		lista2.add(listaValores2);
 		        	}
 		        	listaFinal.add(lista2);
+		        	
+		        	
+		        	//Aba Resumo
+            		abas.add("Resumo");
+            		
+            		colunas.add(new ColunasExcel().getColunasRelPressaoResumo());
+            		
+            		List<List<String>> lista1 = new ArrayList<>();
+        			List<String> listaValores1 = new ArrayList<>();
+        			listaValores1.add(relPressao.getNomeEmpresa());
+        			listaValores1.add(relPressao.getNomeCondominio());
+        			listaValores1.add(relPressao.getDevice());
+        			listaValores1.add(req.getParameter("dtInicio"));
+        			listaValores1.add(req.getParameter("dtFim"));
+        			lista1.add(listaValores1);
+            		listaFinal.add(lista1);
             		
             		String nomeArquivo = "RelatorioPressao_"+Auxiliar.dataAtual()+".xlsx";
             		

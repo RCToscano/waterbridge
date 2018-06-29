@@ -327,28 +327,10 @@ public class ConsumoMedidorBO extends HttpServlet {
 				
 				List<RelConsumoMedidor> listRelConsumoMedidor = dadosTela(connection, sql, consumoAnterior, volume1, volume2);
 				
+				List<String> abas = new ArrayList<String>();
+				List<List<String>> colunas = new ArrayList<>();
+				List<List<List<String>>> listaFinal = new ArrayList<>();
 				
-				//Aba Resumo
-        		List<String> abas = new ArrayList<String>();
-        		abas.add("Resumo");
-        		
-        		List<List<String>> colunas = new ArrayList<>();
-        		colunas.add(new ColunasExcel().getColunasRelMedidorResumo());
-        		
-        		List<List<List<String>>> listaFinal = new ArrayList<>();
-        		
-        		List<List<String>> lista1 = new ArrayList<>();
-    			List<String> listaValores1 = new ArrayList<>();
-    			listaValores1.add(listRelConsumoMedidor.get(0).getEmpresa());
-    			listaValores1.add(listRelConsumoMedidor.get(0).getCondominio());
-    			listaValores1.add(listRelConsumoMedidor.get(0).getDevice());
-    			listaValores1.add(listRelConsumoMedidor.get(0).getNumeroMedidor());
-    			listaValores1.add(req.getParameter("dtInicio"));
-    			listaValores1.add(req.getParameter("dtFim"));
-    			lista1.add(listaValores1);
-        		listaFinal.add(lista1);
-        		
-        		
         		//Dados
 	        	abas.add("Dados");
 	        	
@@ -361,6 +343,23 @@ public class ConsumoMedidorBO extends HttpServlet {
 	        		lista2.add(listaValores2);
 	        	}
 	        	listaFinal.add(lista2);
+	        	
+	        	
+	        	//Aba Resumo
+        		abas.add("Resumo");
+        		
+        		colunas.add(new ColunasExcel().getColunasRelMedidorResumo());
+        		
+        		List<List<String>> lista1 = new ArrayList<>();
+    			List<String> listaValores1 = new ArrayList<>();
+    			listaValores1.add(listRelConsumoMedidor.get(0).getEmpresa());
+    			listaValores1.add(listRelConsumoMedidor.get(0).getCondominio());
+    			listaValores1.add(listRelConsumoMedidor.get(0).getDevice());
+    			listaValores1.add(listRelConsumoMedidor.get(0).getNumeroMedidor());
+    			listaValores1.add(req.getParameter("dtInicio"));
+    			listaValores1.add(req.getParameter("dtFim"));
+    			lista1.add(listaValores1);
+        		listaFinal.add(lista1);
         		
         		String nomeArquivo = "Relatorio_Consumo_Medidor_"+Auxiliar.dataAtual()+".xlsx";
         		
