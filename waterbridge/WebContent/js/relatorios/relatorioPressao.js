@@ -233,7 +233,7 @@ function listarConsumoMedidor() {
 		            "		<tr>" +
 		            "			<th>Nº</th>" +
 		            "			<th>Data</th>" +
-		            "			<th>Pressão</th>" +
+		            "			<th>Pressão (MCA)</th>" +
 		            "			<th>Alarme</th>" +
 		            "			<th>Bateria (V)</th>" +
 		            "			<th>Temperatura (ºC)</th>" +

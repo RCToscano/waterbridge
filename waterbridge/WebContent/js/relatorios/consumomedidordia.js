@@ -308,7 +308,7 @@ function listarConsumoMedidor() {
 	            	if(listRelConsumoMedidor[0].idBridgeTp != null
 	            		&& listRelConsumoMedidor[0].idBridgeTp != undefined
 	            			&& listRelConsumoMedidor[0].idBridgeTp == 1) {
-	            		texto += "			<th>Pressão</th>" ;
+	            		texto += "			<th>Pressão (MCA)</th>" ;
 	            		colspan = colspan + 1;
 	            	}
 	            	texto +=

@@ -67,15 +67,6 @@ public class MessageBO extends HttpServlet {
 	        String dataBattery = message.getData().substring(20, 22);
 	        String dataAlarme = message.getData().substring(22, 24);
 	        
-	        System.out.println("dataVersion " + dataVersion);
-			System.out.println("dataMeterPosition " + dataMeterPosition);
-			System.out.println("dataVolume " + dataVolume);
-			System.out.println("dataPressure " + dataPressure);
-			System.out.println("dataFlow " + dataFlow);
-			System.out.println("dataTemperature " + dataTemperature);
-			System.out.println("dataBattery " + dataBattery);
-			System.out.println("dataAlarme " + dataAlarme);
-			
 			BigInteger biVersion = new BigInteger(dataVersion, 16);
 			BigInteger biMeterPosition = new BigInteger(dataMeterPosition, 16);
 			BigInteger biVolume = new BigInteger(dataVolume, 16);		
@@ -117,20 +108,6 @@ public class MessageBO extends HttpServlet {
 			
 			//INSERIR
 			messageDAO.inserir(message);
-			
-			System.out.println("");
-			System.out.println("getIdMessage " + message.getIdMessage());
-			System.out.println("getIdUser " + message.getIdUser());
-			System.out.println("getData " + message.getData());
-			System.out.println("getVersion " + message.getVersion());
-			System.out.println("getMeterPosition " + message.getMeterPosition());
-			System.out.println("getVolume " + message.getVolume());
-			System.out.println("getPressure " + message.getPressure());
-			System.out.println("getFlow " + message.getFlow());
-			System.out.println("getTemperature " + message.getTemperature());
-			System.out.println("getBattery " + message.getBattery());
-			System.out.println("getAlarm " + message.getAlarm());
-			System.out.println("getDtInsert " + message.getDtInsert());
 			
 			//TRATAMENTO CONSUMO
 			Consumo consumo = new Consumo();
