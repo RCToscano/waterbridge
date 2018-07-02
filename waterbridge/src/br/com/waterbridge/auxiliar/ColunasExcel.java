@@ -19,6 +19,7 @@ public class ColunasExcel {
 	private List<String> colunasRelPressaoDados = new ArrayList<String>(){{
 		add("Nº");
 		add("DATA");
+		add("HORA");
 		add("PRESSAO");
 		add("BATERIA");
 		add("ALARME");
@@ -39,6 +40,7 @@ public class ColunasExcel {
 	private List<String> colunasRelMedidorDados = new ArrayList<String>(){{
 		add("Nº");
 		add("DATA");
+		add("HORA");
 		add("VOLUME");
 		add("PRESSAO");
 		add("ALARME");

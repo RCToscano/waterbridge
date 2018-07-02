@@ -22,6 +22,7 @@
 		
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script src="https://code.highcharts.com/highcharts.js"></script>
+		<script src="https://code.highcharts.com/maps/modules/map.js"></script>
 		<script src="https://code.highcharts.com/modules/exporting.js"></script>
 	
 	</head>
@@ -35,8 +36,13 @@
 						<script>
 							Highcharts.chart('graficopressaodiaria', {
 							    chart: {
-							        type: 'line'
+							    	type: 'line',
+						            panning: true
 							    },
+							    mapNavigation: {
+					                enabled: true,
+					                enableButtons: false
+					            },
 							    title: {
 							        text: 'Gráfico de Pressão<br/><label>Bridge  ${bridge} </label>'
 							    },
@@ -53,9 +59,11 @@
 											</c:if>
 						   			   		<c:set var="count" value="${count + 1}" scope="page"/>
 							        	</c:forEach>
-							        ]
+							        ],
+							    	crosshair: true
 							    },
 							    yAxis: {
+							    	min: 0,
 							        title: {
 							            text: 'MCA'
 							        }

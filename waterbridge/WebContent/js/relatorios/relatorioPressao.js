@@ -222,7 +222,7 @@ function listarConsumoMedidor() {
 					"                    <input type='hidden' name='idBridge' value='" + idBridge.value + "'>" +
 					"                    <input type='hidden' name='dtInicio' value='" + dtInicio.value + "'>" +
 					"                    <input type='hidden' name='dtFim' value='" + dtFim.value + "'>" +
-					"			         <button type='submit' class='btn btn-warning' title='Clique para fazer o download em excel'>" +
+					"			         <button type='submit' class='btn btn-success' title='Clique para fazer o download em excel'>" +
 					"		                 <i class='fa fa-file-excel'></i>" +
 					"		             </button>" +
 					"		         </form>" +
@@ -276,7 +276,7 @@ function listarConsumoMedidor() {
 					"                    <input type='hidden' name='idBridge' value='" + idBridge.value + "'>" +
 					"                    <input type='hidden' name='dtInicio' value='" + dtInicio.value + "'>" +
 					"                    <input type='hidden' name='dtFim' value='" + dtFim.value + "'>" +
-					"			         <button type='submit' class='btn btn-warning' title='Clique para fazer o download em excel'>" +
+					"			         <button type='submit' class='btn btn-success' title='Clique para fazer o download em excel'>" +
 					"		                 <i class='fa fa-file-excel'></i>" +
 					"		             </button>" +
 					"		         </form>" +

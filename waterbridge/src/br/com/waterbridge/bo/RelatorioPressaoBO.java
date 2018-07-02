@@ -4,6 +4,8 @@ package br.com.waterbridge.bo;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -302,9 +304,14 @@ public class RelatorioPressaoBO extends HttpServlet {
 	}
 	
 	
-	private void recuperaDados(List<RelPressao> listaView, int i, List<String> listaValores2) {
+	private void recuperaDados(List<RelPressao> listaView, int i, List<String> listaValores2) throws ParseException {
+		SimpleDateFormat formatoBanco = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
+		
 		listaValores2.add(String.valueOf(i+1));
-		listaValores2.add(listaView.get(i).getDtInsert());
+		listaValores2.add(formatoData.format(formatoBanco.parse(listaView.get(i).getDtInsert())));
+		listaValores2.add(formatoHora.format(formatoBanco.parse(listaView.get(i).getDtInsert())));
 		listaValores2.add(String.valueOf(listaView.get(i).getPressure()));
 		listaValores2.add(String.valueOf(listaView.get(i).getBattery()));
 		listaValores2.add(listaView.get(i).getAlarmDesc());
