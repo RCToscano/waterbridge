@@ -63,7 +63,7 @@ public class RelConsumoMedidorDAO {
         	"FROM   VW_CONSUMOMEDIDOR " +		
             sql
             );
-
+            
             rs = stmt.executeQuery();
 
             while (rs.next()) {

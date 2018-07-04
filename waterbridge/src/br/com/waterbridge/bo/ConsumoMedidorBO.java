@@ -207,7 +207,7 @@ public class ConsumoMedidorBO extends HttpServlet {
 				Double volume2 = 0d;
 
 				List<RelConsumoMedidor> listRelConsumoMedidor = dadosTela(connection, sql, consumoAnterior, volume1, volume2);
-	
+
 				json = new Gson().toJson(listRelConsumoMedidor);
 
 				res.setContentType("application/json");
