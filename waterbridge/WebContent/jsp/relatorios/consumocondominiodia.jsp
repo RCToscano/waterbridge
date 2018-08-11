@@ -42,7 +42,7 @@
         <div class="container">
         	<ul class="breadcrumb">
 			    <li><a href="HomeBO?acao=home">Home</a></li>
-			    <li class="active">Relatórios</li>
+			    <li class="active">Consulta</li>
 			    <li class="active">Consumo por Local</li>
 			</ul>
 			
@@ -105,7 +105,8 @@
 				                    <script type="text/javascript">
 					                    $(function () {
 				                            $('#dpDtInicio').datetimepicker({
-				                            	format: 'DD/MM/YYYY'
+				                            	format: 'DD/MM/YYYY',
+				                            	date: new Date()
 				                            });
 				                        });
 				                    </script>
@@ -123,7 +124,8 @@
 				                    <script type="text/javascript">
 					                    $(function () {
 				                            $('#dpDtFim').datetimepicker({
-				                            	format: 'DD/MM/YYYY'
+				                            	format: 'DD/MM/YYYY',
+				                            	date: new Date()
 				                            });
 				                        });
 				                    </script>
