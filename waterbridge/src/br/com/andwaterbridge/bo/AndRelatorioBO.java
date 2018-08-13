@@ -349,7 +349,7 @@ public class AndRelatorioBO extends HttpServlet {
     }
 
 	private List<RelConsumoMedidor> dadosTela(Connection connection, String sql, Consumo consumoAnterior,
-			Double volume1, Double volume2) throws SQLException {
+			Double volume1, Double volume2) throws Exception {
 		if(consumoAnterior != null 
 				&& consumoAnterior.getVolume().doubleValue() != 0 
 				&& consumoAnterior.getVolume().doubleValue() != 0.0) {
