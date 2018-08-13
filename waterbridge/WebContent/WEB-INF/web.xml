@@ -76,6 +76,23 @@
     <servlet-name>ContaBO</servlet-name>
     <servlet-class>br.com.waterbridge.bo.ContaBO</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>AndUserBO</servlet-name>
+    <servlet-class>br.com.andwaterbridge.bo.AndUserBO</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>AndCondominioBO</servlet-name>
+    <servlet-class>br.com.andwaterbridge.bo.AndCondominioBO</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>AndMedidorBO</servlet-name>
+    <servlet-class>br.com.andwaterbridge.bo.AndMedidorBO</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>AndRelatorioBO</servlet-name>
+    <servlet-class>br.com.andwaterbridge.bo.AndRelatorioBO</servlet-class>
+  </servlet>
+  
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
     <url-pattern>/Login</url-pattern>
@@ -152,6 +169,23 @@
     <servlet-name>ContaBO</servlet-name>
     <url-pattern>/ContaBO</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AndUserBO</servlet-name>
+    <url-pattern>/AndUserBO</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AndCondominioBO</servlet-name>
+    <url-pattern>/AndCondominioBO</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AndMedidorBO</servlet-name>
+    <url-pattern>/AndMedidorBO</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AndRelatorioBO</servlet-name>
+    <url-pattern>/AndRelatorioBO</url-pattern>
+  </servlet-mapping>
+  
   <session-config>
     <session-timeout>30</session-timeout>
   </session-config>

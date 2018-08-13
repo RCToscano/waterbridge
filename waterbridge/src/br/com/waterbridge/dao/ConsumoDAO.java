@@ -443,6 +443,44 @@ public class ConsumoDAO {
             }
         }
     }    
+
+    public String dataAdd(String pData, String pDias) throws SQLException {
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        String data = "";
+        
+        try {
+            
+            stmt = connection.prepareStatement(
+            "SELECT DATE_FORMAT(DATE_ADD('" + pData + "', INTERVAL " + pDias + " DAY), '%Y-%m-%d') DATA"		
+    		);
+            
+            rs = stmt.executeQuery();
+
+            if(rs.next()) {
+                
+            	data = rs.getString("DATA");
+            }
+
+            return data;
+        }
+        catch(SQLException e) {            
+            
+            throw e;
+        }
+        finally {
+
+            if(stmt != null) {
+                
+                stmt.close();
+            }
+            if(rs != null) {              
+                
+                rs.close();
+            }
+        }
+    }
     
     public Long difDataEmMinutos(String dtInicio, String dtFim) throws SQLException {
 
