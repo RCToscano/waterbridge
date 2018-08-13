@@ -22,7 +22,9 @@ public class RelConsumoMedidor {
 	private Double battery;
 	private Long alarm;
 	private String alarmDesc;
+	private String dtHoraInsert;
 	private String dtInsert;
+	private String horaInsert;
 	private String numeroMedidor;
 	private String endereco;
     private Long numero;
@@ -33,6 +35,7 @@ public class RelConsumoMedidor {
 	private String coordX;
     private String coordY;
     private Double consumo;
+    
     
 	public Long getIdEmpresa() {
 		return idEmpresa;
@@ -97,8 +100,8 @@ public class RelConsumoMedidor {
 	public String getData() {
 		return data;
 	}
-	public void setData(String data) {
-		this.data = data;
+	public void setData(String dataHora) {
+		this.data = dataHora;
 	}
 	public String getVersion() {
 		return version;
@@ -154,11 +157,23 @@ public class RelConsumoMedidor {
 	public void setAlarmDesc(String alarmDesc) {
 		this.alarmDesc = alarmDesc;
 	}
+	public String getDtHoraInsert() {
+		return dtHoraInsert;
+	}
+	public void setDtHoraInsert(String dtHoraInsert) {
+		this.dtHoraInsert = dtHoraInsert;
+	}
 	public String getDtInsert() {
 		return dtInsert;
 	}
 	public void setDtInsert(String dtInsert) {
 		this.dtInsert = dtInsert;
+	}
+	public String getHoraInsert() {
+		return horaInsert;
+	}
+	public void setHoraInsert(String horaInsert) {
+		this.horaInsert = horaInsert;
 	}
 	public String getNumeroMedidor() {
 		return numeroMedidor;

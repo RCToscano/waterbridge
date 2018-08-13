@@ -50,7 +50,7 @@
             });
         </script>
     </head>
-    <body background="./images/bg_login.jpg">
+    <body style="background-image:url(./images/bg_login.jpg); background-size: cover; background-repeat: no-repeat;">
         <%@include file="./menu/menu_login.jsp" %>
         
         <c:choose>
@@ -77,7 +77,7 @@
         		</div>
         	</div>
         	<c:if test="${empty displayContainer}">
-	        	<div class="form-group" style="margin-top: 100px">
+	        	<div class="form-group" style="margin-top: 100px;">
 	        		<div class="col-sm-6">
 	        			<div class="form-group">
 	        				<img class="img-responsive center-block" src="./images/logo_waterbridge.png" alt="">

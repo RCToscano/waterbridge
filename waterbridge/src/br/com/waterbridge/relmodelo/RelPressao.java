@@ -20,7 +20,10 @@ public class RelPressao {
 	private Double battery;
 	private Long alarm;
 	private String alarmDesc;
+	private String dtHoraInsert;
 	private String dtInsert;
+	private String horaInsert;
+	
     
 	public Long getIdEmpresa() {
 		return idEmpresa;
@@ -130,11 +133,24 @@ public class RelPressao {
 	public void setAlarmDesc(String alarmDesc) {
 		this.alarmDesc = alarmDesc;
 	}
+	public String getDtHoraInsert() {
+		return dtHoraInsert;
+	}
+	public void setDtHoraInsert(String dtHoraInsert) {
+		this.dtHoraInsert = dtHoraInsert;
+	}
 	public String getDtInsert() {
 		return dtInsert;
 	}
 	public void setDtInsert(String dtInsert) {
 		this.dtInsert = dtInsert;
 	}
+	public String getHoraInsert() {
+		return horaInsert;
+	}
+	public void setHoraInsert(String horaInsert) {
+		this.horaInsert = horaInsert;
+	}
+	
 	
 }

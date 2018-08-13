@@ -183,7 +183,7 @@ public class RelatorioPressaoBO extends HttpServlet {
 							bridge = relPressao.getDevice();
 						}
 						
-						listData.add(relPressao.getDtInsert());
+						listData.add(relPressao.getDtHoraInsert());
 						listPressao.add(relPressao.getPressure());
 					}
 					
@@ -310,8 +310,8 @@ public class RelatorioPressaoBO extends HttpServlet {
 		SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
 		
 		listaValores2.add(String.valueOf(i+1));
-		listaValores2.add(formatoData.format(formatoBanco.parse(listaView.get(i).getDtInsert())));
-		listaValores2.add(formatoHora.format(formatoBanco.parse(listaView.get(i).getDtInsert())));
+		listaValores2.add(formatoData.format(formatoBanco.parse(listaView.get(i).getDtHoraInsert())));
+		listaValores2.add(formatoHora.format(formatoBanco.parse(listaView.get(i).getDtHoraInsert())));
 		listaValores2.add(String.valueOf(listaView.get(i).getPressure()));
 		listaValores2.add(String.valueOf(listaView.get(i).getBattery()));
 		listaValores2.add(listaView.get(i).getAlarmDesc());

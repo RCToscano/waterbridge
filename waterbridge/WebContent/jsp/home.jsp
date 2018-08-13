@@ -36,14 +36,14 @@
 		<jsp:include page="/menu/${sessionScope.user.perfil.menu}"></jsp:include>
 		<div class="container">
 			<div class="row">
-				<!--SOMENTE PERFIL CONSUMIDOR -->
-				<c:if test="${sessionScope.user.perfil.idPerfil == 1 or sessionScope.user.perfil.idPerfil == 2 or sessionScope.user.perfil.idPerfil == 3 or sessionScope.user.perfil.idPerfil == 4 or sessionScope.user.perfil.idPerfil == 5}">
+				<!--SOMENTE PERFIL LOCAL -->		
+				<c:if test="${sessionScope.user.perfil.idPerfil == 1 or sessionScope.user.perfil.idPerfil == 2 or sessionScope.user.perfil.idPerfil == 3 or sessionScope.user.perfil.idPerfil == 4}">
 					<div class="col-sm-5 col-md-4">
 						<div class="thumbnail">
 							<div class="caption">
-								<h3>Consumo por Medidor</h3>
-								<p>Veja o consumo do Medidor em um período.</p>
-								<p><a href="ConsumoMedidorBO?acao=1" class="btn btn-primary" role="button">Acessar</a></p>
+								<h3>Pressure Bridge</h3>
+								<p>Acompanhe a pressão por período. </p>
+								<p><a href="RelatorioPressaoBO?acao=1" class="btn btn-primary" role="button">Acessar</a></p>
 							</div>
 						</div>
 					</div>
@@ -60,14 +60,14 @@
 						</div>
 					</div>
 				</c:if>
-				<!--SOMENTE PERFIL LOCAL -->		
-				<c:if test="${sessionScope.user.perfil.idPerfil == 1 or sessionScope.user.perfil.idPerfil == 2 or sessionScope.user.perfil.idPerfil == 3 or sessionScope.user.perfil.idPerfil == 4}">
+				<!--SOMENTE PERFIL CONSUMIDOR -->
+				<c:if test="${sessionScope.user.perfil.idPerfil == 1 or sessionScope.user.perfil.idPerfil == 2 or sessionScope.user.perfil.idPerfil == 3 or sessionScope.user.perfil.idPerfil == 4 or sessionScope.user.perfil.idPerfil == 5}">
 					<div class="col-sm-5 col-md-4">
 						<div class="thumbnail">
 							<div class="caption">
-								<h3>Pressure Bridge</h3>
-								<p>Acompanhe a pressão por período. </p>
-								<p><a href="RelatorioPressaoBO?acao=1" class="btn btn-primary" role="button">Acessar</a></p>
+								<h3>Consumo por Medidor</h3>
+								<p>Veja o consumo do Medidor em um período.</p>
+								<p><a href="ConsumoMedidorBO?acao=1" class="btn btn-primary" role="button">Acessar</a></p>
 							</div>
 						</div>
 					</div>

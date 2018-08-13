@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +21,15 @@ public class RelConsumoMedidorDAO {
         this.connection = connection;
     }
 
-    public List<RelConsumoMedidor> listar(String sql) throws SQLException {
+    public List<RelConsumoMedidor> listar(String sql) throws Exception {
 
         PreparedStatement stmt = null;
         ResultSet rs = null;
         List<RelConsumoMedidor> listRelConsumoMedidor = new ArrayList<RelConsumoMedidor>();
+        
+        SimpleDateFormat formatoBanco = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
         
         try {
             
@@ -89,7 +94,9 @@ public class RelConsumoMedidorDAO {
             	relConsumoMedidor.setBattery(rs.getDouble("BATTERY"));
             	relConsumoMedidor.setAlarm(rs.getLong("ALARM"));
             	relConsumoMedidor.setAlarmDesc(rs.getString("ALARMDESC"));
-            	relConsumoMedidor.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));
+            	relConsumoMedidor.setDtHoraInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));
+            	relConsumoMedidor.setDtInsert(formatoData.format(formatoBanco.parse(rs.getString("DTINSERT"))));
+            	relConsumoMedidor.setHoraInsert(formatoHora.format(formatoBanco.parse(rs.getString("DTINSERT"))));
             	relConsumoMedidor.setNumeroMedidor(rs.getString("METERID"));
             	relConsumoMedidor.setEndereco(rs.getString("ENDERECO"));
             	relConsumoMedidor.setNumero(rs.getLong("NUMERO"));

@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,10 +21,15 @@ public class RelPressaoDAO {
         this.connection = connection;
     }
 
-    public List<RelPressao> listar(String sql) throws SQLException {
+    public List<RelPressao> listar(String sql) throws Exception {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         List<RelPressao> listRelPressao = new ArrayList<RelPressao>();
+        
+        SimpleDateFormat formatoBanco = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
+        
         try {
             stmt = connection.prepareStatement(
     		"SELECT ID_EMPRESA, " +
@@ -67,7 +73,9 @@ public class RelPressaoDAO {
             	relPressao.setBattery(rs.getDouble("BATTERY"));
             	relPressao.setAlarm(rs.getLong("ALARM"));
             	relPressao.setAlarmDesc(rs.getString("ALARMDESC"));
-            	relPressao.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));
+            	relPressao.setDtHoraInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));
+            	relPressao.setDtInsert(formatoData.format(formatoBanco.parse(rs.getString("DTINSERT"))));
+            	relPressao.setHoraInsert(formatoHora.format(formatoBanco.parse(rs.getString("DTINSERT"))));
             	listRelPressao.add(relPressao);
             }
             
@@ -110,7 +118,7 @@ public class RelPressaoDAO {
     			relPressao.setBattery(rs.getDouble("BATTERY"));
     			relPressao.setAlarm(rs.getLong("ALARM"));
     			relPressao.setAlarmDesc(rs.getString("ALARMDESC"));
-    			relPressao.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));
+    			relPressao.setDtHoraInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));
     		}
     		
     		return relPressao;

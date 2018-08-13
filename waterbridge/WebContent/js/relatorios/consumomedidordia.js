@@ -304,6 +304,7 @@ function listarConsumoMedidor() {
 		            "		<tr>" +
 		            "			<th>Nº</th>" +
 		            "			<th>Data</th>" +
+		            "			<th>Hora</th>" +
 		            "			<th>Volume (m&#179;)</th>" ;
 	            	if(listRelConsumoMedidor[0].idBridgeTp != null
 	            		&& listRelConsumoMedidor[0].idBridgeTp != undefined
@@ -330,6 +331,7 @@ function listarConsumoMedidor() {
     		            "		<tr>" +
     		            "			<td " + bgColor + "><small>" + (i + 1) + "</small></td>" +
     		            "			<td " + bgColor + "><small>" + relConsumoMedidor.dtInsert + "</small></td>" +
+    		            "			<td " + bgColor + "><small>" + relConsumoMedidor.horaInsert + "</small></td>" +
     		            "			<td " + bgColor + "><small>" + formatarTresDecimais(relConsumoMedidor.volume) + "</small></td>" ;
 	                	if(relConsumoMedidor.idBridgeTp != null
 		            		&& relConsumoMedidor.idBridgeTp != undefined

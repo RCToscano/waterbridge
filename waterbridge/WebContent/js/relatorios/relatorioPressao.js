@@ -233,6 +233,7 @@ function listarConsumoMedidor() {
 		            "		<tr>" +
 		            "			<th>Nº</th>" +
 		            "			<th>Data</th>" +
+		            "			<th>Hora</th>" +
 		            "			<th>Pressão (MCA)</th>" +
 		            "			<th>Alarme</th>" +
 		            "			<th>Bateria (V)</th>" +
@@ -248,6 +249,7 @@ function listarConsumoMedidor() {
     		            "		<tr>" +
     		            "			<td><small>" + (i + 1) + "</small></td>" +
     		            "			<td><small>" + relatPressao.dtInsert + "</small></td>" +
+    		            "			<td><small>" + relatPressao.horaInsert + "</small></td>" +
     		            "			<td><small>" + formatarTresDecimais(relatPressao.pressure) + "</small></td>" +
     		            "			<td><small>" + relatPressao.alarmDesc + "</small></td>" +
     		            "			<td><small>" + relatPressao.battery + "</small></td>" +

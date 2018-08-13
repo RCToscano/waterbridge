@@ -382,7 +382,7 @@ public class ConsumoMedidorBO extends HttpServlet {
     }
 
 	private List<RelConsumoMedidor> dadosTela(Connection connection, String sql, Consumo consumoAnterior,
-			Double volume1, Double volume2) throws SQLException {
+			Double volume1, Double volume2) throws Exception {
 		if(consumoAnterior != null 
 				&& consumoAnterior.getVolume().doubleValue() != 0 
 				&& consumoAnterior.getVolume().doubleValue() != 0.0) {
@@ -416,8 +416,8 @@ public class ConsumoMedidorBO extends HttpServlet {
 		SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
 		
 		listaValores2.add(String.valueOf(i+1));
-		listaValores2.add(formatoData.format(formatoBanco.parse(listaView.get(i).getDtInsert())));
-		listaValores2.add(formatoHora.format(formatoBanco.parse(listaView.get(i).getDtInsert())));
+		listaValores2.add(formatoData.format(formatoBanco.parse(listaView.get(i).getDtHoraInsert())));
+		listaValores2.add(formatoHora.format(formatoBanco.parse(listaView.get(i).getDtHoraInsert())));
 		listaValores2.add(String.valueOf(listaView.get(i).getVolume()));
 		listaValores2.add(String.valueOf(listaView.get(i).getPressure()));
 		listaValores2.add(listaView.get(i).getAlarmDesc());
