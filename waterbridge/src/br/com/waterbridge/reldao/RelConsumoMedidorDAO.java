@@ -94,9 +94,9 @@ public class RelConsumoMedidorDAO {
             	relConsumoMedidor.setBattery(rs.getDouble("BATTERY"));
             	relConsumoMedidor.setAlarm(rs.getLong("ALARM"));
             	relConsumoMedidor.setAlarmDesc(rs.getString("ALARMDESC"));
-            	relConsumoMedidor.setDtHoraInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));
-            	relConsumoMedidor.setDtInsert(formatoData.format(formatoBanco.parse(rs.getString("DTINSERT"))));
-            	relConsumoMedidor.setHoraInsert(formatoHora.format(formatoBanco.parse(rs.getString("DTINSERT"))));
+            	//relConsumoMedidor.setDtHoraInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));
+            	relConsumoMedidor.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));
+            	///relConsumoMedidor.setHoraInsert(formatoHora.format(formatoBanco.parse(rs.getString("DTINSERT"))));
             	relConsumoMedidor.setNumeroMedidor(rs.getString("METERID"));
             	relConsumoMedidor.setEndereco(rs.getString("ENDERECO"));
             	relConsumoMedidor.setNumero(rs.getLong("NUMERO"));

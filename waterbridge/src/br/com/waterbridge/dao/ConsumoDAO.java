@@ -104,7 +104,7 @@ public class ConsumoDAO {
         	"ORDER BY TB_CONSUMO.DTINSERT DESC " +
         	"LIMIT 1 "
     		);
-
+            
             stmt.setObject(1, idMedidor);
             stmt.setObject(2, dtInsert);
             

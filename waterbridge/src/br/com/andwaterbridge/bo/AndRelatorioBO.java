@@ -14,23 +14,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-
 import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.auxiliar.ColunasExcel;
 import br.com.waterbridge.auxiliar.GeradorExcel;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.BridgeDAO;
-import br.com.waterbridge.dao.CondominioDAO;
 import br.com.waterbridge.dao.ConsumoDAO;
-import br.com.waterbridge.dao.EmpresaDAO;
 import br.com.waterbridge.dao.MedidorDAO;
 import br.com.waterbridge.modelo.Bridge;
-import br.com.waterbridge.modelo.Condominio;
 import br.com.waterbridge.modelo.Consumo;
-import br.com.waterbridge.modelo.Empresa;
 import br.com.waterbridge.modelo.Medidor;
-import br.com.waterbridge.modelo.User;
 import br.com.waterbridge.reldao.RelConsumoMedidorDAO;
 import br.com.waterbridge.reldao.RelPressaoDAO;
 import br.com.waterbridge.relmodelo.RelConsumoMedidor;
@@ -74,7 +67,7 @@ public class AndRelatorioBO extends HttpServlet {
 				if(req.getParameter("idMedidor") != null && !req.getParameter("idMedidor").equals("")) {
 					sql += "AND   ID_MEDIDOR = " + req.getParameter("idMedidor") + " ";
 				}
-				if(req.getParameter("data") == null && req.getParameter("data") == null) {
+				if(req.getParameter("data") == null) {
 					
 					data = consumoDAO.dataHoraMinSeg();
 					data = data.substring(0, 10);
@@ -93,15 +86,11 @@ public class AndRelatorioBO extends HttpServlet {
 				sql += "ORDER BY DTINSERT, " +
 				       "         VOLUME ";
 				
-				Consumo consumoAnterior = consumoDAO.buscarAnterior(Long.parseLong(req.getParameter("idMedidor")), Auxiliar.formataDtBanco(req.getParameter("dtInicio")) + " 00:00");				
+				Consumo consumoAnterior = consumoDAO.buscarAnterior(Long.parseLong(req.getParameter("idMedidor")), data + " 00:00");				
 				Double volume1 = 0d;
 				Double volume2 = 0d;
 
 				List<RelConsumoMedidor> listRelConsumoMedidor = dadosTela(connection, sql, consumoAnterior, volume1, volume2);
-				
-				for(RelConsumoMedidor relConsumoMedidor: listRelConsumoMedidor) {
-					System.out.println("consumo " + relConsumoMedidor.getConsumo());
-				}
                 
                 req.setAttribute("idEmpresa", req.getParameter("idEmpresa"));
                 req.setAttribute("idCondominio", req.getParameter("idCondominio"));
@@ -233,7 +222,7 @@ public class AndRelatorioBO extends HttpServlet {
 //				List<RelConsumoMedidor> listRelConsumoMedidor = relConsumoMedidorDAO.listar(sql);
 				
 				consumoDAO = new ConsumoDAO(connection);
-				Consumo consumoAnterior = consumoDAO.buscarAnterior(Long.parseLong(req.getParameter("idMedidor")), Auxiliar.formataDtBanco(req.getParameter("dtInicio")) + " 00:00");				
+				Consumo consumoAnterior = consumoDAO.buscarAnterior(Long.parseLong(req.getParameter("idMedidor")), data + " 00:00");				
 				Double volume1 = 0d;
 				Double volume2 = 0d;
 
@@ -241,6 +230,7 @@ public class AndRelatorioBO extends HttpServlet {
 				
 				req.setAttribute("bridge", bridge);
 				req.setAttribute("medidor", medidor);
+				req.setAttribute("data", Auxiliar.formataDtTela(data));
 				req.setAttribute("dtInicio", req.getParameter("dtInicio"));
 				req.setAttribute("dtFim", req.getParameter("dtFim"));
 				req.setAttribute("listRelConsumoMedidor", listRelConsumoMedidor);

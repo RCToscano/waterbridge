@@ -54,7 +54,7 @@
 			<div class="col-sm-12" style="margin: 0px; padding: 0px;">				
 				<c:set var = "cont" value = "1"/>
 				<c:set var = "consumo" value = "0"/>
-				<c:set var = "colspan" value = "7"/>
+				<c:set var = "colspan" value = "6"/>
 				<c:set var = "bgColor" value = ""/>					
 				<table class='table table-hover table-striped'>
             		<thead>
@@ -127,13 +127,12 @@
 				            			<th>Nº</th>
 				            			<th>Data</th>
 				            			<th>Volume (m&#179;)</th>
+				            			<th>Consumo</th>
 				            			<c:if test = "${idBridgeTp != null}">
 									    	<th>Press&atilde;o (MCA)</th>
 						            		<c:set var = "colspan" value = "${colspan + 1}"/>
 								      	</c:if>
 			            				<th>Alarme</th>
-<!-- 				            			<th>Bateria (V)</th> -->
-<!-- 				            			<th>Temperatura (ºC)</th> -->
 				            			<th></th>
 				            		</tr>
 				            	</thead>
@@ -147,12 +146,11 @@
 		    		            			<td ${bgColor}><small>${cont}</small></td>
 		    		            			<td ${bgColor}><small>${relConsumoMedidor.dtInsert}</small></td>
 		    		            			<td ${bgColor}><small><fmt:formatNumber value="${relConsumoMedidor.volume}" type="currency" currencySymbol="" minFractionDigits = "3"/></small></td>
+		    		            			<td ${bgColor}><small><fmt:formatNumber value="${relConsumoMedidor.consumo}" type="currency" currencySymbol="" minFractionDigits = "3"/></small></td>
 					    		            <c:if test = "${relConsumoMedidor.idBridgeTp != null && relConsumoMedidor.idBridgeTp == 1}">
 					    		            	<td ${bgColor}><small>${relConsumoMedidor.pressure}</small></td>
 					    		            </c:if>			
 				    		            	<td ${bgColor}><small>${relConsumoMedidor.alarmDesc}</small></td>
-<%-- 				    		            	<td ${bgColor}><small>${relConsumoMedidor.battery}</small></td> --%>
-<%-- 				    		            	<td ${bgColor}><small>${relConsumoMedidor.temperature}</small></td> --%>
 				    		            	<td ${bgColor} align='right'></td>
 				    		            </tr>
 					                	<c:set var = "bgColor" value = ""/>
@@ -160,7 +158,7 @@
 				            		</c:forEach>			            	
 							        <tr>
 								         <td colspan='${colspan}' style='text-align: center'>				
-									         <label>Consumo total no período em m&#179; (1m&#179; = 1.000 Litros): ${consumo}</label>
+									         <label>Consumo total no período em m&#179; (1m&#179; = 1.000 Litros): <fmt:formatNumber value="${consumo}" type="currency" currencySymbol="" minFractionDigits = "3"/></label>
 								         </td>
 							        </tr>
 							        <tr>

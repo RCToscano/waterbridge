@@ -330,8 +330,8 @@ function listarConsumoMedidor() {
 	                	texto +=
     		            "		<tr>" +
     		            "			<td " + bgColor + "><small>" + (i + 1) + "</small></td>" +
-    		            "			<td " + bgColor + "><small>" + relConsumoMedidor.dtInsert + "</small></td>" +
-    		            "			<td " + bgColor + "><small>" + relConsumoMedidor.horaInsert + "</small></td>" +
+    		            "			<td " + bgColor + "><small>" + relConsumoMedidor.dtInsert.substring(0, 10) + "</small></td>" +
+    		            "			<td " + bgColor + "><small>" + relConsumoMedidor.dtInsert.substring(11, 16) + "</small></td>" +
     		            "			<td " + bgColor + "><small>" + formatarTresDecimais(relConsumoMedidor.volume) + "</small></td>" ;
 	                	if(relConsumoMedidor.idBridgeTp != null
 		            		&& relConsumoMedidor.idBridgeTp != undefined

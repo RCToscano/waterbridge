@@ -47,7 +47,7 @@
 						        	text: 'Gráfico de Consumo Diário<br/><label>Medidor  ${medidor.numeroMedidor} </label>'
 						    	},
 						    	subtitle: {
-						        	text: 'Período ${dtInicio} a ${dtFim}'
+						        	text: 'Data ${data}'
 						    	},
 							    xAxis: {
 							        categories: [	

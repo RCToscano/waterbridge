@@ -411,13 +411,15 @@ public class ConsumoMedidorBO extends HttpServlet {
 	}
 	
 	private void recuperaDados(List<RelConsumoMedidor> listaView, int i, List<String> listaValores2) throws ParseException {
-		SimpleDateFormat formatoBanco = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-		SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
-		SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
+		//SimpleDateFormat formatoBanco = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		//SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
+		//SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
 		
 		listaValores2.add(String.valueOf(i+1));
-		listaValores2.add(formatoData.format(formatoBanco.parse(listaView.get(i).getDtHoraInsert())));
-		listaValores2.add(formatoHora.format(formatoBanco.parse(listaView.get(i).getDtHoraInsert())));
+		//listaValores2.add(formatoData.format(formatoBanco.parse(listaView.get(i).getDtInsert())));
+		//listaValores2.add(formatoHora.format(formatoBanco.parse(listaView.get(i).getDtInsert())));	
+		listaValores2.add(listaView.get(i).getDtInsert().substring(0, 10));
+		listaValores2.add(listaView.get(i).getDtInsert().substring(11, 16));		
 		listaValores2.add(String.valueOf(listaView.get(i).getVolume()));
 		listaValores2.add(String.valueOf(listaView.get(i).getPressure()));
 		listaValores2.add(listaView.get(i).getAlarmDesc());
