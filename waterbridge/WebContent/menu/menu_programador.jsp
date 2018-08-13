@@ -106,7 +106,7 @@
             </ul>
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Relatórios <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Consulta <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="ConsumoMedidorBO?acao=1">Consumos por Medidor</a></li>
                         <li class="divider"></li>
