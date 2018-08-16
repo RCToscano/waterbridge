@@ -56,7 +56,7 @@
 				<c:set var = "consumo" value = "0"/>
 				<c:set var = "colspan" value = "6"/>
 				<c:set var = "bgColor" value = ""/>					
-				<table class='table table-hover table-striped'>
+				<table class='table table-hover table-striped' style="margin: 0px;">
             		<thead>
             			<tr>
             				<th style="text-align: left">
@@ -117,7 +117,10 @@
             			</tr>
             		</thead>
             	</table>	
-            	<fmt:setLocale value = "pt-BR"/>
+            	<div class="container-fluid text-center" style="margin": 0px; padding: 0px;">
+            		<label>${fn:substring(data, 8, 10)}/${fn:substring(data, 5, 7)}/${fn:substring(data, 0, 4)}</label>
+            	</div>
+            	<fmt:setLocale value = "pt-BR"/>	
             	<c:choose>
                   	<c:when test="${fn:length(listRelConsumoMedidor) > 0}">
                   		 <div class="table-responsive" id="divTable">						
@@ -125,7 +128,7 @@
 				            	<thead>
 				            		<tr>
 				            			<th>Nº</th>
-				            			<th>Data</th>
+				            			<th>Hora</th>
 				            			<th>Volume (m&#179;)</th>
 				            			<th>Consumo</th>
 				            			<c:if test = "${idBridgeTp != null}">
@@ -144,7 +147,7 @@
 					                	</c:if>				                
 		    		            		<tr>
 		    		            			<td ${bgColor}><small>${cont}</small></td>
-		    		            			<td ${bgColor}><small>${relConsumoMedidor.dtInsert}</small></td>
+		    		            			<td ${bgColor}><small>${fn:substring(relConsumoMedidor.dtInsert, 11, 16)}</small></td>
 		    		            			<td ${bgColor}><small><fmt:formatNumber value="${relConsumoMedidor.volume}" type="currency" currencySymbol="" minFractionDigits = "3"/></small></td>
 		    		            			<td ${bgColor}><small><fmt:formatNumber value="${relConsumoMedidor.consumo}" type="currency" currencySymbol="" minFractionDigits = "3"/></small></td>
 					    		            <c:if test = "${relConsumoMedidor.idBridgeTp != null && relConsumoMedidor.idBridgeTp == 1}">
@@ -195,7 +198,7 @@
                     </c:when>
                     <c:otherwise>
                       	<div class="alert alert-danger text-center">
-						  	Nenhum registro encontrado para data ${data}
+						  	Nenhum registro encontrado
 						</div>
                     </c:otherwise>
            		</c:choose>
