@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.waterbridge.modelo.Consumo;
 
@@ -442,7 +444,7 @@ public class ConsumoDAO {
                 stmt.close();
             }
         }
-    }    
+    } 
 
     public String dataAdd(String pData, String pDias) throws SQLException {
 
@@ -555,6 +557,86 @@ public class ConsumoDAO {
                 
                 rs.close();
             }
+        }
+    }
+    
+    public List<Consumo> buscarDtInsert(String sql) throws SQLException {
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Consumo> listConsumo = new ArrayList<>();
+        
+        try {
+            
+            stmt = connection.prepareStatement(
+    		"SELECT   ID_CONSUMO, " +
+    		"		  ID_USER, " +
+    		"		  ID_MEDIDOR, " +
+    		"		  DEVICE, " +
+    		"		  DATA, " +
+    		"		  VERSION, " +
+    		"		  METERPOSITION, " +
+    		"		  VOLUME, " +
+    		"		  PRESSURE, " +
+    		"		  FLOW, " +
+    		"		  TEMPERATURE, " +
+    		"		  BATTERY, " +
+    		"		  ALARM, " +
+    		"		  DTINSERT " +
+        	"FROM     TB_CONSUMO " +
+        	sql +
+        	"ORDER BY TB_CONSUMO.DTINSERT DESC " 
+    		);
+            
+            rs = stmt.executeQuery();
+
+            while(rs.next()) {
+                
+            	Consumo consumo = new Consumo();
+            	consumo.setIdConsumo(rs.getLong("ID_CONSUMO"));
+            	consumo.setIdUser(rs.getLong("ID_USER"));
+            	consumo.setIdMedidor(rs.getLong("ID_MEDIDOR"));
+            	consumo.setDevice(rs.getString("DEVICE"));
+            	consumo.setData(rs.getString("DATA"));
+            	consumo.setVersion(rs.getString("VERSION"));
+            	consumo.setMeterPosition(rs.getLong("METERPOSITION"));
+            	consumo.setVolume(rs.getDouble("VOLUME"));
+            	consumo.setPressure(rs.getDouble("PRESSURE"));
+            	consumo.setFlow(rs.getLong("FLOW"));
+            	consumo.setTemperature(rs.getLong("TEMPERATURE"));
+            	consumo.setBattery(rs.getDouble("BATTERY"));
+            	consumo.setAlarm(rs.getLong("ALARM"));
+            	consumo.setDtInsert(rs.getString("DTINSERT"));
+            	listConsumo.add(consumo);
+            }
+
+            return listConsumo;
+        }
+        finally {
+            if(stmt != null) {
+                stmt.close();
+            }
+            if(rs != null) {              
+                rs.close();
+            }
+        }
+    }
+    
+    public void deletar(String listaId) throws SQLException {
+
+        PreparedStatement stmt = null;
+        
+        try {
+            stmt = connection.prepareStatement(
+    		"DELETE FROM TB_CONSUMO WHERE ID_CONSUMO IN (?) ");
+          
+            stmt.setObject(1, listaId);
+            
+            stmt.executeUpdate();
+        }
+        finally {
+            if(stmt != null)
+                stmt.close();
         }
     }
     
