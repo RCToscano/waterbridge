@@ -21,40 +21,38 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
 		
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-		<script src="https://code.highcharts.com/highcharts.js"></script>
+<!-- 		<script src="https://code.highcharts.com/highcharts.js"></script> -->
+		<script src="https://code.highcharts.com/stock/highstock.js"></script>		
 		<script src="https://code.highcharts.com/maps/modules/map.js"></script>
 		<script src="https://code.highcharts.com/modules/exporting.js"></script>
 	
 	</head>
 	<body>
 		<jsp:include page="/menu/${sessionScope.user.perfil.menu}"></jsp:include>
-		<div class="container">		
+		<div class="container-fluid">		
 			<div class="col-sm-12" style="float: none; margin: 0 auto;">
-				<div class="form-group">
-					<div class="col-sm-12">
-						<div id="graficoconsumodiario" style="margin-top: 30px;"></div>
+				<div class="form-group" style="margin: 0px; padding: 0px;">
+					<div class="col-sm-12" style="margin: 0px; padding: 0px;">
+						<div id="graficoconsumodiario" style="margin: 0px; padding: 0px;"></div>						
 						<script>
 							Highcharts.chart('graficoconsumodiario', {
-						    	chart: {
-						        	type: 'column',
-						            panning: true
-						    	},
-						    	mapNavigation: {
-					                enabled: true,
-					                enableButtons: false
-					            },
-						    	title: {
+							    chart: {
+							        type: 'column',
+							        marginLeft: 70
+							    },
+							    title: {
 						        	text: 'Gráfico de Consumo Diário<br/><label>Medidor  ${medidor.numeroMedidor} </label>'
 						    	},
 						    	subtitle: {
 						        	text: 'Data ${data}'
 						    	},
 							    xAxis: {
+							        //type: 'category',
 							        categories: [	
 							        	<c:set var="count" value="0" scope="page" />
 							        	<c:forEach var="relConsumoMedidor" items='${listRelConsumoMedidor}'>
 							        	    <c:if test="${relConsumoMedidor.alarmDesc != null && relConsumoMedidor.alarm != 1}">
-								        	    '${relConsumoMedidor.dtInsert}'
+								        	    '${fn:substring(relConsumoMedidor.dtInsert, 11, 16)}'
 							   			   		<c:if test="${(count + 1) < fn:length(listRelConsumoMedidor)}">
 													,
 												</c:if>
@@ -62,7 +60,15 @@
 						   			   		<c:set var="count" value="${count + 1}" scope="page"/>
 							        	</c:forEach>
 							        ],
-							        crosshair: true
+							        title: {
+							            text: null
+							        },
+							        min: 0,
+							        max: 20,
+							        scrollbar: {
+							            enabled: true
+							        },
+							        tickLength: 0
 							    },
 							    yAxis: {
 							        min: 0,
@@ -70,27 +76,34 @@
 							            text: 'Consumo (m3)'
 							        }
 							    },
-		// 					    xAxis: {
-		// 					    	min: 2,
-		// 					        title: {
-		// 					            text: 'Dias'
-		// 					        }
-		// 					    },
 							    tooltip: {
 							        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-							        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:.3f} m3</b></td></tr>',
+							        pointFormat: '<tr><td style="color:{series.color};padding:0"></td>' + '<td style="padding:0"><b>{point.y:.3f} m3</b></td></tr>',
 							        footerFormat: '</table>',
 							        shared: true,
 							        useHTML: true
 							    },
+// 							    plotOptions: {
+// 							    	column: {
+// 							            dataLabels: {
+// 							                enabled: true
+// 							            }
+// 							        }
+// 							    },			
 							    plotOptions: {
 							        column: {
 							            pointPadding: 0.2,
 							            borderWidth: 0
 							        }
 							    },
+							    legend: {
+							        enabled: false
+							    },
+							    credits: {
+							        enabled: false
+							    },
 							    series: [{
-							        name: '${medidor.numeroMedidor}',
+							    	name: '${medidor.numeroMedidor}',
 							        data: [
 							        	<c:set var="count" value="0" scope="page" />
 							        	<c:forEach var="relConsumoMedidor" items='${listRelConsumoMedidor}'>
@@ -105,7 +118,6 @@
 							        ]
 							    }]
 							});
-						
 						</script>	
 					</div>
 				</div>

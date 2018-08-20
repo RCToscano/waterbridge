@@ -16,14 +16,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.auxiliar.ColunasExcel;
+import br.com.waterbridge.auxiliar.Constantes;
 import br.com.waterbridge.auxiliar.GeradorExcel;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.BridgeDAO;
 import br.com.waterbridge.dao.ConsumoDAO;
+import br.com.waterbridge.dao.LogSqlDAO;
 import br.com.waterbridge.dao.MedidorDAO;
 import br.com.waterbridge.modelo.Bridge;
 import br.com.waterbridge.modelo.Consumo;
 import br.com.waterbridge.modelo.Medidor;
+import br.com.waterbridge.modelo.User;
 import br.com.waterbridge.reldao.RelConsumoMedidorDAO;
 import br.com.waterbridge.reldao.RelPressaoDAO;
 import br.com.waterbridge.relmodelo.RelConsumoMedidor;
@@ -96,7 +99,7 @@ public class AndRelatorioBO extends HttpServlet {
                 req.setAttribute("idCondominio", req.getParameter("idCondominio"));
                 req.setAttribute("idBridge", req.getParameter("idBridge"));
                 req.setAttribute("idMedidor", req.getParameter("idMedidor"));
-                
+                req.setAttribute("data", data);
 				req.setAttribute("listRelConsumoMedidor", listRelConsumoMedidor);
         		req.getRequestDispatcher("/jspapp/consumomedidordia.jsp").forward(req, res);
 			}
@@ -184,7 +187,6 @@ public class AndRelatorioBO extends HttpServlet {
 
 			Connection connection = null;
             String sql = "";
-            String data = "";
 			
 			try {
 
@@ -207,8 +209,7 @@ public class AndRelatorioBO extends HttpServlet {
 				if(req.getParameter("data") != null) {
 										
 					sql += "AND   DTINSERT >= '" + req.getParameter("data") + " 00:00' " +
-						   "AND   DTINSERT <= '" + req.getParameter("data") + " 23:59' " ;
-					req.setAttribute("data", data);
+						   "AND   DTINSERT <= '" + req.getParameter("data") + " 23:59' " ;					
 				}
 				sql += "ORDER BY DTINSERT ";
 				
@@ -222,7 +223,7 @@ public class AndRelatorioBO extends HttpServlet {
 //				List<RelConsumoMedidor> listRelConsumoMedidor = relConsumoMedidorDAO.listar(sql);
 				
 				consumoDAO = new ConsumoDAO(connection);
-				Consumo consumoAnterior = consumoDAO.buscarAnterior(Long.parseLong(req.getParameter("idMedidor")), data + " 00:00");				
+				Consumo consumoAnterior = consumoDAO.buscarAnterior(Long.parseLong(req.getParameter("idMedidor")), req.getParameter("data") + " 00:00");				
 				Double volume1 = 0d;
 				Double volume2 = 0d;
 
@@ -230,9 +231,7 @@ public class AndRelatorioBO extends HttpServlet {
 				
 				req.setAttribute("bridge", bridge);
 				req.setAttribute("medidor", medidor);
-				req.setAttribute("data", Auxiliar.formataDtTela(data));
-				req.setAttribute("dtInicio", req.getParameter("dtInicio"));
-				req.setAttribute("dtFim", req.getParameter("dtFim"));
+				req.setAttribute("data", Auxiliar.formataDtTela(req.getParameter("data")));
 				req.setAttribute("listRelConsumoMedidor", listRelConsumoMedidor);
         		req.getRequestDispatcher("/jspapp/consumomedidordiagrafico.jsp").forward(req, res);   
 			}
@@ -246,6 +245,60 @@ public class AndRelatorioBO extends HttpServlet {
 					try {connection.close();} catch (SQLException e) {}
 				}
 			}	
+        }		
+		//LISTAR CONSUMO MEDIDOR DIA GRAFICO
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("4")) {
+			
+			Connection connection = null;
+			
+			try {
+				
+				connection = ConnectionFactory.getConnection();
+				
+				String sql = "WHERE ID_BRIDGETP <> 3 " ;				
+				if(req.getParameter("idEmpresa") != null && !req.getParameter("idEmpresa").equals("")) {
+					sql += "AND   ID_EMPRESA = " + req.getParameter("idEmpresa") + " ";
+				}
+				if(req.getParameter("idCondominio") != null && !req.getParameter("idCondominio").equals("")) {
+					sql += "AND   ID_CONDOMINIO = " + req.getParameter("idCondominio") + " ";
+				}
+				if(req.getParameter("idBridge") != null && !req.getParameter("idBridge").equals("")) {
+					sql += "AND   ID_BRIDGE = " + req.getParameter("idBridge") + " ";
+				}
+				if(req.getParameter("data") != null) {
+					
+					sql += "AND   DTINSERT >= '" + req.getParameter("data") + " 00:00' " +
+						   "AND   DTINSERT <= '" + req.getParameter("data") + " 23:59' " ;
+				}
+				sql += "ORDER BY DTINSERT ";
+
+				RelPressaoDAO relPressaoDAODAO = new RelPressaoDAO(connection);
+				List<RelPressao> listRelPressao = relPressaoDAODAO.listar(sql);
+				
+				String bridge = "";
+				for(int i = 0; i < listRelPressao.size(); i++) {					
+					RelPressao relPressao = listRelPressao.get(i);
+					if(i == 0) {
+						bridge = relPressao.getDevice();
+					}					
+				}
+				
+				req.setAttribute("bridge", bridge);
+				req.setAttribute("data", Auxiliar.formataDtTela(req.getParameter("data")));
+				req.setAttribute("listRelPressao", listRelPressao);
+        		req.getRequestDispatcher("/jspapp/relatoriopressaografico.jsp").forward(req, res);   
+			}
+	        catch (Exception e) {
+	        	System.out.println(e);
+	        	try {
+					new LogSqlDAO(connection).inserir(((User) req.getSession().getAttribute("user")).getIdUser(),
+							"", e.getMessage(), "UsuarioBO", "AndRelatorioBO?acao=4");
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+        		req.setAttribute("aviso", Constantes.CONTATO_SUPORTE);
+	            req.getRequestDispatcher("/jsp/relatorios/relatorioPressao.jsp").forward(req, res);
+	        }
         }
 		
 		//Excel

@@ -56,7 +56,7 @@
 				<c:set var = "consumo" value = "0"/>
 				<c:set var = "colspan" value = "7"/>
 				<c:set var = "bgColor" value = ""/>					
-				<table class='table table-hover table-striped'>
+				<table class='table table-hover table-striped' style="margin: 0px;">
             		<thead>
             			<tr>
             				<th style="text-align: left">
@@ -67,7 +67,7 @@
 				                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
 				                    <input type='hidden' name='data' value='${data}'>
 				                    <input type='hidden' name='sinal' value='-'>
-				                    <input type='hidden' name='dtInicio' value='${dtInicio}'>
+				                    <input type='hidden' name='data' value='${dtInicio}'>
 				                    <input type='hidden' name='dtFim' value='${dtFim}'>
 							         <button type='submit' class='btn btn-info' title='Clique para visualizar o gráfico'>
 						                 <i class='glyphicon glyphicon-chevron-left'></i>
@@ -75,13 +75,12 @@
 						         </form>
             				</th>
             				<th style="text-align: center">
-            			         <form action='ConsumoMedidorBO?acao=6' method='post' target='_blank'>
+            			         <form action='AndRelatorioBO?acao=4' method='post' target='_blank'>
 				                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
 				                    <input type='hidden' name='idCondominio' value='${idCondominio}'>
 				                    <input type='hidden' name='idBridge' value='${idBridge}'>
 				                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
-				                    <input type='hidden' name='dtInicio' value='${dtInicio}'>
-				                    <input type='hidden' name='dtFim' value='${dtFim}'>
+				                    <input type='hidden' name='data' value='${data}'>
 							         <button type='submit' class='btn btn-warning' title='Clique para visualizar o gráfico'>
 						                 <i class='fa fa-bar-chart'></i>
 						             </button>
@@ -118,6 +117,9 @@
             			</tr>
             		</thead>
             	</table>	
+            	<div class="container-fluid text-center" style="margin": 0px; padding: 0px;">
+            		<label>${fn:substring(data, 8, 10)}/${fn:substring(data, 5, 7)}/${fn:substring(data, 0, 4)}</label>
+            	</div>
             	<fmt:setLocale value = "pt-BR"/>
             	<c:choose>
                   	<c:when test="${fn:length(listRelPressao) > 0}">
@@ -149,13 +151,12 @@
 				            		</c:forEach>			            	
 							        <tr>
 								         <td>
-									         <form action='ConsumoMedidorBO?acao=6' method='post' target='_blank'>
+									         <form action='AndRelatorioBO?acao=4' method='post' target='_blank'>
 							                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
 							                    <input type='hidden' name='idCondominio' value='${idCondominio}'>
 							                    <input type='hidden' name='idBridge' value='${idBridge}'>
 							                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
-							                    <input type='hidden' name='dtInicio' value='${dtInicio}'>
-							                    <input type='hidden' name='dtFim' value='${dtFim}'>
+							                    <input type='hidden' name='data' value='${data}'>
 										         <button type='submit' class='btn btn-warning' title='Clique para visualizar o gráfico'>
 									                 <i class='fa fa-bar-chart'></i>
 									             </button>
@@ -181,7 +182,7 @@
                     </c:when>
                     <c:otherwise>
                       	<div class="alert alert-danger text-center">
-						  	Nenhum registro encontrado para data ${data}
+						  	Nenhum registro encontrado
 						</div>
                     </c:otherwise>
            		</c:choose>
