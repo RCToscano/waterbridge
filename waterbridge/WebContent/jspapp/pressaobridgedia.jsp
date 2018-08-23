@@ -86,19 +86,19 @@
 						             </button>
 						         </form>
             				</th>
-            				<th style="text-align: center">
-            			         <form action='ConsumoMedidorBO?acao=excel' method='post' target='_blank'>
-            	                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
-            	                    <input type='hidden' name='idCondominio' value='${idCondominio}'>
-            	                    <input type='hidden' name='idBridge' value='${idBridge}'>
-            	                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
-            	                    <input type='hidden' name='dtInicio' value='${dtInicio}'>
-            	                    <input type='hidden' name='dtFim' value='${dtFim}'>
-            				         <button type='submit' class='btn btn-success' title='Clique para fazer o download em excel'>
-            			                 <i class='fa fa-file-excel'></i>
-            			             </button>
-            			         </form>
-            				</th>            				
+<!--             				<th style="text-align: center"> -->
+<!--             			         <form action='ConsumoMedidorBO?acao=excel' method='post' target='_blank'> -->
+<%--             	                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'> --%>
+<%--             	                    <input type='hidden' name='idCondominio' value='${idCondominio}'> --%>
+<%--             	                    <input type='hidden' name='idBridge' value='${idBridge}'> --%>
+<%--             	                    <input type='hidden' name='idMedidor' value='${idMedidor}'> --%>
+<%--             	                    <input type='hidden' name='dtInicio' value='${dtInicio}'> --%>
+<%--             	                    <input type='hidden' name='dtFim' value='${dtFim}'> --%>
+<!--             				         <button type='submit' class='btn btn-success' title='Clique para fazer o download em excel'> -->
+<!--             			                 <i class='fa fa-file-excel'></i> -->
+<!--             			             </button> -->
+<!--             			         </form> -->
+<!--             				</th>            				 -->
             				<th style="text-align: right;">
             			         <form action='AndRelatorioBO?acao=2' method='post'>
 				                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>

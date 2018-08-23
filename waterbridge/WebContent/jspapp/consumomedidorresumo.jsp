@@ -37,17 +37,42 @@
 	    <link href="./css/footercustom.css" rel="stylesheet"/>
 	    
 	    <style>
-		  /* Note: Try to remove the following lines to see the effect of CSS positioning */
-		  .affix {
-		      top: 0;
-		      width: 100%;
-		      z-index: 9999 !important;
-		  }
+			#blocoendereco {
+/* 			    border-radius: 15px; */
+			    background: #337ab7;
+			    padding: 20px; 
+			    width: 100%;
+			    height: 150px; 
+			    margin: 0 auto;
+			} 
+			
+			#blocoperiodo {
+  		    	border-radius: 10px;
+		    	background: #ec971f;
+			    padding: 7px; 
+			    width: 100%;
+		    	margin: 0 auto;
+		    	style="background-color: orange; padding: 5px;"
+			}
+			#blococonsumototal {
+  		    	border-radius: 50px 0px;
+		    	background: #4caf50;
+			    padding: 20px; 
+			    width: 200px;
+		    	height: 150px; 
+		    	margin: 0 auto;
+			} 		
+			
+			#blocomediadiaria {
+  		    	border-radius: 15px;
+		    	background: #2a404f;
+			    padding: 20px; 
+			    width: 200px;
+		    	margin: 0 auto;
+			}	
+		</style>
 		
-		  .affix + .container-fluid {
-		      padding-top: 70px;
-		  }
-		  </style>
+		
     </head>
     <body>
         <div class="container-fluid" style="margin: 0px; padding: 0px;">                 	   
@@ -55,27 +80,70 @@
 				<c:set var = "cont" value = "1"/>
 				<c:set var = "consumo" value = "0"/>
 				<c:set var = "colspan" value = "6"/>
-				<c:set var = "bgColor" value = ""/>					
-				<table class='table table-hover table-striped' style="margin: 0px;">
-            		<thead>
-            			<tr>
-            				<th style="text-align: left">
-            			         <form action='AndRelatorioBO?acao=1' method='post'>
-				                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
-				                    <input type='hidden' name='idCondominio' value='${idCondominio}'>
-				                    <input type='hidden' name='idBridge' value='${idBridge}'>
-				                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
-				                    <input type='hidden' name='data' value='${data}'>
-				                    <input type='hidden' name='sinal' value='-'>
-				                    <input type='hidden' name='dtInicio' value='${dtInicio}'>
-				                    <input type='hidden' name='dtFim' value='${dtFim}'>
-							         <button type='submit' class='btn btn-info' title='Clique para visualizar o gráfico'>
-						                 <i class='glyphicon glyphicon-chevron-left'></i>
-						             </button>
-						         </form>
-            				</th>
-            				<th style="text-align: center">
-            			         <form action='AndRelatorioBO?acao=3' method='post' target='_blank'>
+				<c:set var = "bgColor" value = ""/>						
+            	<div class="container-fluid text-center" style="margin: 2px; padding: 0px;">
+            	
+<!--             		<div id="blocoendereco"> -->
+<!--             			<label style="color: #fff;">  -->
+<%-- 				      		${medidor.condominio} --%>
+<!--             				<br/> -->
+<%--             				${medidor.enderecoMed} ${medidor.numeroMed} ${medidor.complMed} --%>
+<!--             				<br/> -->
+<%--             				Medidor ${medidor.numeroMedidor}	            				 --%>
+<!--             				<br/>            			 -->
+<!--            				</label> -->
+<!--             		</div> -->
+            	 
+            		<div class="panel-group">
+            			<div class="panel panel-primary">
+					      	<div class="panel-heading" style="text-align: left">
+					      		<label> 
+						      		${medidor.condominio}
+		            				<br/>
+		            				${medidor.enderecoMed} ${medidor.numeroMed} ${medidor.complMed}
+		            				<br/>
+		            				Medidor ${medidor.numeroMedidor}	            				
+		            				<br/>            			
+	            				</label>
+					      	</div>
+					      	<div class="panel-body">
+					      		<div id="blocoperiodo">
+						      		<label style="color: #fff;"> 
+							      		Per&iacute;odo 
+				            			${fn:substring(dtInicio, 8, 10)}/${fn:substring(dtInicio, 5, 7)}/${fn:substring(dtInicio, 0, 4)}
+				            			&nbsp;&agrave;&nbsp;
+				            			${fn:substring(dtFim, 8, 10)}/${fn:substring(dtFim, 5, 7)}/${fn:substring(dtFim, 0, 4)}	            					           				            		
+			          				</label>
+		          				</div>
+					      						      	
+<!-- 					      		<button type="button" class="btn btn-warning"> -->
+<!-- 									<label>  -->
+<!-- 							      		Per&iacute;odo  -->
+<%-- 				            			${fn:substring(dtInicio, 8, 10)}/${fn:substring(dtInicio, 5, 7)}/${fn:substring(dtInicio, 0, 4)} --%>
+<!-- 				            			&nbsp;&agrave;&nbsp; -->
+<%-- 				            			${fn:substring(dtFim, 8, 10)}/${fn:substring(dtFim, 5, 7)}/${fn:substring(dtFim, 0, 4)}	            					           				            		 --%>
+<!-- 			          				</label> -->
+<!-- 								</button>  -->
+					      		<br/><br/>			           			
+			           			<div id="blococonsumototal">
+			           				<label style="color: #fff;">            			            						            		
+				            			Consumo Total
+				            			<br/>
+				            			<h3><fmt:formatNumber value="${consumoTotal}" type="currency" currencySymbol="" minFractionDigits = "3"/></h3>
+				            			<h3>m&#179;</h3>  
+				           			</label>
+			           			</div>
+			           			<br/><br/>
+			           			<div id="blocomediadiaria">
+			           				<label style="color: #fff;">            			            						            		
+				            			Média Di&aacute;ria
+				            			<br/>
+				            			<h3><fmt:formatNumber value="${mediaDiaria}" type="currency" currencySymbol="" minFractionDigits = "3"/></h3>
+				            			<h3>m&#179;</h3> 
+				           			</label>
+			           			</div>			           			
+			           			<br/><br/>
+			           			<form action='AndRelatorioBO?acao=3' method='post' target='_blank'>
 				                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
 				                    <input type='hidden' name='idCondominio' value='${idCondominio}'>
 				                    <input type='hidden' name='idBridge' value='${idBridge}'>
@@ -85,40 +153,9 @@
 						                 <i class='fa fa-bar-chart'></i>
 						             </button>
 						         </form>
-            				</th>
-<!--             				<th style="text-align: center"> -->
-<!--             			         <form action='ConsumoMedidorBO?acao=excel' method='post' target='_blank'> -->
-<%--             	                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'> --%>
-<%--             	                    <input type='hidden' name='idCondominio' value='${idCondominio}'> --%>
-<%--             	                    <input type='hidden' name='idBridge' value='${idBridge}'> --%>
-<%--             	                    <input type='hidden' name='idMedidor' value='${idMedidor}'> --%>
-<%--             	                    <input type='hidden' name='dtInicio' value='${dtInicio}'> --%>
-<%--             	                    <input type='hidden' name='dtFim' value='${dtFim}'> --%>
-<!--             				         <button type='submit' class='btn btn-success' title='Clique para fazer o download em excel'> -->
-<!--             			                 <i class='fa fa-file-excel'></i> -->
-<!--             			             </button> -->
-<!--             			         </form> -->
-<!--             				</th>            				 -->
-            				<th style="text-align: right;">
-            			         <form action='AndRelatorioBO?acao=1' method='post'>
-				                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
-				                    <input type='hidden' name='idCondominio' value='${idCondominio}'>
-				                    <input type='hidden' name='idBridge' value='${idBridge}'>
-				                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
-				                    <input type='hidden' name='data' value='${data}'>
-				                    <input type='hidden' name='sinal' value='+'>
-				                    <input type='hidden' name='dtInicio' value='${dtInicio}'>
-				                    <input type='hidden' name='dtFim' value='${dtFim}'>
-							         <button type='submit' class='btn btn-info' title='Clique para visualizar o gráfico'>
-						                 <i class='glyphicon glyphicon-chevron-right'></i>
-						             </button>
-						         </form>
-            				</th>
-            			</tr>
-            		</thead>
-            	</table>	
-            	<div class="container-fluid text-center" style="margin": 0px; padding: 0px;">
-            		<label>${fn:substring(data, 8, 10)}/${fn:substring(data, 5, 7)}/${fn:substring(data, 0, 4)}</label>
+					      	</div>
+				    	</div>
+			    	</div>    					
             	</div>
             	<fmt:setLocale value = "pt-BR"/>	
             	<c:choose>

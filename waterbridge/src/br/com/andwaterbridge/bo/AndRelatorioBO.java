@@ -6,7 +6,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -15,17 +14,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import br.com.waterbridge.auxiliar.Auxiliar;
-import br.com.waterbridge.auxiliar.ColunasExcel;
 import br.com.waterbridge.auxiliar.Constantes;
-import br.com.waterbridge.auxiliar.GeradorExcel;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.BridgeDAO;
 import br.com.waterbridge.dao.ConsumoDAO;
 import br.com.waterbridge.dao.LogSqlDAO;
-import br.com.waterbridge.dao.MedidorDAO;
+import br.com.andwaterbridge.dao.MedidorDAO;
 import br.com.waterbridge.modelo.Bridge;
 import br.com.waterbridge.modelo.Consumo;
-import br.com.waterbridge.modelo.Medidor;
+import br.com.andwaterbridge.modelo.Medidor;
 import br.com.waterbridge.modelo.User;
 import br.com.waterbridge.reldao.RelConsumoMedidorDAO;
 import br.com.waterbridge.reldao.RelPressaoDAO;
@@ -217,7 +214,7 @@ public class AndRelatorioBO extends HttpServlet {
 				Bridge bridge = bridgeDAO.buscarPorId(Long.parseLong(req.getParameter("idBridge")));
 				
 				MedidorDAO medidorDAO = new MedidorDAO(connection);
-				Medidor medidor = medidorDAO.buscarPorId(req.getParameter("idMedidor"));
+				Medidor medidor = medidorDAO.buscarPorId(Long.parseLong(req.getParameter("idMedidor")));
 				
 //				RelConsumoMedidorDAO relConsumoMedidorDAO = new RelConsumoMedidorDAO(connection);
 //				List<RelConsumoMedidor> listRelConsumoMedidor = relConsumoMedidorDAO.listar(sql);
@@ -301,13 +298,19 @@ public class AndRelatorioBO extends HttpServlet {
 	        }
         }
 		
-		//Excel
-		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("excel")) {
-			
+		//CONSUMO MEDIDOR RESUMO
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("5")) {
+
 			Connection connection = null;
-			String sql = "";
+            String sql = "";
+			String data = "";
 			
 			try {
+				
+				connection = ConnectionFactory.getConnection();
+				
+				ConsumoDAO consumoDAO = new ConsumoDAO(connection);
+				MedidorDAO medidorDAO = new MedidorDAO(connection);
 				
 				sql += "WHERE ID_CONSUMO > 0 " ;
 				if(req.getParameter("idEmpresa") != null && !req.getParameter("idEmpresa").equals("")) {
@@ -322,73 +325,72 @@ public class AndRelatorioBO extends HttpServlet {
 				if(req.getParameter("idMedidor") != null && !req.getParameter("idMedidor").equals("")) {
 					sql += "AND   ID_MEDIDOR = " + req.getParameter("idMedidor") + " ";
 				}
-				if(req.getParameter("dtInicio") != null && !req.getParameter("dtInicio").equals("")) {
+				if(req.getParameter("data") == null) {
 					
-					sql += "AND   DTINSERT >= '" + Auxiliar.formataDtBanco(req.getParameter("dtInicio")) + " 00:00' " +
-							"AND   DTINSERT <= '" + Auxiliar.formataDtBanco(req.getParameter("dtFim")) + " 23:59' " ;
+					data = consumoDAO.dataHoraMinSeg();
+					data = data.substring(0, 10);
+					
+					sql += "AND   DTINSERT >= '" + consumoDAO.dataAdd(data, "0") + " 00:00' " +
+						   "AND   DTINSERT <= '" + consumoDAO.dataAdd(data, "0") + " 23:59' " ;
+					req.setAttribute("data", data);
 				}
-				sql += "ORDER BY DTINSERT ";
+				else {
+					
+					data = consumoDAO.dataAdd(req.getParameter("data"), req.getParameter("sinal") + 1);					
+					sql += "AND   DTINSERT >= '" + data + " 00:00' " +
+						   "AND   DTINSERT <= '" + data + " 23:59' " ;
+					req.setAttribute("data", data);
+				}
+				sql += "ORDER BY DTINSERT, " +
+				       "         VOLUME ";
 				
-				connection = ConnectionFactory.getConnection();
+				Medidor medidor = medidorDAO.buscarPorId(Long.parseLong(req.getParameter("idMedidor")));
 				
-				ConsumoDAO consumoDAO = new ConsumoDAO(connection);
-				Consumo consumoAnterior = consumoDAO.buscarAnterior(Long.parseLong(req.getParameter("idMedidor")),
-						Auxiliar.formataDtBanco(req.getParameter("dtInicio")) + " 00:00");				
-				Double volume1 = 0d;
-				Double volume2 = 0d;
+				String dtInicio = consumoDAO.dataAdd(consumoDAO.dataHoraMinSeg(), "-30");
+				String dtFim = consumoDAO.dataHoraMinSeg().substring(0, 11);
 				
-				List<RelConsumoMedidor> listRelConsumoMedidor = dadosTela(connection, sql, consumoAnterior, volume1, volume2);
+				Consumo consumo1 = consumoDAO.buscarAnterior(Long.parseLong(req.getParameter("idMedidor")), dtInicio + " 00:00");
+				Consumo consumo2 = consumoDAO.buscarAtual(Long.parseLong(req.getParameter("idMedidor")), dtFim + " 00:00");
 				
-				List<String> abas = new ArrayList<String>();
-				List<List<String>> colunas = new ArrayList<>();
-				List<List<List<String>>> listaFinal = new ArrayList<>();
+				Double consumoTotal = consumo2.getVolume() - consumo1.getVolume();
 				
-        		//Dados
-	        	abas.add("Dados");
-	        	
-	        	colunas.add(new ColunasExcel().getColunasRelMedidorDados());
-	        	
-	        	List<List<String>> lista2 = new ArrayList<>();
-	        	for (int i = 0; i < listRelConsumoMedidor.size(); i++) {
-	        		List<String> listaValores2 = new ArrayList<>();
-	        		recuperaDados(listRelConsumoMedidor, i, listaValores2);
-	        		lista2.add(listaValores2);
-	        	}
-	        	listaFinal.add(lista2);
-	        	
-	        	
-	        	//Aba Resumo
-        		abas.add("Resumo");
-        		
-        		colunas.add(new ColunasExcel().getColunasRelMedidorResumo());
-        		
-        		List<List<String>> lista1 = new ArrayList<>();
-    			List<String> listaValores1 = new ArrayList<>();
-    			listaValores1.add(listRelConsumoMedidor.get(0).getEmpresa());
-    			listaValores1.add(listRelConsumoMedidor.get(0).getCondominio());
-    			listaValores1.add(listRelConsumoMedidor.get(0).getDevice());
-    			listaValores1.add(listRelConsumoMedidor.get(0).getNumeroMedidor());
-    			listaValores1.add(req.getParameter("dtInicio"));
-    			listaValores1.add(req.getParameter("dtFim"));
-    			lista1.add(listaValores1);
-        		listaFinal.add(lista1);
-        		
-        		String nomeArquivo = "Relatorio_Consumo_Medidor_"+Auxiliar.dataAtual()+".xlsx";
-        		
-	        	GeradorExcel.gerar2Abas(res, nomeArquivo, abas, colunas, listaFinal);
+				Double mediaDiaria = consumoTotal / 30;
 				
+				System.out.println("medidor " + medidor.getNumeroMedidor());
+				System.out.println("dtInicio " + dtInicio);
+				System.out.println("dtFim " + dtFim);
+				System.out.println("consumo1 " + consumo1.getVolume());
+				System.out.println("consumo2 " + consumo2.getVolume());
+				System.out.println("consumoTotal " + consumoTotal);
+				System.out.println("mediaDiaria " + mediaDiaria);
+				
+				req.setAttribute("medidor", medidor);
+				req.setAttribute("dtInicio", dtInicio);
+				req.setAttribute("dtFim", dtFim);
+				req.setAttribute("consumo1", consumo1);
+				req.setAttribute("consumo2", consumo2);
+				req.setAttribute("consumoTotal", consumoTotal);
+				req.setAttribute("mediaDiaria", mediaDiaria);
+
+                req.setAttribute("idEmpresa", req.getParameter("idEmpresa"));
+                req.setAttribute("idCondominio", req.getParameter("idCondominio"));
+                req.setAttribute("idBridge", req.getParameter("idBridge"));
+                req.setAttribute("idMedidor", req.getParameter("idMedidor"));
+                req.setAttribute("data", data);
+        		req.getRequestDispatcher("/jspapp/consumomedidorresumo.jsp").forward(req, res);
 			}
-			catch (Exception e) {
-				System.out.println("erro: " + e.toString());
-				req.setAttribute("erro", e.toString());
-				req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
-			}
+	        catch (Exception e) {
+	        	System.out.println("erro: " + e.toString());
+	            req.setAttribute("erro", e.toString());
+	            req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
+	        }
 			finally {
 				if(connection != null) {
 					try {connection.close();} catch (SQLException e) {}
 				}
 			}	
-		}
+        }
+		
     }
 
 	private List<RelConsumoMedidor> dadosTela(Connection connection, String sql, Consumo consumoAnterior,

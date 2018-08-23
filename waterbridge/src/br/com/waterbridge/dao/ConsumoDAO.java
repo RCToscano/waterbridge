@@ -148,6 +148,80 @@ public class ConsumoDAO {
         }
     }
     
+    public Consumo buscarAtual(Long idMedidor, String dtInsert) throws SQLException {
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Consumo consumo = null;
+        
+        try {
+            
+            stmt = connection.prepareStatement(
+    		"SELECT   ID_CONSUMO, " +
+    		"		  ID_USER, " +
+    		"		  ID_MEDIDOR, " +
+    		"		  DEVICE, " +
+    		"		  DATA, " +
+    		"		  VERSION, " +
+    		"		  METERPOSITION, " +
+    		"		  VOLUME, " +
+    		"		  PRESSURE, " +
+    		"		  FLOW, " +
+    		"		  TEMPERATURE, " +
+    		"		  BATTERY, " +
+    		"		  ALARM, " +
+    		"		  DTINSERT " +
+        	"FROM     TB_CONSUMO " +
+        	"WHERE    TB_CONSUMO.ID_MEDIDOR = ? " +
+        	"AND      TB_CONSUMO.DTINSERT <= ? " +
+        	"AND      TB_CONSUMO.ALARM <> 1 " +
+        	"ORDER BY TB_CONSUMO.DTINSERT DESC " +
+        	"LIMIT 1 "
+    		);
+            
+            stmt.setObject(1, idMedidor);
+            stmt.setObject(2, dtInsert);
+            
+            rs = stmt.executeQuery();
+
+            if(rs.next()) {
+                
+            	consumo = new Consumo();
+            	consumo.setIdConsumo(rs.getLong("ID_CONSUMO"));
+            	consumo.setIdUser(rs.getLong("ID_USER"));
+            	consumo.setIdMedidor(rs.getLong("ID_MEDIDOR"));
+            	consumo.setDevice(rs.getString("DEVICE"));
+            	consumo.setData(rs.getString("DATA"));
+            	consumo.setVersion(rs.getString("VERSION"));
+            	consumo.setMeterPosition(rs.getLong("METERPOSITION"));
+            	consumo.setVolume(rs.getDouble("VOLUME"));
+            	consumo.setPressure(rs.getDouble("PRESSURE"));
+            	consumo.setFlow(rs.getLong("FLOW"));
+            	consumo.setTemperature(rs.getLong("TEMPERATURE"));
+            	consumo.setBattery(rs.getDouble("BATTERY"));
+            	consumo.setAlarm(rs.getLong("ALARM"));
+            	consumo.setDtInsert(rs.getString("DTINSERT"));
+            }
+
+            return consumo;
+        }
+        catch(SQLException e) {            
+            
+            throw e;
+        }
+        finally {
+
+            if(stmt != null) {
+                
+                stmt.close();
+            }
+            if(rs != null) {              
+                
+                rs.close();
+            }
+        }
+    }
+    
     public Consumo buscarAnterior(Long idEmpresa, Long idCondominio, Long idBridge, Long idMedidor, String dtInsert) throws SQLException {
 
         PreparedStatement stmt = null;
