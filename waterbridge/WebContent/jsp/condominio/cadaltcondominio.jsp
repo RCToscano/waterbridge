@@ -189,8 +189,6 @@
 		                        <label>Coordenadas</label>
 		                        <div class="input-group">
 		                            <input class="form-control" type="text" name="coordenadas" id="coordenadas" value="" readonly></input>
-		                            <input class="form-control" type="hidden" name="latitude" id="latitude" value="${condominio.coordX}"></input>
-		                            <input class="form-control" type="hidden" name="longitude" id="longitude" value="${condominio.coordY}"></input>
 		                            <span class="input-group-btn"><!-- Append button addon using class input-group-lg -->
 		                                <button class="btn btn-default" type="button" onclick="abrirMapa()">Mapa <span class="glyphicon glyphicon-map-marker text-danger"></span></button>
 		                            </span>
@@ -200,15 +198,29 @@
 						
 						<div class="col-sm-6">
 							<div class="form-group">
-		                        <label class="control-label">Endere&ccedil;o</label><label class="text-danger">*</label>
-		                        <input class="form-control" type="text" name="endereco" id="route" value="${condominio.endereco}" maxlength="100" required/>
+		                        <label class="control-label">Endere&ccedil;o</label>
+		                        <input class="form-control" type="text" name="endereco" id="route" value="${condominio.endereco}" maxlength="100"/>
+	                        </div>
+						</div>
+						
+						<div class="col-sm-3">
+							<div class="form-group">
+		                        <label class="control-label">Latitude</label>
+		                        <input class="form-control" type="text" name="latitude" id="latitude" value="${condominio.coordX}"></input>
+	                        </div>
+						</div>
+						
+						<div class="col-sm-3">
+							<div class="form-group">
+		                        <label class="control-label">Longitude</label>
+		                        <input class="form-control" type="text" name="longitude" id="longitude" value="${condominio.coordY}"></input>
 	                        </div>
 						</div>
 
 						<div class="col-sm-3">
 							<div class="form-group">
-								<label class="control-label">N&uacute;mero</label><label class="text-danger">*</label>
-								<input class="form-control" type="number" name="numero" id="street_number" value="${condominio.numero}" max="9999" min="0" data-error="N&deg; inválido" required/>
+								<label class="control-label">N&uacute;mero</label>
+								<input class="form-control" type="number" name="numero" id="street_number" value="${condominio.numero}" max="9999" min="0" data-error="N&deg; inválido"/>
 								<div class="help-block with-errors"></div>
 							</div>
 						</div>
@@ -240,6 +252,8 @@
 		                        <input class="form-control" type="tel" name="cep" id="postal_code" value="${condominio.cep}" maxlength="9" required/>
 	                        </div>
 						</div>
+						
+						<div class="col-sm-12"></div>
 						
 						<div class="col-sm-3">
 	                       	<div class="form-group">

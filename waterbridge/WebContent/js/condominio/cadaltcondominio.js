@@ -36,6 +36,8 @@ function validarForm() {
 	idEmpresa.style.removeProperty('border');
 	situacao.style.removeProperty('border');
 	endereco.style.removeProperty('border');
+	latitude.style.removeProperty('border');
+	longitude.style.removeProperty('border');
 	numero.style.removeProperty('border');
 	compl.style.removeProperty('border');
 	municipio.style.removeProperty('border');
@@ -169,20 +171,6 @@ function validarForm() {
     	situacao.focus();
         return false;
     }    
-    else if(endereco.value.trim() == '') {
-
-    	endereco.style.borderColor = colorRed;
-    	exibirAviso('Informe o endereço');
-    	endereco.focus();
-        return false;
-    }
-    else if(numero.value.trim() == '') {
-
-    	numero.style.borderColor = colorRed;
-    	exibirAviso('Informe o número');
-    	numero.focus();
-        return false;
-    }
     else if(municipio.value.trim() == '') {
 
     	municipio.style.borderColor = colorRed;
@@ -211,6 +199,41 @@ function validarForm() {
     	cep.focus();
     	return false;
     }
+    else if(endereco.value.trim() == '' && numero.value.trim() == '' && latitude.value.trim() == '' && longitude.value.trim() == '' ) {
+    
+    	exibirAviso('Informe o endereço ou latitude/longitude');
+    	endereco.focus();
+        return false;
+    }
+    else if(endereco.value.trim() != '' && numero.value.trim() == '') {
+    	
+    	numero.style.borderColor = colorRed;
+    	exibirAviso('Informe o número');
+    	numero.focus();
+    	return false;
+    }
+    else if(endereco.value.trim() == '' && numero.value.trim() != '') {
+    	
+    	endereco.style.borderColor = colorRed;
+    	exibirAviso('Informe o endereço');
+    	endereco.focus();
+    	return false;
+    }
+    else if(latitude.value.trim() != '' && longitude.value.trim() == '') {
+    	
+    	longitude.style.borderColor = colorRed;
+    	exibirAviso('Informe a longitude');
+    	longitude.focus();
+    	return false;
+    }
+    else if(latitude.value.trim() == '' && longitude.value.trim() != '') {
+    	
+    	latitude.style.borderColor = colorRed;
+    	exibirAviso('Informe a latitude');
+    	latitude.focus();
+    	return false;
+    }
+    
     else {
     
         $.blockUI({ 
