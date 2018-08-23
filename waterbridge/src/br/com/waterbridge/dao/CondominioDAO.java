@@ -250,7 +250,7 @@ public class CondominioDAO {
             	condominio.setTelCel(rs.getString("TELCEL"));
             	condominio.setEmail(rs.getString("EMAIL"));
             	condominio.setEndereco(rs.getString("ENDERECO"));
-            	condominio.setNumero(rs.getLong("NUMERO"));
+            	condominio.setNumero(Auxiliar.converteLong(rs.getString("NUMERO")));
             	condominio.setCompl(rs.getString("COMPL"));
             	condominio.setMunicipio(rs.getString("MUNICIPIO"));
             	condominio.setUf(rs.getString("UF"));
@@ -427,7 +427,7 @@ public class CondominioDAO {
             	condominio.setTelCel(rs.getString("TELCEL"));
             	condominio.setEmail(rs.getString("EMAIL"));
             	condominio.setEndereco(rs.getString("ENDERECO"));
-            	condominio.setNumero(rs.getLong("NUMERO"));
+            	condominio.setNumero(Auxiliar.converteLong(rs.getString("NUMERO")));
             	condominio.setCompl(rs.getString("COMPL"));
             	condominio.setMunicipio(rs.getString("MUNICIPIO"));
             	condominio.setUf(rs.getString("UF"));
@@ -515,7 +515,7 @@ public class CondominioDAO {
             	condominio.setTelCel(rs.getString("TELCEL"));
             	condominio.setEmail(rs.getString("EMAIL"));
             	condominio.setEndereco(rs.getString("ENDERECO"));
-            	condominio.setNumero(rs.getLong("NUMERO"));
+            	condominio.setNumero(Auxiliar.converteLong(rs.getString("NUMERO")));
             	condominio.setCompl(rs.getString("COMPL"));
             	condominio.setMunicipio(rs.getString("MUNICIPIO"));
             	condominio.setUf(rs.getString("UF"));

@@ -8,6 +8,7 @@ public class User {
     private Long idUser;
     private Perfil perfil;
     private Pass pass;
+    private Long idSessao;
     private String usuario;
     private String nome;
     private String email;
@@ -43,6 +44,14 @@ public class User {
 
 	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
+	}
+	
+	public Long getIdSessao() {
+		return idSessao;
+	}
+
+	public void setIdSessao(Long idSessao) {
+		this.idSessao = idSessao;
 	}
 
 	public Pass getPass() {

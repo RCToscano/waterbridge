@@ -62,6 +62,8 @@
                         <li class="divider"></li>
                         <li><a href="BridgeBO?acao=5">Consulta</a></li>
                         <li class="divider"></li>
+                        <li><a href="ExclusaoConsumoMedidorBO?acao=1">Exclusão Consumo</a></li>
+                        <li class="divider"></li>
                     </ul>
                 </li>
             </ul>

@@ -101,8 +101,10 @@ public class CondominioBO extends HttpServlet {
 					condominio.setTelFixo(req.getParameter("telFixo"));
 					condominio.setTelCel(req.getParameter("telCel"));
 					condominio.setEmail(req.getParameter("email"));
-					condominio.setEndereco(Auxiliar.removerCaracteres(req.getParameter("endereco").trim().toUpperCase()));
-					condominio.setNumero(Long.parseLong(req.getParameter("numero")));
+					if(!req.getParameter("endereco").trim().isEmpty()) {
+						condominio.setEndereco(Auxiliar.removerCaracteres(req.getParameter("endereco").trim().toUpperCase()));
+						condominio.setNumero(Long.parseLong(req.getParameter("numero")));
+					}
 					condominio.setCompl(Auxiliar.removerCaracteres(req.getParameter("compl").trim().toUpperCase()));
 					condominio.setMunicipio(Auxiliar.removerCaracteres(req.getParameter("municipio").trim().toUpperCase()));
 					condominio.setUf(req.getParameter("estado").trim().toUpperCase());

@@ -42,7 +42,7 @@
 						<div class="thumbnail">
 							<div class="caption">
 								<h3>Pressure Bridge</h3>
-								<p>Acompanhe a pressão por período. </p>
+<!-- 								<p>&nbsp;</p> -->
 								<p><a href="RelatorioPressaoBO?acao=1" class="btn btn-primary" role="button">Acessar</a></p>
 							</div>
 						</div>
@@ -54,7 +54,7 @@
 						<div class="thumbnail">
 							<div class="caption">
 								<h3>Consumo por Local</h3>
-								<p>Veja o consumo do Local em um período.</p>
+<!-- 								<p>&nbsp;</p> -->
 								<p><a href="ConsumoCondominioBO?acao=1" class="btn btn-primary" role="button">Acessar</a></p>
 							</div>
 						</div>
@@ -66,7 +66,7 @@
 						<div class="thumbnail">
 							<div class="caption">
 								<h3>Consumo por Medidor</h3>
-								<p>Veja o consumo do Medidor em um período.</p>
+<!-- 								<p>&nbsp;</p> -->
 								<p><a href="ConsumoMedidorBO?acao=1" class="btn btn-primary" role="button">Acessar</a></p>
 							</div>
 						</div>
@@ -78,7 +78,7 @@
 						<div class="thumbnail">
 							<div class="caption">
 								<h3>Cadastro de Usuários</h3>
-								<p>Cadastre os usuários de acordo com o perfil.</p>
+<!-- 								<p>&nbsp;</p> -->
 								<p><a href="UsuarioBO?acao=cadUsuario" class="btn btn-primary" role="button">Acessar</a></p>
 							</div>
 						</div>

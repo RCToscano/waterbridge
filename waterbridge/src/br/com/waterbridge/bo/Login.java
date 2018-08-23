@@ -8,7 +8,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.auxiliar.Constantes;
@@ -16,8 +15,10 @@ import br.com.waterbridge.auxiliar.Email;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.LogSqlDAO;
 import br.com.waterbridge.dao.PassDAO;
+import br.com.waterbridge.dao.SessaoDAO;
 import br.com.waterbridge.dao.UserDAO;
 import br.com.waterbridge.modelo.Pass;
+import br.com.waterbridge.modelo.Sessao;
 import br.com.waterbridge.modelo.User;
 
 public class Login extends HttpServlet {
@@ -58,6 +59,12 @@ public class Login extends HttpServlet {
                 } 
                 else {
                     //vai para home page
+                	SessaoDAO sessaoDAO = new SessaoDAO(connection);
+                	sessaoDAO.inserir(user.getIdUser());
+                	
+                	Sessao sessao = sessaoDAO.buscarUltimo();
+                	user.setIdSessao(sessao.getIdSessao());
+                	
                 	String usuarioQuebrado[] = user.getNome().split("\\s+");
         			String nome = usuarioQuebrado[0].trim();
         			user.setNome(nome);
@@ -67,8 +74,6 @@ public class Login extends HttpServlet {
             } 
             else if (relat.equals("logout")) {
                 //invalidar a sessao
-                HttpSession session = req.getSession(true);
-                session.putValue("user", null);
                 req.getSession().invalidate();
                 req.getRequestDispatcher("/index.jsp").forward(req, res);
             } 
