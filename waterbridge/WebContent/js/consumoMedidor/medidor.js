@@ -83,7 +83,7 @@ function listarConsumoMedidor() {
     		            "			<td " + bgColor + "><small>" + relConsumoMedidor.dtInsert.substring(11, 16) + "</small></td>" +
     		            "			<td " + bgColor + "><small>" + formatarTresDecimais(relConsumoMedidor.volume) + "</small></td>" +
 //    		            "			<td " + bgColor + "><small>" + relConsumoMedidor.alarmDesc + "</small></td>" +
-    		            "			<td " + bgColor + "><small>" + relConsumoMedidor.battery + "</small></td>" +
+    		            "			<td " + bgColor + "><small>" + substituirPonto(relConsumoMedidor.battery) + "</small></td>" +
     		            "			<td " + bgColor + "><small>" + relConsumoMedidor.temperature + "</small></td>" +
     		            "		    <td " + bgColor + " align='right'></td>" +
     		            "		</tr>" +

@@ -211,3 +211,7 @@ function formatarTresDecimais(numero) {
     numero[0] = numero[0].split(/(?=(?:...)*$)/).join('.');
     return numero.join(',');
 }
+
+function substituirPonto(input) {
+	return input.toString().replace(".",",");
+}

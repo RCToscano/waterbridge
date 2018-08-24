@@ -262,7 +262,7 @@ function listarConsumoMedidor() {
 	        success: function(result) {
 
 	        	var texto = '';
-	        	var colspan = 7;
+	        	var colspan = 8;
 	        	var consumo = 0;
 	        	var bgColor = '';
 	            var listRelConsumoMedidor = result;
@@ -340,7 +340,7 @@ function listarConsumoMedidor() {
 		            	}
 	                	texto +=
     		            "			<td " + bgColor + "><small>" + relConsumoMedidor.alarmDesc + "</small></td>" +
-    		            "			<td " + bgColor + "><small>" + relConsumoMedidor.battery + "</small></td>" +
+    		            "			<td " + bgColor + "><small>" + substituirPonto(relConsumoMedidor.battery) + "</small></td>" +
     		            "			<td " + bgColor + "><small>" + relConsumoMedidor.temperature + "</small></td>" +
     		            "		    <td " + bgColor + " align='right'></td>" +
     		            "		</tr>" ;
@@ -366,7 +366,7 @@ function listarConsumoMedidor() {
 					"		             </button>" +
 					"		         </form>" +
 					"	         </td>" +
-					"	         <td colspan='6' style='text-align: left'>" +
+					"	         <td colspan='8' style='text-align: left'>" +
 					"		         <form action='ConsumoMedidorBO?acao=excel' method='post' target='_blank'>" +
 					"                    <input type='hidden' name='idEmpresa' value='" + idEmpresa.value + "'>" +
 					"                    <input type='hidden' name='idCondominio' value='" + idCondominio.value + "'>" +
