@@ -114,11 +114,7 @@ public class ExclusaoConsumoMedidorBO extends HttpServlet {
 				ConsumoDAO consumoDAO = new ConsumoDAO(connection);
 				consumoDAO.deletar(listaId);
 				
-				BridgeDAO bridgeDAO = new BridgeDAO(connection);
-				List<Bridge> listBridge = bridgeDAO.listarTodos();
-				
 				req.setAttribute("sucesso", "Registros deletados com sucesso!");
-				req.setAttribute("listBridge", listBridge);
         		req.getRequestDispatcher("/jsp/consumoMedidor/consulta.jsp").forward(req, res);
 				
 			} 

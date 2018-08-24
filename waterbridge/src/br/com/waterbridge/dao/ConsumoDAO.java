@@ -702,10 +702,8 @@ public class ConsumoDAO {
         
         try {
             stmt = connection.prepareStatement(
-    		"DELETE FROM TB_CONSUMO WHERE ID_CONSUMO IN (?) ");
+    		"DELETE FROM TB_CONSUMO WHERE ID_CONSUMO IN ("+listaId+") ");
           
-            stmt.setObject(1, listaId);
-            
             stmt.executeUpdate();
         }
         finally {

@@ -103,6 +103,11 @@ function listarConsumoMedidor() {
 					"       <input type='hidden' name='cont' id='cont' value="+ cont +"> " ;
 		            "</form>" ;
 	            }
+	            else {
+	                document.getElementById("divAviso").style.display = "block";
+	                document.getElementById("divAviso").innerHTML = 
+	                	"<strong><label id='aviso' name='aviso'/>Nenhum Resultado Encontrado!</strong>";
+	            }
 	            divTable.innerHTML = texto;
 	            $.unblockUI();
 	        },
