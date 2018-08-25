@@ -47,7 +47,7 @@ public class ValidadeToken implements Runnable {
         	
         	if(!listaFinal.isEmpty()) {
         		String mensagem = Email.corpoEmailToken(listaFinal);
-        		Email.enviarEmail("WaterBridge - Validade Token", mensagem, "rafael.ctoscano@gmail.com");
+        		Email.enviarEmail("WaterBridge - Validade Token", mensagem, "waterbridge@desoltec.com.br");
         	}
         	
 		} 
