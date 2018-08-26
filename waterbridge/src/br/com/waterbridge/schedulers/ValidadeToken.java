@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import br.com.waterbridge.auxiliar.Constantes;
 import br.com.waterbridge.auxiliar.Email;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.BridgeDAO;
@@ -47,7 +48,7 @@ public class ValidadeToken implements Runnable {
         	
         	if(!listaFinal.isEmpty()) {
         		String mensagem = Email.corpoEmailToken(listaFinal);
-        		Email.enviarEmail("WaterBridge - Validade Token", mensagem, "waterbridge@desoltec.com.br");
+        		Email.enviarEmail("WaterBridge - Validade Token", mensagem, Constantes.EMAIL_DESOLTEC);
         	}
         	
 		} 

@@ -39,6 +39,7 @@ public class Schedulers implements ServletContextListener {
 	    	
 	        scheduler = Executors.newSingleThreadScheduledExecutor();
 	        scheduler.scheduleAtFixedRate(new ValidadeToken(), TimeUnit.MILLISECONDS.toSeconds(diff), 24*60*60, TimeUnit.SECONDS);
+//	        scheduler.scheduleAtFixedRate(new Testes(), TimeUnit.MILLISECONDS.toSeconds(diff), 24*60*60, TimeUnit.SECONDS);
     	} 
     	catch (Exception e) {
 			System.out.println(e);
