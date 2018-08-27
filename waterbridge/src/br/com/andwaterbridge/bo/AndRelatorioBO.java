@@ -374,7 +374,7 @@ public class AndRelatorioBO extends HttpServlet {
 				MetaConsumoDAO metaConsumoDAO = new MetaConsumoDAO(connection);
 				MetaConsumo metaConsumo = metaConsumoDAO.buscarPorIdMedidor(Long.parseLong(req.getParameter("idMedidor")));
 				if(metaConsumo == null) {					
-					System.out.println("inseriu");
+					
 					metaConsumo = new MetaConsumo();
 					metaConsumo.setIdMetaConsumo(0l);
 					metaConsumo.setIdUser(Long.parseLong(req.getParameter("idUser")));
@@ -385,7 +385,7 @@ public class AndRelatorioBO extends HttpServlet {
 					metaConsumoDAO.inserir(metaConsumo);					
 				}
 				else {
-					System.out.println("alterou");
+					
 					metaConsumo.setIdUser(Long.parseLong(req.getParameter("idUser")));
 					metaConsumo.setMeta(Double.parseDouble(req.getParameter("meta").replace(".", "").replace(",", ".")));
 					
