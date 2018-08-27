@@ -12,4 +12,6 @@ public class Constantes {
 
 	public static final String PATH_TEMP_LOGO_REMOTO = "/home/waterbridge/logopempresatmp/"; 
 	
+	public static final String EMAIL_DESOLTEC = "waterbridge@desoltec.com.br";
+	
 }

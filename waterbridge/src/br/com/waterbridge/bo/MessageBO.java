@@ -15,12 +15,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import br.com.waterbridge.auxiliar.Constantes;
+import br.com.waterbridge.auxiliar.Email;
 import br.com.waterbridge.connection.ConnectionFactory;
+import br.com.waterbridge.dao.AlarmDAO;
 import br.com.waterbridge.dao.ConsumoDAO;
+import br.com.waterbridge.dao.EmailAlarmDAO;
 import br.com.waterbridge.dao.LogSqlDAO;
 import br.com.waterbridge.dao.MedidorDAO;
 import br.com.waterbridge.dao.MessageDAO;
+import br.com.waterbridge.modelo.Alarm;
 import br.com.waterbridge.modelo.Consumo;
+import br.com.waterbridge.modelo.EmailAlarm;
 import br.com.waterbridge.modelo.Message;
 
 public class MessageBO extends HttpServlet {
@@ -128,6 +134,8 @@ public class MessageBO extends HttpServlet {
 			
 			consumoDAO.inserir(consumo);
 			
+			verificarAlarm(consumo, connection);
+			
             String json = "ok";
             
             res.setContentType("application/json");
@@ -154,6 +162,47 @@ public class MessageBO extends HttpServlet {
 //			}
 		}
     }
+	
+	public void verificarAlarm(Consumo consumo, Connection connection) {
+		try {
+			if(consumo.getAlarm() > 0) {
+				
+				EmailAlarmDAO emailAlarmDAO = new EmailAlarmDAO(connection);
+				EmailAlarm emailAlarm = emailAlarmDAO.buscarPorAlarmDevice(consumo.getAlarm(), consumo.getDevice());
+				if(emailAlarm == null) {
+					emailAlarm = new EmailAlarm();
+					emailAlarm.setDevice(consumo.getDevice());
+					emailAlarm.setIdAlarm(consumo.getAlarm());
+					
+					enviarEmailAlarm(emailAlarm, connection);
+
+					emailAlarmDAO.inserir(emailAlarm);
+				}
+			}
+		} 
+		catch (Exception e) {
+			System.out.println(e);
+			try {
+				new LogSqlDAO(connection).inserir(1l, "", e.getMessage(), "MessageBO", "");
+			} catch (SQLException e1) {
+				System.out.println(e1);
+			}
+		}
+	}
+	
+	public void enviarEmailAlarm(EmailAlarm emailAlarm, Connection connection) throws Exception {
+		AlarmDAO alarmDAO = new AlarmDAO(connection);
+		Alarm alarm = alarmDAO.buscarPorId(emailAlarm.getIdAlarm());
+		if(alarm != null) {
+			String mensagem = Email.corpoEmailAlarme(emailAlarm.getDevice(), emailAlarm.getIdAlarm(),
+					alarm.getAlarm() + " - " + alarm.getDescricao());
+    		Email.enviarEmail("WaterBridge - Alarme Device "+emailAlarm.getDevice(), mensagem, Constantes.EMAIL_DESOLTEC);
+		}
+		else {
+			new LogSqlDAO(connection).inserir(1l, "", "Alarm nao encontrado na tabela", "MessageBO", "");
+		}
+	}
+	
 }
 
 

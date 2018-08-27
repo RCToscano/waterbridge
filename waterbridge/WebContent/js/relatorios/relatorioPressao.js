@@ -109,6 +109,7 @@ function listarBridge() {
 }
 
 function listarConsumoMedidor() {
+	console.log('carregou');
 	
 	var divAviso = document.getElementById('divAviso');
 	var idEmpresa = document.getElementById('idEmpresa');
@@ -215,7 +216,7 @@ function listarConsumoMedidor() {
 					"		             </button>" +
 					"		         </form>" +
 					"			</th>" +
-					"			<th colspan='6'>" +
+					"			<th colspan='7'>" +
 					"		         <form action='RelatorioPressaoBO?acao=excel' method='post' target='_blank'>" +
 					"                    <input type='hidden' name='idEmpresa' value='" + idEmpresa.value + "'>" +
 					"                    <input type='hidden' name='idCondominio' value='" + idCondominio.value + "'>" +
@@ -252,7 +253,7 @@ function listarConsumoMedidor() {
     		            "			<td><small>" + relatPressao.horaInsert + "</small></td>" +
     		            "			<td><small>" + formatarTresDecimais(relatPressao.pressure) + "</small></td>" +
     		            "			<td><small>" + relatPressao.alarmDesc + "</small></td>" +
-    		            "			<td><small>" + relatPressao.battery + "</small></td>" +
+    		            "			<td><small>" + substituirPonto(relatPressao.battery) + "</small></td>" +
     		            "			<td><small>" + relatPressao.temperature + "</small></td>" +
     		            "		    <td align='right'></td>" +
     		            "		</tr>" ;
@@ -271,7 +272,7 @@ function listarConsumoMedidor() {
 					"		             </button>" +
 					"		         </form>" +
 					"	         </td>" +
-					"	         <td colspan='6' style='text-align: left'>" +
+					"	         <td colspan='7' style='text-align: left'>" +
 					"		         <form action='RelatorioPressaoBO?acao=excel' method='post' target='_blank'>" +
 					"                    <input type='hidden' name='idEmpresa' value='" + idEmpresa.value + "'>" +
 					"                    <input type='hidden' name='idCondominio' value='" + idCondominio.value + "'>" +
@@ -285,7 +286,9 @@ function listarConsumoMedidor() {
 					"	         </td>" +
 					"        </tr>" +
 		            "    </tbody>" +
-		            "</table>" ;	 
+		            "</table>" ;
+		            
+		            setTimeout(listarConsumoMedidor, 600000);
 	            }
 	            else {
 	                document.getElementById("divAviso").style.display = "block";
@@ -302,4 +305,8 @@ function listarConsumoMedidor() {
 	        }
 	    });    
 	}
+}
+
+function autoRefresh(interval) {
+	setTimeout("listarConsumoMedidor();", interval);
 }

@@ -37,7 +37,7 @@
 	    
 	    <script src='./js/validator.min.js'></script>
     </head>
-    <body>
+    <body onload="autoRefresh(6000);">
         <jsp:include page="/menu/${sessionScope.user.perfil.menu}" ></jsp:include>
         <div class="container">
         	<ul class="breadcrumb">
@@ -73,7 +73,7 @@
 									<c:forEach var="empresa" items="${listEmpresa}">
 			               		        <c:choose>
 			                            	<c:when test="${empresa.idEmpresa eq condominio.idEmpresa}">
-			                            		<option value="${empresa.idEmpresa}" selected="true">${empresa.nome}</option> 
+			                            		<option value="${empresa.idEmpresa}" selected>${empresa.nome}</option> 
 			                                </c:when>
 			                                <c:otherwise>
 			                                  	<option value="${empresa.idEmpresa}">${empresa.nome}</option>

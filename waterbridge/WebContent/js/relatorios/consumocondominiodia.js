@@ -358,7 +358,7 @@ function listarConsumoMedidor() {
 					"		             </button>" +
 					"		         </form>" +
 					"	         </td>" +
-					"	         <td colspan='7' style='text-align: left'>" +
+					"	         <td colspan='8' style='text-align: left'>" +
 					"		         <form action='ConsumoCondominioBO?acao=excel' method='post' target='_blank'>" +
 					"                    <input type='hidden' name='idEmpresa' value='" + idEmpresa.value + "'>" +
 					"                    <input type='hidden' name='idCondominio' value='" + idCondominio.value + "'>" +
@@ -373,7 +373,14 @@ function listarConsumoMedidor() {
 					"	         </td>" +
 					"        </tr>" +
 		            "    </tbody>" +
-		            "</table>" ;	 
+		            "</table>" ;
+		            
+		            setTimeout(listarConsumoMedidor, 600000);
+	            }
+	            else {
+	                document.getElementById("divAviso").style.display = "block";
+	                document.getElementById("divAviso").innerHTML = 
+	                	"<strong><label id='aviso' name='aviso'/>Nenhum Resultado Encontrado!</strong>";
 	            }
 	            divTable.innerHTML = texto;
 	            $.unblockUI();
