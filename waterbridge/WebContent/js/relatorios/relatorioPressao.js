@@ -109,6 +109,7 @@ function listarBridge() {
 }
 
 function listarConsumoMedidor() {
+	console.log('carregou');
 	
 	var divAviso = document.getElementById('divAviso');
 	var idEmpresa = document.getElementById('idEmpresa');
@@ -285,7 +286,9 @@ function listarConsumoMedidor() {
 					"	         </td>" +
 					"        </tr>" +
 		            "    </tbody>" +
-		            "</table>" ;	 
+		            "</table>" ;
+		            
+		            setTimeout(listarConsumoMedidor, 600000);
 	            }
 	            else {
 	                document.getElementById("divAviso").style.display = "block";
@@ -302,4 +305,8 @@ function listarConsumoMedidor() {
 	        }
 	    });    
 	}
+}
+
+function autoRefresh(interval) {
+	setTimeout("listarConsumoMedidor();", interval);
 }

@@ -381,7 +381,9 @@ function listarConsumoMedidor() {
 					"	         </td>" +
 					"        </tr>" +
 		            "    </tbody>" +
-		            "</table>" ;	 
+		            "</table>" ;
+		            
+		            setTimeout(listarConsumoMedidor, 600000);
 	            }
 	            else {
 	                document.getElementById("divAviso").style.display = "block";

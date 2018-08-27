@@ -1,7 +1,6 @@
 var colorRed = '#e52213';
 
 
-
 function listarConsumoMedidor() {
 	
 	var divAviso = document.getElementById("divAviso");
@@ -61,7 +60,7 @@ function listarConsumoMedidor() {
 		            "			<th>Data</th>" +
 		            "			<th>Hora</th>" +
 		            "			<th>Volume (m&#179;)</th>" +
-//	            	"			<th>Alarme</th>" +
+	            	"			<th>Pressão (MCA)</th>" +
 		            "			<th>Bateria (V)</th>" +
 		            "			<th>Temperatura (ºC)</th>" +
 		            "			<th></th>" +
@@ -82,7 +81,7 @@ function listarConsumoMedidor() {
     		            "			<td " + bgColor + "><small>" + relConsumoMedidor.dtInsert.substring(0, 10) + "</small></td>" +
     		            "			<td " + bgColor + "><small>" + relConsumoMedidor.dtInsert.substring(11, 16) + "</small></td>" +
     		            "			<td " + bgColor + "><small>" + formatarTresDecimais(relConsumoMedidor.volume) + "</small></td>" +
-//    		            "			<td " + bgColor + "><small>" + relConsumoMedidor.alarmDesc + "</small></td>" +
+    		            "			<td " + bgColor + "><small>" + formatarTresDecimais(relConsumoMedidor.pressure) + "</small></td>" +
     		            "			<td " + bgColor + "><small>" + substituirPonto(relConsumoMedidor.battery) + "</small></td>" +
     		            "			<td " + bgColor + "><small>" + relConsumoMedidor.temperature + "</small></td>" +
     		            "		    <td " + bgColor + " align='right'></td>" +
@@ -102,6 +101,7 @@ function listarConsumoMedidor() {
 					"</div>" +
 					"       <input type='hidden' name='cont' id='cont' value="+ cont +"> " ;
 		            "</form>" ;
+		            
 	            }
 	            else {
 	                document.getElementById("divAviso").style.display = "block";
