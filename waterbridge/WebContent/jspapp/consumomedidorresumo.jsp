@@ -12,9 +12,9 @@
 		<link rel="icon" type="image/png" href="./images/favicon.ico"/>
         
         <script src="./js/funcoes.auxiliares.js" type="text/javascript"></script>
-<!-- 	    <script src="./jsapp/consumomedidordia.js" type="text/javascript"></script> -->
+	    <script src="./jsapp/consumomedidordia.js" type="text/javascript"></script>
 	    
-   		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+   		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">   	
 	    <script src="http://code.jquery.com/jquery-2.2.4.js" ></script>	
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		
@@ -36,6 +36,7 @@
 	    <link href="./css/menucustomcolor.css" rel="stylesheet"/>
 	    <link href="./css/footercustom.css" rel="stylesheet"/>
 	    
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 	    <style>
 			#blocoendereco {
 /* 			    border-radius: 15px; */
@@ -59,43 +60,60 @@
 		    	background: #4caf50;
 			    padding: 20px; 
 			    width: 200px;
-		    	height: 150px; 
+		    	height: 150px;
 		    	margin: 0 auto;
 			} 		
 			
 			#blocomediadiaria {
-  		    	border-radius: 15px;
-		    	background: #2a404f;
+  		    	border-radius: 50px 0px;
+		    	background: #6c757d;
 			    padding: 20px; 
 			    width: 200px;
+			    height: 150px;
 		    	margin: 0 auto;
 			}	
+			
+			#blocometamensal {
+  		    	border-radius: 50px 0px;
+		    	background: #17a2b8;
+			    padding: 20px; 
+			    width: 200px;
+			    height: 150px;
+		    	margin: 0 auto;
+			}			
+			
+			#blocopressao {
+  		    	border-radius: 50px 0px;
+		    	background: #c9302c;
+			    padding: 20px; 
+			    width: 200px;
+			    height: 150px;
+		    	margin: 0 auto;
+			}
+
 		</style>
 		
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js"></script>
+	    <script type="text/javascript">
+			$(function() {
+				$("#meta").maskMoney({prefix:'', allowNegative: true, thousands:'.', decimal:',', affixesStay: false});
+			});
+	    </script>
 		
     </head>
-    <body>
-        <div class="container-fluid" style="margin: 0px; padding: 0px;">                 	   
+	<body>
+        <div class="container-fluid" style="margin: 0px; padding: 0px;">      
+  	   
 			<div class="col-sm-12" style="margin: 0px; padding: 0px;">				
 				<c:set var = "cont" value = "1"/>
 				<c:set var = "consumo" value = "0"/>
 				<c:set var = "colspan" value = "6"/>
 				<c:set var = "bgColor" value = ""/>						
             	<div class="container-fluid text-center" style="margin: 2px; padding: 0px;">
-            	
-<!--             		<div id="blocoendereco"> -->
-<!--             			<label style="color: #fff;">  -->
-<%-- 				      		${medidor.condominio} --%>
-<!--             				<br/> -->
-<%--             				${medidor.enderecoMed} ${medidor.numeroMed} ${medidor.complMed} --%>
-<!--             				<br/> -->
-<%--             				Medidor ${medidor.numeroMedidor}	            				 --%>
-<!--             				<br/>            			 -->
-<!--            				</label> -->
-<!--             		</div> -->
-            	 
+
             		<div class="panel-group">
             			<div class="panel panel-primary">
+
 					      	<div class="panel-heading" style="text-align: left">
 					      		<label> 
 						      		${medidor.condominio}
@@ -107,138 +125,202 @@
 	            				</label>
 					      	</div>
 					      	<div class="panel-body">
-					      		<div id="blocoperiodo">
-						      		<label style="color: #fff;"> 
-							      		Per&iacute;odo 
-				            			${fn:substring(dtInicio, 8, 10)}/${fn:substring(dtInicio, 5, 7)}/${fn:substring(dtInicio, 0, 4)}
-				            			&nbsp;&agrave;&nbsp;
-				            			${fn:substring(dtFim, 8, 10)}/${fn:substring(dtFim, 5, 7)}/${fn:substring(dtFim, 0, 4)}	            					           				            		
-			          				</label>
-		          				</div>
-					      						      	
-<!-- 					      		<button type="button" class="btn btn-warning"> -->
-<!-- 									<label>  -->
+
+
+								<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.5/css/swiper.min.css">
+								<style>
+						    		.swiper-container {
+										width: 100%;
+										height: 100%;
+						    		}
+						    		.swiper-slide {
+										text-align: center;
+										/*font-size: 18px;*/
+										background: #fff;
+										/* Center slide text vertically */
+										display: -webkit-box;
+										display: -ms-flexbox;
+										display: -webkit-flex;
+										display: flex;
+										-webkit-box-pack: center;
+										-ms-flex-pack: center;
+										-webkit-justify-content: center;
+										justify-content: center;
+										-webkit-box-align: center;
+										-ms-flex-align: center;
+										-webkit-align-items: center;
+										align-items: center;
+									}
+						  		</style>
+<!-- 						  		<div id="blocoperiodo"> -->
+<!-- 									<label style="color: #fff;">  -->
 <!-- 							      		Per&iacute;odo  -->
 <%-- 				            			${fn:substring(dtInicio, 8, 10)}/${fn:substring(dtInicio, 5, 7)}/${fn:substring(dtInicio, 0, 4)} --%>
 <!-- 				            			&nbsp;&agrave;&nbsp; -->
 <%-- 				            			${fn:substring(dtFim, 8, 10)}/${fn:substring(dtFim, 5, 7)}/${fn:substring(dtFim, 0, 4)}	            					           				            		 --%>
-<!-- 			          				</label> -->
-<!-- 								</button>  -->
-					      		<br/><br/>			           			
-			           			<div id="blococonsumototal">
-			           				<label style="color: #fff;">            			            						            		
-				            			Consumo Total
-				            			<br/>
-				            			<h3><fmt:formatNumber value="${consumoTotal}" type="currency" currencySymbol="" minFractionDigits = "3"/></h3>
-				            			<h3>m&#179;</h3>  
-				           			</label>
-			           			</div>
-			           			<br/><br/>
-			           			<div id="blocomediadiaria">
-			           				<label style="color: #fff;">            			            						            		
-				            			Média Di&aacute;ria
-				            			<br/>
-				            			<h3><fmt:formatNumber value="${mediaDiaria}" type="currency" currencySymbol="" minFractionDigits = "3"/></h3>
-				            			<h3>m&#179;</h3> 
-				           			</label>
-			           			</div>			           			
-			           			<br/><br/>
-			           			<form action='AndRelatorioBO?acao=3' method='post' target='_blank'>
+<!-- 									</label> -->
+<!-- 								</div> -->
+								
+								<div style="text-align: right;">
+									<form action='AndRelatorioBO?acao=5' method='post' onsubmit="return exibirBlock()" style="margin: 0px; padding: 0px;">
+				           				<input type='hidden' name='idUser' value='${idUser}'>
+					                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
+					                    <input type='hidden' name='idCondominio' value='${idCondominio}'>
+					                    <input type='hidden' name='idBridge' value='${idBridge}'>
+					                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
+					                    <input type='hidden' name='data' value='${dtFim}'>
+								    	<button type='submit' class='btn btn-success' title='Clique para visualizar o gráfico'>
+							            	<i class='glyphicon glyphicon-refresh'></i>
+							            </button>
+							        </form>
+						        </div>
+								
+								<h3>
+									Medidor Água									
+								</h3>
+								<h5>
+									Per&iacute;odo 
+			            			${fn:substring(dtInicio, 8, 10)}/${fn:substring(dtInicio, 5, 7)}/${fn:substring(dtInicio, 0, 4)}
+			            			&nbsp;&agrave;&nbsp;
+			            			${fn:substring(dtFim, 8, 10)}/${fn:substring(dtFim, 5, 7)}/${fn:substring(dtFim, 0, 4)}
+								</h5>
+								
+								<div class="swiper-container">
+								    <div class="swiper-wrapper">
+										<div class="swiper-slide">
+											<div>
+												<br/><br/>			           			
+												<div id="blococonsumototal">
+													<label style="color: #fff;">            			            						            		
+														Consumo Total
+														<br/>
+														<h3><fmt:formatNumber value="${consumoTotal}" type="currency" currencySymbol="" minFractionDigits = "3"/></h3>
+														<h3>m&#179;</h3>  
+													</label>
+												</div>
+												<br/><br/>
+											</div>	          	       			
+										</div>
+										<div class="swiper-slide">
+											<div>
+												<br/><br/>	
+												<div id="blocomediadiaria">
+													<label style="color: #fff;">            			            						            		
+														Média Di&aacute;ria
+														<br/>
+														<h3><fmt:formatNumber value="${mediaDiaria}" type="currency" currencySymbol="" minFractionDigits = "3"/></h3>
+														<h3>m&#179;</h3> 
+													</label>
+												</div>			           			
+												<br/>	
+											</div>
+										</div>
+										<div class="swiper-slide">
+											<div>	
+												<br/><br/>			
+												<div id="blocometamensal">			           			
+													<label style="color: #fff;">            			            						            		
+														Meta Mensal<br/>														
+														<c:choose>
+															<c:when test="${metaConsumo != null}">
+																<h3><fmt:formatNumber value="${metaConsumo.meta}" type="currency" currencySymbol="" minFractionDigits = "3"/></h3>
+															</c:when>
+															<c:otherwise>
+																<h3>--</h3>
+															</c:otherwise>
+														</c:choose>
+														<h3>m&#179;</h3> 
+													</label>
+												</div>
+												<br/>	           		
+												<div>					
+													<form action='AndRelatorioBO?acao=6' method='post' onsubmit="return exibirBlock()">
+														<input type='hidden' name='idUser' value='${idUser}'>
+									                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
+									                    <input type='hidden' name='idCondominio' value='${idCondominio}'>
+									                    <input type='hidden' name='idBridge' value='${idBridge}'>
+									                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
+														<label class="text-danger"> * Nova Meta (m&#179;)</label>									
+														<div class="input-group input-sm">
+															<input type="text" class="form-control" name="meta" id="meta" placeholder="Digite a nova meta" maxlength="10" required/>
+															<div class="input-group-btn">
+																<button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-pencil"></i> Gravar</button>
+															</div>
+														</div>
+													</form>
+												</div>
+												<br/>	
+											</div>												
+										</div>
+									</div>
+								    <!-- Add Pagination -->
+								    <div class="swiper-pagination"></div>
+								</div>
+						
+								<!-- Swiper JS -->
+								<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.5/js/swiper.min.js"></script>
+							
+								<!-- Initialize Swiper -->
+								<script>
+									var swiper = new Swiper('.swiper-container', {
+										pagination: {
+											el: '.swiper-pagination',
+										},
+									});
+								</script>
+			           			<br/><br/>			           			
+			           			<form action='AndRelatorioBO?acao=3' method='post' onsubmit="return exibirBlock()">
+			           				<input type='hidden' name='idUser' value='${idUser}'>
 				                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
 				                    <input type='hidden' name='idCondominio' value='${idCondominio}'>
 				                    <input type='hidden' name='idBridge' value='${idBridge}'>
 				                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
-				                    <input type='hidden' name='data' value='${data}'>
-							         <button type='submit' class='btn btn-warning' title='Clique para visualizar o gráfico'>
-						                 <i class='fa fa-bar-chart'></i>
-						             </button>
-						         </form>
+				                    <input type='hidden' name='data' value='${dtFim}'>
+							    	<button type='submit' class='btn btn-warning' style="width: 100%" title='Clique para visualizar o gráfico'>
+						            	<i class='fa fa-bar-chart'></i> Gr&aacute;fico Consumo ${fn:substring(dtFim, 8, 10)}/${fn:substring(dtFim, 5, 7)}/${fn:substring(dtFim, 0, 4)}
+						            </button>
+						        </form>
+						        <br/>
+						        <hr style="border: 1px solid #337ab7"/> 
+						        <div style="text-align: right;">
+									<form action='AndRelatorioBO?acao=5' method='post' onsubmit="return exibirBlock()" style="margin: 0px; padding: 0px;">
+				           				<input type='hidden' name='idUser' value='${idUser}'>
+					                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
+					                    <input type='hidden' name='idCondominio' value='${idCondominio}'>
+					                    <input type='hidden' name='idBridge' value='${idBridge}'>
+					                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
+					                    <input type='hidden' name='data' value='${dtFim}'>
+								    	<button type='submit' class='btn btn-success' title='Clique para visualizar o gráfico'>
+							            	<i class='glyphicon glyphicon-refresh'></i>
+							            </button>
+							        </form>
+						        </div>
+								<h3>Medidor Pressão</h3>
+								<br/>				
+								<div id="blocopressao">
+									<label style="color: #fff;">            			            						            		
+										27/08/2018 08:20
+										<br/>
+										<h3><fmt:formatNumber value="${mediaDiaria}" type="currency" currencySymbol="" minFractionDigits = "3"/></h3>
+										<h3>MCA</h3> 
+									</label>
+								</div>
+								<br/>
+			           			<form action='AndRelatorioBO?acao=3' method='post' onsubmit="return exibirBlock()">
+			           				<input type='hidden' name='idUser' value='${idUser}'>
+				                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
+				                    <input type='hidden' name='idCondominio' value='${idCondominio}'>
+				                    <input type='hidden' name='idBridge' value='${idBridge}'>
+				                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
+				                    <input type='hidden' name='data' value='${dtFim}'>
+							    	<button type='submit' class='btn btn-success' style="width: 100%" title='Clique para visualizar o gráfico'>
+						            	<i class='glyphicon glyphicon-list'></i> <i class='fa fa-bar-chart'></i> Relat&oacute;rio / Gr&aacute;fico ${fn:substring(dtFim, 8, 10)}/${fn:substring(dtFim, 5, 7)}/${fn:substring(dtFim, 0, 4)}
+						            </button>
+						        </form>
 					      	</div>
 				    	</div>
 			    	</div>    					
             	</div>
-            	<fmt:setLocale value = "pt-BR"/>	
-            	<c:choose>
-                  	<c:when test="${fn:length(listRelConsumoMedidor) > 0}">
-                  		 <div class="table-responsive" id="divTable">						
-			            	<table class='table table-hover table-striped'>
-				            	<thead>
-				            		<tr>
-				            			<th>Nº</th>
-				            			<th>Hora</th>
-				            			<th>Volume (m&#179;)</th>
-				            			<th>Consumo (m&#179;)</th>
-				            			<c:if test = "${idBridgeTp != null}">
-									    	<th>Press&atilde;o (MCA)</th>
-						            		<c:set var = "colspan" value = "${colspan + 1}"/>
-								      	</c:if>
-			            				<th>Alarme</th>
-				            			<th></th>
-				            		</tr>
-				            	</thead>
-				            	<tbody id='myTable'>				            	
-				            		<c:forEach var="relConsumoMedidor" items="${listRelConsumoMedidor}">        		                
-					                	<c:set var = "consumo" value = "${consumo + relConsumoMedidor.consumo}"/>
-					                	<c:if test = "${relConsumoMedidor.alarm != 0}">
-					                		<c:set var = "bgColor" value = "bgcolor='#f2dede'"/>
-					                	</c:if>				                
-		    		            		<tr>
-		    		            			<td ${bgColor}><small>${cont}</small></td>
-		    		            			<td ${bgColor}><small>${fn:substring(relConsumoMedidor.dtInsert, 11, 16)}</small></td>
-		    		            			<td ${bgColor}><small><fmt:formatNumber value="${relConsumoMedidor.volume}" type="currency" currencySymbol="" minFractionDigits = "3"/></small></td>
-		    		            			<td ${bgColor}><small><fmt:formatNumber value="${relConsumoMedidor.consumo}" type="currency" currencySymbol="" minFractionDigits = "3"/></small></td>
-					    		            <c:if test = "${relConsumoMedidor.idBridgeTp != null && relConsumoMedidor.idBridgeTp == 1}">
-					    		            	<td ${bgColor}><small>${relConsumoMedidor.pressure}</small></td>
-					    		            </c:if>			
-				    		            	<td ${bgColor}><small>${relConsumoMedidor.alarmDesc}</small></td>
-				    		            	<td ${bgColor} align='right'></td>
-				    		            </tr>
-					                	<c:set var = "bgColor" value = ""/>
-					                	<c:set var = "cont" value = "${cont + 1}"/>            		
-				            		</c:forEach>			            	
-							        <tr>
-								         <td colspan='${colspan}' style='text-align: center'>				
-									         <label>Consumo total no período em m&#179; (1m&#179; = 1.000 Litros): <fmt:formatNumber value="${consumo}" type="currency" currencySymbol="" minFractionDigits = "3"/></label>
-								         </td>
-							        </tr>
-							        <tr>
-								         <td>
-									         <form action='ConsumoMedidorBO?acao=6' method='post' target='_blank'>
-							                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
-							                    <input type='hidden' name='idCondominio' value='${idCondominio}'>
-							                    <input type='hidden' name='idBridge' value='${idBridge}'>
-							                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
-							                    <input type='hidden' name='dtInicio' value='${dtInicio}'>
-							                    <input type='hidden' name='dtFim' value='${dtFim}'>
-										         <button type='submit' class='btn btn-warning' title='Clique para visualizar o gráfico'>
-									                 <i class='fa fa-bar-chart'></i>
-									             </button>
-									         </form>
-								         </td>
-								         <td colspan='6' style='text-align: left'>
-									         <form action='ConsumoMedidorBO?acao=excel' method='post' target='_blank'>
-							                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
-							                    <input type='hidden' name='idCondominio' value='${idCondominio}'>
-							                    <input type='hidden' name='idBridge' value='${idBridge}'>
-							                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
-							                    <input type='hidden' name='dtInicio' value='${dtInicio}'>
-							                    <input type='hidden' name='dtFim' value='${dtFim}'>
-										         <button type='submit' class='btn btn-success' title='Clique para fazer o download em excel'>
-									                 <i class='fa fa-file-excel'></i>
-									             </button>
-									         </form>
-								         </td>
-							        </tr>
-				                </tbody>
-				            </table>	
-						</div>
-                    </c:when>
-                    <c:otherwise>
-                      	<div class="alert alert-danger text-center">
-						  	Nenhum registro encontrado
-						</div>
-                    </c:otherwise>
-           		</c:choose>
 			</div>
 		</div>
         <footer class="footer" style="background-color: #fff">

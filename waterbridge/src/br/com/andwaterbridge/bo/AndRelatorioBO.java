@@ -13,16 +13,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import br.com.andwaterbridge.dao.MedidorDAO;
+import br.com.andwaterbridge.dao.MetaConsumoDAO;
+import br.com.andwaterbridge.modelo.Medidor;
+import br.com.andwaterbridge.modelo.MetaConsumo;
 import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.auxiliar.Constantes;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.BridgeDAO;
 import br.com.waterbridge.dao.ConsumoDAO;
 import br.com.waterbridge.dao.LogSqlDAO;
-import br.com.andwaterbridge.dao.MedidorDAO;
 import br.com.waterbridge.modelo.Bridge;
 import br.com.waterbridge.modelo.Consumo;
-import br.com.andwaterbridge.modelo.Medidor;
 import br.com.waterbridge.modelo.User;
 import br.com.waterbridge.reldao.RelConsumoMedidorDAO;
 import br.com.waterbridge.reldao.RelPressaoDAO;
@@ -302,67 +304,36 @@ public class AndRelatorioBO extends HttpServlet {
 		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("5")) {
 
 			Connection connection = null;
-            String sql = "";
-			String data = "";
 			
 			try {
 				
 				connection = ConnectionFactory.getConnection();
 				
-				ConsumoDAO consumoDAO = new ConsumoDAO(connection);
-				MedidorDAO medidorDAO = new MedidorDAO(connection);
-				
-				sql += "WHERE ID_CONSUMO > 0 " ;
-				if(req.getParameter("idEmpresa") != null && !req.getParameter("idEmpresa").equals("")) {
-					sql += "AND   ID_EMPRESA = " + req.getParameter("idEmpresa") + " ";
-				}
-				if(req.getParameter("idCondominio") != null && !req.getParameter("idCondominio").equals("")) {
-					sql += "AND   ID_CONDOMINIO = " + req.getParameter("idCondominio") + " ";
-				}
-				if(req.getParameter("idBridge") != null && !req.getParameter("idBridge").equals("")) {
-					sql += "AND   ID_BRIDGE = " + req.getParameter("idBridge") + " ";
-				}
-				if(req.getParameter("idMedidor") != null && !req.getParameter("idMedidor").equals("")) {
-					sql += "AND   ID_MEDIDOR = " + req.getParameter("idMedidor") + " ";
-				}
-				if(req.getParameter("data") == null) {
-					
-					data = consumoDAO.dataHoraMinSeg();
-					data = data.substring(0, 10);
-					
-					sql += "AND   DTINSERT >= '" + consumoDAO.dataAdd(data, "0") + " 00:00' " +
-						   "AND   DTINSERT <= '" + consumoDAO.dataAdd(data, "0") + " 23:59' " ;
-					req.setAttribute("data", data);
-				}
-				else {
-					
-					data = consumoDAO.dataAdd(req.getParameter("data"), req.getParameter("sinal") + 1);					
-					sql += "AND   DTINSERT >= '" + data + " 00:00' " +
-						   "AND   DTINSERT <= '" + data + " 23:59' " ;
-					req.setAttribute("data", data);
-				}
-				sql += "ORDER BY DTINSERT, " +
-				       "         VOLUME ";
-				
+				MedidorDAO medidorDAO = new MedidorDAO(connection);				
 				Medidor medidor = medidorDAO.buscarPorId(Long.parseLong(req.getParameter("idMedidor")));
-				
+
+				ConsumoDAO consumoDAO = new ConsumoDAO(connection);
 				String dtInicio = consumoDAO.dataAdd(consumoDAO.dataHoraMinSeg(), "-30");
 				String dtFim = consumoDAO.dataHoraMinSeg().substring(0, 11);
-				
-				Consumo consumo1 = consumoDAO.buscarAnterior(Long.parseLong(req.getParameter("idMedidor")), dtInicio + " 00:00");
-				Consumo consumo2 = consumoDAO.buscarAtual(Long.parseLong(req.getParameter("idMedidor")), dtFim + " 00:00");
-				
-				Double consumoTotal = consumo2.getVolume() - consumo1.getVolume();
+
+				Consumo consumo1 = null;				
+				consumo1 = consumoDAO.buscarMaxPeriodo(Long.parseLong(req.getParameter("idMedidor")), consumoDAO.dataAdd(consumoDAO.dataHoraMinSeg(), "-31") + " 23:59");
+				if(consumo1 == null) {
+					consumo1 = consumoDAO.buscarMinPeriodo(Long.parseLong(req.getParameter("idMedidor")), consumoDAO.dataAdd(consumoDAO.dataHoraMinSeg(), "-30") + " 00:00");
+				}
+
+				Consumo consumo2 = null;
+				consumo2 = consumoDAO.buscarMaxPeriodo(Long.parseLong(req.getParameter("idMedidor")), dtFim + " 23:59");				
+
+				Double consumoTotal = 0d;
+				if(consumo1 != null && consumo2 != null) {
+					consumoTotal = consumo2.getVolume() - consumo1.getVolume();
+				}
 				
 				Double mediaDiaria = consumoTotal / 30;
 				
-				System.out.println("medidor " + medidor.getNumeroMedidor());
-				System.out.println("dtInicio " + dtInicio);
-				System.out.println("dtFim " + dtFim);
-				System.out.println("consumo1 " + consumo1.getVolume());
-				System.out.println("consumo2 " + consumo2.getVolume());
-				System.out.println("consumoTotal " + consumoTotal);
-				System.out.println("mediaDiaria " + mediaDiaria);
+				MetaConsumoDAO metaConsumoDAO = new MetaConsumoDAO(connection);
+				MetaConsumo metaConsumo = metaConsumoDAO.buscarPorIdMedidor(Long.parseLong(req.getParameter("idMedidor")));
 				
 				req.setAttribute("medidor", medidor);
 				req.setAttribute("dtInicio", dtInicio);
@@ -371,12 +342,94 @@ public class AndRelatorioBO extends HttpServlet {
 				req.setAttribute("consumo2", consumo2);
 				req.setAttribute("consumoTotal", consumoTotal);
 				req.setAttribute("mediaDiaria", mediaDiaria);
-
+				req.setAttribute("metaConsumo", metaConsumo);
+				req.setAttribute("idUser", req.getParameter("idUser"));
                 req.setAttribute("idEmpresa", req.getParameter("idEmpresa"));
                 req.setAttribute("idCondominio", req.getParameter("idCondominio"));
                 req.setAttribute("idBridge", req.getParameter("idBridge"));
                 req.setAttribute("idMedidor", req.getParameter("idMedidor"));
-                req.setAttribute("data", data);
+                
+        		req.getRequestDispatcher("/jspapp/consumomedidorresumo.jsp").forward(req, res);
+			}
+	        catch (Exception e) {
+	        	System.out.println("erro: " + e.toString());
+	            req.setAttribute("erro", e.toString());
+	            req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
+	        }
+			finally {
+				if(connection != null) {
+					try {connection.close();} catch (SQLException e) {}
+				}
+			}	
+        }	
+		//ATUALIZA META CONSUMO MEDIDOR
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("6")) {
+
+			Connection connection = null;
+			
+			try {
+				
+				connection = ConnectionFactory.getConnection();
+
+				MetaConsumoDAO metaConsumoDAO = new MetaConsumoDAO(connection);
+				MetaConsumo metaConsumo = metaConsumoDAO.buscarPorIdMedidor(Long.parseLong(req.getParameter("idMedidor")));
+				if(metaConsumo == null) {					
+					System.out.println("inseriu");
+					metaConsumo = new MetaConsumo();
+					metaConsumo.setIdMetaConsumo(0l);
+					metaConsumo.setIdUser(Long.parseLong(req.getParameter("idUser")));
+					metaConsumo.setIdMedidor(Long.parseLong(req.getParameter("idMedidor")));
+					metaConsumo.setMeta(Double.parseDouble(req.getParameter("meta").replace(".", "").replace(",", ".")));
+					metaConsumo.setDtInsert(null);
+					
+					metaConsumoDAO.inserir(metaConsumo);					
+				}
+				else {
+					System.out.println("alterou");
+					metaConsumo.setIdUser(Long.parseLong(req.getParameter("idUser")));
+					metaConsumo.setMeta(Double.parseDouble(req.getParameter("meta").replace(".", "").replace(",", ".")));
+					
+					metaConsumoDAO.alterar(metaConsumo);
+				}
+				metaConsumo = metaConsumoDAO.buscarPorIdMedidor(Long.parseLong(req.getParameter("idMedidor")));
+				
+				MedidorDAO medidorDAO = new MedidorDAO(connection);
+				Medidor medidor = medidorDAO.buscarPorId(Long.parseLong(req.getParameter("idMedidor")));
+				
+				ConsumoDAO consumoDAO = new ConsumoDAO(connection);
+				String dtInicio = consumoDAO.dataAdd(consumoDAO.dataHoraMinSeg(), "-30");
+				String dtFim = consumoDAO.dataHoraMinSeg().substring(0, 11);
+
+				Consumo consumo1 = null;				
+				consumo1 = consumoDAO.buscarMaxPeriodo(Long.parseLong(req.getParameter("idMedidor")), consumoDAO.dataAdd(consumoDAO.dataHoraMinSeg(), "-31") + " 23:59");
+				if(consumo1 == null) {
+					consumo1 = consumoDAO.buscarMinPeriodo(Long.parseLong(req.getParameter("idMedidor")), consumoDAO.dataAdd(consumoDAO.dataHoraMinSeg(), "-30") + " 00:00");
+				}
+
+				Consumo consumo2 = null;
+				consumo2 = consumoDAO.buscarMaxPeriodo(Long.parseLong(req.getParameter("idMedidor")), dtFim + " 23:59");				
+
+				Double consumoTotal = 0d;
+				if(consumo1 != null && consumo2 != null) {
+					consumoTotal = consumo2.getVolume() - consumo1.getVolume();
+				}
+				
+				Double mediaDiaria = consumoTotal / 30;
+				
+				req.setAttribute("medidor", medidor);
+				req.setAttribute("dtInicio", dtInicio);
+				req.setAttribute("dtFim", dtFim);
+				req.setAttribute("consumo1", consumo1);
+				req.setAttribute("consumo2", consumo2);
+				req.setAttribute("consumoTotal", consumoTotal);
+				req.setAttribute("mediaDiaria", mediaDiaria);
+				req.setAttribute("metaConsumo", metaConsumo);
+				req.setAttribute("idUser", req.getParameter("idUser"));
+                req.setAttribute("idEmpresa", req.getParameter("idEmpresa"));
+                req.setAttribute("idCondominio", req.getParameter("idCondominio"));
+                req.setAttribute("idBridge", req.getParameter("idBridge"));
+                req.setAttribute("idMedidor", req.getParameter("idMedidor"));
+                
         		req.getRequestDispatcher("/jspapp/consumomedidorresumo.jsp").forward(req, res);
 			}
 	        catch (Exception e) {
@@ -390,7 +443,6 @@ public class AndRelatorioBO extends HttpServlet {
 				}
 			}	
         }
-		
     }
 
 	private List<RelConsumoMedidor> dadosTela(Connection connection, String sql, Consumo consumoAnterior,
@@ -421,23 +473,6 @@ public class AndRelatorioBO extends HttpServlet {
 		}
 		return listRelConsumoMedidor;
 	}
-	
-	private void recuperaDados(List<RelConsumoMedidor> listaView, int i, List<String> listaValores2) throws ParseException {
-		SimpleDateFormat formatoBanco = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-		SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
-		SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
-		
-		listaValores2.add(String.valueOf(i+1));
-		listaValores2.add(formatoData.format(formatoBanco.parse(listaView.get(i).getDtInsert())));
-		listaValores2.add(formatoHora.format(formatoBanco.parse(listaView.get(i).getDtInsert())));
-		listaValores2.add(String.valueOf(listaView.get(i).getVolume()));
-		listaValores2.add(String.valueOf(listaView.get(i).getPressure()));
-		listaValores2.add(listaView.get(i).getAlarmDesc());
-		listaValores2.add(String.valueOf(listaView.get(i).getBattery()));
-		listaValores2.add(String.valueOf(listaView.get(i).getTemperature()));
-	}
-	
-	
 }
 
 
