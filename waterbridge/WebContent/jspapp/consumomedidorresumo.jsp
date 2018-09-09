@@ -112,7 +112,7 @@
             	<div class="container-fluid text-center" style="margin: 2px; padding: 0px;">
 
             		<div class="panel-group">
-            			<div class="panel panel-primary">
+            			<div class="panel panel-default">
 
 					      	<div class="panel-heading" style="text-align: left">
 					      		<label> 
@@ -120,7 +120,7 @@
 		            				<br/>
 		            				${medidor.enderecoMed} ${medidor.numeroMed} ${medidor.complMed}
 		            				<br/>
-		            				Medidor ${medidor.numeroMedidor}	            				
+		            				Medidor ${medidor.numeroMedidor}	            
 		            				<br/>            			
 	            				</label>
 					      	</div>
@@ -276,12 +276,12 @@
 				                    <input type='hidden' name='idBridge' value='${idBridge}'>
 				                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
 				                    <input type='hidden' name='data' value='${dtFim}'>
-							    	<button type='submit' class='btn btn-warning' style="width: 100%" title='Clique para visualizar o gráfico'>
+							    	<button type='submit' class='btn btn-warning' style="width: 280px;" title='Clique para visualizar o gráfico'>
 						            	<i class='fa fa-bar-chart'></i> Gr&aacute;fico Consumo ${fn:substring(dtFim, 8, 10)}/${fn:substring(dtFim, 5, 7)}/${fn:substring(dtFim, 0, 4)}
 						            </button>
 						        </form>
 						        <br/>
-						        <hr style="border: 1px solid #337ab7"/> 
+						        <hr style="border: 1px solid #cccccc;"/> 
 						        <div style="text-align: right;">
 									<form action='AndRelatorioBO?acao=5' method='post' onsubmit="return exibirBlock()" style="margin: 0px; padding: 0px;">
 				           				<input type='hidden' name='idUser' value='${idUser}'>
@@ -306,6 +306,7 @@
 									</label>
 								</div>
 								<br/>
+								<br/>
 			           			<form action='AndRelatorioBO?acao=3' method='post' onsubmit="return exibirBlock()">
 			           				<input type='hidden' name='idUser' value='${idUser}'>
 				                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
@@ -313,7 +314,7 @@
 				                    <input type='hidden' name='idBridge' value='${idBridge}'>
 				                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
 				                    <input type='hidden' name='data' value='${dtFim}'>
-							    	<button type='submit' class='btn btn-success' style="width: 100%" title='Clique para visualizar o gráfico'>
+							    	<button type='submit' class='btn btn-success' style="width: 280px;" title='Clique para visualizar o gráfico'>
 						            	<i class='glyphicon glyphicon-list'></i> <i class='fa fa-bar-chart'></i> Relat&oacute;rio / Gr&aacute;fico ${fn:substring(dtFim, 8, 10)}/${fn:substring(dtFim, 5, 7)}/${fn:substring(dtFim, 0, 4)}
 						            </button>
 						        </form>

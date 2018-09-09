@@ -25,6 +25,8 @@ import br.com.waterbridge.modelo.BridgeTpAlim;
 import br.com.waterbridge.modelo.Condominio;
 import br.com.waterbridge.modelo.Situacao;
 import br.com.waterbridge.modelo.User;
+import br.com.waterbridge.reldao.RelConsumoMedidorDAO;
+import br.com.waterbridge.relmodelo.RelConsumoMedidor;
 
 public class BridgeBO extends HttpServlet {
 
@@ -41,32 +43,17 @@ public class BridgeBO extends HttpServlet {
 		if (req.getParameter("acao") != null && req.getParameter("acao").equals("1")) {//ENTRA NA TELA DE CADASTRO
 			
 			Connection connection = null;
+			String sql = "";
 			
 			try {
 				
 				connection = ConnectionFactory.getConnection();
 				
-				BridgeTpAlimDAO bridgeTpAlimDAO = new BridgeTpAlimDAO(connection);
-				List<BridgeTpAlim> listBridgeTpAlim = bridgeTpAlimDAO.listar();
+				RelConsumoMedidorDAO relConsumoMedidorDAO = new RelConsumoMedidorDAO(connection);
+				List<RelConsumoMedidor> listRelConsumoMedidor = relConsumoMedidorDAO.listar(sql);
 				
-				BridgeTpDAO bridgeTpDAO = new BridgeTpDAO(connection);
-				List<BridgeTp> listBridgeTp = bridgeTpDAO.listar();
-				
-				SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
-				List<Situacao> listSituacao = situacaoDAO.listar();
-				
-				CondominioDAO condominioDAO = new CondominioDAO(connection);
-				List<Condominio> listCondominio = condominioDAO.listar();
-				
-				req.setAttribute("tituloTela", "Cadastro de Bridge");
-				req.setAttribute("acao", "BridgeBO?acao=2");
-				req.setAttribute("devicereadonly", "");
-				req.setAttribute("btNome", "Cadastrar");
-				req.setAttribute("listBridgeTpAlim", listBridgeTpAlim);
-				req.setAttribute("listBridgeTp", listBridgeTp);
-				req.setAttribute("listSituacao", listSituacao);
-				req.setAttribute("listCondominio", listCondominio);
-				req.getRequestDispatcher("/jsp/bridge/cadaltbridge.jsp").forward(req, res);
+				req.setAttribute("listRelConsumoMedidor", listRelConsumoMedidor);
+				req.getRequestDispatcher("/jsp/mapa/mapaconsumopressao.jsp").forward(req, res);
 			}
 	        catch (Exception e) {
 	            req.setAttribute("erro", e.toString());

@@ -127,8 +127,8 @@
 			            	<table class='table table-hover table-striped'>
 				            	<thead>
 				            		<tr>
-				            			<th>Nº</th>
-				            			<th>Data</th>
+<!-- 				            			<th>Nº</th> -->
+				            			<th>Hora</th>
 									    <th>Press&atilde;o (MCA)</th>
 			            				<th>Alarme</th>
 				            			<th></th>
@@ -140,8 +140,8 @@
 					                		<c:set var = "bgColor" value = "bgcolor='#f2dede'"/>
 					                	</c:if>				                
 		    		            		<tr>
-		    		            			<td ${bgColor}><small>${cont}</small></td>
-		    		            			<td ${bgColor}><small>${relPressao.dtInsert}</small></td>
+<%-- 		    		            			<td ${bgColor}><small>${cont}</small></td> --%>
+		    		            			<td ${bgColor}><small>${relPressao.horaInsert}</small></td>
 		    		            			<td ${bgColor}><small><fmt:formatNumber value="${relPressao.pressure}" type="currency" currencySymbol="" minFractionDigits = "3"/></small></td>
 				    		            	<td ${bgColor}><small>${relPressao.alarmDesc}</small></td>
 				    		            	<td ${bgColor} align='right'></td>
@@ -150,7 +150,7 @@
 					                	<c:set var = "cont" value = "${cont + 1}"/>            		
 				            		</c:forEach>			            	
 							        <tr>
-								         <td>
+								         <td colspan='4' style='text-align: center;'>
 									         <form action='AndRelatorioBO?acao=4' method='post' target='_blank'>
 							                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
 							                    <input type='hidden' name='idCondominio' value='${idCondominio}'>
@@ -162,19 +162,19 @@
 									             </button>
 									         </form>
 								         </td>
-								         <td colspan='4' style='text-align: left'>
-									         <form action='ConsumoMedidorBO?acao=excel' method='post' target='_blank'>
-							                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
-							                    <input type='hidden' name='idCondominio' value='${idCondominio}'>
-							                    <input type='hidden' name='idBridge' value='${idBridge}'>
-							                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
-							                    <input type='hidden' name='dtInicio' value='${dtInicio}'>
-							                    <input type='hidden' name='dtFim' value='${dtFim}'>
-										         <button type='submit' class='btn btn-success' title='Clique para fazer o download em excel'>
-									                 <i class='fa fa-file-excel'></i>
-									             </button>
-									         </form>
-								         </td>
+<!-- 								         <td colspan='2' style='text-align: left'> -->
+<!-- 									         <form action='ConsumoMedidorBO?acao=excel' method='post' target='_blank'> -->
+<%-- 							                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'> --%>
+<%-- 							                    <input type='hidden' name='idCondominio' value='${idCondominio}'> --%>
+<%-- 							                    <input type='hidden' name='idBridge' value='${idBridge}'> --%>
+<%-- 							                    <input type='hidden' name='idMedidor' value='${idMedidor}'> --%>
+<%-- 							                    <input type='hidden' name='dtInicio' value='${dtInicio}'> --%>
+<%-- 							                    <input type='hidden' name='dtFim' value='${dtFim}'> --%>
+<!-- 										         <button type='submit' class='btn btn-success' title='Clique para fazer o download em excel'> -->
+<!-- 									                 <i class='fa fa-file-excel'></i> -->
+<!-- 									             </button> -->
+<!-- 									         </form> -->
+<!-- 								         </td> -->
 							        </tr>
 				                </tbody>
 				            </table>	

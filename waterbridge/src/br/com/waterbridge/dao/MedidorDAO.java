@@ -24,7 +24,7 @@ public class MedidorDAO {
         ResultSet rs = null;
         try {
         	stmt = connection.prepareStatement(
-    				" INSERT INTO TB_MEDIDOR ( " +
+    				"INSERT INTO TB_MEDIDOR ( " +
 					"ID_FABRICMEDIDOR, " +
 					"MODELO, " +
 					"SERIE, " +
@@ -144,8 +144,9 @@ public class MedidorDAO {
             stmt.setObject(19, medidor.getUf());
             stmt.setObject(20, medidor.getCep());
             stmt.setObject(21, medidor.getCoordX());
-            stmt.setObject(22, medidor.getCoordY());
-    		stmt.setObject(23, medidor.getIdMedidor());
+            stmt.setObject(22, medidor.getCoordY());            
+            stmt.setObject(23, medidor.getIdMedidor());
+    		
     		stmt.executeUpdate();
     	} 
     	finally {

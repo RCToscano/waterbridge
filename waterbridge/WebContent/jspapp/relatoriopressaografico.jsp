@@ -37,7 +37,7 @@
 						<script>
 							Highcharts.chart('graficopressaodiaria', {
 							    chart: {
-							        type: 'column',
+							        type: 'line',
 							        marginLeft: 70
 							    },
 							    title: {

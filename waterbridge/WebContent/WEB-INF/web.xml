@@ -99,6 +99,10 @@
     <servlet-name>AndRelatorioBO</servlet-name>
     <servlet-class>br.com.andwaterbridge.bo.AndRelatorioBO</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>MapaConsumoPressaoBO</servlet-name>
+    <servlet-class>br.com.waterbridge.bo.MapaConsumoPressaoBO</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
     <url-pattern>/Login</url-pattern>
@@ -195,6 +199,10 @@
     <servlet-name>AndRelatorioBO</servlet-name>
     <url-pattern>/AndRelatorioBO</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>MapaConsumoPressaoBO</servlet-name>
+    <url-pattern>/MapaConsumoPressaoBO</url-pattern>
+  </servlet-mapping>  
   <session-config>
     <session-timeout>30</session-timeout>
   </session-config>

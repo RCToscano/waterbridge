@@ -312,18 +312,18 @@ public class AndRelatorioBO extends HttpServlet {
 				MedidorDAO medidorDAO = new MedidorDAO(connection);				
 				Medidor medidor = medidorDAO.buscarPorId(Long.parseLong(req.getParameter("idMedidor")));
 
-				ConsumoDAO consumoDAO = new ConsumoDAO(connection);
-				String dtInicio = consumoDAO.dataAdd(consumoDAO.dataHoraMinSeg(), "-30");
-				String dtFim = consumoDAO.dataHoraMinSeg().substring(0, 11);
+				ConsumoDAO consumoDAO = new ConsumoDAO(connection);				
+				String dtInicio = consumoDAO.primeiroDiaMes();
+				String dtFim = consumoDAO.dataHoraMinSeg().substring(0, 10);
 
 				Consumo consumo1 = null;				
-				consumo1 = consumoDAO.buscarMaxPeriodo(Long.parseLong(req.getParameter("idMedidor")), consumoDAO.dataAdd(consumoDAO.dataHoraMinSeg(), "-31") + " 23:59");
+				consumo1 = consumoDAO.buscarMaxPeriodo(Long.parseLong(req.getParameter("idMedidor")), consumoDAO.dataAdd(dtInicio, "-1") + " 23:59");
 				if(consumo1 == null) {
-					consumo1 = consumoDAO.buscarMinPeriodo(Long.parseLong(req.getParameter("idMedidor")), consumoDAO.dataAdd(consumoDAO.dataHoraMinSeg(), "-30") + " 00:00");
+					consumo1 = consumoDAO.buscarMinPeriodo(Long.parseLong(req.getParameter("idMedidor")), dtInicio + " 00:00");
 				}
 
 				Consumo consumo2 = null;
-				consumo2 = consumoDAO.buscarMaxPeriodo(Long.parseLong(req.getParameter("idMedidor")), dtFim + " 23:59");				
+				consumo2 = consumoDAO.buscarMaxPeriodo(Long.parseLong(req.getParameter("idMedidor")), dtFim + " 23:59");
 
 				Double consumoTotal = 0d;
 				if(consumo1 != null && consumo2 != null) {
@@ -396,14 +396,14 @@ public class AndRelatorioBO extends HttpServlet {
 				MedidorDAO medidorDAO = new MedidorDAO(connection);
 				Medidor medidor = medidorDAO.buscarPorId(Long.parseLong(req.getParameter("idMedidor")));
 				
-				ConsumoDAO consumoDAO = new ConsumoDAO(connection);
-				String dtInicio = consumoDAO.dataAdd(consumoDAO.dataHoraMinSeg(), "-30");
-				String dtFim = consumoDAO.dataHoraMinSeg().substring(0, 11);
+				ConsumoDAO consumoDAO = new ConsumoDAO(connection);				
+				String dtInicio = consumoDAO.primeiroDiaMes();
+				String dtFim = consumoDAO.dataHoraMinSeg().substring(0, 10);
 
 				Consumo consumo1 = null;				
-				consumo1 = consumoDAO.buscarMaxPeriodo(Long.parseLong(req.getParameter("idMedidor")), consumoDAO.dataAdd(consumoDAO.dataHoraMinSeg(), "-31") + " 23:59");
+				consumo1 = consumoDAO.buscarMaxPeriodo(Long.parseLong(req.getParameter("idMedidor")), consumoDAO.dataAdd(dtInicio, "-1") + " 23:59");
 				if(consumo1 == null) {
-					consumo1 = consumoDAO.buscarMinPeriodo(Long.parseLong(req.getParameter("idMedidor")), consumoDAO.dataAdd(consumoDAO.dataHoraMinSeg(), "-30") + " 00:00");
+					consumo1 = consumoDAO.buscarMinPeriodo(Long.parseLong(req.getParameter("idMedidor")), dtInicio + " 00:00");
 				}
 
 				Consumo consumo2 = null;
