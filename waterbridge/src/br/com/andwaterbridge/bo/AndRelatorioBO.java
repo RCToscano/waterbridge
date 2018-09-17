@@ -4,8 +4,6 @@ package br.com.andwaterbridge.bo;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -15,8 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.com.andwaterbridge.dao.MedidorDAO;
 import br.com.andwaterbridge.dao.MetaConsumoDAO;
+import br.com.andwaterbridge.dao.MetaPressaoDAO;
 import br.com.andwaterbridge.modelo.Medidor;
 import br.com.andwaterbridge.modelo.MetaConsumo;
+import br.com.andwaterbridge.modelo.MetaPressao;
 import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.auxiliar.Constantes;
 import br.com.waterbridge.connection.ConnectionFactory;
@@ -245,7 +245,7 @@ public class AndRelatorioBO extends HttpServlet {
 				}
 			}	
         }		
-		//LISTAR CONSUMO MEDIDOR DIA GRAFICO
+		//GRAFICO PRESSAO
 		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("4")) {
 			
 			Connection connection = null;
@@ -280,6 +280,16 @@ public class AndRelatorioBO extends HttpServlet {
 					if(i == 0) {
 						bridge = relPressao.getDevice();
 					}					
+				}
+				
+				//VERIFICA SE EXISTE META PRESSAO
+				MetaPressaoDAO metaPressaoDAO = new MetaPressaoDAO(connection);
+				MetaPressao metaPressao = null ;
+				if(req.getParameter("idBridge") != null && !req.getParameter("idBridge").equals("")) {					
+					metaPressao = metaPressaoDAO.buscarPorIdBridge(Long.parseLong(req.getParameter("idBridge")));
+					if(metaPressao != null) {
+						req.setAttribute("metaPressao", metaPressao);
+					}
 				}
 				
 				req.setAttribute("bridge", bridge);

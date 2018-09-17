@@ -22,10 +22,9 @@
 		
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <!-- 		<script src="https://code.highcharts.com/highcharts.js"></script> -->
-		<script src="https://code.highcharts.com/stock/highstock.js"></script>		
+		<script src="https://code.highcharts.com/stock/highstock.js"></script>
 		<script src="https://code.highcharts.com/maps/modules/map.js"></script>
 		<script src="https://code.highcharts.com/modules/exporting.js"></script>
-	
 	</head>
 	<body>
 		<jsp:include page="/menu/${sessionScope.user.perfil.menu}"></jsp:include>
