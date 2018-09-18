@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.andwaterbridge.modelo.AlarmPressao;
-import br.com.andwaterbridge.modelo.Medidor;
-import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.connection.ConnectionFactory;
 
 public class AlarmPressaoDAO {
@@ -94,7 +92,8 @@ public class AlarmPressaoDAO {
 	        "LEFT JOIN TB_ALARMPRESSAOAPP " +
 	        "ON        TB_ALARMPRESSAO.ID_ALARMPRESSAO = TB_ALARMPRESSAOAPP.ID_ALARMPRESSAO " +
 	        "AND       TB_ALARMPRESSAOAPP.ID_USER = ? " +
-	        "WHERE     TB_ALARMPRESSAOAPP.ID_ALARMPRESSAOAPP IS NULL "  	
+	        "WHERE     TB_ALARMPRESSAOAPP.ID_ALARMPRESSAOAPP IS NULL " +  	
+	        "AND       DATE_FORMAT(TB_ALARMPRESSAO.DTINSERT, '%Y%m%d') = DATE_FORMAT(sysdate(), '%Y%m%d') "
             );
             
             stmt.setObject(1, idUser);
@@ -161,7 +160,8 @@ public class AlarmPressaoDAO {
 	        "LEFT JOIN TB_ALARMPRESSAOAPP " +
 	        "ON        TB_ALARMPRESSAO.ID_ALARMPRESSAO = TB_ALARMPRESSAOAPP.ID_ALARMPRESSAO " +
 	        "AND       TB_ALARMPRESSAOAPP.ID_USER = ? " +
-	        "WHERE     TB_ALARMPRESSAOAPP.ID_ALARMPRESSAOAPP IS NULL "  	
+	        "WHERE     TB_ALARMPRESSAOAPP.ID_ALARMPRESSAOAPP IS NULL " +
+	        "AND       DATE_FORMAT(TB_ALARMPRESSAO.DTINSERT, '%Y%m%d') = DATE_FORMAT(sysdate(), '%Y%m%d') "
             );
             
             stmt.setObject(1, idUser);
@@ -231,7 +231,8 @@ public class AlarmPressaoDAO {
 	        "LEFT JOIN VW_USEREMPRESA " +
 	        "ON        TB_ALARMPRESSAO.ID_EMPRESA = VW_USEREMPRESA.ID_EMPRESA " +
 	        "WHERE     TB_ALARMPRESSAOAPP.ID_ALARMPRESSAOAPP IS NULL " +
-	        "AND       VW_USEREMPRESA.ID_USEREMPRESA IS NOT NULL "
+	        "AND       VW_USEREMPRESA.ID_USEREMPRESA IS NOT NULL " +
+	        "AND       DATE_FORMAT(TB_ALARMPRESSAO.DTINSERT, '%Y%m%d') = DATE_FORMAT(sysdate(), '%Y%m%d') "
             );
             
             stmt.setObject(1, idUser);
@@ -301,7 +302,8 @@ public class AlarmPressaoDAO {
 	        "LEFT JOIN VW_USERCONDOMINIO " +
 	        "ON        TB_ALARMPRESSAO.ID_CONDOMINIO = VW_USERCONDOMINIO.ID_CONDOMINIO " +
 	        "WHERE     TB_ALARMPRESSAOAPP.ID_ALARMPRESSAOAPP IS NULL " +	        
-	        "AND       VW_USERCONDOMINIO.ID_USERCONDOMINIO IS NOT NULL "
+	        "AND       VW_USERCONDOMINIO.ID_USERCONDOMINIO IS NOT NULL " +
+	        "AND       DATE_FORMAT(TB_ALARMPRESSAO.DTINSERT, '%Y%m%d') = DATE_FORMAT(sysdate(), '%Y%m%d') "
             );
             
             stmt.setObject(1, idUser);
@@ -371,7 +373,8 @@ public class AlarmPressaoDAO {
 	        "LEFT JOIN VW_USERMEDIDOR " +
 	        "ON        TB_ALARMPRESSAO.ID_MEDIDOR = VW_USERMEDIDOR.ID_MEDIDOR " +
 	        "WHERE     TB_ALARMPRESSAOAPP.ID_ALARMPRESSAOAPP IS NULL " +	        
-	        "AND       VW_USERMEDIDOR.ID_USERMEDIDOR IS NOT NULL "
+	        "AND       VW_USERMEDIDOR.ID_USERMEDIDOR IS NOT NULL " +
+	        "AND       DATE_FORMAT(TB_ALARMPRESSAO.DTINSERT, '%Y%m%d') = DATE_FORMAT(sysdate(), '%Y%m%d') "
             );
             
             stmt.setObject(1, idUser);

@@ -47,8 +47,7 @@ public class AndAlarmPressaoBO extends HttpServlet {
                 	
                 	List<AlarmPressao> listAlarmPressao = alarmPressaoDAO.listarPerfilProgramador(req.getParameter("idUser"));
                 	write(res, new Gson().toJson(listAlarmPressao));
-                }
-                
+                }                
                 else if (req.getParameter("idPerfil") != null 
                 		&& req.getParameter("idPerfil").equals("2")) {//PERFIL GERENCIAL
                 	
