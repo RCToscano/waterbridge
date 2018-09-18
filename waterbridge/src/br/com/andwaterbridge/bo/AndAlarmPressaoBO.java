@@ -48,30 +48,31 @@ public class AndAlarmPressaoBO extends HttpServlet {
                 	List<AlarmPressao> listAlarmPressao = alarmPressaoDAO.listarPerfilProgramador(req.getParameter("idUser"));
                 	write(res, new Gson().toJson(listAlarmPressao));
                 }
-//                else if (req.getParameter("idPerfil") != null 
-//                		&& req.getParameter("idPerfil").equals("2")) {//PERFIL GERENCIAL
-//                	
-//                	List<Medidor> listMedidor = medidorDAO.listarPerfilGerencial();
-//                	write(res, new Gson().toJson(listMedidor));
-//                }
-//                else if (req.getParameter("idPerfil") != null 
-//                		&& req.getParameter("idPerfil").equals("3")) {//PERFIL REPRESENTANTE
-//                	
-//                	List<Medidor> listMedidor = medidorDAO.listarPerfilRepresentante(req.getParameter("idUser"));
-//                	write(res, new Gson().toJson(listMedidor));
-//                }
-//                else if (req.getParameter("idPerfil") != null 
-//                		&& req.getParameter("idPerfil").equals("4")) {//PERFIL ADMINISTRADOR LOCAL
-//                	
-//                	List<Medidor> listMedidor = medidorDAO.listarPerfilAdministrador(req.getParameter("idUser"));
-//                	write(res, new Gson().toJson(listMedidor));
-//                }
-//                else if (req.getParameter("idPerfil") != null 
-//                		&& req.getParameter("idPerfil").equals("5")) {//PERFIL CONSUMIDOR
-//                	
-//                	List<Medidor> listMedidor = medidorDAO.listarPerfilConsumidor(req.getParameter("idUser"));
-//                	write(res, new Gson().toJson(listMedidor));
-//                }              
+                
+                else if (req.getParameter("idPerfil") != null 
+                		&& req.getParameter("idPerfil").equals("2")) {//PERFIL GERENCIAL
+                	
+                	List<AlarmPressao> listAlarmPressao = alarmPressaoDAO.listarPerfilGerencial(req.getParameter("idUser"));
+                	write(res, new Gson().toJson(listAlarmPressao));
+                }
+                else if (req.getParameter("idPerfil") != null 
+                		&& req.getParameter("idPerfil").equals("3")) {//PERFIL REPRESENTANTE
+                	
+                	List<AlarmPressao> listAlarmPressao = alarmPressaoDAO.listarPerfilRepresentante(req.getParameter("idUser"));
+                	write(res, new Gson().toJson(listAlarmPressao));
+                }
+                else if (req.getParameter("idPerfil") != null 
+                		&& req.getParameter("idPerfil").equals("4")) {//PERFIL ADMINISTRADOR LOCAL
+                	
+                	List<AlarmPressao> listAlarmPressao = alarmPressaoDAO.listarPerfilAdministrador(req.getParameter("idUser"));
+                	write(res, new Gson().toJson(listAlarmPressao));
+                }
+                else if (req.getParameter("idPerfil") != null 
+                		&& req.getParameter("idPerfil").equals("5")) {//PERFIL CONSUMIDOR
+                	
+                	List<AlarmPressao> listAlarmPressao = alarmPressaoDAO.listarPerfilConsumidor(req.getParameter("idUser"));
+                	write(res, new Gson().toJson(listAlarmPressao));
+                }              
 	        }
 	        catch (Exception e) {
 	        	write(res, "erro " + e.toString());

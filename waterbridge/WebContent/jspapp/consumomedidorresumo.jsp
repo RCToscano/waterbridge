@@ -280,44 +280,47 @@
 						            	<i class='fa fa-bar-chart'></i> Gr&aacute;fico Consumo ${fn:substring(dtFim, 8, 10)}/${fn:substring(dtFim, 5, 7)}/${fn:substring(dtFim, 0, 4)}
 						            </button>
 						        </form>
-						        <br/>
-						        <hr style="border: 1px solid #cccccc;"/> 
-						        <div style="text-align: right;">
-									<form action='AndRelatorioBO?acao=5' method='post' onsubmit="return exibirBlock()" style="margin: 0px; padding: 0px;">
+						        
+						        <c:if test="${consumo2 != null && consumo2.pressure != null && consumo2.pressure != 0 && consumo2.pressure != 0.0}">
+						        	<br/>
+							        <hr style="border: 1px solid #cccccc;"/> 
+							        <div style="text-align: right;">
+										<form action='AndRelatorioBO?acao=5' method='post' onsubmit="return exibirBlock()" style="margin: 0px; padding: 0px;">
+					           				<input type='hidden' name='idUser' value='${idUser}'>
+						                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
+						                    <input type='hidden' name='idCondominio' value='${idCondominio}'>
+						                    <input type='hidden' name='idBridge' value='${idBridge}'>
+						                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
+						                    <input type='hidden' name='data' value='${dtFim}'>
+									    	<button type='submit' class='btn btn-success' title='Clique para visualizar o gráfico'>
+								            	<i class='glyphicon glyphicon-refresh'></i>
+								            </button>
+								        </form>
+							        </div>
+									<h3>Medidor Pressão</h3>
+									<br/>				
+									<div id="blocopressao">
+										<label style="color: #fff;">            			            						            		
+											27/08/2018 08:20
+											<br/>
+											<h3><fmt:formatNumber value="${mediaDiaria}" type="currency" currencySymbol="" minFractionDigits = "3"/></h3>
+											<h3>MCA</h3> 
+										</label>
+									</div>
+									<br/>
+									<br/>
+				           			<form action='AndRelatorioBO?acao=3' method='post' onsubmit="return exibirBlock()">
 				           				<input type='hidden' name='idUser' value='${idUser}'>
 					                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
 					                    <input type='hidden' name='idCondominio' value='${idCondominio}'>
 					                    <input type='hidden' name='idBridge' value='${idBridge}'>
 					                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
 					                    <input type='hidden' name='data' value='${dtFim}'>
-								    	<button type='submit' class='btn btn-success' title='Clique para visualizar o gráfico'>
-							            	<i class='glyphicon glyphicon-refresh'></i>
+								    	<button type='submit' class='btn btn-success' style="width: 280px;" title='Clique para visualizar o gráfico'>
+							            	<i class='glyphicon glyphicon-list'></i> <i class='fa fa-bar-chart'></i> Relat&oacute;rio / Gr&aacute;fico ${fn:substring(dtFim, 8, 10)}/${fn:substring(dtFim, 5, 7)}/${fn:substring(dtFim, 0, 4)}
 							            </button>
 							        </form>
-						        </div>
-								<h3>Medidor Pressão</h3>
-								<br/>				
-								<div id="blocopressao">
-									<label style="color: #fff;">            			            						            		
-										27/08/2018 08:20
-										<br/>
-										<h3><fmt:formatNumber value="${mediaDiaria}" type="currency" currencySymbol="" minFractionDigits = "3"/></h3>
-										<h3>MCA</h3> 
-									</label>
-								</div>
-								<br/>
-								<br/>
-			           			<form action='AndRelatorioBO?acao=3' method='post' onsubmit="return exibirBlock()">
-			           				<input type='hidden' name='idUser' value='${idUser}'>
-				                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
-				                    <input type='hidden' name='idCondominio' value='${idCondominio}'>
-				                    <input type='hidden' name='idBridge' value='${idBridge}'>
-				                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
-				                    <input type='hidden' name='data' value='${dtFim}'>
-							    	<button type='submit' class='btn btn-success' style="width: 280px;" title='Clique para visualizar o gráfico'>
-						            	<i class='glyphicon glyphicon-list'></i> <i class='fa fa-bar-chart'></i> Relat&oacute;rio / Gr&aacute;fico ${fn:substring(dtFim, 8, 10)}/${fn:substring(dtFim, 5, 7)}/${fn:substring(dtFim, 0, 4)}
-						            </button>
-						        </form>
+							    </c:if>    
 					      	</div>
 				    	</div>
 			    	</div>    					
