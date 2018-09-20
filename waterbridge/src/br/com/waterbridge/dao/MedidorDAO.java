@@ -346,6 +346,7 @@ public class MedidorDAO {
 			"SELECT TB_MEDIDOR.ID_MEDIDOR " + 
 			"FROM   TB_MEDIDOR " +
 			"WHERE  TB_MEDIDOR.DEVICENUM = ? " +
+			"AND    TB_MEDIDOR.SITUACAO = 'A' " +
 			"AND    TB_MEDIDOR.METERPOSITION = ? "
     		);
     		
