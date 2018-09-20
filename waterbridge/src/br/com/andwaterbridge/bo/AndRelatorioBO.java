@@ -21,9 +21,11 @@ import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.auxiliar.Constantes;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.BridgeDAO;
+import br.com.waterbridge.dao.CondominioDAO;
 import br.com.waterbridge.dao.ConsumoDAO;
 import br.com.waterbridge.dao.LogSqlDAO;
 import br.com.waterbridge.modelo.Bridge;
+import br.com.waterbridge.modelo.Condominio;
 import br.com.waterbridge.modelo.Consumo;
 import br.com.waterbridge.modelo.User;
 import br.com.waterbridge.reldao.RelConsumoMedidorDAO;
@@ -160,10 +162,22 @@ public class AndRelatorioBO extends HttpServlet {
 
 				RelPressaoDAO relPressaoDAODAO = new RelPressaoDAO(connection);
 				List<RelPressao> listRelPressao = relPressaoDAODAO.listar(sql);
+				
+				CondominioDAO condominioDAO = new CondominioDAO(connection);
+				Condominio condominio = condominioDAO.buscarPorId(Long.parseLong(req.getParameter("idCondominio")));
+				
+				BridgeDAO bridgeDAO = new BridgeDAO(connection);
+				Bridge bridge = bridgeDAO.buscarPorId(Long.parseLong(req.getParameter("idBridge")));
+				
+				MetaPressaoDAO metaPressaoDAO = new MetaPressaoDAO(connection);
+				MetaPressao metaPressao = metaPressaoDAO.buscarPorIdBridge(Long.parseLong(req.getParameter("idBridge")));
+				if(metaPressao != null) {
+					req.setAttribute("metaPressao", metaPressao);
+				}
                 
                 req.setAttribute("idEmpresa", req.getParameter("idEmpresa"));
-                req.setAttribute("idCondominio", req.getParameter("idCondominio"));
-                req.setAttribute("idBridge", req.getParameter("idBridge"));
+                req.setAttribute("condominio", condominio);
+                req.setAttribute("bridge", bridge);
                 req.setAttribute("idMedidor", req.getParameter("idMedidor"));
                 
 				req.setAttribute("listRelPressao", listRelPressao);

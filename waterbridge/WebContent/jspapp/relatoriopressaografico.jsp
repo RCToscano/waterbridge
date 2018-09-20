@@ -86,7 +86,7 @@
 								            to: ${metaPressao.pressaoMax},
 								            color: 'rgba(68, 170, 213, 0.1)',
 								            label: {
-								                text: 'Limite Ideal',
+								                text: ' ',
 								                style: {
 								                    color: '#606060'
 								                }
