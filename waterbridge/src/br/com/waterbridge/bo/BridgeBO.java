@@ -49,11 +49,27 @@ public class BridgeBO extends HttpServlet {
 				
 				connection = ConnectionFactory.getConnection();
 				
-				RelConsumoMedidorDAO relConsumoMedidorDAO = new RelConsumoMedidorDAO(connection);
-				List<RelConsumoMedidor> listRelConsumoMedidor = relConsumoMedidorDAO.listar(sql);
+				BridgeTpAlimDAO bridgeTpAlimDAO = new BridgeTpAlimDAO(connection);
+				List<BridgeTpAlim> listBridgeTpAlim = bridgeTpAlimDAO.listar();
 				
-				req.setAttribute("listRelConsumoMedidor", listRelConsumoMedidor);
-				req.getRequestDispatcher("/jsp/mapa/mapaconsumopressao.jsp").forward(req, res);
+				BridgeTpDAO bridgeTpDAO = new BridgeTpDAO(connection);
+				List<BridgeTp> listBridgeTp = bridgeTpDAO.listar();
+				
+				SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
+				List<Situacao> listSituacao = situacaoDAO.listar();
+				
+				CondominioDAO condominioDAO = new CondominioDAO(connection);
+				List<Condominio> listCondominio = condominioDAO.listar();
+				
+				req.setAttribute("tituloTela", "Cadastro de Bridge");
+				req.setAttribute("acao", "BridgeBO?acao=2");
+				req.setAttribute("devicereadonly", "");
+				req.setAttribute("btNome", "Cadastrar");
+				req.setAttribute("listBridgeTpAlim", listBridgeTpAlim);
+				req.setAttribute("listBridgeTp", listBridgeTp);
+				req.setAttribute("listSituacao", listSituacao);
+				req.setAttribute("listCondominio", listCondominio);
+				req.getRequestDispatcher("/jsp/bridge/cadaltbridge.jsp").forward(req, res);
 			}
 	        catch (Exception e) {
 	            req.setAttribute("erro", e.toString());
