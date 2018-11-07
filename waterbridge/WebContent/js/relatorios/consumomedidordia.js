@@ -265,8 +265,10 @@ function listarConsumoMedidor() {
 	        	var colspan = 8;
 	        	var consumo = 0;
 	        	var bgColor = '';
-	            var listRelConsumoMedidor = result;
-	            if(listRelConsumoMedidor != null && listRelConsumoMedidor.length > 0) {
+	            var consumoMedidor = result;
+	            if (consumoMedidor != null
+					&& consumoMedidor.listRelConsumoMedidor != null
+					&& consumoMedidor.listRelConsumoMedidor.length > 0) {
 
 	            	texto +=
 	            	"<table class='table table-hover table-striped'>" +
@@ -306,9 +308,9 @@ function listarConsumoMedidor() {
 		            "			<th>Data</th>" +
 		            "			<th>Hora</th>" +
 		            "			<th>Volume (m&#179;)</th>" ;
-	            	if(listRelConsumoMedidor[0].idBridgeTp != null
-	            		&& listRelConsumoMedidor[0].idBridgeTp != undefined
-	            			&& listRelConsumoMedidor[0].idBridgeTp == 1) {
+	            	if(consumoMedidor.listRelConsumoMedidor[0].idBridgeTp != null
+	            		&& consumoMedidor.listRelConsumoMedidor[0].idBridgeTp != undefined
+	            			&& consumoMedidor.listRelConsumoMedidor[0].idBridgeTp == 1) {
 	            		texto += "			<th>Pressão (MCA)</th>" ;
 	            		colspan = colspan + 1;
 	            	}
@@ -320,9 +322,9 @@ function listarConsumoMedidor() {
 		            "		</tr>" +
 		            "	</thead>" +
 		            "	<tbody id='myTable'>" ;
-            		for(i = 0; i < listRelConsumoMedidor.length; i++) {
+            		for(i = 0; i < consumoMedidor.listRelConsumoMedidor.length; i++) {
 	                	
-	                	var relConsumoMedidor = listRelConsumoMedidor[i];	                		                
+	                	var relConsumoMedidor = consumoMedidor.listRelConsumoMedidor[i];	                		                
 	                	consumo = consumo + relConsumoMedidor.consumo;
 	                	if(relConsumoMedidor.alarm != 0) {
 	                		bgColor = 'bgcolor="#f2dede"';
@@ -382,6 +384,75 @@ function listarConsumoMedidor() {
 					"        </tr>" +
 		            "    </tbody>" +
 		            "</table>" ;
+		            
+		            
+		            Highcharts.chart('graficoconsumodiario', {
+				    	chart: {
+				        	type: 'column',
+				            panning: true
+				    	},
+				    	mapNavigation: {
+			                enabled: true,
+			                enableButtons: false
+			            },
+				    	title: {
+				        	text: 'Gráfico de Consumo Diário<br/><label>Medidor ' + consumoMedidor.medidor + ' </label>'
+				    	},
+				    	subtitle: {
+				    		text: 'Período '+ consumoMedidor.dtInicio +' a '+ consumoMedidor.dtFim  
+				    	},
+					    xAxis: {
+					    	crosshair: true,
+//					    	categories: ['07/11/2018 00:55', '07/11/2018 1:00']
+					    	categories: (function () {
+					            var data = [];
+					            for(i = 0; i < consumoMedidor.listRelConsumoMedidor.length; i++) {
+					            	if(consumoMedidor.listRelConsumoMedidor[i].alarmDesc != null && consumoMedidor.listRelConsumoMedidor[i].alarm != 1) {
+					            		data.push([
+					            			consumoMedidor.listRelConsumoMedidor[i].dtInsert
+				            			]);
+					            	}
+					            }
+					            return data;
+					        }())
+					    },
+					    yAxis: {
+					        min: 0,
+					        title: {
+					            text: 'Consumo (m3)'
+					        }
+					    },
+					    tooltip: {
+					        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+					        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:.3f} m3</b></td></tr>',
+					        footerFormat: '</table>',
+					        shared: true,
+					        useHTML: true
+					    },
+					    plotOptions: {
+					        column: {
+					            pointPadding: 0.2,
+					            borderWidth: 0
+					        }
+					    },
+					    series: [{
+					        name: "'" + consumoMedidor.medidor + "'",
+//					        data: [0.025, 0.99]
+					        data: (function () {
+					            var data = [];
+					            for(i = 0; i < consumoMedidor.listRelConsumoMedidor.length; i++) {
+					            	if(consumoMedidor.listRelConsumoMedidor[i].alarmDesc != null && consumoMedidor.listRelConsumoMedidor[i].alarm != 1) {
+					            		data.push([
+					            			consumoMedidor.listRelConsumoMedidor[i].dtInsert,
+					            			consumoMedidor.listRelConsumoMedidor[i].consumo
+				            			]);
+					            	}
+					            }
+					            return data;
+					        }())
+					    }]
+					});
+		            
 		            
 		            setTimeout(listarConsumoMedidor, 600000);
 	            }

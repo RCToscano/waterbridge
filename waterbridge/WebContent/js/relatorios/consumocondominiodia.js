@@ -262,8 +262,10 @@ function listarConsumoMedidor() {
 	        	
 	        	var texto = '';
 	        	var consumo = 0;
-	            var listRelConsumoCondominio = result;
-	            if(listRelConsumoCondominio != null && listRelConsumoCondominio.length > 0) {
+	            var consumoCondominio = result;
+	            if (consumoCondominio != null
+						&& consumoCondominio.listRelConsumoCondominio != null
+						&& consumoCondominio.listRelConsumoCondominio.length > 0) {
 	            	
 	            	texto +=
 	            	"<table class='table table-hover table-striped'>" +
@@ -310,9 +312,9 @@ function listarConsumoMedidor() {
 		            "		</tr>" +
 		            "	</thead>" +
 		            "	<tbody id='myTable'>" ;
-            		for(i = 0; i < listRelConsumoCondominio.length; i++) {
+            		for(i = 0; i < consumoCondominio.listRelConsumoCondominio.length; i++) {
 	                	
-	                	var relConsumoCondominio = listRelConsumoCondominio[i];	                		                
+	                	var relConsumoCondominio = consumoCondominio.listRelConsumoCondominio[i];	                		                
 	                	consumo = consumo + relConsumoCondominio.consumo;
 	                	
 	                	texto +=
@@ -374,6 +376,66 @@ function listarConsumoMedidor() {
 					"        </tr>" +
 		            "    </tbody>" +
 		            "</table>" ;
+		            
+		            Highcharts.chart('graficoconsumodiario', {
+				    	chart: {
+				        	type: 'column'
+				    	},
+				    	title: {
+				        	text: 'Gráfico de Consumo<br/><label> ' + consumoCondominio.nomeCondominio + '</label>'
+				    	},
+				    	subtitle: {
+				        	text: 'Período ' + consumoCondominio.dtInicio + ' a ' + consumoCondominio.dtFim
+				    	},
+					    xAxis: {
+					        crosshair: true,
+					        categories: (function () {
+					            // generate an array of random data
+					            var data = [];
+
+					            for(i = 0; i < consumoCondominio.listRelConsumoCondominio.length; i++) {
+					                data.push([
+					                	consumoCondominio.listRelConsumoCondominio[i].meterId
+					                ]);
+					            }
+					            return data;
+					        }())
+					    },
+					    yAxis: {
+					        min: 0,
+					        title: {
+					            text: 'Consumo (m3)'
+					        }
+					    },
+					    tooltip: {
+					        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+					        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:.3f} m3</b></td></tr>',
+					        footerFormat: '</table>',
+					        shared: true,
+					        useHTML: true
+					    },
+					    plotOptions: {
+					        column: {
+					            pointPadding: 0.2,
+					            borderWidth: 0
+					        }
+					    },
+					    series: [{
+					        name: 'Medidor',
+					        data: (function () {
+					            // generate an array of random data
+					            var data = [];
+
+					            for(i = 0; i < consumoCondominio.listRelConsumoCondominio.length; i++) {
+					                data.push([
+					                	consumoCondominio.listRelConsumoCondominio[i].meterId,
+					                	consumoCondominio.listRelConsumoCondominio[i].consumo
+					                ]);
+					            }
+					            return data;
+					        }()) 
+					    }]
+					});
 		            
 		            setTimeout(listarConsumoMedidor, 600000);
 	            }

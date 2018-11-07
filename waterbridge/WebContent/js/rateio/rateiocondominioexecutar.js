@@ -30,28 +30,7 @@ function listarCondominio() {
 	        ,
 	        type: "POST",
 	        dataType: 'json',
-	        success: function(result) {
-	
-	        	$('#idCondominio option').remove();
-                $('#idCondominio').append('<option value="" selected="selected">Selecione...</option>');
-                
-                $('#idConta option').remove();
-                $('#idConta').append('<option value="" selected="selected">Selecione...</option>');
-                
-	            var listCondominio = result;
-	            if(listCondominio != null && listCondominio.length > 0) {
-	                for(i = 0; i < listCondominio.length; i++) {
-	                	var condominio = listCondominio[i];
-	                    $('#idCondominio').append('<option value=' + condominio.idCondominio + '>' + condominio.nome + ' - ' + condominio.endereco + ' ' + condominio.numero + ' ' + condominio.compl + '</option>');
-	                }
-	            }
-	            $.unblockUI();
-	        },
-	        error : function(){
-	
-	            $.unblockUI();
-	            alert('erro');
-	        }
+	        async: true
 	    });    
 	}
 }

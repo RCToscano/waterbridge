@@ -22,7 +22,7 @@
 
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-			
+		
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
 	    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/locale/pt-br.js"></script>
 	    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
@@ -35,7 +35,12 @@
 	    <link href="./css/menucustomcolor.css" rel="stylesheet"/>
 	    <link href="./css/footercustom.css" rel="stylesheet"/>
 	    
+	    <script src="https://code.highcharts.com/highcharts.js"></script>
+		<script src="https://code.highcharts.com/maps/modules/map.js"></script>
+		<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	    
 	    <script src='./js/validator.min.js'></script>
+	    
     </head>
     <body onload="autoRefresh(6000);">
         <jsp:include page="/menu/${sessionScope.user.perfil.menu}" ></jsp:include>
@@ -157,6 +162,14 @@
 				</form>	
 			</div>
 			
+			<div class="col-sm-12" style="float: none; margin: 0 auto;">
+				<div class="form-group">
+					<div class="col-sm-12">
+						<div id="graficopressaodiaria" style="margin-top: 30px;"></div>
+					</div>
+				</div>
+			</div>
+
 			<div class="col-sm-8 col-md-offset-2">
 				<div class="form-group">
 					<div class="table-responsive" id="divTable"></div>

@@ -35,6 +35,10 @@
 	    <link href="./css/menucustomcolor.css" rel="stylesheet"/>
 	    <link href="./css/footercustom.css" rel="stylesheet"/>
 	    
+	    <script src="https://code.highcharts.com/highcharts.js"></script>
+		<script src="https://code.highcharts.com/maps/modules/map.js"></script>
+		<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	    
 	    <script src='./js/validator.min.js'></script>
     </head>
     <body>
@@ -145,11 +149,21 @@
 					</fieldset>
 				</form>	
 			</div>
+			
+			<div class="col-sm-12" style="float: none; margin: 0 auto;">
+				<div class="form-group">
+					<div class="col-sm-12">
+						<div id="graficoconsumodiario" style="margin-top: 30px;"></div>
+					</div>
+				</div>
+			</div>
+			
 			<div class="form-group">
 				<div class="col-sm-12">
 					<div class="table-responsive" id="divTable"></div>
 				</div>
 			</div>
+			
 		</div>
         <footer class="footer" style="background-color: #fff">
             <div class="container-fluid text-center" style="background-color: #fff; padding: 10px">

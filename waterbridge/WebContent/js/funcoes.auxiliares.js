@@ -1,3 +1,25 @@
+window.addEventListener("beforeunload", function (e) {
+	$(function(){
+		$.ajax({
+			url: 'Login?r=sessao',
+		    async: true
+		}).done(function () {
+		    //nothing
+		});
+	})
+});
+
+$(window).on('beforeunload', function(){ 
+	$(function(){
+		$.ajax({
+			url: 'Login?r=sessao',
+		    async: true
+		}).done(function () {
+		    //nothing
+		});
+	})
+});
+
 var specialChars = [
 	{val:"a",let:"áàãâä"},
 	{val:"e",let:"éèêë"},

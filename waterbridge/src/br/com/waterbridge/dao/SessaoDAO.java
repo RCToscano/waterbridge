@@ -85,6 +85,33 @@ public class SessaoDAO {
         }
     }
     
+    public Sessao buscarPorId(long idSessao) throws Exception {
+    	PreparedStatement stmt = null;
+    	ResultSet rs = null;
+    	try {
+    		stmt = connection.prepareStatement(
+    				"SELECT * FROM TB_SESSAO WHERE ID_SESSAO =  ?"
+    				);
+    		stmt.setLong(1, idSessao);
+    		rs = stmt.executeQuery();
+    		
+    		Sessao sessao = new Sessao();
+    		if(rs.next()) {
+    			sessao.setIdSessao(rs.getLong("ID_SESSAO"));
+    			sessao.setDtLogin(rs.getDate("DT_LOGIN"));
+    			sessao.setDtLogout(rs.getDate("DT_LOGOUT"));
+    			sessao.setIdUser(rs.getLong("ID_USER"));
+    		}
+    		return sessao;
+    	}
+    	finally {
+    		if(stmt != null)
+    			stmt.close();
+    		if(rs != null)
+    			rs.close();
+    	}
+    }
+    
 }
 
 

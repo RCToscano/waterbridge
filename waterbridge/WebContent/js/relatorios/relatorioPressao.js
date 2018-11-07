@@ -109,7 +109,6 @@ function listarBridge() {
 }
 
 function listarConsumoMedidor() {
-	console.log('carregou');
 	
 	var divAviso = document.getElementById('divAviso');
 	var idEmpresa = document.getElementById('idEmpresa');
@@ -118,6 +117,7 @@ function listarConsumoMedidor() {
 	var dtInicio = document.getElementById('dtInicio');
 	var dtFim = document.getElementById('dtFim');
 	var divTable = document.getElementById('divTable');
+	var divGrafico = document.getElementById('graficopressaodiaria');
 
 	divAviso.innerHTML = '';
 	idEmpresa.style.removeProperty('border');
@@ -196,9 +196,10 @@ function listarConsumoMedidor() {
 	        success: function(result) {
 	        	
 	        	var texto = '';
+	        	var texto2 = '';
 	        	var consumo = 0;
-	            var listRelPressao = result;
-	            if(listRelPressao != null && listRelPressao.length > 0) {
+	            var relPressao = result;
+	            if(relPressao != null && relPressao.listRelPressao.length > 0) {
 	            	document.getElementById("divAviso").style.display = "none";
 	            	texto +=
 	            	"<table class='table table-hover table-striped'>" +
@@ -243,9 +244,9 @@ function listarConsumoMedidor() {
 		            "		</tr>" +
 		            "	</thead>" +
 		            "	<tbody id='myTable'>" ;
-            		for(i = 0; i < listRelPressao.length; i++) {
+            		for(i = 0; i < relPressao.listRelPressao.length; i++) {
 	                	
-	                	var relatPressao = listRelPressao[i];	                		                
+	                	var relatPressao = relPressao.listRelPressao[i];	                		                
 	                	texto +=
     		            "		<tr>" +
     		            "			<td><small>" + (i + 1) + "</small></td>" +
@@ -288,6 +289,72 @@ function listarConsumoMedidor() {
 		            "    </tbody>" +
 		            "</table>" ;
 		            
+					Highcharts.chart('graficopressaodiaria', {
+					    chart: {  
+					    	type: 'line',  
+				            panning: true  
+					    },  
+					    mapNavigation: {  
+			                enabled: true,  
+			                enableButtons: false  
+			            },  
+					    title: {  
+					        text: 'Gráfico de Pressão<br/><label>Bridge ' + relPressao.bridge +' </label>'  
+					    },  
+					    subtitle: {  
+					        text: 'Período '+ relPressao.dtInicio +' a '+ relPressao.dtFim  
+					    },
+					    xAxis: {
+					    	crosshair: true,
+					    	categories: (function () {
+					            // generate an array of random data
+					            var data = [];
+
+					            for(i = 0; i < relPressao.listData.length; i++) {
+					                data.push([
+					                	relPressao.listData[i]
+					                ]);
+					            }
+					            return data;
+					        }())
+					    },
+					    yAxis: {
+					    	min: 0,  
+					        title: {  
+					            text: 'MCA'  
+					        }  
+					    },  
+					    tooltip: {  
+					    	headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+					        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:.3f}</b></td></tr>',
+					        footerFormat: '</table>',
+					        shared: true,
+					        useHTML: true 
+					    },  
+					    plotOptions: {  
+					        column: {  
+					            pointPadding: 0.3,  
+					            borderWidth: 0  
+					        }  
+					    },  
+					    series: [{  
+					        name: 'Bridge ' + relPressao.bridge,  
+					        data: (function () {
+					            // generate an array of random data
+					            var data = [];
+
+					            for(i = 0; i < relPressao.listPressao.length; i++) {
+					                data.push([
+					                	relPressao.listData[i],
+					                    relPressao.listPressao[i]
+					                ]);
+					            }
+					            return data;
+					        }())  
+					    }]  
+					});
+		            
+		            
 		            setTimeout(listarConsumoMedidor, 600000);
 	            }
 	            else {
@@ -299,7 +366,6 @@ function listarConsumoMedidor() {
 	            $.unblockUI();
 	        },
 	        error : function(){
-	
 	            $.unblockUI();
 	            alert('erro');
 	        }

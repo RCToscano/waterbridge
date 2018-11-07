@@ -29,6 +29,7 @@ import br.com.waterbridge.modelo.Bridge;
 import br.com.waterbridge.modelo.Condominio;
 import br.com.waterbridge.modelo.Empresa;
 import br.com.waterbridge.modelo.User;
+import br.com.waterbridge.modelo.bo.RelPressaoBO;
 import br.com.waterbridge.reldao.RelPressaoDAO;
 import br.com.waterbridge.relmodelo.RelPressao;
 
@@ -135,7 +136,34 @@ public class RelatorioPressaoBO extends HttpServlet {
 					RelPressaoDAO relPressaoDAODAO = new RelPressaoDAO(connection);
 					List<RelPressao> listRelPressao = relPressaoDAODAO.listar(sql);
 					
-					String json = new Gson().toJson(listRelPressao);
+					
+					
+					String bridge = "";
+					List<String> listData = new ArrayList<String>();
+					List<Double> listPressao = new ArrayList<Double>();
+					for(int i = 0; i < listRelPressao.size(); i++) {
+						
+						RelPressao relPressao = listRelPressao.get(i);
+	
+						if(i == 0) {
+							bridge = relPressao.getDevice();
+						}
+						
+						listData.add(relPressao.getDtHoraInsert());
+						listPressao.add(relPressao.getPressure());
+					}
+					
+					RelPressaoBO pressao = new RelPressaoBO();
+					pressao.setBridge(bridge);
+					pressao.setDtInicio(req.getParameter("dtInicio"));
+					pressao.setDtFim(req.getParameter("dtFim"));
+					pressao.setListData(listData);
+					pressao.setListPressao(listPressao);
+					pressao.setListRelPressao(listRelPressao);
+					
+					req.setAttribute("bridge", "TESTE BRIDGE");
+					
+					String json = new Gson().toJson(pressao);
 					
 					res.setContentType("application/json");
 					res.setCharacterEncoding("UTF-8");

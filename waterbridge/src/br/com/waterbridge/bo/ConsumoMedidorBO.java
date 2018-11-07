@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +30,7 @@ import br.com.waterbridge.modelo.Consumo;
 import br.com.waterbridge.modelo.Empresa;
 import br.com.waterbridge.modelo.Medidor;
 import br.com.waterbridge.modelo.User;
+import br.com.waterbridge.modelo.bo.RelConsumoMedidorBO;
 import br.com.waterbridge.reldao.RelConsumoMedidorDAO;
 import br.com.waterbridge.relmodelo.RelConsumoMedidor;
 
@@ -208,7 +208,16 @@ public class ConsumoMedidorBO extends HttpServlet {
 
 				List<RelConsumoMedidor> listRelConsumoMedidor = dadosTela(connection, sql, consumoAnterior, volume1, volume2);
 
-				json = new Gson().toJson(listRelConsumoMedidor);
+				
+				RelConsumoMedidorBO medidorBO = new RelConsumoMedidorBO();
+				if(!listRelConsumoMedidor.isEmpty()) {
+					medidorBO.setMedidor(listRelConsumoMedidor.get(0).getNumeroMedidor());
+					medidorBO.setDtInicio(req.getParameter("dtInicio"));
+					medidorBO.setDtFim(req.getParameter("dtFim"));
+					medidorBO.setListRelConsumoMedidor(listRelConsumoMedidor);
+				}
+				
+				json = new Gson().toJson(medidorBO);
 
 				res.setContentType("application/json");
 				res.setCharacterEncoding("UTF-8");

@@ -59,11 +59,17 @@ public class Login extends HttpServlet {
                 } 
                 else {
                     //vai para home page
-                	SessaoDAO sessaoDAO = new SessaoDAO(connection);
-                	sessaoDAO.inserir(user.getIdUser());
-                	
-                	Sessao sessao = sessaoDAO.buscarUltimo();
-                	user.setIdSessao(sessao.getIdSessao());
+                	User userSessao = (User) req.getSession().getAttribute("user");
+                	if(userSessao == null || (userSessao != null && userSessao.getIdSessao() == null)) {
+                		SessaoDAO sessaoDAO = new SessaoDAO(connection);
+                		sessaoDAO.inserir(user.getIdUser());
+                		
+                		Sessao sessao = sessaoDAO.buscarUltimo();
+                		user.setIdSessao(sessao.getIdSessao());
+                	}
+                	else {
+                		user.setIdSessao(userSessao.getIdSessao());
+                	}
                 	
                 	String usuarioQuebrado[] = user.getNome().split("\\s+");
         			String nome = usuarioQuebrado[0].trim();
@@ -73,7 +79,12 @@ public class Login extends HttpServlet {
                 }                
             } 
             else if (relat.equals("logout")) {
-                //invalidar a sessao
+            	User userSessao = (User) req.getSession().getAttribute("user");
+    			if(userSessao != null) {
+    				connection = ConnectionFactory.getConnection();
+    				SessaoDAO sessaoDAO = new SessaoDAO(connection);
+					sessaoDAO.alterar(userSessao.getIdSessao());
+    			}
                 req.getSession().invalidate();
                 req.getRequestDispatcher("/index.jsp").forward(req, res);
             } 
@@ -127,9 +138,15 @@ public class Login extends HttpServlet {
             		req.setAttribute("displayContainer", "true");
             		req.getRequestDispatcher("/index.jsp").forward(req, res);
             	}
-            	
-            	
             }
+            else if (relat.equals("sessao")) {
+            	User userSessao = (User) req.getSession().getAttribute("user");
+    			if(userSessao != null) {
+    				connection = ConnectionFactory.getConnection();
+    				SessaoDAO sessaoDAO = new SessaoDAO(connection);
+					sessaoDAO.alterar(userSessao.getIdSessao());
+    			}
+            } 
         }
         catch (Exception e) {
         	System.out.println("erro " + e.toString());

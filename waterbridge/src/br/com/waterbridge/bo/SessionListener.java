@@ -1,13 +1,14 @@
 package br.com.waterbridge.bo;
 
-import javax.servlet.http.HttpSessionEvent;
-import javax.servlet.http.HttpSessionListener;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionListener;
+
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.SessaoDAO;
+import br.com.waterbridge.modelo.Sessao;
 import br.com.waterbridge.modelo.User;
 
 
@@ -26,7 +27,10 @@ public class SessionListener implements HttpSessionListener {
 			if(userSessao != null) {
 				connection = ConnectionFactory.getConnection();
 				SessaoDAO sessaoDAO = new SessaoDAO(connection);
-				sessaoDAO.alterar(userSessao.getIdSessao());
+				Sessao sessao = sessaoDAO.buscarPorId(userSessao.getIdSessao());
+				if(sessao.getDtLogout() == null) {
+					sessaoDAO.alterar(userSessao.getIdSessao());
+				}
 			}
 		} 
 		catch (Exception e) {

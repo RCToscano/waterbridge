@@ -28,6 +28,7 @@ import br.com.waterbridge.modelo.Condominio;
 import br.com.waterbridge.modelo.Empresa;
 import br.com.waterbridge.modelo.Medidor;
 import br.com.waterbridge.modelo.User;
+import br.com.waterbridge.modelo.bo.RelConsumoCondominioBO;
 import br.com.waterbridge.reldao.RelMedidorDAO;
 import br.com.waterbridge.relmodelo.RelConsumoCondominio;
 import br.com.waterbridge.relmodelo.RelMedidor;
@@ -210,7 +211,15 @@ public class ConsumoCondominioBO extends HttpServlet {
 					listRelConsumoCondominio.add(relConsumoCondominio);
 				}
 				
-				json = new Gson().toJson(listRelConsumoCondominio);
+				
+				RelConsumoCondominioBO condominioBO = new RelConsumoCondominioBO();
+				if(!listRelMedidor.isEmpty())
+					condominioBO.setNomeCondominio(listRelMedidor.get(0).getCondominio());
+				condominioBO.setDtInicio(req.getParameter("dtInicio"));
+				condominioBO.setDtFim(req.getParameter("dtFim"));
+				condominioBO.setListRelConsumoCondominio(listRelConsumoCondominio);
+				
+				json = new Gson().toJson(condominioBO);
 				
 				res.setContentType("application/json");
 				res.setCharacterEncoding("UTF-8");

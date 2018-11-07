@@ -32,6 +32,10 @@
 	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous"/>
 	    
+	    <script src="https://code.highcharts.com/highcharts.js"></script>
+		<script src="https://code.highcharts.com/maps/modules/map.js"></script>
+		<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	    
         <script src='./js/validator.min.js'></script>
 	    <link href="./css/menucustomcolor.css" rel="stylesheet"/>
 	    <link href="./css/footercustom.css" rel="stylesheet"/>
@@ -60,7 +64,7 @@
 									<c:forEach var="empresa" items="${listEmpresa}">
 			               		        <c:choose>
 			                            	<c:when test="${empresa.idEmpresa eq condominio.idEmpresa}">
-			                            		<option value="${empresa.idEmpresa}" selected="true">${empresa.nome}</option> 
+			                            		<option value="${empresa.idEmpresa}" selected>${empresa.nome}</option> 
 			                                </c:when>
 			                                <c:otherwise>
 			                                  	<option value="${empresa.idEmpresa}">${empresa.nome}</option>
@@ -152,11 +156,21 @@
 					</fieldset>
 				</form>
 			</div>
+			
+			<div class="col-sm-12" style="float: none; margin: 0 auto;">
+				<div class="form-group">
+					<div class="col-sm-12">
+						<div id="graficoconsumodiario" style="margin-top: 30px;"></div>
+					</div>
+				</div>
+			</div>
+			
 			<div class="col-sm-8 col-md-offset-2">
 				<div class="form-group">
 					<div class="table-responsive" id="divTable"></div>
 				</div>
 			</div>
+			
 		</div>
         <footer class="footer" style="background-color: #fff">
             <div class="container-fluid text-center" style="background-color: #fff; padding: 10px;">
