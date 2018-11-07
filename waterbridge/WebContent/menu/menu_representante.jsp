@@ -101,6 +101,8 @@
                          <li class="divider"></li>
                          <li><a href="RelatorioPressaoBO?acao=1">Pressure Bridge</a></li>
                         <li class="divider"></li>
+                        <li><a href="MapaConsumoPressaoBO?acao=1" target="_blank">Mapa Dispositivos</a></li>
+                        <li class="divider"></li>
                     </ul>
                 </li>
             </ul>

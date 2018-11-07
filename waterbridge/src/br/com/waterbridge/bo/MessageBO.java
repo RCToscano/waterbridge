@@ -15,16 +15,22 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import br.com.andwaterbridge.dao.AlarmPressaoDAO;
+import br.com.andwaterbridge.dao.MetaPressaoDAO;
+import br.com.andwaterbridge.modelo.AlarmPressao;
+import br.com.andwaterbridge.modelo.MetaPressao;
 import br.com.waterbridge.auxiliar.Constantes;
 import br.com.waterbridge.auxiliar.Email;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.AlarmDAO;
+import br.com.waterbridge.dao.BridgeDAO;
 import br.com.waterbridge.dao.ConsumoDAO;
 import br.com.waterbridge.dao.EmailAlarmDAO;
 import br.com.waterbridge.dao.LogSqlDAO;
 import br.com.waterbridge.dao.MedidorDAO;
 import br.com.waterbridge.dao.MessageDAO;
 import br.com.waterbridge.modelo.Alarm;
+import br.com.waterbridge.modelo.Bridge;
 import br.com.waterbridge.modelo.Consumo;
 import br.com.waterbridge.modelo.EmailAlarm;
 import br.com.waterbridge.modelo.Message;
@@ -133,6 +139,39 @@ public class MessageBO extends HttpServlet {
 			consumo.setDtInsert(consumoDAO.dataHoraMinSeg());
 			
 			consumoDAO.inserir(consumo);
+			
+			//VERIFICA ALARM PRESSAO
+		    BridgeDAO bridgeDAO = new BridgeDAO(connection);
+		    Bridge bridge = bridgeDAO.buscarPorDeviceNum(message.getDevice());
+		    if(bridge != null) {		    	
+		    	
+		    	if(bridge.getBridgeTp().getIdBridgeTp().longValue() == 2) {//PRESSURE BRIDGE
+		    		
+		    		MetaPressaoDAO metaPressaoDAO = new MetaPressaoDAO(connection);
+		    		MetaPressao metaPressao = metaPressaoDAO.buscarPorIdBridge(bridge.getIdBridge());
+		    		if(metaPressao != null) {
+		    			
+		    			if(consumo.getPressure().doubleValue() > metaPressao.getPressaoMax().doubleValue()
+		    					|| consumo.getPressure().doubleValue() < metaPressao.getPressaoMin().doubleValue()) {
+		    				
+		    				AlarmPressao alarmPressao = new AlarmPressao();
+		    				alarmPressao.setIdAlarmPressao(0l);
+		    				alarmPressao.setIdEmpresa(metaPressao.getIdEmpresa());
+		    				alarmPressao.setIdCondominio(bridge.getIdCondominio());
+		    				alarmPressao.setIdBridge(bridge.getIdBridge());
+		    				alarmPressao.setIdMedidor(null);
+		    				alarmPressao.setMeterPosition(0l);
+		    				alarmPressao.setPressaoMin(metaPressao.getPressaoMin());
+		    				alarmPressao.setPressaoMax(metaPressao.getPressaoMax());
+		    				alarmPressao.setPressaoReal(consumo.getPressure());
+		    				alarmPressao.setDtInsert(null);
+		    				
+		    				AlarmPressaoDAO alarmPressaoDAO = new AlarmPressaoDAO(connection);
+		    				alarmPressaoDAO.inserir(alarmPressao);
+		    			}
+		    		}
+		    	}
+		    }
 			
 			verificarAlarm(consumo, connection);
 			

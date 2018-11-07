@@ -37,7 +37,9 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Consulta <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="ConsumoMedidorBO?acao=1">Consumos por Medidor</a></li>
-                         <li class="divider"></li>
+                        <li class="divider"></li>
+                        <li><a href="MapaConsumoPressaoBO?acao=1" target="_blank">Mapa Dispositivos</a></li>
+                        <li class="divider"></li>
                     </ul>
                 </li>
             </ul>

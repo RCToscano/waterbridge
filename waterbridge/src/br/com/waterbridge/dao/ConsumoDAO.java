@@ -634,6 +634,82 @@ public class ConsumoDAO {
         }
     }
     
+    public String primeiroDiaMes() throws SQLException {
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        String data = "";
+        
+        try {
+            
+            stmt = connection.prepareStatement(
+            "SELECT ADDDATE(LAST_DAY(SUBDATE(CURDATE(), INTERVAL 1 MONTH)), 1) PRIMEIRO_DIA"		
+    		);
+            
+            rs = stmt.executeQuery();
+
+            if(rs.next()) {
+                
+            	data = rs.getString("PRIMEIRO_DIA");
+            }
+
+            return data;
+        }
+        catch(SQLException e) {            
+            
+            throw e;
+        }
+        finally {
+
+            if(stmt != null) {
+                
+                stmt.close();
+            }
+            if(rs != null) {              
+                
+                rs.close();
+            }
+        }
+    }
+
+    public String ultimoDiaMes() throws SQLException {
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        String data = "";
+        
+        try {
+            
+            stmt = connection.prepareStatement(
+            "SELECT LAST_DAY(sysdate()) ULTIMO_DIA"		
+    		);
+            
+            rs = stmt.executeQuery();
+
+            if(rs.next()) {
+                
+            	data = rs.getString("ULTIMO_DIA");
+            }
+
+            return data;
+        }
+        catch(SQLException e) {            
+            
+            throw e;
+        }
+        finally {
+
+            if(stmt != null) {
+                
+                stmt.close();
+            }
+            if(rs != null) {              
+                
+                rs.close();
+            }
+        }
+    }    
+    
     public Long difDataEmMinutos(String dtInicio, String dtFim) throws SQLException {
 
         PreparedStatement stmt = null;

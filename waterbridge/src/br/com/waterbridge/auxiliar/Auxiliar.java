@@ -489,4 +489,5 @@ public class Auxiliar {
 			senha[x] = chart[rdm.nextInt(chartLenght)];
 		return new String(senha);
 	}
+
 }

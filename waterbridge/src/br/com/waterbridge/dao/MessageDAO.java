@@ -141,6 +141,75 @@ public class MessageDAO {
         }
     }
     
+    public Message buscarPorDeviceData(String device, String data) throws SQLException {
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Message message = null;
+        
+        try {
+            
+            stmt = connection.prepareStatement(
+    		"SELECT ID_MESSAGE, " +
+    		"       ID_USER, " +
+    		"       DEVICE, " +
+    		"       DATA, " +
+    		"       VERSION, " +
+    		"       METERPOSITION, " +
+    		"       VOLUME, " +
+    		"       PRESSURE, " +
+    		"       FLOW, " +
+    		"       TEMPERATURE, " +
+    		"       BATTERY, " +
+    		"       ALARM, " +
+    		"       DTINSERT " +
+        	"FROM   TB_MESSAGE " +
+        	"WHERE  DEVICE = ? " +
+        	"AND    DATA = ?  " 
+    		);
+            
+            stmt.setObject(1, device);
+            stmt.setObject(2, data);
+            
+            rs = stmt.executeQuery();
+
+            if(rs.next()) {
+                
+            	message = new Message();
+            	message.setIdMessage(rs.getLong("ID_MESSAGE"));
+            	message.setIdUser(rs.getLong("ID_USER"));
+            	message.setDevice(rs.getString("DEVICE"));
+            	message.setData(rs.getString("DATA"));
+            	message.setVersion(rs.getString("VERSION"));
+            	message.setMeterPosition(rs.getLong("METERPOSITION"));
+            	message.setVolume(rs.getDouble("VOLUME"));
+            	message.setPressure(rs.getDouble("PRESSURE"));
+            	message.setFlow(rs.getLong("FLOW"));
+            	message.setTemperature(rs.getLong("TEMPERATURE"));
+            	message.setBattery(rs.getDouble("BATTERY"));
+            	message.setAlarm(rs.getLong("ALARM"));
+            	message.setDtInsert(rs.getString("DTINSERT"));
+            }
+
+            return message;
+        }
+        catch(SQLException e) {            
+            
+            throw e;
+        }
+        finally {
+
+            if(stmt != null) {
+                
+                stmt.close();
+            }
+            if(rs != null) {              
+                
+                rs.close();
+            }
+        }
+    }
+    
     public void alterar(Message message) throws SQLException {
 
         PreparedStatement stmt = null;

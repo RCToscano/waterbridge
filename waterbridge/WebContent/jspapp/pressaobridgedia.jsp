@@ -12,7 +12,7 @@
 		<link rel="icon" type="image/png" href="./images/favicon.ico"/>
         
         <script src="./js/funcoes.auxiliares.js" type="text/javascript"></script>
-<!-- 	    <script src="./jsapp/consumomedidordia.js" type="text/javascript"></script> -->
+	    <script src="./jsapp/pressaobridgedia.js" type="text/javascript"></script>
 	    
    		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	    <script src="http://code.jquery.com/jquery-2.2.4.js" ></script>	
@@ -50,143 +50,207 @@
 		  </style>
     </head>
     <body>
-        <div class="container-fluid" style="margin: 0px; padding: 0px;">                 	   
-			<div class="col-sm-12" style="margin: 0px; padding: 0px;">				
-				<c:set var = "cont" value = "1"/>
-				<c:set var = "consumo" value = "0"/>
-				<c:set var = "colspan" value = "7"/>
-				<c:set var = "bgColor" value = ""/>					
-				<table class='table table-hover table-striped' style="margin: 0px;">
-            		<thead>
-            			<tr>
-            				<th style="text-align: left">
-            			         <form action='AndRelatorioBO?acao=2' method='post'>
-				                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
-				                    <input type='hidden' name='idCondominio' value='${idCondominio}'>
-				                    <input type='hidden' name='idBridge' value='${idBridge}'>
-				                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
-				                    <input type='hidden' name='data' value='${data}'>
-				                    <input type='hidden' name='sinal' value='-'>
-				                    <input type='hidden' name='data' value='${dtInicio}'>
-				                    <input type='hidden' name='dtFim' value='${dtFim}'>
-							         <button type='submit' class='btn btn-info' title='Clique para visualizar o gráfico'>
-						                 <i class='glyphicon glyphicon-chevron-left'></i>
-						             </button>
-						         </form>
-            				</th>
-            				<th style="text-align: center">
-            			         <form action='AndRelatorioBO?acao=4' method='post' target='_blank'>
-				                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
-				                    <input type='hidden' name='idCondominio' value='${idCondominio}'>
-				                    <input type='hidden' name='idBridge' value='${idBridge}'>
-				                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
-				                    <input type='hidden' name='data' value='${data}'>
-							         <button type='submit' class='btn btn-warning' title='Clique para visualizar o gráfico'>
-						                 <i class='fa fa-bar-chart'></i>
-						             </button>
-						         </form>
-            				</th>
-<!--             				<th style="text-align: center"> -->
-<!--             			         <form action='ConsumoMedidorBO?acao=excel' method='post' target='_blank'> -->
-<%--             	                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'> --%>
-<%--             	                    <input type='hidden' name='idCondominio' value='${idCondominio}'> --%>
-<%--             	                    <input type='hidden' name='idBridge' value='${idBridge}'> --%>
-<%--             	                    <input type='hidden' name='idMedidor' value='${idMedidor}'> --%>
-<%--             	                    <input type='hidden' name='dtInicio' value='${dtInicio}'> --%>
-<%--             	                    <input type='hidden' name='dtFim' value='${dtFim}'> --%>
-<!--             				         <button type='submit' class='btn btn-success' title='Clique para fazer o download em excel'> -->
-<!--             			                 <i class='fa fa-file-excel'></i> -->
-<!--             			             </button> -->
-<!--             			         </form> -->
-<!--             				</th>            				 -->
-            				<th style="text-align: right;">
-            			         <form action='AndRelatorioBO?acao=2' method='post'>
-				                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
-				                    <input type='hidden' name='idCondominio' value='${idCondominio}'>
-				                    <input type='hidden' name='idBridge' value='${idBridge}'>
-				                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
-				                    <input type='hidden' name='data' value='${data}'>
-				                    <input type='hidden' name='sinal' value='+'>
-				                    <input type='hidden' name='dtInicio' value='${dtInicio}'>
-				                    <input type='hidden' name='dtFim' value='${dtFim}'>
-							         <button type='submit' class='btn btn-info' title='Clique para visualizar o gráfico'>
-						                 <i class='glyphicon glyphicon-chevron-right'></i>
-						             </button>
-						         </form>
-            				</th>
-            			</tr>
-            		</thead>
-            	</table>	
-            	<div class="container-fluid text-center" style="margin": 0px; padding: 0px;">
-            		<label>${fn:substring(data, 8, 10)}/${fn:substring(data, 5, 7)}/${fn:substring(data, 0, 4)}</label>
-            	</div>
-            	<fmt:setLocale value = "pt-BR"/>
-            	<c:choose>
-                  	<c:when test="${fn:length(listRelPressao) > 0}">
-                  		 <div class="table-responsive" id="divTable">						
-			            	<table class='table table-hover table-striped'>
-				            	<thead>
-				            		<tr>
-				            			<th>Nº</th>
-				            			<th>Data</th>
-									    <th>Press&atilde;o (MCA)</th>
-			            				<th>Alarme</th>
-				            			<th></th>
-				            		</tr>
-				            	</thead>
-				            	<tbody id='myTable'>				            	
-				            		<c:forEach var="relPressao" items="${listRelPressao}">        		                
-					                	<c:if test = "${relPressao.alarm != 0}">
-					                		<c:set var = "bgColor" value = "bgcolor='#f2dede'"/>
-					                	</c:if>				                
-		    		            		<tr>
-		    		            			<td ${bgColor}><small>${cont}</small></td>
-		    		            			<td ${bgColor}><small>${relPressao.dtInsert}</small></td>
-		    		            			<td ${bgColor}><small><fmt:formatNumber value="${relPressao.pressure}" type="currency" currencySymbol="" minFractionDigits = "3"/></small></td>
-				    		            	<td ${bgColor}><small>${relPressao.alarmDesc}</small></td>
-				    		            	<td ${bgColor} align='right'></td>
-				    		            </tr>
-					                	<c:set var = "bgColor" value = ""/>
-					                	<c:set var = "cont" value = "${cont + 1}"/>            		
-				            		</c:forEach>			            	
-							        <tr>
-								         <td>
-									         <form action='AndRelatorioBO?acao=4' method='post' target='_blank'>
+        <div class="container-fluid" style="margin: 2px; padding: 0px;">     
+        	<div class="panel-group">
+       			<div class="panel panel-default">
+			      	<div class="panel-heading" style="text-align: left">
+			      		<label> 
+				      		${condominio.nome}
+            				<br/>
+            				${condominio.endereco} ${condominio.numero} ${condominio.compl}
+            				<br/>
+            				Bridge ${bridge.deviceNum}	            
+            				<br/>            			
+           				</label>
+			      	</div>
+			      	<div class="panel-body" style="padding: 0px;">
+
+						<div class="col-sm-12" style="margin: 0px; padding: 0px;">				
+							<c:set var = "cont" value = "1"/>
+							<c:set var = "consumo" value = "0"/>
+							<c:set var = "colspan" value = "7"/>
+							<c:set var = "bgColor" value = ""/>					
+							<table class='table table-hover table-striped' style="margin: 0px;">
+			            		<thead>
+			            			<tr>
+			            				<th style="text-align: left">
+			            			         <form action='AndRelatorioBO?acao=2' method='post' onsubmit="return exibirBlock()">
 							                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
-							                    <input type='hidden' name='idCondominio' value='${idCondominio}'>
-							                    <input type='hidden' name='idBridge' value='${idBridge}'>
+							                    <input type='hidden' name='idCondominio' value='${condominio.idCondominio}'>
+							                    <input type='hidden' name='idBridge' value='${bridge.idBridge}'>
+							                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
+							                    <input type='hidden' name='data' value='${data}'>
+							                    <input type='hidden' name='sinal' value='-'>
+							                    <input type='hidden' name='data' value='${dtInicio}'>
+							                    <input type='hidden' name='dtFim' value='${dtFim}'>
+										         <button type='submit' class='btn btn-info' title='Clique para visualizar o gráfico'>
+									                 <i class='glyphicon glyphicon-chevron-left'></i>
+									             </button>
+									         </form>
+			            				</th>
+			            				<th style="text-align: center">
+			            			         <form action='AndRelatorioBO?acao=4' method='post' onsubmit="return exibirBlock()">
+							                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
+							                    <input type='hidden' name='idCondominio' value='${condominio.idCondominio}'>
+							                    <input type='hidden' name='idBridge' value='${bridge.idBridge}'>
 							                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
 							                    <input type='hidden' name='data' value='${data}'>
 										         <button type='submit' class='btn btn-warning' title='Clique para visualizar o gráfico'>
 									                 <i class='fa fa-bar-chart'></i>
 									             </button>
 									         </form>
-								         </td>
-								         <td colspan='4' style='text-align: left'>
-									         <form action='ConsumoMedidorBO?acao=excel' method='post' target='_blank'>
+			            				</th>			            				
+			            				<th style="text-align: center">
+			            			         <form action='AndRelatorioBO?acao=2' method='post' onsubmit="return exibirBlock()" style="margin: 0px; padding: 0px;">
+						           				<input type='hidden' name='idUser' value='${idUser}'>
 							                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
-							                    <input type='hidden' name='idCondominio' value='${idCondominio}'>
-							                    <input type='hidden' name='idBridge' value='${idBridge}'>
+							                    <input type='hidden' name='idCondominio' value='${condominio.idCondominio}'>
+							                    <input type='hidden' name='idBridge' value='${bridge.idBridge}'>
+							                    <input type='hidden' name='idMedidor' value='${idMedidor}'>							                    
+										    	<button type='submit' class='btn btn-success' title='Clique para visualizar o gráfico'>
+									            	<i class='glyphicon glyphicon-refresh'></i>
+									            </button>
+									        </form>
+			            				</th>            				
+			            				<th style="text-align: right;">
+			            			         <form action='AndRelatorioBO?acao=2' method='post' onsubmit="return exibirBlock()">
+							                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
+							                    <input type='hidden' name='idCondominio' value='${condominio.idCondominio}'>
+							                    <input type='hidden' name='idBridge' value='${bridge.idBridge}'>
 							                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
+							                    <input type='hidden' name='data' value='${data}'>
+							                    <input type='hidden' name='sinal' value='+'>
 							                    <input type='hidden' name='dtInicio' value='${dtInicio}'>
 							                    <input type='hidden' name='dtFim' value='${dtFim}'>
-										         <button type='submit' class='btn btn-success' title='Clique para fazer o download em excel'>
-									                 <i class='fa fa-file-excel'></i>
-									             </button>
+										        <button type='submit' class='btn btn-info' title='Clique para visualizar o gráfico'>
+									                <i class='glyphicon glyphicon-chevron-right'></i>
+									            </button>
 									         </form>
-								         </td>
-							        </tr>
-				                </tbody>
-				            </table>	
+			            				</th>
+			            			</tr>
+			            		</thead>
+			            	</table>	
+			            	<div class="container-fluid text-center" style="margin": 0px; padding: 0px;">
+			            		<label>${fn:substring(data, 8, 10)}/${fn:substring(data, 5, 7)}/${fn:substring(data, 0, 4)}</label>
+			            	</div>
+			            	<fmt:setLocale value = "pt-BR"/>
+			            	<c:choose>
+			                  	<c:when test="${fn:length(listRelPressao) > 0}">
+			                  		 <div class="table-responsive" id="divTable">						
+						            	<table class='table table-hover table-striped'>
+							            	<thead>
+							            		<tr>
+							            			<th>Hora</th>
+												    <th>Press&atilde;o (MCA)</th>
+						            				<th>Alarme</th>
+							            			<th></th>
+							            		</tr>
+							            	</thead>
+							            	<tbody id='myTable'>				            	
+							            		<c:forEach var="relPressao" items="${listRelPressao}">							            						          								                	
+								                	<c:choose>         
+											        	<c:when test = "${relPressao.alarm != 0}">
+											            	<c:set var = "bgColor" value = "bgcolor='#f2dede'"/>
+											            	<c:set var = "alarmPadrao" value = "${relPressao.alarmDesc}"/>
+											         	</c:when>											         
+											         	<c:when test = "${metaPressao != null && relPressao.pressure < metaPressao.pressaoMin}">
+											           	 	<c:set var = "bgColor" value = "bgcolor='#f2dede'"/>
+											           	 	<c:set var = "alarmPressao" value = "PRESSÃO BAIXA"/>
+											         	</c:when>
+											         	<c:when test = "${metaPressao != null && relPressao.pressure > metaPressao.pressaoMax}">
+											           	 	<c:set var = "bgColor" value = "bgcolor='#f2dede'"/>
+											           	 	<c:set var = "alarmPressao" value = "PRESSÃO ALTA"/>
+											         	</c:when>
+											         	<c:otherwise>
+											         		<c:set var = "alarmPadrao" value = "NO ALARM"/>
+											         	</c:otherwise>
+											      	</c:choose>      
+					    		            		<tr>
+					    		            			<td ${bgColor}><small>${relPressao.horaInsert}</small></td>
+					    		            			<td ${bgColor}><small><fmt:formatNumber value="${relPressao.pressure}" type="currency" currencySymbol="" minFractionDigits = "3"/></small></td>					    		            			
+							    		            	<td ${bgColor}><small>${alarmPadrao} ${alarmPressao}</small></td>
+							    		            	<td ${bgColor} align='right'></td>
+							    		            </tr>
+								                	<c:set var = "bgColor" value = ""/>
+								                	<c:set var = "alarmPadrao" value = ""/>
+								                	<c:set var = "alarmPressao" value = ""/>
+								                	<c:set var = "cont" value = "${cont + 1}"/>            		
+							            		</c:forEach>			            	
+							                </tbody>
+							            </table>							           
+										<table class='table table-hover table-striped' style="margin: 0px;">
+						            		<thead>
+						            			<tr>
+						            				<th style="text-align: left">
+						            			         <form action='AndRelatorioBO?acao=2' method='post' onsubmit="return exibirBlock()">
+										                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
+										                    <input type='hidden' name='idCondominio' value='${condominio.idCondominio}'>
+										                    <input type='hidden' name='idBridge' value='${bridge.idBridge}'>
+										                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
+										                    <input type='hidden' name='data' value='${data}'>
+										                    <input type='hidden' name='sinal' value='-'>
+										                    <input type='hidden' name='data' value='${dtInicio}'>
+										                    <input type='hidden' name='dtFim' value='${dtFim}'>
+													         <button type='submit' class='btn btn-info' title='Clique para visualizar o gráfico'>
+												                 <i class='glyphicon glyphicon-chevron-left'></i>
+												             </button>
+												         </form>
+						            				</th>
+						            				<th style="text-align: center">
+						            			         <form action='AndRelatorioBO?acao=4' method='post' onsubmit="return exibirBlock()">
+										                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
+										                    <input type='hidden' name='idCondominio' value='${condominio.idCondominio}'>
+										                    <input type='hidden' name='idBridge' value='${bridge.idBridge}'>
+										                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
+										                    <input type='hidden' name='data' value='${data}'>
+													         <button type='submit' class='btn btn-warning' title='Clique para visualizar o gráfico'>
+												                 <i class='fa fa-bar-chart'></i>
+												             </button>
+												         </form>
+						            				</th>			            				
+						            				<th style="text-align: center">
+						            			         <form action='AndRelatorioBO?acao=2' method='post' onsubmit="return exibirBlock()" style="margin: 0px; padding: 0px;">
+									           				<input type='hidden' name='idUser' value='${idUser}'>
+										                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
+										                    <input type='hidden' name='idCondominio' value='${condominio.idCondominio}'>
+										                    <input type='hidden' name='idBridge' value='${bridge.idBridge}'>
+										                    <input type='hidden' name='idMedidor' value='${idMedidor}'>							                    
+													    	<button type='submit' class='btn btn-success' title='Clique para visualizar o gráfico'>
+												            	<i class='glyphicon glyphicon-refresh'></i>
+												            </button>
+												        </form>
+						            				</th>            				
+						            				<th style="text-align: right;">
+						            			         <form action='AndRelatorioBO?acao=2' method='post' onsubmit="return exibirBlock()">
+										                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
+										                    <input type='hidden' name='idCondominio' value='${condominio.idCondominio}'>
+										                    <input type='hidden' name='idBridge' value='${bridge.idBridge}'>
+										                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
+										                    <input type='hidden' name='data' value='${data}'>
+										                    <input type='hidden' name='sinal' value='+'>
+										                    <input type='hidden' name='dtInicio' value='${dtInicio}'>
+										                    <input type='hidden' name='dtFim' value='${dtFim}'>
+													        <button type='submit' class='btn btn-info' title='Clique para visualizar o gráfico'>
+												                <i class='glyphicon glyphicon-chevron-right'></i>
+												            </button>
+												         </form>
+						            				</th>
+						            			</tr>
+						            		</thead>
+						            	</table>
+							            	
+									</div>
+			                    </c:when>
+			                    <c:otherwise>
+			                      	<div class="alert alert-danger text-center">
+									  	Nenhum registro encontrado
+									</div>
+			                    </c:otherwise>
+			           		</c:choose>
 						</div>
-                    </c:when>
-                    <c:otherwise>
-                      	<div class="alert alert-danger text-center">
-						  	Nenhum registro encontrado
-						</div>
-                    </c:otherwise>
-           		</c:choose>
-			</div>
+			      	</div>
+   				</div>
+			</div>	
 		</div>
         <footer class="footer" style="background-color: #fff">
             <div class="container-fluid text-center" style="background-color: #fff; padding: 10px;">

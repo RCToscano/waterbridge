@@ -23,6 +23,7 @@
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <!-- 		<script src="https://code.highcharts.com/highcharts.js"></script> -->
 		<script src="https://code.highcharts.com/stock/highstock.js"></script>
+		<script src="https://code.highcharts.com/modules/series-label.js"></script>
 		<script src="https://code.highcharts.com/maps/modules/map.js"></script>
 		<script src="https://code.highcharts.com/modules/exporting.js"></script>
 	
@@ -37,7 +38,7 @@
 						<script>
 							Highcharts.chart('graficopressaodiaria', {
 							    chart: {
-							        type: 'column',
+							        type: 'line',
 							        marginLeft: 70
 							    },
 							    title: {
@@ -74,7 +75,24 @@
 							        min: 0,
 							        title: {
 							        	text: 'MCA'
-							        }
+							        }							        
+							        <c:if test="${metaPressao != null}">
+							        	,
+								      	//minorGridLineWidth: 0,
+								        //gridLineWidth: 0,
+								        //alternateGridColor: null,
+								        plotBands: [{ // Light air
+								            from: ${metaPressao.pressaoMin},
+								            to: ${metaPressao.pressaoMax},
+								            color: 'rgba(68, 170, 213, 0.1)',
+								            label: {
+								                text: ' ',
+								                style: {
+								                    color: '#606060'
+								                }
+								            }
+								        }]							        
+							        </c:if>								        
 							    },
 							    tooltip: {
 							        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',

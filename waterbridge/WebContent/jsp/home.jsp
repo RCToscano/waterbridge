@@ -84,6 +84,15 @@
 						</div>
 					</div>
 				</c:if>
+				<div class="col-sm-5 col-md-4">
+					<div class="thumbnail">
+						<div class="caption">
+							<h3>Mapa Dispositivos</h3>
+<!-- 								<p>&nbsp;</p> -->
+							<p><a href="MapaConsumoPressaoBO?acao=1" class="btn btn-primary" role="button" target="_blank">Acessar</a></p>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<footer class="footer" style="background-color: #fff">

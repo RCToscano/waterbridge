@@ -165,7 +165,7 @@ public class Medidor {
 	}
 	public void setObs(String obs) {
 		this.obs = obs;
-	}
+	}	
 	public String getSituacao() {
 		return situacao;
 	}

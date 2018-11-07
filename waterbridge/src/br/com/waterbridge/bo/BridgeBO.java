@@ -25,6 +25,8 @@ import br.com.waterbridge.modelo.BridgeTpAlim;
 import br.com.waterbridge.modelo.Condominio;
 import br.com.waterbridge.modelo.Situacao;
 import br.com.waterbridge.modelo.User;
+import br.com.waterbridge.reldao.RelConsumoMedidorDAO;
+import br.com.waterbridge.relmodelo.RelConsumoMedidor;
 
 public class BridgeBO extends HttpServlet {
 
@@ -41,6 +43,7 @@ public class BridgeBO extends HttpServlet {
 		if (req.getParameter("acao") != null && req.getParameter("acao").equals("1")) {//ENTRA NA TELA DE CADASTRO
 			
 			Connection connection = null;
+			String sql = "";
 			
 			try {
 				
