@@ -379,6 +379,81 @@ public class BridgeDAO {
         }
     }
     
+    public Bridge buscarPorDeviceNum(String deviceNum, String situacao) throws SQLException {
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Bridge bridge = null;
+        
+        try {
+            
+            stmt = connection.prepareStatement(
+    		"SELECT ID_BRIDGE, " +
+			"		ID_BRIDGETP, " +
+            "       ID_BRIDGETPALIM, " +
+            "       ID_USER, " +
+            "       ID_CONDOMINIO, " +
+            "	    DEVICENUM, " +
+            "       ATIVATIONDATE, " +
+            "       TOKENVALID, " +
+            "       DESCRICAO, " +
+            "       CUSTOMENSAL, " +
+            "       TAXAENVIO, " +
+            "       SITUACAO, " +
+            " 	    DTINSERT " +
+            "FROM   TB_BRIDGE " +
+            "WHERE  DEVICENUM = ? " +
+            "AND    SITUACAO = ? "
+            );
+
+            stmt.setString(1, deviceNum);
+            stmt.setString(2, situacao);
+
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+            	
+            	BridgeTp bridgeTp = new BridgeTp();
+            	bridgeTp = new BridgeTpDAO(connection).buscar(rs.getLong("ID_BRIDGETP"));
+            	
+            	BridgeTpAlim bridgeTpAlim = new BridgeTpAlim();
+            	bridgeTpAlim = new BridgeTpAlimDAO(connection).buscar(rs.getLong("ID_BRIDGETPALIM"));
+            	
+            	bridge = new Bridge();
+            	bridge.setIdBridge(rs.getLong("ID_BRIDGE"));
+            	bridge.setBridgeTp(bridgeTp);
+                bridge.setBridgeTpAlim(bridgeTpAlim);
+                bridge.setIdUser(rs.getLong("ID_USER"));
+                bridge.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
+                bridge.setDeviceNum(rs.getString("DEVICENUM"));
+                bridge.setDtAtivacao(Auxiliar.formataDtTelaHr(rs.getString("ATIVATIONDATE")));
+                bridge.setValidadeToken(Auxiliar.formataDtTela(rs.getString("TOKENVALID")));
+                bridge.setDescricao(rs.getString("DESCRICAO"));
+                bridge.setCustoMensal(rs.getDouble("CUSTOMENSAL"));
+                bridge.setTaxaEnvio(rs.getLong("TAXAENVIO"));
+                bridge.setSituacao(rs.getString("SITUACAO"));
+                bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));                
+            }
+            
+            return bridge;
+        }
+        catch(SQLException e) {
+            
+            throw e;
+        }
+        finally {
+
+            if(stmt != null) {
+                
+                stmt.close();
+            }
+            if(rs != null) {
+                
+                rs.close();
+            }
+        }
+    }
+    
     public List<Bridge> listarPorDeviceNum(String deviceNum) throws SQLException {
 
         PreparedStatement stmt = null;

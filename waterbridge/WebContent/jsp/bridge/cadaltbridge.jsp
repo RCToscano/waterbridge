@@ -143,7 +143,7 @@
 						<div class="col-sm-4">
 							<div class="form-group">
 								<label class="control-label">Tipo</label><label class="text-danger">*</label>
-								<select class="form-control" id="idBridgeTp" name="idBridgeTp" required>
+								<select class="form-control" id="idBridgeTp" name="idBridgeTp" onchange="exibirDivLimitesPressao()" required>
 									<option value="" selected>Selecione...</option>
 									<c:forEach var="bridgeTp" items="${listBridgeTp}">
 		                         		<c:choose>
@@ -177,7 +177,62 @@
 								</select>					
 							</div>
 						</div>
-						
+						<div class="col-sm-12" style="padding: 0px; display: none;" id="divLimitesPressao">
+							<div class="col-sm-12">
+								<div class="form-group" style="padding: 0px; margin: 0px;">	
+									<label class="control-label">Limites de Pressão</label><label class="text-danger">*</label>							
+								</div>
+							</div>						
+							<div class="col-sm-3">
+								<div class="form-group">	
+									<label class="control-label">Baixa</label>
+									<input type="text" class="form-control" id="minimoPressaoBaixa" name="minimoPressaoBaixa" value="<fmt:formatNumber value="${metaPressao.pressaoMinBaixa}" type="currency" currencySymbol="" minFractionDigits = "3" />" maxlength="7" />
+									<script>
+			                            $(function() {
+			                                $("#minimoPressaoBaixa").maskMoney({prefix:'', allowNegative: true, thousands:'.', decimal:',', affixesStay: false, precision: 3});
+			                            });
+			                        </script>
+								</div>
+							</div>						
+							<div class="col-sm-3">
+								<div class="form-group">	
+									<label class="control-label">Mínimo Normal</label>
+									<input type="text" class="form-control" id="minimoPressaoNormal" name="minimoPressaoNormal" value="<fmt:formatNumber value="${metaPressao.pressaoMin}" type="currency" currencySymbol="" minFractionDigits = "3" />" maxlength="7" />
+									<script>
+			                            $(function() {
+			                                $("#minimoPressaoNormal").maskMoney({prefix:'', allowNegative: true, thousands:'.', decimal:',', affixesStay: false, precision: 3});
+			                            });
+			                        </script>
+								</div>
+							</div>						
+							<div class="col-sm-3">
+								<div class="form-group">	
+									<label class="control-label">Máximo Normal</label>
+									<input type="text" class="form-control" id="maximoPressaoNormal" name="maximoPressaoNormal" value="<fmt:formatNumber value="${metaPressao.pressaoMax}" type="currency" currencySymbol="" minFractionDigits = "3" />" maxlength="7" />
+									<script>
+			                            $(function() {
+			                                $("#maximoPressaoNormal").maskMoney({prefix:'', allowNegative: true, thousands:'.', decimal:',', affixesStay: false, precision: 3});
+			                            });
+			                        </script>
+								</div>
+							</div>						
+							<div class="col-sm-3">
+								<div class="form-group">	
+									<label class="control-label">Alta</label>
+									<input type="text" class="form-control" id="maximoPressaoAlta" name="maximoPressaoAlta" value="<fmt:formatNumber value="${metaPressao.pressaoMaxAlta}" type="currency" currencySymbol="" minFractionDigits = "3"/>" maxlength="7" />
+									<script>
+			                            $(function() {
+			                                $("#maximoPressaoAlta").maskMoney({prefix:'', allowNegative: true, thousands:'.', decimal:',', affixesStay: false, precision: 3});
+			                            });
+			                        </script>
+								</div>
+							</div>
+						</div>
+						<c:if test = "${bridge.bridgeTp.idBridgeTp == 2 || metaPressao != null}">
+					    	<script type="text/javascript">
+								$("#divLimitesPressao").fadeIn(300);		
+							</script>
+				      	</c:if>							
 						<div class="col-sm-4">
 							<div class="form-group">
 								<label class="control-label">Situa&ccedil;&atilde;o</label><label class="text-danger">*</label>
@@ -218,13 +273,23 @@
                         	<div class="form-group">
                         		<label class="control-label"></label><label class="text-danger">* Campos Obrigatórios</label>
 							</div>
-						</div>
-						
-						<div class="form-group">
-							<div class="col-sm-12 text-center">
-								<button type="submit" class="btn btn-primary">${btNome}</button>
-							</div>
-						</div>
+						</div>						
+						<c:choose>					         
+					    	<c:when test = "${bridge.situacao eq 'I'}">
+				    			<div class="form-group">
+									<div class="col-sm-12 text-center">
+										<label class="text-danger">* Não é possível alterar bridges inativos</label>
+									</div>
+								</div>    	
+			         		</c:when>					         
+				         	<c:otherwise>
+					        	<div class="form-group">
+									<div class="col-sm-12 text-center">
+										<button type="submit" class="btn btn-primary">${btNome}</button>
+									</div>
+								</div>
+				         	</c:otherwise>
+				     	</c:choose>
 					</fieldset>
 				</form>
 			</div>

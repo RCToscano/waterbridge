@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import br.com.andwaterbridge.dao.MetaPressaoDAO;
+import br.com.andwaterbridge.modelo.MetaPressao;
 import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.BridgeDAO;
@@ -25,8 +27,6 @@ import br.com.waterbridge.modelo.BridgeTpAlim;
 import br.com.waterbridge.modelo.Condominio;
 import br.com.waterbridge.modelo.Situacao;
 import br.com.waterbridge.modelo.User;
-import br.com.waterbridge.reldao.RelConsumoMedidorDAO;
-import br.com.waterbridge.relmodelo.RelConsumoMedidor;
 
 public class BridgeBO extends HttpServlet {
 
@@ -81,7 +81,7 @@ public class BridgeBO extends HttpServlet {
 				}
 			}
         } 
-		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("2")) {
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("2")) {//CADASTRA BRIDGE
 
 			Connection connection = null;
 			HttpSession session = req.getSession(true);
@@ -104,7 +104,7 @@ public class BridgeBO extends HttpServlet {
 				List<Condominio> listCondominio = condominioDAO.listar();
 				
 				BridgeDAO bridgeDAO = new BridgeDAO(connection);
-				Bridge bridge = bridgeDAO.buscarPorDeviceNum(req.getParameter("deviceNum").trim().toUpperCase()); 
+				Bridge bridge = bridgeDAO.buscarPorDeviceNum(req.getParameter("deviceNum").trim().toUpperCase(), "A"); 
 				
 				if(bridge == null) {
 					
@@ -130,12 +130,38 @@ public class BridgeBO extends HttpServlet {
 					bridge.setDtInsert(null);
 					
 					bridgeDAO.inserir(bridge);
+					
+					bridge = bridgeDAO.buscarPorDeviceNum(req.getParameter("deviceNum").trim().toUpperCase(), "A");
+					
+					//CADASTRA META PRESSAO
+					if(bridgeTp.getIdBridgeTp().longValue() == 2) {
+						
+						Condominio condominio = condominioDAO.buscarPorId(bridge.getIdCondominio());
+
+						MetaPressaoDAO metaPressaoDAO = new MetaPressaoDAO(connection);
+						
+						MetaPressao metaPressao = new MetaPressao();
+						metaPressao.setIdMetaPressao(0l);
+						metaPressao.setIdUser(user.getIdUser());
+						metaPressao.setIdEmpresa(condominio.getIdEmpresa());
+						metaPressao.setIdCondominio(condominio.getIdCondominio());
+						metaPressao.setIdBridge(bridge.getIdBridge());
+						metaPressao.setIdMedidor(null);
+						metaPressao.setMeterPosition(null);
+						metaPressao.setPressaoMinBaixa(Double.parseDouble(req.getParameter("minimoPressaoBaixa").replace(",", ".")));
+						metaPressao.setPressaoMin(Double.parseDouble(req.getParameter("minimoPressaoNormal").replace(",", ".")));
+						metaPressao.setPressaoMax(Double.parseDouble(req.getParameter("maximoPressaoNormal").replace(",", ".")));
+						metaPressao.setPressaoMaxAlta(Double.parseDouble(req.getParameter("maximoPressaoAlta").replace(",", ".")));
+						metaPressao.setDtInsert(null);
+						
+						metaPressaoDAO.inserir(metaPressao);		
+					}
 				
 					req.setAttribute("aviso", 
 					"<div class='alert alert-success'>" +
 					"    Cadastro realizado com sucesso!" +
 					"    &emsp;&emsp;" +
-					"    <a href='BridgeBO?acao=3&deviceNum=" + bridge.getDeviceNum() + "'>" + bridge.getDeviceNum() + "</a>" +		
+					"    <a href='BridgeBO?acao=3&idBridge=" + bridge.getIdBridge() + "'>" + bridge.getDeviceNum() + "</a>" +		
 					"</div>"
 					);
 				}
@@ -145,7 +171,7 @@ public class BridgeBO extends HttpServlet {
 					"<div class='alert alert-danger'>" +
 					"    Não foi possível cadastrar.! O cadastro já foi realizado em " + bridge.getDtInsert() +
 					"    &emsp;&emsp;" +
-					"    <a href='BridgeBO?acao=3&deviceNum=" + bridge.getDeviceNum() + "'>" + bridge.getDeviceNum() + "</a>" +
+					"    <a href='BridgeBO?acao=3&idBridge=" + bridge.getIdBridge() + "'>" + bridge.getDeviceNum() + "</a>" +
 					"</div>"
 					);
 				}
@@ -156,7 +182,7 @@ public class BridgeBO extends HttpServlet {
 				req.setAttribute("listBridgeTpAlim", listBridgeTpAlim);
 				req.setAttribute("listBridgeTp", listBridgeTp);
 				req.setAttribute("listSituacao", listSituacao);
-				req.setAttribute("listCondominio", listCondominio);
+				req.setAttribute("listCondominio", listCondominio);				
 				req.getRequestDispatcher("/jsp/bridge/cadaltbridge.jsp").forward(req, res);				
 			}
 	        catch (Exception e) {
@@ -169,7 +195,7 @@ public class BridgeBO extends HttpServlet {
 				}
 			}	
         }
-		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("3")) {
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("3")) {//ENTRA NA TELA DE ALTERACAO ATRAVES DA TELA DE CONSULTA
 
 			Connection connection = null;
 			HttpSession session = req.getSession(true);
@@ -192,7 +218,10 @@ public class BridgeBO extends HttpServlet {
 				List<Condominio> listCondominio = condominioDAO.listar();
 				
 				BridgeDAO bridgeDAO = new BridgeDAO(connection);
-				Bridge bridge = bridgeDAO.buscarPorDeviceNum(req.getParameter("deviceNum").trim().toUpperCase()); 
+				Bridge bridge = bridgeDAO.buscarPorId(Long.parseLong(req.getParameter("idBridge"))); 
+				
+				MetaPressaoDAO metaPressaoDAO = new MetaPressaoDAO(connection);
+				MetaPressao metaPressao = metaPressaoDAO.buscarPorIdBridge(bridge.getIdBridge());
 				
 				req.setAttribute("tituloTela", "Atera&ccedil;&atilde;o Bridge");
 				req.setAttribute("acao", "BridgeBO?acao=4");
@@ -203,6 +232,7 @@ public class BridgeBO extends HttpServlet {
 				req.setAttribute("listSituacao", listSituacao);
 				req.setAttribute("listCondominio", listCondominio);
 				req.setAttribute("bridge", bridge);
+				req.setAttribute("metaPressao", metaPressao);
 				req.getRequestDispatcher("/jsp/bridge/cadaltbridge.jsp").forward(req, res);
 			}
 	        catch (Exception e) {
@@ -215,7 +245,7 @@ public class BridgeBO extends HttpServlet {
 				}
 			}	
         }
-		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("4")) {
+		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("4")) {//ALTERA BRIDGE
 
 			Connection connection = null;
 			HttpSession session = req.getSession(true);
@@ -247,6 +277,14 @@ public class BridgeBO extends HttpServlet {
 				bridge.setDtInsert(null);
 				
 				BridgeDAO bridgeDAO = new BridgeDAO(connection);
+				
+				//VERIFICA SE EXISTE ALGUM BRIDGE ATIVO COM ID DIFERENTE
+				Bridge bridgeAtivo = bridgeDAO.buscarPorDeviceNum(bridge.getDeviceNum(), "A");
+				if(bridge.getSituacao().equals("A") 
+						&& bridge.getIdBridge().longValue() != bridgeAtivo.getIdBridge()) {
+					
+				}
+				
 				bridgeDAO.alterar(bridge);
 
 				BridgeTpAlimDAO bridgeTpAlimDAO = new BridgeTpAlimDAO(connection);
@@ -261,7 +299,64 @@ public class BridgeBO extends HttpServlet {
 				SituacaoDAO situacaoDAO = new SituacaoDAO(connection);
 				List<Situacao> listSituacao = situacaoDAO.listar();
 				
-				bridge = bridgeDAO.buscarPorDeviceNum(req.getParameter("deviceNum").trim().toUpperCase()); 
+				bridge = bridgeDAO.buscarPorId(Long.parseLong(req.getParameter("idBridge")));
+				
+				//CADASTRA META PRESSAO
+				MetaPressaoDAO metaPressaoDAO = new MetaPressaoDAO(connection);
+				MetaPressao metaPressao = null;
+				if(bridgeTp.getIdBridgeTp().longValue() == 2) {
+					
+					Condominio condominio = condominioDAO.buscarPorId(bridge.getIdCondominio());
+					
+					metaPressao = metaPressaoDAO.buscarPorIdBridge(Long.parseLong(req.getParameter("idBridge")));
+					if(metaPressao ==  null) {
+						
+						metaPressao = new MetaPressao();
+						metaPressao.setIdMetaPressao(0l);
+						metaPressao.setIdUser(user.getIdUser());
+						metaPressao.setIdEmpresa(condominio.getIdEmpresa());
+						metaPressao.setIdCondominio(condominio.getIdCondominio());
+						metaPressao.setIdBridge(bridge.getIdBridge());
+						metaPressao.setIdMedidor(null);
+						metaPressao.setMeterPosition(null);
+						metaPressao.setPressaoMinBaixa(Double.parseDouble(req.getParameter("minimoPressaoBaixa").replace(",", ".")));
+						metaPressao.setPressaoMin(Double.parseDouble(req.getParameter("minimoPressaoNormal").replace(",", ".")));
+						metaPressao.setPressaoMax(Double.parseDouble(req.getParameter("maximoPressaoNormal").replace(",", ".")));
+						metaPressao.setPressaoMaxAlta(Double.parseDouble(req.getParameter("maximoPressaoAlta").replace(",", ".")));
+						metaPressao.setDtInsert(null);
+						
+						metaPressaoDAO.inserir(metaPressao);
+					}
+					else {
+						
+						//metaPressao = new MetaPressao();
+						//metaPressao.setIdMetaPressao(0l);
+						metaPressao.setIdUser(user.getIdUser());
+						metaPressao.setIdEmpresa(condominio.getIdEmpresa());
+						metaPressao.setIdCondominio(condominio.getIdCondominio());
+						metaPressao.setIdBridge(bridge.getIdBridge());
+						metaPressao.setIdMedidor(null);
+						metaPressao.setMeterPosition(null);
+						metaPressao.setPressaoMinBaixa(Double.parseDouble(req.getParameter("minimoPressaoBaixa").replace(",", ".")));
+						metaPressao.setPressaoMin(Double.parseDouble(req.getParameter("minimoPressaoNormal").replace(",", ".")));
+						metaPressao.setPressaoMax(Double.parseDouble(req.getParameter("maximoPressaoNormal").replace(",", ".")));
+						metaPressao.setPressaoMaxAlta(Double.parseDouble(req.getParameter("maximoPressaoAlta").replace(",", ".")));
+						metaPressao.setDtInsert(null);
+						
+						metaPressaoDAO.alterar(metaPressao);						
+					}
+					
+					metaPressao = metaPressaoDAO.buscarPorIdBridge(Long.parseLong(req.getParameter("idBridge")));
+				}
+				else {
+					
+					//EXCLUIR META PRESSAO SE MUDAR TIPO BRIDGE
+					metaPressao = metaPressaoDAO.buscarPorIdBridge(Long.parseLong(req.getParameter("idBridge")));
+					if(metaPressao != null) {
+						
+						metaPressaoDAO.excluir(metaPressao.getIdMetaPressao());
+					}					
+				}
 
 				req.setAttribute("aviso", 
 				"<div class='alert alert-success'>" +
@@ -277,6 +372,7 @@ public class BridgeBO extends HttpServlet {
 				req.setAttribute("listSituacao", listSituacao);
 				req.setAttribute("listCondominio", listCondominio);
 				req.setAttribute("bridge", bridge);
+				req.setAttribute("metaPressao", metaPressao);
 				req.getRequestDispatcher("/jsp/bridge/cadaltbridge.jsp").forward(req, res);
 			}
 	        catch (Exception e) {

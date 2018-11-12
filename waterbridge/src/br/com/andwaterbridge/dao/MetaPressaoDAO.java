@@ -8,7 +8,6 @@ import java.sql.SQLException;
 
 import br.com.andwaterbridge.modelo.MetaPressao;
 import br.com.waterbridge.auxiliar.Auxiliar;
-import br.com.waterbridge.connection.ConnectionFactory;
 
 public class MetaPressaoDAO {
     
@@ -35,10 +34,13 @@ public class MetaPressaoDAO {
             "		ID_MEDIDOR, " +
             "		METERPOSITION, " +
             "		PRESSAOMIN, " +
-            "		PRESSAOMAX, " +
+            "		PRESSAOMAX, " +            
+			"		PRESSAOMINBAIXA, " +
+			"		PRESSAOMAXALTA, " +            
             "		DTINSERT " +
             ") VALUES ( " +
-            "       ?,?,?,?,?,?,?,?,SYSDATE() " +
+            "       ?,?,?,?,?,?,?,?,?,?, " +
+            "       SYSDATE() " +
             ")");
             
             //stmt.setObject(1, metaPressao.getIdMetaPressao());
@@ -49,7 +51,9 @@ public class MetaPressaoDAO {
 			stmt.setObject(5, metaPressao.getIdMedidor());
 			stmt.setObject(6, metaPressao.getMeterPosition());
 			stmt.setObject(7, metaPressao.getPressaoMin());
-			stmt.setObject(8, metaPressao.getPressaoMax());
+			stmt.setObject(8, metaPressao.getPressaoMax());			
+			stmt.setObject(9, metaPressao.getPressaoMinBaixa());
+			stmt.setObject(10, metaPressao.getPressaoMaxAlta());
 			//stmt.setObject(1, metaPressao.getDtInsert());
             
             stmt.execute();
@@ -86,6 +90,8 @@ public class MetaPressaoDAO {
             "		METERPOSITION = ?, " +
             "		PRESSAOMIN = ?, " +
             "		PRESSAOMAX = ?, " +
+            "		PRESSAOMINBAIXA = ?, " +
+			"		PRESSAOMAXALTA = ?, " +
             "		DTINSERT = SYSDATE() " +
     		"WHERE  ID_METAPRESSAO = ? ");
             
@@ -97,8 +103,10 @@ public class MetaPressaoDAO {
 			stmt.setObject(6, metaPressao.getMeterPosition());
 			stmt.setObject(7, metaPressao.getPressaoMin());
 			stmt.setObject(8, metaPressao.getPressaoMax());
+			stmt.setObject(9, metaPressao.getPressaoMinBaixa());
+			stmt.setObject(10, metaPressao.getPressaoMaxAlta());
 			//stmt.setObject(1, metaPressao.getDtInsert());
-			stmt.setObject(9, metaPressao.getIdMetaPressao());
+			stmt.setObject(11, metaPressao.getIdMetaPressao());
 
             stmt.execute();
         }
@@ -114,6 +122,35 @@ public class MetaPressaoDAO {
             }
         }
     }    
+    
+    public void excluir(Long idMetaPressao) throws SQLException {
+
+        PreparedStatement stmt = null;
+                
+        try {
+            
+            //LOGA REGISTRO ANTES DE ALTERAR
+            logar(idMetaPressao);
+        
+            stmt = connection.prepareStatement(
+            "DELETE FROM TB_METAPRESSAO WHERE  ID_METAPRESSAO = ? ");
+            
+			stmt.setObject(1, idMetaPressao);
+
+            stmt.execute();
+        }
+        catch(SQLException e) {
+            
+            throw e;
+        }
+        finally {
+            
+            if(stmt != null) {
+                
+                stmt.close();
+            }
+        }
+    }
 
     public void logar(Long idMetaPressao) throws SQLException {
 
@@ -145,7 +182,7 @@ public class MetaPressaoDAO {
         }
     }
     
-    public MetaPressao buscarPorIdMedidor(Long idMedidor) throws SQLException {
+    public MetaPressao buscar(Long idMedidor) throws SQLException {
 
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -163,6 +200,8 @@ public class MetaPressaoDAO {
     		"		METERPOSITION, " +
     		"		PRESSAOMIN, " +
     		"		PRESSAOMAX, " +
+            "		PRESSAOMINBAIXA, " +
+			"		PRESSAOMAXALTA, " +
     		"		DTINSERT " +
         	"FROM   TB_METAPRESSAO " +
         	"WHERE  ID_MEDIDOR = ? "
@@ -184,6 +223,73 @@ public class MetaPressaoDAO {
             	metaPressao.setMeterPosition(rs.getLong("METERPOSITION"));
             	metaPressao.setPressaoMin(rs.getDouble("PRESSAOMIN"));
             	metaPressao.setPressaoMax(rs.getDouble("PRESSAOMAX"));
+            	metaPressao.setPressaoMinBaixa(rs.getDouble("PRESSAOMINBAIXA"));
+            	metaPressao.setPressaoMaxAlta(rs.getDouble("PRESSAOMAXALTA"));
+            	metaPressao.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));
+            }
+            
+            return metaPressao;
+        }
+        catch(SQLException e) {
+            
+            throw e;
+        }
+        finally {
+
+            if(stmt != null) {
+                
+                stmt.close();
+            }
+            if(rs != null) {
+                
+                rs.close();
+            }
+        }
+    } 
+    
+    public MetaPressao buscarPorIdMedidor(Long idMedidor) throws SQLException {
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        MetaPressao metaPressao = null;
+        
+        try {
+            
+            stmt = connection.prepareStatement(
+    		"SELECT ID_METAPRESSAO, " +
+    		"		ID_USER, " +
+    		"       ID_EMPRESA, " +
+    		"       ID_CONDOMINIO, " +	
+    		"		ID_BRIDGE, " +
+    		"		ID_MEDIDOR, " +
+    		"		METERPOSITION, " +
+    		"		PRESSAOMIN, " +
+    		"		PRESSAOMAX, " +
+            "		PRESSAOMINBAIXA, " +
+			"		PRESSAOMAXALTA, " +
+    		"		DTINSERT " +
+        	"FROM   TB_METAPRESSAO " +
+        	"WHERE  ID_MEDIDOR = ? "
+            );
+
+            stmt.setLong(1, idMedidor);
+
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+            	
+            	metaPressao = new MetaPressao();
+            	metaPressao.setIdMetaPressao(rs.getLong("ID_METAPRESSAO"));
+            	metaPressao.setIdUser(rs.getLong("ID_USER"));            	
+            	metaPressao.setIdEmpresa(rs.getLong("ID_EMPRESA"));
+            	metaPressao.setIdCondominio(rs.getLong("ID_CONDOMINIO"));            	
+            	metaPressao.setIdBridge(rs.getLong("ID_BRIDGE"));
+            	metaPressao.setIdMedidor(rs.getLong("ID_MEDIDOR"));
+            	metaPressao.setMeterPosition(rs.getLong("METERPOSITION"));
+            	metaPressao.setPressaoMin(rs.getDouble("PRESSAOMIN"));
+            	metaPressao.setPressaoMax(rs.getDouble("PRESSAOMAX"));
+            	metaPressao.setPressaoMinBaixa(rs.getDouble("PRESSAOMINBAIXA"));
+            	metaPressao.setPressaoMaxAlta(rs.getDouble("PRESSAOMAXALTA"));
             	metaPressao.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));
             }
             
@@ -224,6 +330,8 @@ public class MetaPressaoDAO {
     		"		METERPOSITION, " +
     		"		PRESSAOMIN, " +
     		"		PRESSAOMAX, " +
+            "		PRESSAOMINBAIXA, " +
+			"		PRESSAOMAXALTA, " +    		
     		"		DTINSERT " +
         	"FROM   TB_METAPRESSAO " +
         	"WHERE  ID_BRIDGE = ? "
@@ -245,6 +353,8 @@ public class MetaPressaoDAO {
             	metaPressao.setMeterPosition(rs.getLong("METERPOSITION"));
             	metaPressao.setPressaoMin(rs.getDouble("PRESSAOMIN"));
             	metaPressao.setPressaoMax(rs.getDouble("PRESSAOMAX"));
+            	metaPressao.setPressaoMinBaixa(rs.getDouble("PRESSAOMINBAIXA"));
+            	metaPressao.setPressaoMaxAlta(rs.getDouble("PRESSAOMAXALTA"));
             	metaPressao.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));
             }
             
@@ -266,32 +376,4 @@ public class MetaPressaoDAO {
             }
         }
     }
-    
-    public static void main(String[] args) throws SQLException {
-		
-    	Connection connection = ConnectionFactory.getConnection();
-    	
-    	MetaPressao metaPressao = new MetaPressao();
-    	metaPressao.setIdMetaPressao(1l);;
-    	metaPressao.setIdUser(2L);;
-    	metaPressao.setIdEmpresa(2L);;
-    	metaPressao.setIdCondominio(8L);;
-    	metaPressao.setIdBridge(16L);;
-    	metaPressao.setIdMedidor(10L);;
-    	metaPressao.setMeterPosition(1L);;
-    	metaPressao.setPressaoMin(30.0);;
-    	metaPressao.setPressaoMax(40.0);;
-    	metaPressao.setDtInsert(null);;
-    	
-    	MetaPressaoDAO metaPressaoDAO = new MetaPressaoDAO(connection);
-    	metaPressaoDAO.alterar(metaPressao);
-    	
-    	metaPressao = metaPressaoDAO.buscarPorIdMedidor(10l);
-    	
-    	System.out.println("metapressao " + metaPressao);
-    	
-    	connection.close();
-    	
-    	System.out.println("fim");
-	}
 }

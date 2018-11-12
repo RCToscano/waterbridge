@@ -143,6 +143,7 @@
 											<th>Tipo de Alimentação</th>
 											<th>Custo Mensal</th>
 											<th>Taxa de Envio Diário</th>
+											<th>Situação</th>
 											<th></th>
 										</tr>
 									</thead>
@@ -158,8 +159,9 @@
 												<td><small>${bridge.bridgeTpAlim.tpAlimentacao}</small></td>
 												<td><small><fmt:formatNumber value="${bridge.custoMensal}" type="currency" currencySymbol=""/></small></td>
 												<td><small>${bridge.taxaEnvio}</small></td>
+												<td><small>${bridge.situacao}</small></td>
 												<td>
-													<a href="BridgeBO?acao=3&deviceNum=${bridge.deviceNum}">
+													<a href="BridgeBO?acao=3&idBridge=${bridge.idBridge}">
 														<button type="button" class="btn btn-info btn-sm" title="Clique para visualizar o detalhe do Bridge">
 															<span class="glyphicon glyphicon-search"></span>
 														</button>

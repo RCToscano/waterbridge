@@ -12,6 +12,12 @@ function validarForm() {
 	var taxaEnvio = document.getElementById("taxaEnvio");
 	var idBridgeTp = document.getElementById("idBridgeTp");
 	var idCondominio = document.getElementById("idCondominio");
+	
+	var minimoPressaoBaixa = document.getElementById("minimoPressaoBaixa");
+	var minimoPressaoNormal = document.getElementById("minimoPressaoNormal");
+	var maximoPressaoNormal = document.getElementById("maximoPressaoNormal");
+	var maximoPressaoAlta = document.getElementById("maximoPressaoAlta");
+	
 	var situacao = document.getElementById("situacao");
 	var descricao = document.getElementById("descricao");
     
@@ -23,6 +29,13 @@ function validarForm() {
 	custoMensal.style.removeProperty('border');
 	taxaEnvio.style.removeProperty('border');
 	idBridgeTp.style.removeProperty('border');
+	idCondominio.style.removeProperty('border');
+	
+	minimoPressaoBaixa.style.removeProperty('border');
+	minimoPressaoNormal.style.removeProperty('border');
+	maximoPressaoNormal.style.removeProperty('border');
+	maximoPressaoAlta.style.removeProperty('border');
+	
 	situacao.style.removeProperty('border');
 	descricao.style.removeProperty('border');
 
@@ -89,6 +102,40 @@ function validarForm() {
         situacao.focus();
         return false;
     }
+    
+    else if(idBridgeTp.value == '2'
+    		&& minimoPressaoBaixa.value.trim() == '') {
+
+    	minimoPressaoBaixa.style.borderColor = colorRed;
+    	exibirAviso('Informe todos os limites de pressão');
+    	minimoPressaoBaixa.focus();
+        return false;
+    }
+    else if(idBridgeTp.value == '2'
+			&& minimoPressaoNormal.value.trim() == '') {
+	
+    	minimoPressaoNormal.style.borderColor = colorRed;
+		exibirAviso('Informe todos os limites de pressão');
+		minimoPressaoNormal.focus();
+	    return false;
+	}
+    else if(idBridgeTp.value == '2'
+			&& maximoPressaoNormal.value.trim() == '') {
+	
+    	maximoPressaoNormal.style.borderColor = colorRed;
+		exibirAviso('Informe todos os limites de pressão');
+		maximoPressaoNormal.focus();
+	    return false;
+	}
+    else if(idBridgeTp.value == '2'
+			&& maximoPressaoAlta.value.trim() == '') {
+	
+    	maximoPressaoAlta.style.borderColor = colorRed;
+		exibirAviso('Informe todos os limites de pressão');
+		maximoPressaoAlta.focus();
+	    return false;
+	}
+    
     else if(situacao.value.trim() == '') {
 
     	situacao.style.borderColor = colorRed;
@@ -108,6 +155,23 @@ function validarForm() {
             }         		
         }); 
     }
+}
+
+function exibirDivLimitesPressao() {
+	
+	var idBridgeTp = document.getElementById("idBridgeTp");
+	var divLimitesPressao = document.getElementById("divLimitesPressao");
+	
+	if(idBridgeTp.value == 2) {
+		
+		//divLimitesPressao.style.display = 'block';
+		$("#divLimitesPressao").fadeIn(300);
+	}
+	else {
+		
+		//divLimitesPressao.style.display = 'none';
+		$("#divLimitesPressao").fadeOut(300);
+	}
 }
 
 function exibirAviso(texto) {
