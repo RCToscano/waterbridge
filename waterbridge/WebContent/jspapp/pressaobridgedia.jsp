@@ -37,17 +37,24 @@
 	    <link href="./css/footercustom.css" rel="stylesheet"/>
 	    
 	    <style>
-		  /* Note: Try to remove the following lines to see the effect of CSS positioning */
-		  .affix {
-		      top: 0;
-		      width: 100%;
-		      z-index: 9999 !important;
-		  }
-		
-		  .affix + .container-fluid {
-		      padding-top: 70px;
-		  }
-		  </style>
+			  /* Note: Try to remove the following lines to see the effect of CSS positioning */
+			  .affix {
+			      top: 0;
+			      width: 100%;
+			      z-index: 9999 !important;
+			  }
+			
+			  .affix + .container-fluid {
+			      padding-top: 70px;
+			  }
+	  	</style>
+	  	
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<!-- 		<script src="https://code.highcharts.com/highcharts.js"></script> -->
+		<script src="https://code.highcharts.com/stock/highstock.js"></script>
+		<script src="https://code.highcharts.com/modules/series-label.js"></script>
+		<script src="https://code.highcharts.com/maps/modules/map.js"></script>
+		<script src="https://code.highcharts.com/modules/exporting.js"></script>
     </head>
     <body>
         <div class="container-fluid" style="margin: 2px; padding: 0px;">     
@@ -64,75 +71,207 @@
            				</label>
 			      	</div>
 			      	<div class="panel-body" style="padding: 0px;">
-
-						<div class="col-sm-12" style="margin: 0px; padding: 0px;">				
+			      	
+			      		<table class='table table-hover table-striped' style="margin: 0px;">
+		            		<thead>
+		            			<tr>
+		            				<th style="text-align: left">
+		            			         <form action='AndRelatorioBO?acao=2' method='post' onsubmit="return exibirBlock()">
+						                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
+						                    <input type='hidden' name='idCondominio' value='${condominio.idCondominio}'>
+						                    <input type='hidden' name='idBridge' value='${bridge.idBridge}'>
+						                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
+						                    <input type='hidden' name='data' value='${data}'>
+						                    <input type='hidden' name='sinal' value='-'>
+						                    <input type='hidden' name='data' value='${dtInicio}'>
+						                    <input type='hidden' name='dtFim' value='${dtFim}'>
+									         <button type='submit' class='btn btn-info' title='Clique para visualizar o gráfico'>
+								                 <i class='glyphicon glyphicon-chevron-left'></i>
+								             </button>
+								         </form>
+		            				</th>
+<!-- 		            				<th style="text-align: center"> -->
+<!-- 		            			         <form action='AndRelatorioBO?acao=4' method='post' onsubmit="return exibirBlock()"> -->
+<%-- 						                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'> --%>
+<%-- 						                    <input type='hidden' name='idCondominio' value='${condominio.idCondominio}'> --%>
+<%-- 						                    <input type='hidden' name='idBridge' value='${bridge.idBridge}'> --%>
+<%-- 						                    <input type='hidden' name='idMedidor' value='${idMedidor}'> --%>
+<%-- 						                    <input type='hidden' name='data' value='${data}'> --%>
+<!-- 									         <button type='submit' class='btn btn-warning' title='Clique para visualizar o gráfico'> -->
+<!-- 								                 <i class='fa fa-bar-chart'></i> -->
+<!-- 								             </button> -->
+<!-- 								         </form> -->
+<!-- 		            				</th>			            				 -->
+		            				<th style="text-align: center">
+		            			         <form action='AndRelatorioBO?acao=2' method='post' onsubmit="return exibirBlock()" style="margin: 0px; padding: 0px;">
+					           				<input type='hidden' name='idUser' value='${idUser}'>
+						                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
+						                    <input type='hidden' name='idCondominio' value='${condominio.idCondominio}'>
+						                    <input type='hidden' name='idBridge' value='${bridge.idBridge}'>
+						                    <input type='hidden' name='idMedidor' value='${idMedidor}'>							                    
+									    	<button type='submit' class='btn btn-success' title='Clique para atualizar o gráfico'>
+								            	<i class='glyphicon glyphicon-refresh'></i>
+								            </button>
+								        </form>
+		            				</th>            				
+		            				<th style="text-align: right;">
+		            			         <form action='AndRelatorioBO?acao=2' method='post' onsubmit="return exibirBlock()">
+						                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
+						                    <input type='hidden' name='idCondominio' value='${condominio.idCondominio}'>
+						                    <input type='hidden' name='idBridge' value='${bridge.idBridge}'>
+						                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
+						                    <input type='hidden' name='data' value='${data}'>
+						                    <input type='hidden' name='sinal' value='+'>
+						                    <input type='hidden' name='dtInicio' value='${dtInicio}'>
+						                    <input type='hidden' name='dtFim' value='${dtFim}'>
+									        <button type='submit' class='btn btn-info' title='Clique para visualizar o gráfico'>
+								                <i class='glyphicon glyphicon-chevron-right'></i>
+								            </button>
+								         </form>
+		            				</th>
+		            			</tr>
+		            		</thead>
+		            	</table>
+			      				      	
+			      		<div class="col-sm-12" style="float: none; margin: 0 auto;">
+							<div class="form-group" style="margin: 0px; padding: 0px;">
+								<div class="col-sm-12" style="margin: 0px; padding: 0px;">
+									<div id="graficopressaodiaria" style="margin: 0px; padding: 0px;"></div>						
+									<script>
+										Highcharts.chart('graficopressaodiaria', {
+										    chart: {
+										        type: 'line',
+										        marginLeft: 70
+										    },
+										    title: {
+										    	text: ''
+									    	},
+									    	subtitle: {
+									        	text: 'Gráfico de Pressão ${fn:substring(data, 8, 10)}/${fn:substring(data, 5, 7)}/${fn:substring(data, 0, 4)}'
+									    	},
+// 										    title: {
+// 										    	text: 'Gráfico de Pressão<br/><label>Bridge  ${bridge.deviceNum} </label>'
+// 									    	},
+// 									    	subtitle: {
+// 									        	text: 'Data ${fn:substring(data, 8, 10)}/${fn:substring(data, 5, 7)}/${fn:substring(data, 0, 4)}'
+// 									    	},
+										    xAxis: {
+										        //type: 'category',
+										        categories: [	
+										        	<c:set var="count" value="0" scope="page" />
+										        	<c:forEach var="relPressao" items='${listRelPressao}'>
+										        	    <c:if test="${relPressao.alarmDesc != null && relPressao.alarm != 1}">
+											        	    '${relPressao.horaInsert}'
+										   			   		<c:if test="${(count + 1) < fn:length(listRelPressao)}">
+																,
+															</c:if>
+										        	    </c:if>
+									   			   		<c:set var="count" value="${count + 1}" scope="page"/>
+										        	</c:forEach>
+										        ],							        
+										        title: {
+										            text: null
+										        },
+										        min: 0,
+										        max: 20,
+										        scrollbar: {
+										            enabled: true
+										        },
+										        tickLength: 0
+										    },
+										    yAxis: {
+										        min: 0,
+										        title: {
+										        	text: 'MCA'
+										        }							        
+										        <c:if test="${metaPressao != null}">
+										        	,
+											      	//minorGridLineWidth: 0,
+											        //gridLineWidth: 0,
+											        //alternateGridColor: null,
+											        plotBands: [{ // limite pressao baixa
+											            from: ${metaPressao.pressaoMinBaixa},
+											            to: ${metaPressao.pressaoMin},
+											            color: 'rgba(255, 153, 153, 0.1)',
+											            label: {
+											                text: ' ',
+											                style: {
+											                    color: '#606060'
+											                }
+											            }
+											        },
+											        { // limite pressao normal
+											            from: ${metaPressao.pressaoMin},
+											            to: ${metaPressao.pressaoMax},
+											            color: 'rgba(68, 170, 213, 0.1)',
+											            label: {
+											                text: ' ',
+											                style: {
+											                    color: '#606060'
+											                }
+											            }
+											        },
+											        { //limite maximo pressao alta
+											            from: ${metaPressao.pressaoMax},
+											            to: ${metaPressao.pressaoMaxAlta},
+											            color: 'rgba(255, 153, 153, 0.1)',
+											            label: {
+											                text: ' ',
+											                style: {
+											                    color: '#606060'
+											                }
+											            }
+											        }]							        
+										        </c:if>								        
+										    },
+										    tooltip: {
+										        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+										        pointFormat: '<tr><td style="color:{series.color};padding:0"></td>' + '<td style="padding:0"><b>{point.y:.3f}</b></td></tr>',
+										        footerFormat: '</table>',
+										        shared: true,
+										        useHTML: true
+										    },
+										    plotOptions: {
+										        column: {
+										            pointPadding: 0.3,
+										            borderWidth: 0
+										        }
+										    },
+										    legend: {
+										        enabled: false
+										    },
+										    credits: {
+										        enabled: false
+										    },							    
+										    series: [{
+										    	name: '${bridge.deviceNum}',
+										        data: [
+										        	<c:set var="count" value="0" scope="page" />
+										        	<c:forEach var="relPressao" items='${listRelPressao}'>
+										        		<c:if test="${relPressao.alarmDesc != null && relPressao.alarm != 1}">
+											        		${relPressao.pressure}
+										   			   		<c:if test="${(count + 1) < fn:length(listRelPressao)}">
+																,	
+															</c:if>
+										        		</c:if>
+									   			   		<c:set var="count" value="${count + 1}" scope="page"/>
+										        	</c:forEach>
+										        ]
+										    }] 
+										});
+									</script>	
+								</div>
+							</div>				
+						</div>
+			    
+						<div class="col-sm-12" style="margin-top: 20px; margin-left: 0px; margin-right: 0px; padding: 0px;">				
 							<c:set var = "cont" value = "1"/>
 							<c:set var = "consumo" value = "0"/>
 							<c:set var = "colspan" value = "7"/>
-							<c:set var = "bgColor" value = ""/>					
-							<table class='table table-hover table-striped' style="margin: 0px;">
-			            		<thead>
-			            			<tr>
-			            				<th style="text-align: left">
-			            			         <form action='AndRelatorioBO?acao=2' method='post' onsubmit="return exibirBlock()">
-							                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
-							                    <input type='hidden' name='idCondominio' value='${condominio.idCondominio}'>
-							                    <input type='hidden' name='idBridge' value='${bridge.idBridge}'>
-							                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
-							                    <input type='hidden' name='data' value='${data}'>
-							                    <input type='hidden' name='sinal' value='-'>
-							                    <input type='hidden' name='data' value='${dtInicio}'>
-							                    <input type='hidden' name='dtFim' value='${dtFim}'>
-										         <button type='submit' class='btn btn-info' title='Clique para visualizar o gráfico'>
-									                 <i class='glyphicon glyphicon-chevron-left'></i>
-									             </button>
-									         </form>
-			            				</th>
-			            				<th style="text-align: center">
-			            			         <form action='AndRelatorioBO?acao=4' method='post' onsubmit="return exibirBlock()">
-							                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
-							                    <input type='hidden' name='idCondominio' value='${condominio.idCondominio}'>
-							                    <input type='hidden' name='idBridge' value='${bridge.idBridge}'>
-							                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
-							                    <input type='hidden' name='data' value='${data}'>
-										         <button type='submit' class='btn btn-warning' title='Clique para visualizar o gráfico'>
-									                 <i class='fa fa-bar-chart'></i>
-									             </button>
-									         </form>
-			            				</th>			            				
-			            				<th style="text-align: center">
-			            			         <form action='AndRelatorioBO?acao=2' method='post' onsubmit="return exibirBlock()" style="margin: 0px; padding: 0px;">
-						           				<input type='hidden' name='idUser' value='${idUser}'>
-							                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
-							                    <input type='hidden' name='idCondominio' value='${condominio.idCondominio}'>
-							                    <input type='hidden' name='idBridge' value='${bridge.idBridge}'>
-							                    <input type='hidden' name='idMedidor' value='${idMedidor}'>							                    
-										    	<button type='submit' class='btn btn-success' title='Clique para visualizar o gráfico'>
-									            	<i class='glyphicon glyphicon-refresh'></i>
-									            </button>
-									        </form>
-			            				</th>            				
-			            				<th style="text-align: right;">
-			            			         <form action='AndRelatorioBO?acao=2' method='post' onsubmit="return exibirBlock()">
-							                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
-							                    <input type='hidden' name='idCondominio' value='${condominio.idCondominio}'>
-							                    <input type='hidden' name='idBridge' value='${bridge.idBridge}'>
-							                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
-							                    <input type='hidden' name='data' value='${data}'>
-							                    <input type='hidden' name='sinal' value='+'>
-							                    <input type='hidden' name='dtInicio' value='${dtInicio}'>
-							                    <input type='hidden' name='dtFim' value='${dtFim}'>
-										        <button type='submit' class='btn btn-info' title='Clique para visualizar o gráfico'>
-									                <i class='glyphicon glyphicon-chevron-right'></i>
-									            </button>
-									         </form>
-			            				</th>
-			            			</tr>
-			            		</thead>
-			            	</table>	
-			            	<div class="container-fluid text-center" style="margin": 0px; padding: 0px;">
-			            		<label>${fn:substring(data, 8, 10)}/${fn:substring(data, 5, 7)}/${fn:substring(data, 0, 4)}</label>
-			            	</div>
+							<c:set var = "bgColor" value = ""/>													
+<!-- 			            	<div class="container-fluid text-center" style="margin": 0px; padding: 0px;"> -->
+<%-- 			            		<label>${fn:substring(data, 8, 10)}/${fn:substring(data, 5, 7)}/${fn:substring(data, 0, 4)}</label> --%>
+<!-- 			            	</div> -->
 			            	<fmt:setLocale value = "pt-BR"/>
 			            	<c:choose>
 			                  	<c:when test="${fn:length(listRelPressao) > 0}">
@@ -196,18 +335,18 @@
 												             </button>
 												         </form>
 						            				</th>
-						            				<th style="text-align: center">
-						            			         <form action='AndRelatorioBO?acao=4' method='post' onsubmit="return exibirBlock()">
-										                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'>
-										                    <input type='hidden' name='idCondominio' value='${condominio.idCondominio}'>
-										                    <input type='hidden' name='idBridge' value='${bridge.idBridge}'>
-										                    <input type='hidden' name='idMedidor' value='${idMedidor}'>
-										                    <input type='hidden' name='data' value='${data}'>
-													         <button type='submit' class='btn btn-warning' title='Clique para visualizar o gráfico'>
-												                 <i class='fa fa-bar-chart'></i>
-												             </button>
-												         </form>
-						            				</th>			            				
+<!-- 						            				<th style="text-align: center"> -->
+<!-- 						            			         <form action='AndRelatorioBO?acao=4' method='post' onsubmit="return exibirBlock()"> -->
+<%-- 										                    <input type='hidden' name='idEmpresa' value='${idEmpresa}'> --%>
+<%-- 										                    <input type='hidden' name='idCondominio' value='${condominio.idCondominio}'> --%>
+<%-- 										                    <input type='hidden' name='idBridge' value='${bridge.idBridge}'> --%>
+<%-- 										                    <input type='hidden' name='idMedidor' value='${idMedidor}'> --%>
+<%-- 										                    <input type='hidden' name='data' value='${data}'> --%>
+<!-- 													         <button type='submit' class='btn btn-warning' title='Clique para visualizar o gráfico'> -->
+<!-- 												                 <i class='fa fa-bar-chart'></i> -->
+<!-- 												             </button> -->
+<!-- 												         </form> -->
+<!-- 						            				</th>			            				 -->
 						            				<th style="text-align: center">
 						            			         <form action='AndRelatorioBO?acao=2' method='post' onsubmit="return exibirBlock()" style="margin: 0px; padding: 0px;">
 									           				<input type='hidden' name='idUser' value='${idUser}'>
@@ -215,7 +354,7 @@
 										                    <input type='hidden' name='idCondominio' value='${condominio.idCondominio}'>
 										                    <input type='hidden' name='idBridge' value='${bridge.idBridge}'>
 										                    <input type='hidden' name='idMedidor' value='${idMedidor}'>							                    
-													    	<button type='submit' class='btn btn-success' title='Clique para visualizar o gráfico'>
+													    	<button type='submit' class='btn btn-success' title='Clique para atualizar o gráfico'>
 												            	<i class='glyphicon glyphicon-refresh'></i>
 												            </button>
 												        </form>

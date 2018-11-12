@@ -134,6 +134,7 @@
 					</div>
 				</div>				
 			</div>
+			
 		</div>
 		<footer class="footer" style="background-color: #fff">
             <div class="container-fluid text-center" style="background-color: #fff; padding: 10px">
