@@ -200,7 +200,9 @@ function listarConsumoMedidor() {
 	        	var consumo = 0;
 	            var relPressao = result;
 	            if(relPressao != null && relPressao.listRelPressao.length > 0) {
+	            	
 	            	document.getElementById("divAviso").style.display = "none";
+	            	
 	            	texto +=
 	            	"<table class='table table-hover table-striped'>" +
 	            	"	<thead>" +
@@ -353,8 +355,7 @@ function listarConsumoMedidor() {
 					        }())  
 					    }]  
 					});
-		            
-		            
+
 		            setTimeout(listarConsumoMedidor, 600000);
 	            }
 	            else {

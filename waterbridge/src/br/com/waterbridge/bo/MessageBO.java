@@ -140,6 +140,37 @@ public class MessageBO extends HttpServlet {
 			
 			consumoDAO.inserir(consumo);
 			
+			//INICIO
+			//INSERT TEMPORARIO PEDIDO FELIPE 18/11/2018
+			//REPLICANDO DADOS DOS BRIDGES
+			//405619 > 248A12
+			//405613 > 369B13			
+			if(message.getDevice().equals("405619") || message.getDevice().equals("405613")) {				
+				Consumo consumo1 = new Consumo();
+				consumo1.setIdConsumo(0l);
+				consumo1.setIdUser(4l);
+				consumo1.setIdMedidor(medidorDAO.buscarIdMedidor(message.getDevice(), message.getMeterPosition().intValue()));
+				if(message.getDevice().equals("405619")) {
+					consumo1.setDevice("248A12");
+				}
+				else {
+					consumo1.setDevice("369B13");
+				}				
+				consumo1.setData(message.getData());
+				consumo1.setVersion(message.getVersion());
+				consumo1.setMeterPosition(message.getMeterPosition());
+				consumo1.setVolume(message.getVolume());
+				consumo1.setPressure(message.getPressure());
+				consumo1.setFlow(message.getFlow());
+				consumo1.setTemperature(message.getTemperature());
+				consumo1.setBattery(message.getBattery());
+				consumo1.setAlarm(message.getAlarm());			
+				consumo1.setDtInsert(consumoDAO.dataHoraMinSeg());
+				
+				consumoDAO.inserir(consumo1);
+			}
+			//FIM
+			
 			//VERIFICA ALARM PRESSAO
 		    BridgeDAO bridgeDAO = new BridgeDAO(connection);
 		    Bridge bridge = bridgeDAO.buscarPorDeviceNum(message.getDevice());
@@ -168,6 +199,45 @@ public class MessageBO extends HttpServlet {
 		    				
 		    				AlarmPressaoDAO alarmPressaoDAO = new AlarmPressaoDAO(connection);
 		    				alarmPressaoDAO.inserir(alarmPressao);
+		    				
+		    				//INICIO
+		    				//INSERT TEMPORARIO PEDIDO FELIPE 18/11/2018
+		    				//REPLICANDO DADOS DOS BRIDGES
+		    				//405619 > 248A12
+		    				//405613 > 369B13			
+		    				if(message.getDevice().equals("405619")) {
+		    				
+		    					AlarmPressao alarmPressao1 = new AlarmPressao();
+			    				alarmPressao1.setIdAlarmPressao(0l);
+			    				alarmPressao1.setIdEmpresa(2L);
+			    				alarmPressao1.setIdCondominio(13L);
+			    				alarmPressao1.setIdBridge(24L);
+			    				alarmPressao1.setIdMedidor(null);
+			    				alarmPressao1.setMeterPosition(0l);
+			    				alarmPressao1.setPressaoMin(metaPressao.getPressaoMin());
+			    				alarmPressao1.setPressaoMax(metaPressao.getPressaoMax());
+			    				alarmPressao1.setPressaoReal(consumo.getPressure());
+			    				alarmPressao1.setDtInsert(null);
+			    				
+			    				alarmPressaoDAO.inserir(alarmPressao1);
+		    				}
+		    				else if(message.getDevice().equals("405613")) {
+		    					
+		    					AlarmPressao alarmPressao1 = new AlarmPressao();
+			    				alarmPressao1.setIdAlarmPressao(0l);
+			    				alarmPressao1.setIdEmpresa(2L);
+			    				alarmPressao1.setIdCondominio(14L);
+			    				alarmPressao1.setIdBridge(25L);
+			    				alarmPressao1.setIdMedidor(null);
+			    				alarmPressao1.setMeterPosition(0l);
+			    				alarmPressao1.setPressaoMin(metaPressao.getPressaoMin());
+			    				alarmPressao1.setPressaoMax(metaPressao.getPressaoMax());
+			    				alarmPressao1.setPressaoReal(consumo.getPressure());
+			    				alarmPressao1.setDtInsert(null);
+			    				
+			    				alarmPressaoDAO.inserir(alarmPressao1);
+		    				}
+		    				//FIM
 		    			}
 		    		}
 		    	}
