@@ -34,8 +34,9 @@
 	    
 	    <link href="./css/menucustomcolor.css" rel="stylesheet"/>
 	    <link href="./css/footercustom.css" rel="stylesheet"/>
-	    
-	    <script src="https://code.highcharts.com/highcharts.js"></script>
+		
+		<script src="https://code.highcharts.com/stock/highstock.js"></script>
+		<script src="https://code.highcharts.com/modules/series-label.js"></script>
 		<script src="https://code.highcharts.com/maps/modules/map.js"></script>
 		<script src="https://code.highcharts.com/modules/exporting.js"></script>
 	    

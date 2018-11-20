@@ -120,6 +120,9 @@ function listarConsumoMedidor() {
 	var divGrafico = document.getElementById('graficopressaodiaria');
 
 	divAviso.innerHTML = '';
+	divTable.innerHTML = '';
+	divGrafico.innerHTML = '';
+	
 	idEmpresa.style.removeProperty('border');
 	idCondominio.style.removeProperty('border');
 	idBridge.style.removeProperty('border');
@@ -172,7 +175,6 @@ function listarConsumoMedidor() {
     		return false;
     	}
     	
-    	
 	    $.blockUI({ 
 	    	message: '<img src="./images/busy.gif" />',
 	    	css: { 
@@ -196,14 +198,13 @@ function listarConsumoMedidor() {
 	        success: function(result) {
 	        	
 	        	var texto = '';
-	        	var texto2 = '';
 	        	var consumo = 0;
 	            var relPressao = result;
 	            if(relPressao != null && relPressao.listRelPressao.length > 0) {
 	            	
 	            	document.getElementById("divAviso").style.display = "none";
 	            	
-	            	texto +=
+	            	texto +=	            	
 	            	"<table class='table table-hover table-striped'>" +
 	            	"	<thead>" +
 	            	"		<tr>" +
@@ -248,17 +249,46 @@ function listarConsumoMedidor() {
 		            "	<tbody id='myTable'>" ;
             		for(i = 0; i < relPressao.listRelPressao.length; i++) {
 	                	
-	                	var relatPressao = relPressao.listRelPressao[i];	                		                
+	                	var relatPressao = relPressao.listRelPressao[i];
+	                	
+	                	var bgTd = '';
+	                	var alarmPressao = '';
+	                	if(relPressao.metaPressao != null && relPressao.metaPressao.pressaoMinBaixa > relatPressao.pressure) {
+	                		bgTd = "bgcolor='#f2dede'";
+	                		alarmPressao = 'Pressão Baixa (Nível Crítico)';
+	                	}
+	                	else if(relPressao.metaPressao != null && relPressao.metaPressao.pressaoMin > relatPressao.pressure) {
+	                		bgTd = "bgcolor='#f2dede'";
+	                		alarmPressao = 'Pressão Baixa';
+	                	}
+	                	else if(relPressao.metaPressao != null && relPressao.metaPressao.pressaoMaxAlta < relatPressao.pressure) {
+	                		bgTd = "bgcolor='#f2dede'";
+	                		alarmPressao = 'Pressão Alta (Nível Crítico)';
+	                	}
+	                	else if(relPressao.metaPressao != null && relPressao.metaPressao.pressaoMax < relatPressao.pressure) {
+	                		bgTd = "bgcolor='#f2dede'";
+	                		alarmPressao = 'Pressão Alta';
+	                	}
+	                	
+	                	var alarmPadrao = '';
+	                	if(relatPressao.alarmDesc != null && relatPressao.alarmDesc != 'NO ALARM') {
+	                		bgTd = "bgcolor='#f2dede'";
+	                		alarmPadrao = relatPressao.alarmDesc;
+	                	}
+	                	else if(alarmPressao == '') {
+	                		alarmPadrao = 'Sem Alarme';
+	                	}
+	                	
 	                	texto +=
     		            "		<tr>" +
-    		            "			<td><small>" + (i + 1) + "</small></td>" +
-    		            "			<td><small>" + relatPressao.dtInsert + "</small></td>" +
-    		            "			<td><small>" + relatPressao.horaInsert + "</small></td>" +
-    		            "			<td><small>" + formatarTresDecimais(relatPressao.pressure) + "</small></td>" +
-    		            "			<td><small>" + relatPressao.alarmDesc + "</small></td>" +
-    		            "			<td><small>" + substituirPonto(relatPressao.battery) + "</small></td>" +
-    		            "			<td><small>" + relatPressao.temperature + "</small></td>" +
-    		            "		    <td align='right'></td>" +
+    		            "			<td " + bgTd + "><small>" + (i + 1) + "</small></td>" +
+    		            "			<td " + bgTd + "><small>" + relatPressao.dtInsert + "</small></td>" +
+    		            "			<td " + bgTd + "><small>" + relatPressao.horaInsert + "</small></td>" +
+    		            "			<td " + bgTd + "><small>" + formatarTresDecimais(relatPressao.pressure) + "</small></td>" +
+    		            "			<td " + bgTd + "><small>" + alarmPadrao + " " + alarmPressao + "</small></td>" +
+    		            "			<td " + bgTd + "><small>" + substituirPonto(relatPressao.battery) + "</small></td>" +
+    		            "			<td " + bgTd + "><small>" + relatPressao.temperature + "</small></td>" +
+    		            "		    <td align='right' " + bgTd + "></td>" +
     		            "		</tr>" ;
 	                }
 		            texto +=
@@ -324,7 +354,44 @@ function listarConsumoMedidor() {
 					    	min: 0,  
 					        title: {  
 					            text: 'MCA'  
-					        }  
+					        }  							    
+					       	,
+					      	//minorGridLineWidth: 0,
+					        //gridLineWidth: 0,
+					        //alternateGridColor: null,
+					        plotBands: [{ // limite pressao baixa
+					            from: relPressao.metaPressao.pressaoMinBaixa,
+					            to: relPressao.metaPressao.pressaoMin,
+					            color: 'rgba(255, 153, 153, 0.1)',
+					            label: {
+					                text: ' ',
+					                style: {
+					                    color: '#606060'
+					                }
+					            }
+					        },
+					        { // limite pressao normal
+					            from: relPressao.metaPressao.pressaoMin,
+					            to: relPressao.metaPressao.pressaoMax,
+					            color: 'rgba(68, 170, 213, 0.1)',
+					            label: {
+					                text: ' ',
+					                style: {
+					                    color: '#606060'
+					                }
+					            }
+					        },
+					        { //limite maximo pressao alta
+					            from: relPressao.metaPressao.pressaoMax,
+					            to: relPressao.metaPressao.pressaoMaxAlta,
+					            color: 'rgba(255, 153, 153, 0.1)',
+					            label: {
+					                text: ' ',
+					                style: {
+					                    color: '#606060'
+					                }
+					            }
+					        }]
 					    },  
 					    tooltip: {  
 					    	headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
@@ -359,9 +426,7 @@ function listarConsumoMedidor() {
 		            setTimeout(listarConsumoMedidor, 600000);
 	            }
 	            else {
-	                document.getElementById("divAviso").style.display = "block";
-	                document.getElementById("divAviso").innerHTML = 
-	                	"<strong><label id='aviso' name='aviso'/>Nenhum Resultado Encontrado!</strong>";
+	                texto = "<div class='col-sm-12 text-center'><label class='text-danger'>NENHUM RESULTADO ENCONTRADO</label></div>";
 	            }
 	            divTable.innerHTML = texto;
 	            $.unblockUI();

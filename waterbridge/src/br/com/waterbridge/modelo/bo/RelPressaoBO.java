@@ -2,6 +2,7 @@ package br.com.waterbridge.modelo.bo;
 
 import java.util.List;
 
+import br.com.andwaterbridge.modelo.MetaPressao;
 import br.com.waterbridge.relmodelo.RelPressao;
 
 public class RelPressaoBO {
@@ -18,7 +19,7 @@ public class RelPressaoBO {
 	
 	List<Double> listPressao;
 	
-	
+	MetaPressao metaPressao;
 
 	public String getBridge() {
 		return bridge;
@@ -66,6 +67,14 @@ public class RelPressaoBO {
 
 	public void setListPressao(List<Double> listPressao) {
 		this.listPressao = listPressao;
+	}
+
+	public MetaPressao getMetaPressao() {
+		return metaPressao;
+	}
+
+	public void setMetaPressao(MetaPressao metaPressao) {
+		this.metaPressao = metaPressao;
 	}
 
 }

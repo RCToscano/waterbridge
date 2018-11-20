@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import br.com.andwaterbridge.dao.MetaPressaoDAO;
+import br.com.andwaterbridge.modelo.MetaPressao;
 import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.auxiliar.ColunasExcel;
 import br.com.waterbridge.auxiliar.Constantes;
@@ -136,8 +138,6 @@ public class RelatorioPressaoBO extends HttpServlet {
 					RelPressaoDAO relPressaoDAODAO = new RelPressaoDAO(connection);
 					List<RelPressao> listRelPressao = relPressaoDAODAO.listar(sql);
 					
-					
-					
 					String bridge = "";
 					List<String> listData = new ArrayList<String>();
 					List<Double> listPressao = new ArrayList<Double>();
@@ -161,7 +161,9 @@ public class RelatorioPressaoBO extends HttpServlet {
 					pressao.setListPressao(listPressao);
 					pressao.setListRelPressao(listRelPressao);
 					
-					req.setAttribute("bridge", "TESTE BRIDGE");
+					MetaPressaoDAO metaPressaoDAO = new MetaPressaoDAO(connection);
+					MetaPressao metaPressao = metaPressaoDAO.buscarPorIdBridge(Long.parseLong(req.getParameter("idBridge")));				
+					pressao.setMetaPressao(metaPressao);
 					
 					String json = new Gson().toJson(pressao);
 					
