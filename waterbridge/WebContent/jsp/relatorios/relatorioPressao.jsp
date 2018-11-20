@@ -41,6 +41,12 @@
 		<script src="https://code.highcharts.com/modules/exporting.js"></script>
 	    
 	    <script src='./js/validator.min.js'></script>
+
+		<script>
+			$(document).ready(function(){
+			    $('[data-toggle="popover"]').popover({html: true});   
+			});
+		</script>
 	    
     </head>
     <body onload="autoRefresh(6000);">

@@ -201,9 +201,13 @@ function listarConsumoMedidor() {
 	        	var consumo = 0;
 	            var relPressao = result;
 	            if(relPressao != null && relPressao.listRelPressao.length > 0) {
-	            	
-	            	document.getElementById("divAviso").style.display = "none";
-	            	
+	            		            	
+	            	var tootipAlarm = 
+	                "data-toggle='popover' title='Limites Pressão' data-trigger='hover' " +
+	                "data-content='Baixa: " + formatarTresDecimais(relPressao.metaPressao.pressaoMinBaixa) + "<br>" +
+	                "Normal: " + formatarTresDecimais(relPressao.metaPressao.pressaoMin) + " ~ " + formatarTresDecimais(relPressao.metaPressao.pressaoMax) + "<br>" +
+	                "Alta: " + formatarTresDecimais(relPressao.metaPressao.pressaoMaxAlta) + "'";
+	            		
 	            	texto +=	            	
 	            	"<table class='table table-hover table-striped'>" +
 	            	"	<thead>" +
@@ -231,7 +235,7 @@ function listarConsumoMedidor() {
 					"		                 <i class='fa fa-file-excel'></i>" +
 					"		             </button>" +
 					"		         </form>" +
-	            	"			</th>" +
+	            	"			</th>" +        	
 	            	"		</tr>" +
 	            	"	</thead>" +
 		            "	<thead>" +
@@ -284,7 +288,7 @@ function listarConsumoMedidor() {
     		            "			<td " + bgTd + "><small>" + (i + 1) + "</small></td>" +
     		            "			<td " + bgTd + "><small>" + relatPressao.dtInsert + "</small></td>" +
     		            "			<td " + bgTd + "><small>" + relatPressao.horaInsert + "</small></td>" +
-    		            "			<td " + bgTd + "><small>" + formatarTresDecimais(relatPressao.pressure) + "</small></td>" +
+    		            "			<td " + bgTd + "><small " + tootipAlarm + ">" + formatarTresDecimais(relatPressao.pressure) + "</small></td>" +
     		            "			<td " + bgTd + "><small>" + alarmPadrao + " " + alarmPressao + "</small></td>" +
     		            "			<td " + bgTd + "><small>" + substituirPonto(relatPressao.battery) + "</small></td>" +
     		            "			<td " + bgTd + "><small>" + relatPressao.temperature + "</small></td>" +
@@ -426,9 +430,12 @@ function listarConsumoMedidor() {
 		            setTimeout(listarConsumoMedidor, 600000);
 	            }
 	            else {
-	                texto = "<div class='col-sm-12 text-center'><label class='text-danger'>NENHUM RESULTADO ENCONTRADO</label></div>";
+	            	divAviso.innerHTML ="<div class='alert alert-danger'>" +
+	 				"  <strong><label id='aviso' name='aviso'/>Nenhum resultado encontrado!</strong>" +
+	 				"</div>";
 	            }
 	            divTable.innerHTML = texto;
+	            $('[data-toggle="popover"]').popover({html: true}); 
 	            $.unblockUI();
 	        },
 	        error : function(){
