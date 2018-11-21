@@ -195,6 +195,8 @@ public class MessageBO extends HttpServlet {
 		    				alarmPressao.setPressaoMin(metaPressao.getPressaoMin());
 		    				alarmPressao.setPressaoMax(metaPressao.getPressaoMax());
 		    				alarmPressao.setPressaoReal(consumo.getPressure());
+		    				alarmPressao.setPressaoMinBaixa(metaPressao.getPressaoMinBaixa());
+		    				alarmPressao.setPressaoMaxAlta(metaPressao.getPressaoMaxAlta());
 		    				alarmPressao.setDtInsert(null);
 		    				
 		    				AlarmPressaoDAO alarmPressaoDAO = new AlarmPressaoDAO(connection);
@@ -217,6 +219,8 @@ public class MessageBO extends HttpServlet {
 			    				alarmPressao1.setPressaoMin(metaPressao.getPressaoMin());
 			    				alarmPressao1.setPressaoMax(metaPressao.getPressaoMax());
 			    				alarmPressao1.setPressaoReal(consumo.getPressure());
+			    				alarmPressao.setPressaoMinBaixa(metaPressao.getPressaoMinBaixa());
+			    				alarmPressao.setPressaoMaxAlta(metaPressao.getPressaoMaxAlta());
 			    				alarmPressao1.setDtInsert(null);
 			    				
 			    				alarmPressaoDAO.inserir(alarmPressao1);
@@ -233,6 +237,8 @@ public class MessageBO extends HttpServlet {
 			    				alarmPressao1.setPressaoMin(metaPressao.getPressaoMin());
 			    				alarmPressao1.setPressaoMax(metaPressao.getPressaoMax());
 			    				alarmPressao1.setPressaoReal(consumo.getPressure());
+			    				alarmPressao.setPressaoMinBaixa(metaPressao.getPressaoMinBaixa());
+			    				alarmPressao.setPressaoMaxAlta(metaPressao.getPressaoMaxAlta());
 			    				alarmPressao1.setDtInsert(null);
 			    				
 			    				alarmPressaoDAO.inserir(alarmPressao1);

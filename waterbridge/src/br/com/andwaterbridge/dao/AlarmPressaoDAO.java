@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.andwaterbridge.modelo.AlarmPressao;
-import br.com.waterbridge.connection.ConnectionFactory;
 
 public class AlarmPressaoDAO {
     
@@ -37,9 +36,12 @@ public class AlarmPressaoDAO {
             "		PRESSAOMIN, " +
             "		PRESSAOMAX, " +
             "		PRESSAOREAL, " +
+            "		PRESSAOMINBAIXA, " +
+            "		PRESSAOMAXALTA, " +
             "		DTINSERT " +
             ") VALUES ( " +
-            "       ?,?,?,?,?,?,?,?,SYSDATE() " +
+            "       ?,?,?,?,?,?,?,?,?,?, " +
+            "       SYSDATE() " +
             ")");
             
             //stmt.setObject(1, alarmPressao.getIdAlarmPressao());
@@ -51,6 +53,8 @@ public class AlarmPressaoDAO {
             stmt.setObject(6, alarmPressao.getPressaoMin());
             stmt.setObject(7, alarmPressao.getPressaoMax());
             stmt.setObject(8, alarmPressao.getPressaoReal());
+            stmt.setObject(9, alarmPressao.getPressaoMinBaixa());
+    		stmt.setObject(10, alarmPressao.getPressaoMaxAlta());
             //stmt.setObject(9, alarmPressao.getDtInsert());
             
             stmt.execute();
@@ -86,6 +90,8 @@ public class AlarmPressaoDAO {
 	        "          TB_ALARMPRESSAO.PRESSAOMIN, " +
 	        "          TB_ALARMPRESSAO.PRESSAOMAX, " +
 	        "          TB_ALARMPRESSAO.PRESSAOREAL, " +
+	        "		   TB_ALARMPRESSAO.PRESSAOMINBAIXA, " +
+            "		   TB_ALARMPRESSAO.PRESSAOMAXALTA, " +
 	        "          TB_ALARMPRESSAO.DTINSERT, " +
 	        "          TB_ALARMPRESSAOAPP.* " +
 	        "FROM      TB_ALARMPRESSAO " +
@@ -112,6 +118,8 @@ public class AlarmPressaoDAO {
             	alarmPressao.setPressaoMin(rs.getDouble("PRESSAOMIN"));
             	alarmPressao.setPressaoMax(rs.getDouble("PRESSAOMAX"));
             	alarmPressao.setPressaoReal(rs.getDouble("PRESSAOREAL"));
+            	alarmPressao.setPressaoMinBaixa(rs.getDouble("PRESSAOMINBAIXA"));
+            	alarmPressao.setPressaoMaxAlta(rs.getDouble("PRESSAOMAXALTA"));
             	alarmPressao.setDtInsert(rs.getString("DTINSERT"));
             	
             	listAlarmPressao.add(alarmPressao);
@@ -154,6 +162,8 @@ public class AlarmPressaoDAO {
 	        "          TB_ALARMPRESSAO.PRESSAOMIN, " +
 	        "          TB_ALARMPRESSAO.PRESSAOMAX, " +
 	        "          TB_ALARMPRESSAO.PRESSAOREAL, " +
+	        "		   TB_ALARMPRESSAO.PRESSAOMINBAIXA, " +
+            "		   TB_ALARMPRESSAO.PRESSAOMAXALTA, " +
 	        "          TB_ALARMPRESSAO.DTINSERT, " +
 	        "          TB_ALARMPRESSAOAPP.* " +
 	        "FROM      TB_ALARMPRESSAO " +
@@ -180,6 +190,8 @@ public class AlarmPressaoDAO {
             	alarmPressao.setPressaoMin(rs.getDouble("PRESSAOMIN"));
             	alarmPressao.setPressaoMax(rs.getDouble("PRESSAOMAX"));
             	alarmPressao.setPressaoReal(rs.getDouble("PRESSAOREAL"));
+            	alarmPressao.setPressaoMinBaixa(rs.getDouble("PRESSAOMINBAIXA"));
+            	alarmPressao.setPressaoMaxAlta(rs.getDouble("PRESSAOMAXALTA"));
             	alarmPressao.setDtInsert(rs.getString("DTINSERT"));
             	
             	listAlarmPressao.add(alarmPressao);
@@ -222,6 +234,8 @@ public class AlarmPressaoDAO {
 	        "          TB_ALARMPRESSAO.PRESSAOMIN, " +
 	        "          TB_ALARMPRESSAO.PRESSAOMAX, " +
 	        "          TB_ALARMPRESSAO.PRESSAOREAL, " +
+	        "		   TB_ALARMPRESSAO.PRESSAOMINBAIXA, " +
+            "		   TB_ALARMPRESSAO.PRESSAOMAXALTA, " +
 	        "          TB_ALARMPRESSAO.DTINSERT, " +
 	        "          TB_ALARMPRESSAOAPP.* " +
 	        "FROM      TB_ALARMPRESSAO " +
@@ -251,6 +265,8 @@ public class AlarmPressaoDAO {
             	alarmPressao.setPressaoMin(rs.getDouble("PRESSAOMIN"));
             	alarmPressao.setPressaoMax(rs.getDouble("PRESSAOMAX"));
             	alarmPressao.setPressaoReal(rs.getDouble("PRESSAOREAL"));
+            	alarmPressao.setPressaoMinBaixa(rs.getDouble("PRESSAOMINBAIXA"));
+            	alarmPressao.setPressaoMaxAlta(rs.getDouble("PRESSAOMAXALTA"));
             	alarmPressao.setDtInsert(rs.getString("DTINSERT"));
             	
             	listAlarmPressao.add(alarmPressao);
@@ -293,6 +309,8 @@ public class AlarmPressaoDAO {
 	        "          TB_ALARMPRESSAO.PRESSAOMIN, " +
 	        "          TB_ALARMPRESSAO.PRESSAOMAX, " +
 	        "          TB_ALARMPRESSAO.PRESSAOREAL, " +
+	        "		   TB_ALARMPRESSAO.PRESSAOMINBAIXA, " +
+            "		   TB_ALARMPRESSAO.PRESSAOMAXALTA, " +
 	        "          TB_ALARMPRESSAO.DTINSERT, " +
 	        "          TB_ALARMPRESSAOAPP.* " +
 	        "FROM      TB_ALARMPRESSAO " +
@@ -322,6 +340,8 @@ public class AlarmPressaoDAO {
             	alarmPressao.setPressaoMin(rs.getDouble("PRESSAOMIN"));
             	alarmPressao.setPressaoMax(rs.getDouble("PRESSAOMAX"));
             	alarmPressao.setPressaoReal(rs.getDouble("PRESSAOREAL"));
+            	alarmPressao.setPressaoMinBaixa(rs.getDouble("PRESSAOMINBAIXA"));
+            	alarmPressao.setPressaoMaxAlta(rs.getDouble("PRESSAOMAXALTA"));
             	alarmPressao.setDtInsert(rs.getString("DTINSERT"));
             	
             	listAlarmPressao.add(alarmPressao);
@@ -364,6 +384,8 @@ public class AlarmPressaoDAO {
 	        "          TB_ALARMPRESSAO.PRESSAOMIN, " +
 	        "          TB_ALARMPRESSAO.PRESSAOMAX, " +
 	        "          TB_ALARMPRESSAO.PRESSAOREAL, " +
+	        "		   TB_ALARMPRESSAO.PRESSAOMINBAIXA, " +
+            "		   TB_ALARMPRESSAO.PRESSAOMAXALTA, " +
 	        "          TB_ALARMPRESSAO.DTINSERT, " +
 	        "          TB_ALARMPRESSAOAPP.* " +
 	        "FROM      TB_ALARMPRESSAO " +
@@ -393,6 +415,8 @@ public class AlarmPressaoDAO {
             	alarmPressao.setPressaoMin(rs.getDouble("PRESSAOMIN"));
             	alarmPressao.setPressaoMax(rs.getDouble("PRESSAOMAX"));
             	alarmPressao.setPressaoReal(rs.getDouble("PRESSAOREAL"));
+            	alarmPressao.setPressaoMinBaixa(rs.getDouble("PRESSAOMINBAIXA"));
+            	alarmPressao.setPressaoMaxAlta(rs.getDouble("PRESSAOMAXALTA"));
             	alarmPressao.setDtInsert(rs.getString("DTINSERT"));
             	
             	listAlarmPressao.add(alarmPressao);
@@ -416,32 +440,4 @@ public class AlarmPressaoDAO {
             }
         }
     }
-    
-    public static void main(String[] args) throws SQLException {
-		
-    	Connection connection = ConnectionFactory.getConnection();
-    	
-    	AlarmPressao alarmPressao = new AlarmPressao();
-    	alarmPressao.setIdAlarmPressao(0l);;
-    	alarmPressao.setIdEmpresa(2l);;
-    	alarmPressao.setIdCondominio(8l);;
-    	alarmPressao.setIdBridge(16l);;
-    	alarmPressao.setIdMedidor(null);;
-    	alarmPressao.setMeterPosition(1l);;
-    	alarmPressao.setPressaoMin(10.0);;
-    	alarmPressao.setPressaoMax(20.0);;
-    	alarmPressao.setPressaoReal(15.0);;
-    	alarmPressao.setDtInsert(null);;
-    	
-    	AlarmPressaoDAO alarmPressaoDAO = new AlarmPressaoDAO(connection);
-    	//alarmPressaoDAO.inserir(alarmPressao);
-    	
-    	List<AlarmPressao> listAlarmPressao = alarmPressaoDAO.listarPerfilProgramador("2");
-    	
-    	System.out.println("listAlarmPressao " + listAlarmPressao.size());
-    	
-    	connection.close();
-    	
-    	System.out.println("fim");
-	}
 }

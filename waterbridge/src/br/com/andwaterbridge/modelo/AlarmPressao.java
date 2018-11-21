@@ -11,6 +11,8 @@ public class AlarmPressao {
 	private Double pressaoMin;
 	private Double pressaoMax;
 	private Double pressaoReal;
+	private Double pressaoMinBaixa;
+	private Double pressaoMaxAlta;
 	private String dtInsert;
 	
 	public Long getIdAlarmPressao() {
@@ -66,6 +68,18 @@ public class AlarmPressao {
 	}
 	public void setPressaoReal(Double pressaoReal) {
 		this.pressaoReal = pressaoReal;
+	}
+	public Double getPressaoMinBaixa() {
+		return pressaoMinBaixa;
+	}
+	public void setPressaoMinBaixa(Double pressaoMinBaixa) {
+		this.pressaoMinBaixa = pressaoMinBaixa;
+	}
+	public Double getPressaoMaxAlta() {
+		return pressaoMaxAlta;
+	}
+	public void setPressaoMaxAlta(Double pressaoMaxAlta) {
+		this.pressaoMaxAlta = pressaoMaxAlta;
 	}
 	public String getDtInsert() {
 		return dtInsert;
