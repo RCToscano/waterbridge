@@ -84,6 +84,10 @@
     <servlet-class>br.com.waterbridge.bo.ExclusaoConsumoMedidorBO</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>ReservatorioBO</servlet-name>
+    <servlet-class>br.com.waterbridge.bo.ReservatorioBO</servlet-class>
+  </servlet>  
+  <servlet>
     <servlet-name>AndUserBO</servlet-name>
     <servlet-class>br.com.andwaterbridge.bo.AndUserBO</servlet-class>
   </servlet>
@@ -106,7 +110,7 @@
   <servlet>
     <servlet-name>AndAlarmPressaoBO</servlet-name>
     <servlet-class>br.com.andwaterbridge.bo.AndAlarmPressaoBO</servlet-class>
-  </servlet>  
+  </servlet>
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
     <url-pattern>/Login</url-pattern>
@@ -188,6 +192,10 @@
     <url-pattern>/ExclusaoConsumoMedidorBO</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
+    <servlet-name>ReservatorioBO</servlet-name>
+    <url-pattern>/ReservatorioBO</url-pattern>
+  </servlet-mapping>  
+  <servlet-mapping>
     <servlet-name>AndUserBO</servlet-name>
     <url-pattern>/AndUserBO</url-pattern>
   </servlet-mapping>
@@ -211,7 +219,6 @@
     <servlet-name>AndAlarmPressaoBO</servlet-name>
     <url-pattern>/AndAlarmPressaoBO</url-pattern>
   </servlet-mapping>
-  
   <session-config>
     <session-timeout>30</session-timeout>
   </session-config>
