@@ -94,7 +94,14 @@ function listarBridge() {
 	            if(listBridge != null && listBridge.length > 0) {
 	                for(i = 0; i < listBridge.length; i++) {
 	                	var bridge = listBridge[i];
-	                    $('#idBridge').append('<option value=' + bridge.idBridge + '>' + bridge.deviceNum + '</option>');
+	                	var situacao = '';
+	                	if(bridge.situacao == 'A') {
+	                		situacao = 'Ativo';
+	                	}
+	                	else if(bridge.situacao == 'I') {
+	                		situacao = 'Inativo';
+	                	}
+	                    $('#idBridge').append('<option value=' + bridge.idBridge + '>' + bridge.deviceNum + ' - ' + situacao + '</option>');
 	                }
 	            }
 	            $.unblockUI();
@@ -283,13 +290,18 @@ function listarConsumoMedidor() {
 	                		alarmPadrao = 'Sem Alarme';
 	                	}
 	                	
+	                	var separador = '';
+	                	if(alarmPadrao != 'Sem Alarme' && alarmPadrao != '' && alarmPressao != '') {
+	                		separador = '/';
+	                	}
+	                	
 	                	texto +=
     		            "		<tr>" +
     		            "			<td " + bgTd + "><small>" + (i + 1) + "</small></td>" +
     		            "			<td " + bgTd + "><small>" + relatPressao.dtInsert + "</small></td>" +
     		            "			<td " + bgTd + "><small>" + relatPressao.horaInsert + "</small></td>" +
     		            "			<td " + bgTd + "><small " + tootipAlarm + ">" + formatarTresDecimais(relatPressao.pressure) + "</small></td>" +
-    		            "			<td " + bgTd + "><small>" + alarmPadrao + " " + alarmPressao + "</small></td>" +
+    		            "			<td " + bgTd + "><small>" + alarmPadrao + " " + separador + " " + alarmPressao + "</small></td>" +
     		            "			<td " + bgTd + "><small>" + substituirPonto(relatPressao.battery) + "</small></td>" +
     		            "			<td " + bgTd + "><small>" + relatPressao.temperature + "</small></td>" +
     		            "		    <td align='right' " + bgTd + "></td>" +

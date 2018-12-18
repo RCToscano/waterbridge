@@ -160,8 +160,8 @@ public class AndRelatorioBO extends HttpServlet {
 				}
 				sql += "ORDER BY DTINSERT ";
 
-				RelPressaoDAO relPressaoDAODAO = new RelPressaoDAO(connection);
-				List<RelPressao> listRelPressao = relPressaoDAODAO.listar(sql);
+				RelPressaoDAO relPressaoDAO = new RelPressaoDAO(connection);
+				List<RelPressao> listRelPressao = relPressaoDAO.listar(sql);
 				
 				CondominioDAO condominioDAO = new CondominioDAO(connection);
 				Condominio condominio = condominioDAO.buscarPorId(Long.parseLong(req.getParameter("idCondominio")));

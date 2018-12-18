@@ -104,7 +104,14 @@ function listarBridge() {
 	            if(listBridge != null && listBridge.length > 0) {
 	                for(i = 0; i < listBridge.length; i++) {
 	                	var bridge = listBridge[i];
-	                    $('#idBridge').append('<option value=' + bridge.idBridge + '>' + bridge.deviceNum + '</option>');
+	                	var situacao = '';
+	                	if(bridge.situacao == 'A') {
+	                		situacao = 'Ativo';
+	                	}
+	                	else if(bridge.situacao == 'I') {
+	                		situacao = 'Inativo';
+	                	}
+	                    $('#idBridge').append('<option value=' + bridge.idBridge + '>' + bridge.deviceNum + ' - ' + situacao + '</option>');
 	                }
 	            }
 	            $.unblockUI();
@@ -153,7 +160,14 @@ function listarMedidor() {
 	            if(listMedidor != null && listMedidor.length > 0) {
 	                for(i = 0; i < listMedidor.length; i++) {
 	                	var medidor = listMedidor[i];
-	                    $('#idMedidor').append('<option value=' + medidor.idMedidor + '>' + medidor.numeroMedidor + '</option>');
+	                	var situacao = '';
+	                	if(medidor.situacao == 'A') {
+	                		situacao = 'Ativo';
+	                	}
+	                	else if(medidor.situacao == 'I') {
+	                		situacao = 'Inativo';
+	                	}
+	                    $('#idMedidor').append('<option value=' + medidor.idMedidor + '>' + medidor.numeroMedidor + ' - ' + situacao + '</option>');
 	                }
 	            }
 	            $.unblockUI();

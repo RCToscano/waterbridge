@@ -286,33 +286,53 @@
 							            		</tr>
 							            	</thead>
 							            	<tbody id='myTable'>				            	
-							            		<c:forEach var="relPressao" items="${listRelPressao}">							            						          								                	
-								                	<c:choose>         
-											        	<c:when test = "${relPressao.alarm != 0}">
-											            	<c:set var = "bgColor" value = "bgcolor='#f2dede'"/>
+							            		<c:forEach var="relPressao" items="${listRelPressao}">
+							            		
+							            			<c:set var = "bgTd" value = ""/>
+								                	<c:set var = "alarmPressao" value = ""/>								                								                
+							            			<c:choose>         
+											        	<c:when test = "${metaPressao != null && metaPressao.pressaoMinBaixa > relPressao.pressure}">
+											            	<c:set var = "bgTd" value = "bgcolor='#f2dede'"/>
+											            	<c:set var = "alarmPressao" value = "Pressão Baixa (Nível Crítico)"/>
+											         	</c:when>											         
+											         	<c:when test = "${metaPressao != null && metaPressao.pressaoMin > relPressao.pressure}">
+											           	 	<c:set var = "bgTd" value = "bgcolor='#f2dede'"/>
+											           	 	<c:set var = "alarmPressao" value = "Pressão Baixa"/>
+											         	</c:when>
+											         	<c:when test = "${metaPressao != null && metaPressao.pressaoMaxAlta < relPressao.pressure}">
+											           	 	<c:set var = "bgTd" value = "bgcolor='#f2dede'"/>
+											           	 	<c:set var = "alarmPressao" value = "Pressão Alta (Nível Crítico)"/>
+											         	</c:when>
+											         	<c:when test = "${metaPressao != null && metaPressao.pressaoMax < relPressao.pressure}">
+											           	 	<c:set var = "bgTd" value = "bgcolor='#f2dede'"/>
+											           	 	<c:set var = "alarmPressao" value = "Pressão Alta"/>
+											         	</c:when>
+											      	</c:choose>
+
+													<c:set var = "alarmPadrao" value = ""/>	
+													<c:choose>         
+											        	<c:when test = "${relPressao.alarmDesc != null && relPressao.alarmDesc ne 'NO ALARM'}">
+											            	<c:set var = "bgTd" value = "bgcolor='#f2dede'"/>
 											            	<c:set var = "alarmPadrao" value = "${relPressao.alarmDesc}"/>
 											         	</c:when>											         
-											         	<c:when test = "${metaPressao != null && relPressao.pressure < metaPressao.pressaoMin}">
-											           	 	<c:set var = "bgColor" value = "bgcolor='#f2dede'"/>
-											           	 	<c:set var = "alarmPressao" value = "PRESSÃO BAIXA"/>
-											         	</c:when>
-											         	<c:when test = "${metaPressao != null && relPressao.pressure > metaPressao.pressaoMax}">
-											           	 	<c:set var = "bgColor" value = "bgcolor='#f2dede'"/>
-											           	 	<c:set var = "alarmPressao" value = "PRESSÃO ALTA"/>
-											         	</c:when>
-											         	<c:otherwise>
-											         		<c:set var = "alarmPadrao" value = "NO ALARM"/>
-											         	</c:otherwise>
-											      	</c:choose>      
+											         	<c:when test = "${alarmPressao eq ''}">
+											           	 	<c:set var = "alarmPadrao" value = "Sem Alarme"/>
+											         	</c:when>											         	
+											      	</c:choose>
+							            		    
+							            		    <c:set var = "separador" value = ""/>
+							         				<c:choose>         
+											        	<c:when test = "${alarmPadrao ne 'Sem Alarme' && alarmPadrao ne '' && alarmPressao ne ''}">
+											            	<c:set var = "separador" value = "/"/>
+											         	</c:when>											         			         	
+											      	</c:choose>
+							            		      
 					    		            		<tr>
-					    		            			<td ${bgColor}><small>${relPressao.horaInsert}</small></td>
-					    		            			<td ${bgColor}><small><fmt:formatNumber value="${relPressao.pressure}" type="currency" currencySymbol="" minFractionDigits = "3"/></small></td>					    		            			
-							    		            	<td ${bgColor}><small>${alarmPadrao} ${alarmPressao}</small></td>
-							    		            	<td ${bgColor} align='right'></td>
-							    		            </tr>
-								                	<c:set var = "bgColor" value = ""/>
-								                	<c:set var = "alarmPadrao" value = ""/>
-								                	<c:set var = "alarmPressao" value = ""/>
+					    		            			<td ${bgTd}><small>${relPressao.horaInsert}</small></td>
+					    		            			<td ${bgTd}><small><fmt:formatNumber value="${relPressao.pressure}" type="currency" currencySymbol="" minFractionDigits = "3"/></small></td>					    		            			
+							    		            	<td ${bgTd}><small>${alarmPadrao} ${separador} ${alarmPressao}</small></td>
+							    		            	<td ${bgTd} align='right'></td>
+							    		            </tr>								                	
 								                	<c:set var = "cont" value = "${cont + 1}"/>            		
 							            		</c:forEach>			            	
 							                </tbody>
