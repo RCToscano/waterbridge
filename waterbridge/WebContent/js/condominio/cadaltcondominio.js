@@ -51,20 +51,20 @@ function validarForm() {
         nome.focus();
         return false;
     }
-    else if(cnpTp.value.trim() == '') {
-
-    	cnpTp.style.borderColor = colorRed;
-    	exibirAviso('Selecine o tipo de condomínio');
-    	cnpTp.focus();
-        return false;
-    }
-    else if(cnpTp.value == '1' && cnp.value.trim() == '') {
-
-    	cnp.style.borderColor = colorRed;
-    	exibirAviso('Informe o CPF');
-    	cnp.focus();
-        return false;
-    }
+//    else if(cnpTp.value.trim() == '') {
+//
+//    	cnpTp.style.borderColor = colorRed;
+//    	exibirAviso('Selecine o tipo de condomínio');
+//    	cnpTp.focus();
+//        return false;
+//    }
+//    else if(cnpTp.value == '1' && cnp.value.trim() == '') {
+//
+//    	cnp.style.borderColor = colorRed;
+//    	exibirAviso('Informe o CPF');
+//    	cnp.focus();
+//        return false;
+//    }
     else if(cnpTp.value == '1' && validarCPF(cnp.value.trim()) == false) {
 
     	cnp.style.borderColor = colorRed;
@@ -72,13 +72,13 @@ function validarForm() {
     	cnp.focus();
         return false;
     }
-    else if(cnpTp.value == '2' && cnp.value.trim() == '') {
-
-    	cnp.style.borderColor = colorRed;
-    	exibirAviso('Informe o CNPJ');
-    	cnp.focus();
-        return false;
-    }
+//    else if(cnpTp.value == '2' && cnp.value.trim() == '') {
+//
+//    	cnp.style.borderColor = colorRed;
+//    	exibirAviso('Informe o CNPJ');
+//    	cnp.focus();
+//        return false;
+//    }
     else if(cnpTp.value == '2' && validarCNPJ(cnp.value.trim()) == false) {
 
     	cnp.style.borderColor = colorRed;
@@ -185,14 +185,14 @@ function validarForm() {
     	estado.focus();
         return false;
     }
-    else if(cep.value.trim() == '') {
-
-    	cep.style.borderColor = colorRed;
-    	exibirAviso('Informe o CEP');
-    	cep.focus();
-        return false;
-    }
-    else if(cep.value.length < 9) {
+//    else if(cep.value.trim() == '') {
+//
+//    	cep.style.borderColor = colorRed;
+//    	exibirAviso('Informe o CEP');
+//    	cep.focus();
+//        return false;
+//    }
+    else if(cep.value.trim() != '' && cep.value.length < 9) {
     	
     	cep.style.borderColor = colorRed;
     	exibirAviso('O CEP digitado não é válido');

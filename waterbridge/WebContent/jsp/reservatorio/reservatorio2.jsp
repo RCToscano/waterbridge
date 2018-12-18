@@ -19,6 +19,7 @@
 <body>
 	<div class="container-fluid">
 		<div class="row" style="text-align: center;"><h3>Reservat&oacute;rios</h3></div>
+		<a id="link" href="#">click me to scroll to id3</a><br>
 		<div class="row">
 		
 			<div class="col-sm-1">
@@ -175,11 +176,21 @@
 				<div id="container48"></div>
 			</div>
 		</div>		
-		
+		<a name="id3" id='id3'/>
+		<b>ID3</b>
 	</div>
 
 	<script>
 	
+		function scrollToAnchor(aid){
+		    var aTag = $("#id3");
+		    $('html,body').animate({scrollTop: aTag.offset().top},10000);
+		}
+	
+		$("#link").click(function() {
+		   scrollToAnchor('id3');
+		});
+		
 		function carregarDados() {
 			
 			for (i = 1; i < 49; i++) {
@@ -193,7 +204,7 @@
 				Highcharts.chart('container' + i, {
 					chart : {
 						type : 'column',
-						height : 180,
+						height : 250,
 						options3d : {
 							enabled : true,
 							alpha : 0,
@@ -318,6 +329,7 @@
 		setTimeout(function() {
 			carregarDados();
 		}, 1000);
+				
 	</script>
 
 </body>

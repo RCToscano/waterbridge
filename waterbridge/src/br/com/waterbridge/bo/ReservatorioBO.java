@@ -40,7 +40,7 @@ public class ReservatorioBO extends HttpServlet {
 				//connection = ConnectionFactory.getConnection();
 				
 				//req.setAttribute("listEmpresa", listEmpresa);
-        		req.getRequestDispatcher("/jsp/reservatorio/reservatorio.jsp").forward(req, res);
+        		req.getRequestDispatcher("/jsp/reservatorio/reservatorio2.jsp").forward(req, res);
 			}
 	        catch (Exception e) {
 	            req.setAttribute("erro", e.toString());

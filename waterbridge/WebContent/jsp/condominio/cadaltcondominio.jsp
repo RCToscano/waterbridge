@@ -73,8 +73,8 @@
 						
 						<div class="col-sm-3">
 							<div class="form-group">	
-								<label class="control-label">Tipo</label><label class="text-danger">*</label>
-								<select class="form-control" id="cnpTp" name="cnpTp" onchange="mascaraCnp()" required >
+								<label class="control-label">Tipo</label>
+								<select class="form-control" id="cnpTp" name="cnpTp" onchange="mascaraCnp()">
 									<option value="" selected>Selecione...</option>
 									<c:forEach var="cnpTp" items="${listCnpTp}">
 	               			            <c:choose>
@@ -92,8 +92,8 @@
 
 						<div class="col-sm-3">
 							<div class="form-group">
-								<label class="control-label">CPF / CNPJ:</label><label class="text-danger">*</label>
-								<input type="tel" class="form-control" id="cnp" name="cnp" value="${condominio.cnp}" maxlength="20" required/>
+								<label class="control-label">CPF / CNPJ:
+								<input type="tel" class="form-control" id="cnp" name="cnp" value="${condominio.cnp}" maxlength="20"/>
 							</div>					
 						</div>
 
@@ -248,8 +248,8 @@
 
 						<div class="col-sm-3">
 							<div class="form-group">
-		                        <label class="control-label">CEP</label><label class="text-danger">*</label>
-		                        <input class="form-control" type="tel" name="cep" id="postal_code" value="${condominio.cep}" maxlength="9" required/>
+		                        <label class="control-label">CEP</label>
+		                        <input class="form-control" type="tel" name="cep" id="postal_code" value="${condominio.cep}" maxlength="9"/>
 	                        </div>
 						</div>
 						

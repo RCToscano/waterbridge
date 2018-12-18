@@ -84,18 +84,22 @@ public class CondominioBO extends HttpServlet {
 				connection = ConnectionFactory.getConnection();
 				
 				CondominioDAO condominioDAO = new CondominioDAO(connection);
-				Condominio condominio = condominioDAO.buscarPorCnp(req.getParameter("cnp"));
+				Condominio condominio = condominioDAO.buscarPorNome(Auxiliar.removerCaracteres(req.getParameter("nome").trim().toUpperCase()));
 				
 				if(condominio == null) {
-					
-					CnpTp cnpTp = new CnpTp();
-					cnpTp.setIdCnpTp(Long.parseLong(req.getParameter("cnpTp")));
 				
 					condominio = new Condominio();		
 					condominio.setIdCondominio(0l);
 					condominio.setIdEmpresa(Long.parseLong(req.getParameter("idEmpresa")));
 					condominio.setIdUser(user.getIdUser());
-					condominio.setCnpTp(cnpTp);
+					if(req.getParameter("cnpTp") != null && req.getParameter("cnpTp").trim().length() > 0) {						
+						CnpTp cnpTp = new CnpTp();
+						cnpTp.setIdCnpTp(Long.parseLong(req.getParameter("cnpTp")));
+						condominio.setCnpTp(cnpTp);
+					}
+					else {
+						condominio.setCnpTp(null);
+					}					
 					condominio.setNome(Auxiliar.removerCaracteres(req.getParameter("nome").trim().toUpperCase()));
 					condominio.setCnp(req.getParameter("cnp"));
 					condominio.setTelFixo(req.getParameter("telFixo"));
@@ -221,22 +225,28 @@ public class CondominioBO extends HttpServlet {
 			try {
 			
 				connection = ConnectionFactory.getConnection();
-				
-				CnpTp cnpTp = new CnpTp();
-				cnpTp.setIdCnpTp(Long.parseLong(req.getParameter("cnpTp")));
 			
 				Condominio condominio = new Condominio();		
 				condominio.setIdCondominio(Long.parseLong(req.getParameter("idCondominio")));
 				condominio.setIdEmpresa(Long.parseLong(req.getParameter("idEmpresa")));
-				condominio.setIdUser(user.getIdUser());
-				condominio.setCnpTp(cnpTp);
+				condominio.setIdUser(user.getIdUser());				
+				if(req.getParameter("cnpTp") != null && req.getParameter("cnpTp").trim().length() > 0) {						
+					CnpTp cnpTp = new CnpTp();
+					cnpTp.setIdCnpTp(Long.parseLong(req.getParameter("cnpTp")));
+					condominio.setCnpTp(cnpTp);
+				}
+				else {
+					condominio.setCnpTp(null);
+				}
 				condominio.setNome(Auxiliar.removerCaracteres(req.getParameter("nome").trim().toUpperCase()));
 				condominio.setCnp(req.getParameter("cnp"));
 				condominio.setTelFixo(req.getParameter("telFixo"));
 				condominio.setTelCel(req.getParameter("telCel"));
 				condominio.setEmail(req.getParameter("email"));
-				condominio.setEndereco(Auxiliar.removerCaracteres(req.getParameter("endereco").trim().toUpperCase()));
-				condominio.setNumero(Long.parseLong(req.getParameter("numero")));
+				if(!req.getParameter("endereco").trim().isEmpty()) {
+					condominio.setEndereco(Auxiliar.removerCaracteres(req.getParameter("endereco").trim().toUpperCase()));
+					condominio.setNumero(Long.parseLong(req.getParameter("numero")));
+				}
 				condominio.setCompl(Auxiliar.removerCaracteres(req.getParameter("compl").trim().toUpperCase()));
 				condominio.setMunicipio(Auxiliar.removerCaracteres(req.getParameter("municipio").trim().toUpperCase()));
 				condominio.setUf(req.getParameter("estado").trim().toUpperCase());
