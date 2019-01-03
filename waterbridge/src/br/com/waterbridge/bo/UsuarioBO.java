@@ -4,26 +4,38 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.google.gson.Gson;
 
 import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.auxiliar.Constantes;
+import br.com.waterbridge.auxiliar.Email;
 import br.com.waterbridge.connection.ConnectionFactory;
+import br.com.waterbridge.dao.ConsumoDAO;
+import br.com.waterbridge.dao.EmpresaDAO;
 import br.com.waterbridge.dao.LogSqlDAO;
 import br.com.waterbridge.dao.PassDAO;
 import br.com.waterbridge.dao.PerfilDAO;
 import br.com.waterbridge.dao.SituacaoDAO;
 import br.com.waterbridge.dao.UserDAO;
 import br.com.waterbridge.enuns.SexoEnum;
+import br.com.waterbridge.modelo.Empresa;
 import br.com.waterbridge.modelo.Pass;
 import br.com.waterbridge.modelo.Perfil;
 import br.com.waterbridge.modelo.Situacao;
 import br.com.waterbridge.modelo.User;
+import br.com.waterbridge.modelo.bo.RelConsumoCondominioBO;
+import br.com.waterbridge.reldao.RelMedidorDAO;
+import br.com.waterbridge.relmodelo.RelConsumoCondominio;
+import br.com.waterbridge.relmodelo.RelMedidor;
 
 public class UsuarioBO extends HttpServlet {
 //alterado
@@ -191,8 +203,7 @@ public class UsuarioBO extends HttpServlet {
             		req.setAttribute("listaPerfil", listaPerfil);
             		req.getRequestDispatcher("/jsp/usuario/usuario.jsp").forward(req, res);
             	}
-            }
-            
+            }            
             //Consulta
             else if (relat.equals("consulta")) {
             	User userSessao = (User) req.getSession().getAttribute("user");
@@ -442,11 +453,50 @@ public class UsuarioBO extends HttpServlet {
             		req.setAttribute("usuario", user);
             		req.getRequestDispatcher("/jsp/usuario/perfil.jsp").forward(req, res);
             	}
+            }                        
+    		else if (relat.equals("enviaracesso")) {
+    			
+                String json = "";
+    			
+    			try {
+
+    				connection = ConnectionFactory.getConnection();
+    				
+    				UserDAO userDAO = new UserDAO(connection);
+    				userDAO.marcarEnvioAcesso(Long.parseLong(req.getParameter("idUser")));
+    				final User user = userDAO.buscarPorId(req.getParameter("idUser"));
+    				
+    				//Email.enviarEmail("WaterBridge - Acesso", Email.corpoAcessoUsuario(user), user.getEmail());
+    				new Thread() {	       
+				        @Override
+				        public void run() {
+				        	Email.enviarEmail("WaterBridge - Acesso", Email.corpoAcessoUsuario(user), user.getEmail());
+				        }
+				    }.start();
+    			
+    				json = new Gson().toJson("<small>" + user.getEnvio() + "</small>");
+    				
+    				res.setContentType("application/json");
+    				res.setCharacterEncoding("UTF-8");
+    				res.getWriter().write(json);   
+    			}
+    	        catch (Exception e) {
+    	        	System.out.println("erro: " + e.toString());
+    	            req.setAttribute("erro", e.toString());
+    	            req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
+    	        }
+    			finally {
+    				if(connection != null) {
+    					try {connection.close();} catch (SQLException e) {}
+    				}
+    			}	
             }
+            
             
             
         }
         catch (Exception e) {
+        	
             req.setAttribute("erro", e.toString());
             try {
 				new LogSqlDAO(connection).inserir(((User) req.getSession().getAttribute("user")).getIdUser(),

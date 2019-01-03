@@ -77,6 +77,7 @@ public class UserDAO {
         		user.setMunicipio(rs.getString("MUNICIPIO"));
         		user.setUf(rs.getString("UF"));
         		user.setCep(rs.getString("CEP"));
+        		user.setEnvio(Auxiliar.formataDtTelaHr(rs.getString("ENVIO")));
                 user.setListPermissao(new PermissaoDAO(connection).listar(rs.getLong("ID_USER")));
                 
                 List<Empresa> listaEmpresa = new EmpresaDAO(connection).listarPorUsuarioLogin(user.getIdUser());
@@ -151,6 +152,7 @@ public class UserDAO {
         		user.setCep(rs.getString("CEP"));
         		user.setDtInsert(rs.getString("DTINSERT"));
         		user.setSituacao(rs.getString("SITUACAO"));
+        		user.setEnvio(Auxiliar.formataDtTelaHr(rs.getString("ENVIO")));
                 
                 user.setPerfil(perfil);
                 user.setPass(pass);
@@ -221,6 +223,7 @@ public class UserDAO {
     			user.setCep(rs.getString("CEP"));
     			user.setDtInsert(rs.getString("DTINSERT"));
     			user.setSituacao(rs.getString("SITUACAO"));
+    			user.setEnvio(Auxiliar.formataDtTelaHr(rs.getString("ENVIO")));
     			
     			user.setPerfil(perfil);
     			user.setPass(pass);
@@ -291,6 +294,7 @@ public class UserDAO {
     			user.setCep(rs.getString("CEP"));
     			user.setDtInsert(rs.getString("DTINSERT"));
     			user.setSituacao(rs.getString("SITUACAO"));
+    			user.setEnvio(Auxiliar.formataDtTelaHr(rs.getString("ENVIO")));
     			
     			user.setPerfil(perfil);
     			user.setPass(pass);
@@ -360,6 +364,7 @@ public class UserDAO {
     			user.setCep(rs.getString("CEP"));
     			user.setDtInsert(rs.getString("DTINSERT"));
     			user.setSituacao(rs.getString("SITUACAO"));
+    			user.setEnvio(Auxiliar.formataDtTelaHr(rs.getString("ENVIO")));
     			
     			user.setPerfil(perfil);
     			user.setPass(pass);
@@ -430,6 +435,7 @@ public class UserDAO {
     			user.setCep(rs.getString("CEP"));
     			user.setDtInsert(rs.getString("DTINSERT"));
     			user.setSituacao(rs.getString("SITUACAO"));
+    			user.setEnvio(Auxiliar.formataDtTelaHr(rs.getString("ENVIO")));
     			
     			user.setPerfil(perfil);
     			user.setPass(pass);
@@ -502,6 +508,7 @@ public class UserDAO {
     			user.setCoordy(rs.getString("COORDY"));
     			user.setDtInsert(rs.getString("DTINSERT"));
     			user.setSituacao(rs.getString("SITUACAO"));
+    			user.setEnvio(Auxiliar.formataDtTelaHr(rs.getString("ENVIO")));
     			
     			user.setPerfil(perfil);
     			user.setPass(pass);
@@ -580,11 +587,12 @@ public class UserDAO {
 					"TELCEL, " +
 					"COORDX, " +
 					"COORDY, " +
+					"ENVIO, " +
 					"DTINSERT " +
 					")" +
     				" VALUES ( " +
             		"?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " + 
-					"?, ?, ?, ?, ?, ?, ?, ?, sysdate() ) " 
+					"?, ?, ?, ?, ?, ?, ?, ?, ?, sysdate() ) " 
     				);
             		
             stmt.setObject(1, user.getPerfil().getIdPerfil());
@@ -605,6 +613,7 @@ public class UserDAO {
             stmt.setObject(16, user.getTelCel());
             stmt.setObject(17, user.getCoordx());
             stmt.setObject(18, user.getCoordy());
+            stmt.setObject(19, user.getEnvio());
             stmt.executeUpdate();
 		} 
         finally {
@@ -643,6 +652,7 @@ public class UserDAO {
 						"TELCEL = ?, " +
 						"COORDX = ?, " +
 						"COORDY = ?, " +
+						"ENVIO = ?, " +
 						"DTINSERT = sysdate() " +
 						"WHERE ID_USER = ? "
     				);
@@ -665,7 +675,13 @@ public class UserDAO {
     		stmt.setObject(16, user.getTelCel());
     		stmt.setObject(17, user.getCoordx());
     		stmt.setObject(18, user.getCoordy());
-    		stmt.setObject(19, user.getIdUser());
+    		if(user.getEnvio() != null && user.getEnvio().length() > 0) {
+    			stmt.setObject(19, Auxiliar.formataDtBancoHr(user.getEnvio()));
+    		}
+    		else {
+    			stmt.setObject(19, null);
+    		}
+    		stmt.setObject(20, user.getIdUser());
     		stmt.executeUpdate();
     	} 
     	finally {
@@ -677,13 +693,34 @@ public class UserDAO {
     }
     
     public void logar(Long idUser) throws Exception {
+    	
         PreparedStatement stmt = null;
         try {
+        	
+        	//LOGA REGISTRO ANTES DE ALTERAR
+            logar(idUser);
+        	
             stmt = connection.prepareStatement(
             "INSERT INTO TB_USERLOG " +
             "SELECT * " +
             "FROM   TB_USER " +
             "WHERE  ID_USER = ? "
+            );
+
+            stmt.setLong(1, idUser);
+            stmt.executeUpdate();
+        }
+        finally {
+            if(stmt != null)
+                stmt.close();
+        }
+    }
+    
+    public void marcarEnvioAcesso(Long idUser) throws Exception {
+        PreparedStatement stmt = null;
+        try {
+            stmt = connection.prepareStatement(
+            "UPDATE TB_USER SET ENVIO = sysdate() WHERE ID_USER = ? "
             );
 
             stmt.setLong(1, idUser);
@@ -747,7 +784,8 @@ public class UserDAO {
     		"       CEP, " +
     		"       COORDX, " +
     		"       COORDY, " +
-    		"       TELCEL " +
+    		"       TELCEL, " +
+    		"       ENVIO " +
     		"FROM   TB_USER " +		
     		sql
             );
@@ -783,6 +821,7 @@ public class UserDAO {
                 user.setCoordy(rs.getString("COORDY"));
                 user.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));
                 user.setSituacao(rs.getString("SITUACAO"));
+                user.setEnvio(Auxiliar.formataDtTelaHr(rs.getString("ENVIO")));
                
                 list.add(user);
             }

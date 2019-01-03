@@ -65,6 +65,42 @@ function verificaUsuario() {
 	}
 }
 
+function enviarAcesso(cont,idUser) {
+
+	var tdenvio = document.getElementById("divAviso");
+	
+	$.blockUI({ 
+    	message: '<img src="./images/busy.gif" />',
+    	css: { 
+    		padding:        5,
+    		left:           '45%', 
+            width:          '10%', 
+            border:         '1px solid #aaa'
+        }         		
+    }); 
+	
+    $.ajax({
+        url: 'UsuarioBO?acao=enviaracesso' +
+             '&idUser=' + idUser
+        ,
+        type: "POST",
+        dataType: 'json',
+        success: function(result) {
+
+            var envio = result;           
+            if(envio != null && envio.trim() != '') {
+            	$('#tdenvio' + cont).html(envio);
+            }
+            $.unblockUI();
+        },
+        error : function(){
+
+            $.unblockUI();
+            alert('Falha no envio. Tente novamente');
+        }
+    });
+}
+
 function consistenciaCPF(campo) {
     cpf = campo.replace(/\./g, "").replace(/\-/g, "");
     erro = new String;

@@ -10,7 +10,6 @@ import java.util.List;
 
 import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.relmodelo.RelUserEmpresa;
-import br.com.waterbridge.relmodelo.RelUserMedidor;
 
 public class RelUserEmpresaDAO {
     
@@ -124,7 +123,7 @@ public class RelUserEmpresaDAO {
             	relUserEmpresa.setNomeInsert(rs.getString("NOMEINSERT"));
             	relUserEmpresa.setIdUser(rs.getLong("ID_USER"));
             	relUserEmpresa.setNomeUser(rs.getString("NOMEUSER"));
-            	relUserEmpresa.setCpfUser(rs.getString("CPFUSER"));
+            	relUserEmpresa.setCpfUser(rs.getString("CPFUSER"));            	
             	relUserEmpresa.setIdEmpresa(rs.getLong("ID_EMPRESA"));
             	relUserEmpresa.setCnp(rs.getLong("CNP"));
             	relUserEmpresa.setObs(rs.getString("OBS"));

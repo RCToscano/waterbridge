@@ -12,6 +12,9 @@
         
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 	    <script src="http://code.jquery.com/jquery-2.2.4.js" ></script>	
+	    
+	    <script src="http://malsup.github.io/jquery.blockUI.js"></script>
+	    
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script src="./js/jquery.mask.min.js" type="text/javascript"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
@@ -31,7 +34,7 @@
     </head>
     <body>
         <jsp:include page="/menu/${sessionScope.user.perfil.menu}" ></jsp:include>
-        <div class="container">
+        <div class="container-fluid" style="margin-top: 60px;">
         	<ul class="breadcrumb">
 			    <li><a href="HomeBO?acao=home">Home</a></li>
 			    <li class="active">Usuário</li>
@@ -111,13 +114,16 @@
 							<table class="table table-hover table-striped">
 								<thead>
 									<tr>
-										<th style="width:0.5%;">Nº</th>
-										<th style="width:20%;">Nome</th>
-										<th style="width:11%;">CPF</th>
-										<th style="width:11%;">Perfil</th>
-										<th style="width:15%;">E-mail</th>
-										<th style="width:10%;">Celular</th>
-										<th style="width:30%;">Endere&ccedil;o</th>
+										<th>Nº</th>
+										<th>Nome</th>
+										<th>CPF</th>
+										<th>Perfil</th>
+										<th>Situa&ccedil;&atilde;o</th>
+										<th>E-mail</th>
+										<th>Celular</th>
+										<th>Endere&ccedil;o</th>
+										<th>Envio Acesso</th>
+										<th></th>
 										<th></th>
 									</tr>
 								</thead>
@@ -129,20 +135,30 @@
 				                            <c:param name="id" value="${total.idUser}"/>
 				                        </c:url>
 										<tr>
-											<td><%=cont%></td>
+											<td><small><%=cont%></small></td>
 											<td><small>${total.nome}</small></td>
 											<td><small>${total.cpf}</small></td>
 											<td><small>${total.perfil.perfil}</small></td>
+											<td align="center"><small>${total.situacao}</small></td>
 											<td><small>${total.email}</small></td>
 											<td><small>${total.telCel}</small></td>
 											<td><small>${total.endereco}</small></td>
+											<td id="tdenvio<%=cont%>">
+												<small>${total.envio}</small>
+											</td>
+											<td>
+												<button type="button" class="btn btn-info btn-xs" title="Clique para enviar dados de acesso ao usuário" onclick="enviarAcesso(<%=cont%>,${total.idUser})">
+											      	<span class="glyphicon glyphicon-envelope"></span> Enviar
+											    </button>
+											</td>
 											<td>
 												<a href="${link}">
-													<button type="button" class="btn btn-info btn-sm" title="Clique para visualizar o perfil do usuário">
-														<span class="glyphicon glyphicon-search"></span>
+													<button type="button" class="btn btn-info btn-xs" title="Clique para visualizar o perfil do usuário">
+														<span class="glyphicon glyphicon-search"></span> Buscar
 													</button>
 												</a>
 											</td>
+											
 										</tr>
 										<%cont++;%>
 									</c:forEach>

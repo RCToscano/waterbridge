@@ -29,6 +29,7 @@ public class User {
     private String situacao;
     List<Permissao> listPermissao;
     private Empresa empresa;
+    private String envio;
 
 	public Long getIdUser() {
 		return idUser;
@@ -232,6 +233,14 @@ public class User {
 
 	public void setEmpresa(Empresa empresa) {
 		this.empresa = empresa;
+	}
+
+	public String getEnvio() {
+		return envio;
+	}
+
+	public void setEnvio(String envio) {
+		this.envio = envio;
 	}
     
     
