@@ -344,13 +344,6 @@ public class UsuarioMedidorBO extends HttpServlet {
 						userMedidor.setSituacao("A");
 						
 						userMedidorDAO.inserir(userMedidor);
-						
-						new Thread() {	       
-					        @Override
-					        public void run() {
-					        	Email.enviarEmail("WaterBridge - Acesso", Email.corpoAcessoUsuario(user1), user1.getEmail());
-					        }
-					    }.start();
 					}
 				}
 				

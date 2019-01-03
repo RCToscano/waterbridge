@@ -220,13 +220,6 @@ public class UsuarioEmpresaBO extends HttpServlet {
 						userEmpresa.setDtFim(null);
 						
 						userEmpresaDAO.inserir(userEmpresa);
-
-					    new Thread() {	       
-					        @Override
-					        public void run() {
-					        	Email.enviarEmail("WaterBridge - Acesso", Email.corpoAcessoUsuario(user1), user1.getEmail());
-					        }
-					    }.start();			
 					}
 				}
 				

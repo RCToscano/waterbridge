@@ -258,13 +258,6 @@ public class UsuarioCondominioBO extends HttpServlet {
 						userCondominio.setDtFim(null);
 						
 						userCondominioDAO.inserir(userCondominio);
-						
-						new Thread() {	       
-					        @Override
-					        public void run() {
-					        	Email.enviarEmail("WaterBridge - Acesso", Email.corpoAcessoUsuario(user1), user1.getEmail());
-					        }
-					    }.start();	
 					}
 				}
 				
