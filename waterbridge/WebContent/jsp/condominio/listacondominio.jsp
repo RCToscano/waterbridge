@@ -45,7 +45,7 @@
     </head>
     <body>
         <jsp:include page="/menu/${sessionScope.user.perfil.menu}" ></jsp:include>
-        <div class="container">
+        <div class="container-fluid" style="margin-top: 60px;">
         	<ul class="breadcrumb">
 			    <li><a href="HomeBO?acao=home">Home</a></li>
 			    <li class="active">Local</li>
@@ -132,6 +132,7 @@
 											<th>Nº</th>
 											<th>Nome/Razão Social</th>
 											<th>CPF / CNPJ</th>
+											<th>Situa&ccedil;&atilde;o</th>
 											<th>Endere&ccedil;o</th>
 											<th>Nome do Responsável</th>
 											<th>Coordenadas</th>
@@ -145,6 +146,7 @@
 												<td><small><%=cont%></small></td>
 												<td><small>${condominio.nome}</small></td>
 												<td><small>${condominio.cnp}</small></td>
+												<td align="center"><small>${condominio.situacao}</small></td>
 												<td><small>${condominio.endereco} ${condominio.numero} ${condominio.compl}</small></td>
 												<td><small>${condominio.responsavel}</small></td>
 												<td>

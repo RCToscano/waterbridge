@@ -63,7 +63,7 @@
 					<fieldset>
 						<legend class="text-left">Consulta de Usu&aacute;rio</legend>
 						
-						<div class="col-sm-4">
+						<div class="col-sm-3">
 							<div class="form-group">
 	                               <label>Nome Usuário:</label>
 	                               <input class="form-control" type="text" name="usuario" id="usuario" maxlength="100" value="${usuario}" onKeyPress="verificaUsuario()" onBlur="verificaUsuario()"/>
@@ -77,14 +77,7 @@
 							</div>
 						</div>
 						
-						<div class="col-sm-6">
-							<div class="form-group">
-	                               <label>Endere&ccedil;o</label>
-	                               <input class="form-control" type="text" name="endereco" id="endereco" maxlength="100" value="${endereco}" onKeyPress="verificaUsuario()" onBlur="verificaUsuario()"/>
-							</div>
-						</div>
-						
-						<div class="col-sm-4">
+						<div class="col-sm-2">
 							<div class="form-group">
 								<label>Perfil:</label>
 								<select class="form-control" name="perfil" id="perfil" onChange="verificaUsuario()">
@@ -95,6 +88,15 @@
 			                    </select>
 							</div>
 						</div>
+						
+						<div class="col-sm-5">
+							<div class="form-group">
+	                               <label>Endere&ccedil;o</label>
+	                               <input class="form-control" type="text" name="endereco" id="endereco" maxlength="100" value="${endereco}" onKeyPress="verificaUsuario()" onBlur="verificaUsuario()"/>
+							</div>
+						</div>
+						
+						
 	                         
 						<div class="form-group">
 							<div class="col-md-12 text-center">
