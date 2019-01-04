@@ -77,7 +77,7 @@ public class RelatorioPressaoBO extends HttpServlet {
 				try {
 					CondominioDAO condominioDAO = new CondominioDAO(connection);
 					List<Condominio> listCondominio = new ArrayList<Condominio>();		
-					listCondominio = condominioDAO.listarPorUsuario(user.getIdUser(),
+					listCondominio = condominioDAO.listarPorUsuarioPB(user.getIdUser(),
 							Long.parseLong(req.getParameter("idEmpresa")));
 					
 					String json = new Gson().toJson(listCondominio);

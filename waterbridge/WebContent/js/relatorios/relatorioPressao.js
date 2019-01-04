@@ -43,7 +43,13 @@ function listarCondominio() {
 	            if(listCondominio != null && listCondominio.length > 0) {
 	                for(i = 0; i < listCondominio.length; i++) {
 	                	var condominio = listCondominio[i];
-	                    $('#idCondominio').append('<option value=' + condominio.idCondominio + '>' + condominio.nome + ' - ' + condominio.endereco + ' ' + condominio.numero + ' ' + condominio.compl + '</option>');
+	                	var situacao = '';
+	                	var color = ''
+	                	if(condominio.situacao == 'I') {
+	                		situacao = ' - ( INATIVO )';
+	                		color = 'style="color: #c9302c;"';
+	                	}
+	                    $('#idCondominio').append('<option value=' + condominio.idCondominio + ' ' + color + '>' + condominio.nome + ' - ' + condominio.endereco + ' ' + condominio.numero + ' ' + condominio.compl + '' + situacao + '</option>');
 	                }
 	            }
 	            $.unblockUI();
@@ -95,13 +101,12 @@ function listarBridge() {
 	                for(i = 0; i < listBridge.length; i++) {
 	                	var bridge = listBridge[i];
 	                	var situacao = '';
-	                	if(bridge.situacao == 'A') {
-	                		situacao = 'Ativo';
+	                	var color = ''
+	                	if(bridge.situacao == 'I') {
+	                		situacao = ' - ( INATIVO )';
+	                		color = 'style="color: #c9302c;"';
 	                	}
-	                	else if(bridge.situacao == 'I') {
-	                		situacao = 'Inativo';
-	                	}
-	                    $('#idBridge').append('<option value=' + bridge.idBridge + '>' + bridge.deviceNum + ' - ' + situacao + '</option>');
+	                    $('#idBridge').append('<option value=' + bridge.idBridge + ' ' + color + '>' + bridge.deviceNum + '' + situacao + '</option>');
 	                }
 	            }
 	            $.unblockUI();
