@@ -696,10 +696,7 @@ public class UserDAO {
     	
         PreparedStatement stmt = null;
         try {
-        	
-        	//LOGA REGISTRO ANTES DE ALTERAR
-            logar(idUser);
-        	
+
             stmt = connection.prepareStatement(
             "INSERT INTO TB_USERLOG " +
             "SELECT * " +
@@ -719,6 +716,10 @@ public class UserDAO {
     public void marcarEnvioAcesso(Long idUser) throws Exception {
         PreparedStatement stmt = null;
         try {
+        	
+        	//LOGA REGISTRO ANTES DE ALTERAR
+            logar(idUser);
+        	
             stmt = connection.prepareStatement(
             "UPDATE TB_USER SET ENVIO = sysdate() WHERE ID_USER = ? "
             );

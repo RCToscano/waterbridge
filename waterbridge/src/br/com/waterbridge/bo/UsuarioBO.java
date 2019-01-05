@@ -112,12 +112,10 @@ public class UsuarioBO extends HttpServlet {
             		//Alteracao
             		if(req.getParameter("id") != null && !req.getParameter("id").isEmpty()) {
             			req.setAttribute("titulo", "Alteração");
-	            		req.setAttribute("botao", "Alterar");
-            			
+	            		req.setAttribute("botao", "Alterar");	            			
             			user.setIdUser(Long.valueOf(req.getParameter("id")));
             			UserDAO userDAO = new UserDAO(connection);
             			userDAO.alterar(user);
-	            		
 	            		user.setDtNasc(formatoData.format(formatoBanco.parse(user.getDtNasc())));
 	            		
 	            		req.setAttribute("usuario", user);
