@@ -205,7 +205,7 @@
 		    });
 			setTimeout(function() {
 				atualizarReservatorios();
-			}, 5000);
+			}, 300000);
 		}
 
 // 		setTimeout(function() {
