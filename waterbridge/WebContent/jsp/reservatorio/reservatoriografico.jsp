@@ -10,6 +10,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta charset="utf-8">
 	
+	<script src="./js/funcoes.auxiliares.js" type="text/javascript"></script>
+	
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -30,7 +32,9 @@
             <div class="col-sm-2 text-right"><img class="img-responsive center-block" src="./images/logo_desoltec_branco_menu.png" alt=""></div>            
 		</div>
 		<div class="row" style="text-align: center; padding-top: 5px;">			
-            <div class="col-sm-12 text-center"><p class="text-muted"><label style="font-size: 14pt;">Reservatórios</label></p></div>            
+            <div class="col-sm-2 text-center"></div>
+            <div class="col-sm-8 text-center"><p class="text-muted"><label style="font-size: 14pt;">Reservatórios</label></p></div>
+            <div class="col-sm-2 text-center" id="divHoraAtualizacao"></div>            
 		</div>		
 		<div class="row" id="divReservatorio">
 			<c:forEach var = "i" begin = "1" end = "48">
@@ -38,12 +42,48 @@
 	            	<div id="container${i}"></div>
 	            	<div id="titulo${i}" style="width: 100%; height: 30px; text-align: center;"></div>
 	            </div> 
-	      	</c:forEach>
-				
+	      	</c:forEach>				
 		</div>
 	</div>
 	
 	<script type="text/javascript">
+		
+		function marcarHoraAtualizacao() {
+			  var dia = new Date().getDate();
+			  dia = lPad(dia, 2);
+			  var mes = new Date().getMonth() + 1;
+			  mes = lPad(mes, 2);;
+			  var ano = new Date().getFullYear();
+			  ano = lPad(ano, 2);
+			  var hora = new Date().getHours();
+			  hora = lPad(hora, 2);
+			  var minuto = new Date().getMinutes();
+			  minuto = lPad(minuto, 2);			 
+			  
+			  var data = dia + '/' + mes + '/' + ano + ' ' + hora + ':' + minuto ;
+			  
+			  document.getElementById("divHoraAtualizacao").innerHTML = '<p class="text-muted"><label style="font-size: 8pt;">ATUALIZA&Ccedil;&Atilde;O ' + data + '</label></p>';
+		}
+		
+		function lPad(number, length) {   
+		    var str = '' + number;
+		    while (str.length < length) {
+		        str = '0' + str;
+		    }
+		    return str;
+		}
+		
+		function limitarTexto(texto, length) {   	
+		    var str = '';    
+		  	for (j = 0; j < texto.length; j++) {     
+				str = str + texto.charAt(j);    
+		  		if(length == (j + 1)) {
+		        	break;
+		        }
+			}
+		    return str;
+		}
+
 		function atualizarReservatorios() {
 			
  			$('[data-toggle="popover"]').popover('hide');
@@ -64,18 +104,24 @@
 	            					                	
 		                	var relPressaoLast = listRelPressaoLast[i];
 		                	
-		                	$('#titulo' + cont).html('<label style="font-size: 8pt;">' + relPressaoLast.condominio + '</label>');
-		                	
-		                	var title = 
-	            			'Local: ' + relPressaoLast.condominio + '<br>' +
-	            			'Hora: ' + relPressaoLast.dtInsert + '<br>'
-	            			;
-	            			
-	            			var data = relPressaoLast.pressao;			
+		                	var data = relPressaoLast.pressao;			
 	            			var altura = 140;
 	            			var condonimio = relPressaoLast.condominio;
-	            			var deviceNum = relPressaoLast.deviceNum;
+	            			var deviceNum = relPressaoLast.deviceNum;		                	
+	            			;
 	            			
+		                	var info = 
+		                	'' + relPressaoLast.condominio + '<br>' +	            			
+	            			'Limite Baixa: ' + formatarTresDecimais(relPressaoLast.pressaoMinBaixa) + '<br>' +
+	            			'Normal: ' + formatarTresDecimais(relPressaoLast.pressaoMin) + ' ~ ' + formatarTresDecimais(relPressaoLast.pressaoMax) + '<br>' +
+	            			'Limite Alta: ' + formatarTresDecimais(relPressaoLast.pressaoMaxAlta) + '<br>' +
+	            			'Hora: ' + relPressaoLast.dtInsert + '<br>' 
+	            			;
+		                	$('#titulo' + cont).html(
+		                			'<label style="font-size: 7pt; margin: 0px;" data-toggle="popover" title="" data-trigger="hover" data-content="' + info + '" data-original-title="" data-html="true">' + limitarTexto(relPressaoLast.condominio, 15) + '<br></label>' +
+		                			'<label style="font-size: 7pt; margin: 0px;">' + relPressaoLast.dtInsert + '</label>'
+		                			);
+		                	
 	            			var pressao = relPressaoLast.pressao;	
 	            			var pressaoMinBaixa = relPressaoLast.pressaoMinBaixa;
 	            			var pressaoMin = relPressaoLast.pressaoMin;
@@ -205,15 +251,17 @@
 		            window.location = "http://www.waterbridge.com.br/";
 		        }
 		    });
+			
+			marcarHoraAtualizacao();
+			
 			setTimeout(function() {
 				atualizarReservatorios();
 			}, 300000);
 		}
-
-// 		setTimeout(function() {
-// 			atualizarReservatorios();
-// 		}, 1000);
+		
 		atualizarReservatorios();
+		
+		
 	</script>
 <!-- 
 	<script>

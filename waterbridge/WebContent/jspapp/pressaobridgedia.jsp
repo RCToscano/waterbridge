@@ -48,10 +48,8 @@
 			      padding-top: 70px;
 			  }
 	  	</style>
-	  	
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<!-- 		<script src="https://code.highcharts.com/highcharts.js"></script> -->
-		<script src="https://code.highcharts.com/stock/highstock.js"></script>
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.2.0/highstock.js"></script>		
 		<script src="https://code.highcharts.com/modules/series-label.js"></script>
 		<script src="https://code.highcharts.com/maps/modules/map.js"></script>
 		<script src="https://code.highcharts.com/modules/exporting.js"></script>
