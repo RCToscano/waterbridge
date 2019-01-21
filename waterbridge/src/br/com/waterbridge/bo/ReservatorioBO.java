@@ -4,7 +4,7 @@ package br.com.waterbridge.bo;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -16,8 +16,8 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 
 import br.com.waterbridge.connection.ConnectionFactory;
-import br.com.waterbridge.dao.CondominioDAO;
-import br.com.waterbridge.modelo.Condominio;
+import br.com.waterbridge.dao.EmpresaDAO;
+import br.com.waterbridge.modelo.Empresa;
 import br.com.waterbridge.modelo.User;
 import br.com.waterbridge.reldao.RelPressaoLastDAO;
 import br.com.waterbridge.relmodelo.RelPressaoLast;
@@ -47,8 +47,12 @@ public class ReservatorioBO extends HttpServlet {
 				
 				RelPressaoLastDAO relPressaoLastDAO = new RelPressaoLastDAO(connection);
 				List<RelPressaoLast> listRelPressaoLast = relPressaoLastDAO.listar(sql);
+				
+				EmpresaDAO empresaDAO = new EmpresaDAO(connection);
+				List<Empresa> listEmpresa = empresaDAO.listarPorUsuario(user.getIdUser());
 			
 				req.setAttribute("listRelPressaoLast", listRelPressaoLast);
+				req.setAttribute("listEmpresa", listEmpresa);
         		req.getRequestDispatcher("/jsp/reservatorio/reservatoriografico.jsp").forward(req, res);
 			}
 	        catch (Exception e) {
@@ -69,9 +73,15 @@ public class ReservatorioBO extends HttpServlet {
             String sql = "";
 			
 			try {
-			
+				
 				connection = ConnectionFactory.getConnection();
 				
+				sql = "WHERE     VW_PRESSAOLAST.ID_EMPRESA = " + req.getParameter("idEmpresa") + " " ;
+				if(req.getParameter("idCondominio") != null && req.getParameter("idCondominio").toString().trim().length() > 0) {
+					sql += "AND       VW_PRESSAOLAST.ID_CONDOMINIO IN(" + req.getParameter("idCondominio") + ") ";
+				}
+				sql += "ORDER BY  VW_PRESSAOLAST.CONDOMINIO ";
+
 				RelPressaoLastDAO relPressaoLastDAO = new RelPressaoLastDAO(connection);
 				List<RelPressaoLast> listRelPressaoLast = relPressaoLastDAO.listar(sql);
 				

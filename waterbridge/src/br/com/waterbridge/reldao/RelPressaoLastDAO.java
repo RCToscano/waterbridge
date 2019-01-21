@@ -42,10 +42,10 @@ public class RelPressaoLastDAO {
 			"          VW_PRESSAOLAST.PRESSAOMAX, " +
 			"          VW_PRESSAOLAST.PRESSAOMAXALTA, " +
 			"          VW_PRESSAOLAST.DTINSERT " +
-			"FROM      VW_PRESSAOLAST " +		
+			"FROM      VW_PRESSAOLAST " +			  			
             sql
             );
-
+            
             rs = stmt.executeQuery();
 
             while (rs.next()) {

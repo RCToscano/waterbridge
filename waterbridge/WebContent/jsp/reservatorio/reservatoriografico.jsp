@@ -11,15 +11,22 @@
 	<meta charset="utf-8">
 	
 	<script src="./js/funcoes.auxiliares.js" type="text/javascript"></script>
+	<script src="./js/reservatorio/reservatoriografico.js" type="text/javascript"></script>
 	
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	<script src="http://malsup.github.io/jquery.blockUI.js"></script>
 
 	<script src="https://code.highcharts.com/highcharts.js"></script>
 	<script src="https://code.highcharts.com/highcharts-3d.js"></script>
 	<script src="https://code.highcharts.com/modules/data.js"></script>
 	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.css" rel="stylesheet"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/i18n/defaults-pt_BR.js"></script>
 
 </head>
 <body>
@@ -30,12 +37,63 @@
             <div class="col-sm-4 text-center"><p class="text-muted"></p></div>
             <div class="col-sm-2 text-center"></div>
             <div class="col-sm-2 text-right"><img class="img-responsive center-block" src="./images/logo_desoltec_branco_menu.png" alt=""></div>            
-		</div>
-		<div class="row" style="text-align: center; padding-top: 5px;">			
-            <div class="col-sm-2 text-center"></div>
-            <div class="col-sm-8 text-center"><p class="text-muted"><label style="font-size: 14pt;">Reservatórios</label></p></div>
-            <div class="col-sm-2 text-center" id="divHoraAtualizacao"></div>            
 		</div>		
+		<div class="row" style="text-align: center; padding-top: 5px;">									           
+            <div class="col-sm-5 text-center"></div>
+            <div class="col-sm-2 text-center"><p class="text-muted"><label style="font-size: 14pt;">Reservatórios</label></p></div>
+            <div class="col-sm-1 text-center">
+            	<button type="button" class="btn btn-info btn-xs">
+            		<span class="glyphicon glyphicon-map-marker"></span> Pontos
+            	</button>
+            	<script>
+                    $( "#btfiltro" ).click(function() {
+                        $( "#divFiltro" ).slideToggle(300);
+                    });
+                </script>
+            </div>
+            <div class="col-sm-1 text-center">
+            	<button type="button" class="btn btn-info btn-xs" id="btfiltro">
+            		<span class="glyphicon glyphicon-filter"></span> Filtros
+            	</button>
+            	<script>
+                    $( "#btfiltro" ).click(function() {
+                        $( "#divFiltro" ).slideToggle(300);
+                    });
+                </script>
+            </div>                        
+            <div class="col-sm-3 text-right" id="divHoraAtualizacao"></div>                        
+		</div>
+		<div class="row">
+			<div class="col-md-12 text-left">
+				<label class="text-danger" id="aviso"></label>
+			</div>
+		</div>	
+		<div class="row" style="text-align: center; padding-top: 5px;" id="divFiltro">
+			<form action="#" id="form1">
+				<div class="col-sm-4">
+					<div class="form-group">
+						<select class="form-control" id="idEmpresa" name="idEmpresa" required onchange="listarCondominio()">
+							<option value="">Selecione a Empresa</option>
+							<c:forEach var="empresa" items="${listEmpresa}">
+								<option value="${empresa.idEmpresa}">${empresa.nome}</option>
+	                     	</c:forEach>
+						</select>
+					</div>
+				</div>			
+	            <div class="col-sm-6">
+	            	<div class="form-group">            
+		            	<select class="selectpicker form-control" multiple name="idCondominio" id="idCondominio" title="Selecione o Local"></select>
+	                </div>
+	            </div>
+	            <div class="col-sm-2">
+					<div class="form-group">
+						<div class="col-md-12 text-center">
+							<button type="button" class="btn btn-primary" onclick="carregarReservatorios()">Consultar</button>
+						</div>
+					</div>
+				</div>
+			</form>	
+		</div>	
 		<div class="row" id="divReservatorio">
 			<c:forEach var = "i" begin = "1" end = "48">
 		        <div class="col-sm-1" style="padding: 3px;">		        			    
@@ -46,366 +104,8 @@
 		</div>
 	</div>
 	
-	<script type="text/javascript">
-		
-		function marcarHoraAtualizacao() {
-			  var dia = new Date().getDate();
-			  dia = lPad(dia, 2);
-			  var mes = new Date().getMonth() + 1;
-			  mes = lPad(mes, 2);;
-			  var ano = new Date().getFullYear();
-			  ano = lPad(ano, 2);
-			  var hora = new Date().getHours();
-			  hora = lPad(hora, 2);
-			  var minuto = new Date().getMinutes();
-			  minuto = lPad(minuto, 2);			 
-			  
-			  var data = dia + '/' + mes + '/' + ano + ' ' + hora + ':' + minuto ;
-			  
-			  document.getElementById("divHoraAtualizacao").innerHTML = '<p class="text-muted"><label style="font-size: 8pt;">ATUALIZA&Ccedil;&Atilde;O ' + data + '</label></p>';
-		}
-		
-		function lPad(number, length) {   
-		    var str = '' + number;
-		    while (str.length < length) {
-		        str = '0' + str;
-		    }
-		    return str;
-		}
-		
-		function limitarTexto(texto, length) {   	
-		    var str = '';    
-		  	for (j = 0; j < texto.length; j++) {     
-				str = str + texto.charAt(j);    
-		  		if(length == (j + 1)) {
-		        	break;
-		        }
-			}
-		    return str;
-		}
-
-		function atualizarReservatorios() {
-			
- 			$('[data-toggle="popover"]').popover('hide');
-
-			$.ajax({
-		        url: 'ReservatorioBO?acao=2'
-		        ,
-		        type: "POST",
-		        dataType: 'json',
-		        success: function(result) {
-
-		            var listRelPressaoLast = result;
-		            
-		            if(listRelPressaoLast != null && listRelPressaoLast.length > 0) {
-			
-		            	var cont = 1;
-	            		for(i = 0; i < listRelPressaoLast.length; i++) {
-	            					                	
-		                	var relPressaoLast = listRelPressaoLast[i];
-		                	
-		                	var data = relPressaoLast.pressao;			
-	            			var altura = 140;
-	            			var condonimio = relPressaoLast.condominio;
-	            			var deviceNum = relPressaoLast.deviceNum;		                	
-	            			;
-	            			
-		                	var info = 
-		                	'' + relPressaoLast.condominio + '<br>' +	            			
-	            			'Limite Baixa: ' + formatarTresDecimais(relPressaoLast.pressaoMinBaixa) + '<br>' +
-	            			'Normal: ' + formatarTresDecimais(relPressaoLast.pressaoMin) + ' ~ ' + formatarTresDecimais(relPressaoLast.pressaoMax) + '<br>' +
-	            			'Limite Alta: ' + formatarTresDecimais(relPressaoLast.pressaoMaxAlta) + '<br>' +
-	            			'Hora: ' + relPressaoLast.dtInsert + '<br>' 
-	            			;
-		                	$('#titulo' + cont).html(
-		                			'<label style="font-size: 7pt; margin: 0px;" data-toggle="popover" title="" data-trigger="hover" data-content="' + info + '" data-original-title="" data-html="true">' + limitarTexto(relPressaoLast.condominio, 15) + '<br></label>' +
-		                			'<label style="font-size: 7pt; margin: 0px;">' + relPressaoLast.dtInsert + '</label>'
-		                			);
-		                	
-	            			var pressao = relPressaoLast.pressao;	
-	            			var pressaoMinBaixa = relPressaoLast.pressaoMinBaixa;
-	            			var pressaoMin = relPressaoLast.pressaoMin;
-	            			var pressaoMax = relPressaoLast.pressaoMax;
-	            			var pressaoMaxAlta = relPressaoLast.pressaoMaxAlta;
-	            			
-	            			var pressaoPerc = pressao * 100 / pressaoMaxAlta;	
-	            			var pressaoMinBaixaPerc = pressaoMinBaixa * 100 / pressaoMaxAlta;
-	            			var pressaoMinPerc = pressaoMin * 100 / pressaoMaxAlta;
-	            			var pressaoMaxPerc = pressaoMax * 100 / pressaoMaxAlta;
-	            			var pressaoMaxAltaPerc = pressaoMaxAlta * 100 / pressaoMaxAlta;
-	            			
-	            			Highcharts.chart('container' + cont, {
-	            				chart : {
-	            					type : 'column',
-	            					height : altura,
-	            					options3d : {
-	            						enabled : true,
-	            						alpha : 0,
-	            						beta : 30,
-	            						depth : 30
-	            					}
-	            				},
-	            				title : {
-	            					text : ''
-	            				},
-	            				subtitle : {
-	            					useHTML:true,		            
-	            		            //text: '<div data-toggle="popover" title="" data-trigger="hover" data-content="' + title + '" data-original-title="" data-html="true">' + deviceNum + '</div>'
-	            					text: ''
-	            				},
-	            				legend : {
-	            					enabled : false
-	            				},
-	            				credits : {
-	            					enabled : false
-	            				},
-
-	            				plotOptions : {
-	            					bar : {
-	            						colorByPoint : true
-	            					},
-	            					series : {
-	            						zones : [ {
-	            							color : '#FF5722',
-	            							value : 0
-	            						}, {
-	            							color : '#FF5722',
-	            							value : pressaoMinBaixaPerc
-	            						}, {
-	            							color : '#FF9800',
-	            							value : pressaoMinPerc
-	            						}, {
-	            							color : '#4CAF50',
-	            							value : pressaoMaxPerc
-	            						}, {
-	            							color : '#FF9800',
-	            							value : pressaoMaxAltaPerc
-	            						}, {
-	            							color : '#FF5722',
-	            							value : Number.MAX_VALUE
-	            						} ],
-	            						dataLabels : {
-	            							enabled : true,
-	            							format : '{point.y:.3f}%'
-	            						}
-	            					}
-	            				},
-	            				tooltip: { enabled: false },
-//	             				tooltip : {
-//	             					pointFormat: '<tr><td style="padding:0"><b>' + pressao + ' MCA</b></td></tr>',					
-//	             					valueDecimals : 3,
-//	             					outside: true
-//	             				},
-	            				xAxis : {
-	            					type : 'category',
-	            					categories : [ '' ],
-	            					labels : {
-	            						style : {
-	            							fontSize : '10px'
-	            						}
-	            					}
-	            				},
-	            				yAxis : {
-	            					labels: {
-	            			            enabled: false
-	            			        },			        
-	            					max : 100,
-	            					title : false,
-	            					plotBands : [ {
-	            						from : pressaoMinBaixaPerc,
-	            						to : pressaoMinPerc,
-	            						color : '#FFEBEE'
-	            					}, {
-	            						from : pressaoMinPerc,
-	            						to : pressaoMaxPerc,
-	            						color : '#cce6ff'
-	            					}, {
-	            						from : pressaoMaxPerc,
-	            						to : pressaoMaxAltaPerc,
-	            						color : "#FFEBEE"
-	            					} ]
-	            				},
-	            				series : [ {
-	            					//name: 'Sales',
-	            					dataLabels: [{
-	            			            format: ''+ pressao + ' MCA',
-	            			            color: 'black'
-	            			        }],
-	            					data : [ pressaoPerc ]
-	            				} ],
-	            				exporting : {
-	            					enabled : false
-	            				}
-	            			});			
-	            			
-	            			$('[data-toggle="popover"]').popover({
-	            			    container: 'body'
-	            			});
-
-		                	cont = cont + 1;
-		                }
-		            }		        
-		        },
-		        error : function() {		
-		            alert('erro');
-		            window.location = "http://www.waterbridge.com.br/";
-		        }
-		    });
-			
-			marcarHoraAtualizacao();
-			
-			setTimeout(function() {
-				atualizarReservatorios();
-			}, 300000);
-		}
-		
-		atualizarReservatorios();
-		
-		
+	<script type="text/javascript">		
+		//atualizarReservatorios();
 	</script>
-<!-- 
-	<script>
-
-		function carregarDados() {
-			
-			for (i = 1; i < 49; i++) {
-
-				var data = Math.floor((Math.random() * 100) + 1);
-				var altura = 250;
-				if(i > 15) {
-					altura = 200;
-				}
-
-				Highcharts.chart('container' + i, {
-					chart : {
-						type : 'column',
-						height : 250,
-						options3d : {
-							enabled : true,
-							alpha : 0,
-							beta : 30,
-							depth : 30
-						}
-					},
-					title : {
-						text : ''
-					},
-					subtitle : {
-						text : '' + i 
-					},
-					legend : {
-						enabled : false
-					},
-					credits : {
-						enabled : false
-					},
-
-					plotOptions : {
-						bar : {
-							colorByPoint : true
-						},
-						series : {
-							zones : [ {
-								color : '#F44336',
-								value : 0
-							}, {
-								color : '#FF5722',
-								value : 5
-							}, {
-								color : '#FF9800',
-								value : 10
-							}, {
-								color : '#FFC107',
-								value : 15
-							}, {
-								color : '#FFEB3B',
-								value : 30
-							}, {
-								color : '#CDDC39',
-								value : 40
-							}, {
-								color : '#8BC34A',
-								value : 45
-							}, {
-								color : '#4CAF50',
-								value : 50
-							}, {
-								color : '#8BC34A',
-								value : 55
-							}, {
-								color : '#CDDC39',
-								value : 60
-							}, {
-								color : '#FFEB3B',
-								value : 65
-							}, {
-								color : '#FFC107',
-								value : 80
-							}, {
-								color : '#FF9800',
-								value : 85
-							}, {
-								color : '#FF5722',
-								value : 90
-							}, {
-								color : '#FF5722',
-								value : Number.MAX_VALUE
-							} ],
-							dataLabels : {
-								enabled : true,
-								format : '{point.y:.0f}%'
-							}
-						}
-					},
-					tooltip : {
-						valueDecimals : 1,
-						valueSuffix : '%'
-					},
-					xAxis : {
-						type : 'category',
-						categories : [ '' ],
-						labels : {
-							style : {
-								fontSize : '10px'
-							}
-						}
-					},
-					yAxis : {
-						max : 100,
-						title : false,
-						plotBands : [ {
-							from : 0,
-							to : 30,
-							color : '#E8F5E9'
-						}, {
-							from : 30,
-							to : 70,
-							color : '#FFFDE7'
-						}, {
-							from : 70,
-							to : 100,
-							color : "#FFEBEE"
-						} ]
-					},
-					series : [ {
-						//name: 'Sales',
-						data : [ data ]
-					} ],
-					exporting : {
-						enabled : false
-					}
-				});
-
-			}
-			setTimeout(function() {
-				carregarDados();
-			}, 5000);
-		}
-		setTimeout(function() {
-			carregarDados();
-		}, 1000);
-				
-	</script>
--->
 </body>
 </html>
