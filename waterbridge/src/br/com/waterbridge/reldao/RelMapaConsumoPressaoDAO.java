@@ -54,7 +54,7 @@ public class RelMapaConsumoPressaoDAO {
             "FROM      VW_MAPACONSUMOPRESSAO " +            	
             sql
             );
-            
+                        
             rs = stmt.executeQuery();
 
             while (rs.next()) {

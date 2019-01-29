@@ -55,21 +55,8 @@ function listarCondominio() {
 	}
 }
 
-function marcarHoraAtualizacao() {
-	  var dia = new Date().getDate();
-	  dia = lPad(dia, 2);
-	  var mes = new Date().getMonth() + 1;
-	  mes = lPad(mes, 2);;
-	  var ano = new Date().getFullYear();
-	  ano = lPad(ano, 2);
-	  var hora = new Date().getHours();
-	  hora = lPad(hora, 2);
-	  var minuto = new Date().getMinutes();
-	  minuto = lPad(minuto, 2);			 
-	  
-	  var data = dia + '/' + mes + '/' + ano + ' ' + hora + ':' + minuto ;
-	  
-	  document.getElementById("divHoraAtualizacao").innerHTML = '<p class="text-muted"><label style="font-size: 8pt;">ATUALIZA&Ccedil;&Atilde;O ' + data + '</label></p>';
+function abrirMapaReservatorios() {
+	window.open('MapaConsumoPressaoBO?acao=1', '_blank');
 }
 
 function lPad(number, length) {   
@@ -293,8 +280,6 @@ function atualizarReservatorios() {
             window.location = "http://www.waterbridge.com.br/";
         }
     });
-	
-	//marcarHoraAtualizacao();
 	
 	timeAtualizarRelatorios = setTimeout(function() {
 		atualizarReservatorios();

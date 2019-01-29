@@ -25,8 +25,8 @@
 	<script src="https://code.highcharts.com/modules/exporting.js"></script>
 	
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.css" rel="stylesheet"/>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/i18n/defaults-pt_BR.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/i18n/defaults-pt_BR.js"></script>
 
 </head>
 <body>
@@ -42,14 +42,9 @@
             <div class="col-sm-5 text-center"></div>
             <div class="col-sm-2 text-center"><p class="text-muted"><label style="font-size: 14pt;">Reservatórios</label></p></div>
             <div class="col-sm-1 text-center">
-            	<button type="button" class="btn btn-info btn-xs">
+            	<button type="button" class="btn btn-info btn-xs" onclick="abrirMapaReservatorios()">
             		<span class="glyphicon glyphicon-map-marker"></span> Mapa
             	</button>
-            	<script>
-                    $( "#btfiltro" ).click(function() {
-                        $( "#divFiltro" ).slideToggle(300);
-                    });
-                </script>
             </div>
             <div class="col-sm-1 text-center">
             	<button type="button" class="btn btn-info btn-xs" id="btfiltro">
