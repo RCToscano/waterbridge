@@ -147,8 +147,9 @@ function atualizarReservatorios() {
                 	var data = relPressaoLast.pressao;			
         			var altura = 140;
         			var condonimio = relPressaoLast.condominio;
-        			var deviceNum = relPressaoLast.deviceNum;		                	
-        			;
+        			var deviceNum = relPressaoLast.deviceNum;		                	        			
+        			
+        			$('#divHoraAtualizacao').html('<p class="text-muted"><label style="font-size: 8pt;">ATUALIZA&Ccedil;&Atilde;O ' + relPressaoLast.dtBusca + '</label></p>');
         			
                 	var info = 
                 	'' + relPressaoLast.condominio + '<br>' +
@@ -159,9 +160,9 @@ function atualizarReservatorios() {
         			'Hora: ' + relPressaoLast.dtInsert + '<br>' 
         			;
                 	$('#titulo' + cont).html(
-                			'<label style="font-size: 7pt; margin: 0px;" data-toggle="popover" title="" data-trigger="hover" data-content="' + info + '" data-original-title="" data-html="true">' + limitarTexto(relPressaoLast.condominio, 15) + '</label><br>' +
-                			'<label style="font-size: 7pt; margin: 0px;">' + relPressaoLast.dtInsert.substring(0, 5) + ' ' + relPressaoLast.dtInsert.substring(11, 16) + '</label>'
-                			);
+        			'<label style="font-size: 7pt; margin: 0px;" data-toggle="popover" title="" data-trigger="hover" data-content="' + info + '" data-original-title="" data-html="true">' + limitarTexto(relPressaoLast.condominio, 15) + '</label><br>' +
+        			'<label style="font-size: 7pt; margin: 0px;">' + relPressaoLast.dtInsert.substring(0, 5) + ' ' + relPressaoLast.dtInsert.substring(11, 16) + '</label>'
+        			);
                 	
         			var pressao = relPressaoLast.pressao;	
         			var pressaoMinBaixa = relPressaoLast.pressaoMinBaixa;
@@ -293,7 +294,7 @@ function atualizarReservatorios() {
         }
     });
 	
-	marcarHoraAtualizacao();
+	//marcarHoraAtualizacao();
 	
 	timeAtualizarRelatorios = setTimeout(function() {
 		atualizarReservatorios();

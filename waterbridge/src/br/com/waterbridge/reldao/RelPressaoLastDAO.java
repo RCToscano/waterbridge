@@ -41,7 +41,8 @@ public class RelPressaoLastDAO {
 			"          VW_PRESSAOLAST.PRESSAOMIN, " +
 			"          VW_PRESSAOLAST.PRESSAOMAX, " +
 			"          VW_PRESSAOLAST.PRESSAOMAXALTA, " +
-			"          VW_PRESSAOLAST.DTINSERT " +
+			"          VW_PRESSAOLAST.DTINSERT, " +
+			"          VW_PRESSAOLAST.DTBUSCA " +
 			"FROM      VW_PRESSAOLAST " +			  			
             sql
             );
@@ -64,6 +65,7 @@ public class RelPressaoLastDAO {
             	relPressaoLast.setPressaoMax(rs.getDouble("PRESSAOMAX"));
             	relPressaoLast.setPressaoMaxAlta(rs.getDouble("PRESSAOMAXALTA"));	
             	relPressaoLast.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));
+            	relPressaoLast.setDtBusca(Auxiliar.formataDtTelaHr(rs.getString("DTBUSCA")));
             	
             	listRelCondominio.add(relPressaoLast);
             }

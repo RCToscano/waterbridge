@@ -15,6 +15,7 @@ public class RelPressaoLast {
 	private Double pressaoMax;
 	private Double pressaoMaxAlta;	
 	private String dtInsert;
+	private String dtBusca;
 	
 	public Long getIdEmpresa() {
 		return idEmpresa;
@@ -93,6 +94,12 @@ public class RelPressaoLast {
 	}
 	public void setDtInsert(String dtInsert) {
 		this.dtInsert = dtInsert;
+	}
+	public String getDtBusca() {
+		return dtBusca;
+	}
+	public void setDtBusca(String dtBusca) {
+		this.dtBusca = dtBusca;
 	}
 
 }
