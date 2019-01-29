@@ -228,7 +228,7 @@
 								</div>
 							</div>
 						</div>
-						<c:if test = "${bridge.bridgeTp.idBridgeTp == 2 || metaPressao != null}">
+						<c:if test = "${bridge.bridgeTp.idBridgeTp == 2 || bridge.bridgeTp.idBridgeTp == 4 || metaPressao != null}">
 					    	<script type="text/javascript">
 								$("#divLimitesPressao").fadeIn(300);		
 							</script>

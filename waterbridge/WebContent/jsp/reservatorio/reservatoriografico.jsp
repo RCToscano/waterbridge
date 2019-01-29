@@ -43,7 +43,7 @@
             <div class="col-sm-2 text-center"><p class="text-muted"><label style="font-size: 14pt;">Reservatórios</label></p></div>
             <div class="col-sm-1 text-center">
             	<button type="button" class="btn btn-info btn-xs">
-            		<span class="glyphicon glyphicon-map-marker"></span> Pontos
+            		<span class="glyphicon glyphicon-map-marker"></span> Mapa
             	</button>
             	<script>
                     $( "#btfiltro" ).click(function() {

@@ -162,7 +162,7 @@ function exibirDivLimitesPressao() {
 	var idBridgeTp = document.getElementById("idBridgeTp");
 	var divLimitesPressao = document.getElementById("divLimitesPressao");
 	
-	if(idBridgeTp.value == 2) {
+	if(idBridgeTp.value == 2 || idBridgeTp.value == 4) {
 		
 		//divLimitesPressao.style.display = 'block';
 		$("#divLimitesPressao").fadeIn(300);
