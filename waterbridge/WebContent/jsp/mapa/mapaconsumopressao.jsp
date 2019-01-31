@@ -30,6 +30,13 @@
         </style>
     </head>
     <body>
+    	<div class="row" style="text-align: center; padding: 5px; background-color: #156fc3;">			
+			<div class="col-sm-2 text-center"><img class="img-responsive center-block" src="./images/logo_waterbridge_menu.png" alt=""></div>
+			<div class="col-sm-2 text-center"></div>
+            <div class="col-sm-4 text-center"><p class="text-muted"></p></div>
+            <div class="col-sm-2 text-center"></div>
+            <div class="col-sm-2 text-right"><img class="img-responsive center-block" src="./images/logo_desoltec_branco_menu.png" alt=""></div>            
+		</div>
         <div id="map"></div>
         <div id='divscript' style='background-color: #fff; position: absolute; top: 50px; min-width: 50px; right: 10px; z-index: 1; width: 5%;' >
             <a href="#" id="hrfiltros"><span class="label label-primary">F I L T R O S</span></a>
