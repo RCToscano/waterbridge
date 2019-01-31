@@ -173,7 +173,7 @@
                     '    <p><b>Pressao (MCA): </b> ' + relMapaConsumoPressao.pressure + '</p>' +
                     '    <p><b>Volume (M3): </b> ' + relMapaConsumoPressao.volume + '</p>' ;	
                 }
-                else if(relMapaConsumoPressao.idBridgeTp == 2) {
+                else if(relMapaConsumoPressao.idBridgeTp == 2 || relMapaConsumoPressao.idBridgeTp == 4) {
                 	texto = 
                  	'    <p><b>Tipo Medidor: </b> PRESSAO </p>' +	
                		'    <p><b>Bridge: </b> ' + relMapaConsumoPressao.device + ' </p>' +
