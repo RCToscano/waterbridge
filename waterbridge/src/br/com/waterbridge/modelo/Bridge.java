@@ -13,9 +13,9 @@ public class Bridge {
 	private Double custoMensal;
 	private Long taxaEnvio;
 	private String descricao;
+	private Double ajuste;
 	private String situacao;
 	private String dtInsert;
-	
 	public Long getIdBridge() {
 		return idBridge;
 	}
@@ -82,6 +82,12 @@ public class Bridge {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
+	public Double getAjuste() {
+		return ajuste;
+	}
+	public void setAjuste(Double ajuste) {
+		this.ajuste = ajuste;
+	}
 	public String getSituacao() {
 		return situacao;
 	}
@@ -94,5 +100,5 @@ public class Bridge {
 	public void setDtInsert(String dtInsert) {
 		this.dtInsert = dtInsert;
 	}
-
+	
 }

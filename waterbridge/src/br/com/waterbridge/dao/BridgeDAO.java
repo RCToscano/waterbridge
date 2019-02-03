@@ -41,10 +41,11 @@ public class BridgeDAO {
     		"       TAXAENVIO, " +
     		"       SITUACAO, " +
     		"       ID_BRIDGETP, " +
+    		"       AJUSTE, " +
     		"       DTINSERT " +
             ") VALUES ( " +
             "       ?,?,?,?,?,?,?,?,?,?, " +
-            "       ?,SYSDATE() " +
+            "       ?,?,SYSDATE() " +
             ")");
             
             //stmt.setObject(1, bridge.getIdBridge());
@@ -59,6 +60,7 @@ public class BridgeDAO {
             stmt.setObject(9, bridge.getTaxaEnvio());
             stmt.setObject(10, bridge.getSituacao());
             stmt.setObject(11, bridge.getBridgeTp().getIdBridgeTp());
+            stmt.setObject(12, bridge.getAjuste());
             //stmt.setObject(10, bridge.getDtInsert());
             
             stmt.execute();
@@ -98,6 +100,7 @@ public class BridgeDAO {
     		"       TAXAENVIO = ?, " +
     		"       SITUACAO = ?, " +
     		"       ID_BRIDGETP = ?, " +
+    		"       AJUSTE = ?, " +
     		"       DTINSERT = SYSDATE() " +
     		"WHERE  ID_BRIDGE = ? ");
             
@@ -112,8 +115,9 @@ public class BridgeDAO {
             stmt.setObject(9, bridge.getTaxaEnvio());
             stmt.setObject(10, bridge.getSituacao());
             stmt.setObject(11, bridge.getBridgeTp().getIdBridgeTp());
+            stmt.setObject(12, bridge.getAjuste());
             //stmt.setObject(10, bridge.getDtInsert());
-            stmt.setObject(12, bridge.getIdBridge());
+            stmt.setObject(13, bridge.getIdBridge());
 
             stmt.execute();
         }
@@ -181,6 +185,7 @@ public class BridgeDAO {
             "       CUSTOMENSAL, " +
             "       TAXAENVIO, " +
             "       SITUACAO, " +
+            "       AJUSTE, " +
             " 	    DTINSERT " +
             "FROM   TB_BRIDGE " +
             "WHERE  ID_BRIDGE = ? "
@@ -211,6 +216,7 @@ public class BridgeDAO {
                 bridge.setCustoMensal(rs.getDouble("CUSTOMENSAL"));
                 bridge.setTaxaEnvio(rs.getLong("TAXAENVIO"));
                 bridge.setSituacao(rs.getString("SITUACAO"));
+                bridge.setAjuste(rs.getDouble("AJUSTE"));
                 bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));                
             }
             
@@ -254,6 +260,7 @@ public class BridgeDAO {
             "       CUSTOMENSAL, " +
             "       TAXAENVIO, " +
             "       SITUACAO, " +
+            "       AJUSTE, " +
             " 	    DTINSERT " +
             "FROM   TB_BRIDGE " +
             sql
@@ -282,6 +289,7 @@ public class BridgeDAO {
                 bridge.setCustoMensal(rs.getDouble("CUSTOMENSAL"));
                 bridge.setTaxaEnvio(rs.getLong("TAXAENVIO"));
                 bridge.setSituacao(rs.getString("SITUACAO"));
+                bridge.setAjuste(rs.getDouble("AJUSTE"));
                 bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));        
                 
                 listBridge.add(bridge);
@@ -327,6 +335,7 @@ public class BridgeDAO {
             "       CUSTOMENSAL, " +
             "       TAXAENVIO, " +
             "       SITUACAO, " +
+            "       AJUSTE, " +
             " 	    DTINSERT " +
             "FROM   TB_BRIDGE " +
             "WHERE  DEVICENUM = ? "
@@ -357,6 +366,7 @@ public class BridgeDAO {
                 bridge.setCustoMensal(rs.getDouble("CUSTOMENSAL"));
                 bridge.setTaxaEnvio(rs.getLong("TAXAENVIO"));
                 bridge.setSituacao(rs.getString("SITUACAO"));
+                bridge.setAjuste(rs.getDouble("AJUSTE"));
                 bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));                
             }
             
@@ -400,6 +410,7 @@ public class BridgeDAO {
             "       CUSTOMENSAL, " +
             "       TAXAENVIO, " +
             "       SITUACAO, " +
+            "       AJUSTE, " +
             " 	    DTINSERT " +
             "FROM   TB_BRIDGE " +
             "WHERE  DEVICENUM = ? " +
@@ -432,6 +443,7 @@ public class BridgeDAO {
                 bridge.setCustoMensal(rs.getDouble("CUSTOMENSAL"));
                 bridge.setTaxaEnvio(rs.getLong("TAXAENVIO"));
                 bridge.setSituacao(rs.getString("SITUACAO"));
+                bridge.setAjuste(rs.getDouble("AJUSTE"));
                 bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));                
             }
             
@@ -475,6 +487,7 @@ public class BridgeDAO {
             "       CUSTOMENSAL, " +
             "       TAXAENVIO, " +
             "       SITUACAO, " +
+            "       AJUSTE, " +
             " 	    DTINSERT " +
             "FROM   TB_BRIDGE " +
             "WHERE  UPPER(DEVICENUM) LIKE '%" + deviceNum.toUpperCase() + "%' "
@@ -503,6 +516,7 @@ public class BridgeDAO {
                 bridge.setCustoMensal(rs.getDouble("CUSTOMENSAL"));
                 bridge.setTaxaEnvio(rs.getLong("TAXAENVIO"));
                 bridge.setSituacao(rs.getString("SITUACAO"));
+                bridge.setAjuste(rs.getDouble("AJUSTE"));
                 bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));        
                 
                 listBridge.add(bridge);
@@ -548,6 +562,7 @@ public class BridgeDAO {
             "       CUSTOMENSAL, " +
             "       TAXAENVIO, " +
             "       SITUACAO, " +
+            "       AJUSTE, " +
             " 	    DTINSERT " +
             "FROM   TB_BRIDGE " +
             "WHERE  ID_CONDOMINIO = ? "
@@ -578,6 +593,7 @@ public class BridgeDAO {
                 bridge.setCustoMensal(rs.getDouble("CUSTOMENSAL"));
                 bridge.setTaxaEnvio(rs.getLong("TAXAENVIO"));
                 bridge.setSituacao(rs.getString("SITUACAO"));
+                bridge.setAjuste(rs.getDouble("AJUSTE"));
                 bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));        
                 
                 listBridge.add(bridge);
@@ -623,6 +639,7 @@ public class BridgeDAO {
             "          TB_BRIDGE.CUSTOMENSAL, " +
             "          TB_BRIDGE.TAXAENVIO, " +
             "          TB_BRIDGE.SITUACAO, " +
+            "          TB_BRIDGE.AJUSTE, " +
             " 	       TB_BRIDGE.DTINSERT " +
             "FROM      TB_BRIDGE " +
             "LEFT JOIN VW_USERBRIDGEID " +
@@ -657,6 +674,7 @@ public class BridgeDAO {
                 bridge.setCustoMensal(rs.getDouble("CUSTOMENSAL"));
                 bridge.setTaxaEnvio(rs.getLong("TAXAENVIO"));
                 bridge.setSituacao(rs.getString("SITUACAO"));
+                bridge.setAjuste(rs.getDouble("AJUSTE"));
                 bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));        
                 
                 listBridge.add(bridge);
@@ -702,6 +720,7 @@ public class BridgeDAO {
             "          TB_BRIDGE.CUSTOMENSAL, " +
             "          TB_BRIDGE.TAXAENVIO, " +
             "          TB_BRIDGE.SITUACAO, " +
+            "          TB_BRIDGE.AJUSTE, " +
             " 	       TB_BRIDGE.DTINSERT " +
             "FROM      TB_BRIDGE " +
             "LEFT JOIN VW_USERBRIDGEID " +
@@ -737,6 +756,7 @@ public class BridgeDAO {
                 bridge.setCustoMensal(rs.getDouble("CUSTOMENSAL"));
                 bridge.setTaxaEnvio(rs.getLong("TAXAENVIO"));
                 bridge.setSituacao(rs.getString("SITUACAO"));
+                bridge.setAjuste(rs.getDouble("AJUSTE"));
                 bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));        
                 
                 listBridge.add(bridge);
@@ -782,6 +802,7 @@ public class BridgeDAO {
             "          TB_BRIDGE.CUSTOMENSAL, " +
             "          TB_BRIDGE.TAXAENVIO, " +
             "          TB_BRIDGE.SITUACAO, " +
+            "          TB_BRIDGE.AJUSTE, " +
             " 	       TB_BRIDGE.DTINSERT " +
             "FROM      TB_BRIDGE " +
             "LEFT JOIN VW_USERBRIDGEID " +
@@ -817,6 +838,7 @@ public class BridgeDAO {
                 bridge.setCustoMensal(rs.getDouble("CUSTOMENSAL"));
                 bridge.setTaxaEnvio(rs.getLong("TAXAENVIO"));
                 bridge.setSituacao(rs.getString("SITUACAO"));
+                bridge.setAjuste(rs.getDouble("AJUSTE"));
                 bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));        
                 
                 listBridge.add(bridge);
@@ -861,6 +883,7 @@ public class BridgeDAO {
 					"       CUSTOMENSAL, " +
 					"       TAXAENVIO, " +
 					"       SITUACAO, " +
+					"       AJUSTE, " +
 					" 	    DTINSERT " +
 					"FROM   TB_BRIDGE " 
     				);
@@ -888,6 +911,7 @@ public class BridgeDAO {
     			bridge.setCustoMensal(rs.getDouble("CUSTOMENSAL"));
     			bridge.setTaxaEnvio(rs.getLong("TAXAENVIO"));
     			bridge.setSituacao(rs.getString("SITUACAO"));
+    			bridge.setAjuste(rs.getDouble("AJUSTE"));
     			bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));        
     			
     			listBridge.add(bridge);

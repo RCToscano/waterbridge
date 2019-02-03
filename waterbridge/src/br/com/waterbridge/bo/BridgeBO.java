@@ -127,6 +127,15 @@ public class BridgeBO extends HttpServlet {
 					bridge.setTaxaEnvio(Long.parseLong(req.getParameter("taxaEnvio")));
 					bridge.setDescricao(Auxiliar.removerCaracteres(req.getParameter("descricao")).toUpperCase());
 					bridge.setSituacao(req.getParameter("situacao"));
+					if(req.getParameter("ajuste") != null 
+							&& req.getParameter("ajuste").toString().length() > 0
+							&& !req.getParameter("ajuste").equals("-0,000")
+							&& (req.getParameter("idBridgeTp").equals("2") || req.getParameter("idBridgeTp").equals("4"))) {						
+						bridge.setAjuste(Double.parseDouble(req.getParameter("ajuste").replace(".", "").replace(",", ".")));
+					}
+					else {
+						bridge.setAjuste(0.0);
+					}
 					bridge.setDtInsert(null);
 					
 					bridgeDAO.inserir(bridge);

@@ -227,6 +227,18 @@
 			                        </script>
 								</div>
 							</div>
+							<div class="col-sm-3">
+								<div class="form-group">	
+									<label class="control-label">Ajuste Press&atilde;o</label>
+									<input type="text" class="form-control" id="ajuste" name="ajuste" value="<fmt:formatNumber value="${bridge.ajuste}" type="currency" currencySymbol="" minFractionDigits = "3"/>" maxlength="6" />
+									<script>
+			                            $(function() {
+			                                $("#ajuste").maskMoney({prefix:'', allowNegative: true, thousands:'.', decimal:',', affixesStay: false, precision: 3});
+			                            });
+			                        </script>							
+								</div>
+							</div>
+							<div class="col-sm-9"></div>
 						</div>
 						<c:if test = "${bridge.bridgeTp.idBridgeTp == 2 || bridge.bridgeTp.idBridgeTp == 4 || metaPressao != null}">
 					    	<script type="text/javascript">

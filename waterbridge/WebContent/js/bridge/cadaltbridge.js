@@ -12,6 +12,7 @@ function validarForm() {
 	var taxaEnvio = document.getElementById("taxaEnvio");
 	var idBridgeTp = document.getElementById("idBridgeTp");
 	var idCondominio = document.getElementById("idCondominio");
+	var ajuste = document.getElementById("ajuste");
 	
 	var minimoPressaoBaixa = document.getElementById("minimoPressaoBaixa");
 	var minimoPressaoNormal = document.getElementById("minimoPressaoNormal");
@@ -30,6 +31,7 @@ function validarForm() {
 	taxaEnvio.style.removeProperty('border');
 	idBridgeTp.style.removeProperty('border');
 	idCondominio.style.removeProperty('border');
+	ajuste.style.removeProperty('border');
 	
 	minimoPressaoBaixa.style.removeProperty('border');
 	minimoPressaoNormal.style.removeProperty('border');
@@ -103,7 +105,7 @@ function validarForm() {
         return false;
     }
     
-    else if(idBridgeTp.value == '2'
+    else if((idBridgeTp.value == '2' || idBridgeTp.value == '4')
     		&& minimoPressaoBaixa.value.trim() == '') {
 
     	minimoPressaoBaixa.style.borderColor = colorRed;
@@ -111,7 +113,7 @@ function validarForm() {
     	minimoPressaoBaixa.focus();
         return false;
     }
-    else if(idBridgeTp.value == '2'
+    else if((idBridgeTp.value == '2' || idBridgeTp.value == '4')
 			&& minimoPressaoNormal.value.trim() == '') {
 	
     	minimoPressaoNormal.style.borderColor = colorRed;
@@ -119,7 +121,7 @@ function validarForm() {
 		minimoPressaoNormal.focus();
 	    return false;
 	}
-    else if(idBridgeTp.value == '2'
+    else if((idBridgeTp.value == '2' || idBridgeTp.value == '4')
 			&& maximoPressaoNormal.value.trim() == '') {
 	
     	maximoPressaoNormal.style.borderColor = colorRed;
@@ -127,7 +129,7 @@ function validarForm() {
 		maximoPressaoNormal.focus();
 	    return false;
 	}
-    else if(idBridgeTp.value == '2'
+    else if((idBridgeTp.value == '2' || idBridgeTp.value == '4')
 			&& maximoPressaoAlta.value.trim() == '') {
 	
     	maximoPressaoAlta.style.borderColor = colorRed;
