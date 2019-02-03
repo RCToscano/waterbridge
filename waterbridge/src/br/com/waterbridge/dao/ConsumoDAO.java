@@ -40,10 +40,13 @@ public class ConsumoDAO {
             "		TEMPERATURE, " +
             "		BATTERY, " +
             "		ALARM, " +
-            "		DTINSERT " +
+            "		ID_EMPRESA, " +
+            "		ID_CONDOMINIO, " +
+            "		ID_BRIDGE, " +
+            "		DTINSERT " +           
             ") VALUES ( " +
             "       ?,?,?,?,?,?,?,?,?,?, " +
-            "       ?,?,? " +
+            "       ?,?,?,?,?,? " +
             ") ");
             
             //stmt.setObject(1, consumo.getIdConsumo());
@@ -58,8 +61,11 @@ public class ConsumoDAO {
             stmt.setObject(9, consumo.getFlow());
             stmt.setObject(10, consumo.getTemperature());
             stmt.setObject(11, consumo.getBattery());
-            stmt.setObject(12, consumo.getAlarm());
-            stmt.setObject(13, consumo.getDtInsert());
+            stmt.setObject(12, consumo.getAlarm());            
+            stmt.setObject(13, consumo.getIdEmpresa());
+            stmt.setObject(14, consumo.getIdCondominio());
+            stmt.setObject(15, consumo.getIdBridge());            
+            stmt.setObject(16, consumo.getDtInsert());
             
             stmt.executeUpdate();
         }
@@ -98,6 +104,9 @@ public class ConsumoDAO {
     		"		  TEMPERATURE, " +
     		"		  BATTERY, " +
     		"		  ALARM, " +
+    		"		  ID_EMPRESA, " +
+    		"		  ID_CONDOMINIO, " +
+    		"		  ID_BRIDGE, " +
     		"		  DTINSERT " +
         	"FROM     TB_CONSUMO " +
         	"WHERE    TB_CONSUMO.ID_MEDIDOR = ? " +
@@ -127,7 +136,10 @@ public class ConsumoDAO {
             	consumo.setFlow(rs.getLong("FLOW"));
             	consumo.setTemperature(rs.getLong("TEMPERATURE"));
             	consumo.setBattery(rs.getDouble("BATTERY"));
-            	consumo.setAlarm(rs.getLong("ALARM"));
+            	consumo.setAlarm(rs.getLong("ALARM"));            	
+            	consumo.setIdEmpresa(rs.getLong("ID_EMPRESA"));
+            	consumo.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
+            	consumo.setIdBridge(rs.getLong("ID_BRIDGE"));            	
             	consumo.setDtInsert(rs.getString("DTINSERT"));
             }
 
@@ -172,6 +184,9 @@ public class ConsumoDAO {
     		"		  TEMPERATURE, " +
     		"		  BATTERY, " +
     		"		  ALARM, " +
+    		"		  ID_EMPRESA, " +
+    		"		  ID_CONDOMINIO, " +
+    		"		  ID_BRIDGE, " +
     		"		  DTINSERT " +
         	"FROM     TB_CONSUMO " +
         	"WHERE    TB_CONSUMO.ID_MEDIDOR = ? " +
@@ -202,6 +217,9 @@ public class ConsumoDAO {
             	consumo.setTemperature(rs.getLong("TEMPERATURE"));
             	consumo.setBattery(rs.getDouble("BATTERY"));
             	consumo.setAlarm(rs.getLong("ALARM"));
+            	consumo.setIdEmpresa(rs.getLong("ID_EMPRESA"));
+            	consumo.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
+            	consumo.setIdBridge(rs.getLong("ID_BRIDGE"));
             	consumo.setDtInsert(rs.getString("DTINSERT"));
             }
 
@@ -246,6 +264,9 @@ public class ConsumoDAO {
     		"		  TEMPERATURE, " +
     		"		  BATTERY, " +
     		"		  ALARM, " +
+    		"		  ID_EMPRESA, " +
+    		"		  ID_CONDOMINIO, " +
+    		"		  ID_BRIDGE, " +
     		"		  DTINSERT " +
         	"FROM     TB_CONSUMO " +
         	"WHERE    TB_CONSUMO.ID_MEDIDOR = ? " +
@@ -276,6 +297,9 @@ public class ConsumoDAO {
             	consumo.setTemperature(rs.getLong("TEMPERATURE"));
             	consumo.setBattery(rs.getDouble("BATTERY"));
             	consumo.setAlarm(rs.getLong("ALARM"));
+            	consumo.setIdEmpresa(rs.getLong("ID_EMPRESA"));
+            	consumo.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
+            	consumo.setIdBridge(rs.getLong("ID_BRIDGE"));
             	consumo.setDtInsert(rs.getString("DTINSERT"));
             }
 
@@ -320,6 +344,9 @@ public class ConsumoDAO {
     		"		  TEMPERATURE, " +
     		"		  BATTERY, " +
     		"		  ALARM, " +
+    		"		  ID_EMPRESA, " +
+    		"		  ID_CONDOMINIO, " +
+    		"		  ID_BRIDGE, " +
     		"		  DTINSERT " +
         	"FROM     TB_CONSUMO " +
         	"WHERE    TB_CONSUMO.ID_MEDIDOR = ? " +
@@ -350,6 +377,9 @@ public class ConsumoDAO {
             	consumo.setTemperature(rs.getLong("TEMPERATURE"));
             	consumo.setBattery(rs.getDouble("BATTERY"));
             	consumo.setAlarm(rs.getLong("ALARM"));
+            	consumo.setIdEmpresa(rs.getLong("ID_EMPRESA"));
+            	consumo.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
+            	consumo.setIdBridge(rs.getLong("ID_BRIDGE"));
             	consumo.setDtInsert(rs.getString("DTINSERT"));
             }
 
@@ -394,6 +424,9 @@ public class ConsumoDAO {
     		"		  TEMPERATURE, " +
     		"		  BATTERY, " +
     		"		  ALARM, " +
+    		"		  ID_EMPRESA, " +
+    		"		  ID_CONDOMINIO, " +
+    		"		  ID_BRIDGE, " +
     		"		  DTINSERT " +
         	"FROM     TB_CONSUMO " +
         	"WHERE    TB_CONSUMO.ID_MEDIDOR = ? " +
@@ -424,6 +457,9 @@ public class ConsumoDAO {
             	consumo.setTemperature(rs.getLong("TEMPERATURE"));
             	consumo.setBattery(rs.getDouble("BATTERY"));
             	consumo.setAlarm(rs.getLong("ALARM"));
+            	consumo.setIdEmpresa(rs.getLong("ID_EMPRESA"));
+            	consumo.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
+            	consumo.setIdBridge(rs.getLong("ID_BRIDGE"));
             	consumo.setDtInsert(rs.getString("DTINSERT"));
             }
 
@@ -562,6 +598,9 @@ public class ConsumoDAO {
     		"		TEMPERATURE = ?, " +
     		"		BATTERY = ?, " +
     		"		ALARM = ?, " +
+    		"		ID_EMPRESA = ?, " +
+    		"		ID_CONDOMINIO = ?, " +
+    		"		ID_BRIDGE = ?, " +
     		"		DTINSERT = ? " +
         	"WHERE  ID_CONSUMO = ? " 
     		);
@@ -577,9 +616,12 @@ public class ConsumoDAO {
             stmt.setObject(9, consumo.getFlow());
             stmt.setObject(10, consumo.getTemperature());
             stmt.setObject(11, consumo.getBattery());
-            stmt.setObject(12, consumo.getAlarm());
-            stmt.setObject(13, consumo.getDtInsert());
-            stmt.setObject(14, consumo.getIdConsumo());
+            stmt.setObject(12, consumo.getAlarm());            
+            stmt.setObject(13, consumo.getIdEmpresa());
+            stmt.setObject(14, consumo.getIdCondominio());
+            stmt.setObject(15, consumo.getIdBridge());            
+            stmt.setObject(16, consumo.getDtInsert());
+            stmt.setObject(17, consumo.getIdConsumo());
             
             stmt.executeUpdate();
         }
@@ -808,6 +850,9 @@ public class ConsumoDAO {
     		"		  TEMPERATURE, " +
     		"		  BATTERY, " +
     		"		  ALARM, " +
+    		"		  ID_EMPRESA, " +
+    		"		  ID_CONDOMINIO, " +
+    		"		  ID_BRIDGE, " +
     		"		  DTINSERT " +
         	"FROM     TB_CONSUMO " +
         	sql +
@@ -832,6 +877,9 @@ public class ConsumoDAO {
             	consumo.setTemperature(rs.getLong("TEMPERATURE"));
             	consumo.setBattery(rs.getDouble("BATTERY"));
             	consumo.setAlarm(rs.getLong("ALARM"));
+            	consumo.setIdEmpresa(rs.getLong("ID_EMPRESA"));
+            	consumo.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
+            	consumo.setIdBridge(rs.getLong("ID_BRIDGE"));
             	consumo.setDtInsert(rs.getString("DTINSERT"));
             	listConsumo.add(consumo);
             }

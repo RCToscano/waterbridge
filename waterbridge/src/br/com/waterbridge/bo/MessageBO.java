@@ -24,15 +24,19 @@ import br.com.waterbridge.auxiliar.Email;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.AlarmDAO;
 import br.com.waterbridge.dao.BridgeDAO;
+import br.com.waterbridge.dao.CondominioDAO;
 import br.com.waterbridge.dao.ConsumoDAO;
 import br.com.waterbridge.dao.EmailAlarmDAO;
+import br.com.waterbridge.dao.EmpresaDAO;
 import br.com.waterbridge.dao.LogSqlDAO;
 import br.com.waterbridge.dao.MedidorDAO;
 import br.com.waterbridge.dao.MessageDAO;
 import br.com.waterbridge.modelo.Alarm;
 import br.com.waterbridge.modelo.Bridge;
+import br.com.waterbridge.modelo.Condominio;
 import br.com.waterbridge.modelo.Consumo;
 import br.com.waterbridge.modelo.EmailAlarm;
+import br.com.waterbridge.modelo.Empresa;
 import br.com.waterbridge.modelo.Message;
 
 public class MessageBO extends HttpServlet {
@@ -121,17 +125,44 @@ public class MessageBO extends HttpServlet {
 			//INSERIR
 			messageDAO.inserir(message);
 			
+			Long idEmpresa = null;
+			Long idCondominio = null;
+			Long idBridge = null;	
+			Long idMedidor = null;
+			
+			BridgeDAO bridgeDAO = new BridgeDAO(connection);
+		    Bridge bridge = bridgeDAO.buscarPorDeviceNum(message.getDevice(), "A");
+		    if(bridge != null) {
+		    	
+		    	idMedidor = medidorDAO.buscarIdMedidor(message.getDevice(), message.getMeterPosition().intValue());
+		    	
+		    	idBridge = bridge.getIdBridge();
+		    	idCondominio = bridge.getIdCondominio();
+		    	
+		    	CondominioDAO condominioDAO = new CondominioDAO(connection);
+		    	Condominio condominio = condominioDAO.buscarPorId(bridge.getIdCondominio());		    	
+		    	idEmpresa = condominio.getIdEmpresa();
+		    }
+		   
 			//TRATAMENTO CONSUMO
 			Consumo consumo = new Consumo();
 			consumo.setIdConsumo(0l);
+			consumo.setIdEmpresa(idEmpresa);
+			consumo.setIdCondominio(idCondominio);
+			consumo.setIdBridge(idBridge);
+			consumo.setIdMedidor(idMedidor);
 			consumo.setIdUser(4l);
-			consumo.setIdMedidor(medidorDAO.buscarIdMedidor(message.getDevice(), message.getMeterPosition().intValue()));
 			consumo.setDevice(message.getDevice());
 			consumo.setData(message.getData());
 			consumo.setVersion(message.getVersion());
 			consumo.setMeterPosition(message.getMeterPosition());
 			consumo.setVolume(message.getVolume());
 			consumo.setPressure(message.getPressure());
+			if(bridge != null && bridge.getAjuste() != null
+					&& (bridge.getBridgeTp().getIdBridgeTp().longValue() == 2 
+			    			|| bridge.getBridgeTp().getIdBridgeTp().longValue() == 4)) {
+				consumo.setPressure(consumo.getPressure() + bridge.getAjuste());
+			}
 			consumo.setFlow(message.getFlow());
 			consumo.setTemperature(message.getTemperature());
 			consumo.setBattery(message.getBattery());
@@ -140,12 +171,11 @@ public class MessageBO extends HttpServlet {
 			
 			consumoDAO.inserir(consumo);
 			
-			//VERIFICA ALARM PRESSAO
-		    BridgeDAO bridgeDAO = new BridgeDAO(connection);
-		    Bridge bridge = bridgeDAO.buscarPorDeviceNum(message.getDevice());
+			//VERIFICA ALARM PRESSAO		    
 		    if(bridge != null) {		    	
 		    	
-		    	if(bridge.getBridgeTp().getIdBridgeTp().longValue() == 2) {//PRESSURE BRIDGE
+		    	if(bridge.getBridgeTp().getIdBridgeTp().longValue() == 2 
+		    			|| bridge.getBridgeTp().getIdBridgeTp().longValue() == 4) {//PRESSURE BRIDGE
 		    		
 		    		MetaPressaoDAO metaPressaoDAO = new MetaPressaoDAO(connection);
 		    		MetaPressao metaPressao = metaPressaoDAO.buscarPorIdBridge(bridge.getIdBridge());

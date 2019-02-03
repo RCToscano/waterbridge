@@ -295,7 +295,6 @@ function inativarUsuarioEmpresa(cont, idUserEmpresa) {
 	             '&idEmpresa=' + idEmpresa.value +
 	             '&idUserEmpresa=' + idUserEmpresa +
 	             '&obs=' + replaceSpecialChars(obs.value)
-	             //'&obs=' + obs.value
 	        ,
 	        type: "POST",
 	        dataType: 'json',

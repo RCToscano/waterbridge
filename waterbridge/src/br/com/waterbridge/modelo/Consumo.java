@@ -3,8 +3,11 @@ package br.com.waterbridge.modelo;
 public class Consumo {
 
 	private Long idConsumo;
-	private Long idUser;
+	private Long idEmpresa;
+	private Long idCondominio;
+	private Long idBridge;	
 	private Long idMedidor;
+	private Long idUser;
 	private String device;
 	private String data;
 	private String version;
@@ -23,17 +26,35 @@ public class Consumo {
 	public void setIdConsumo(Long idConsumo) {
 		this.idConsumo = idConsumo;
 	}
-	public Long getIdUser() {
-		return idUser;
+	public Long getIdEmpresa() {
+		return idEmpresa;
 	}
-	public void setIdUser(Long idUser) {
-		this.idUser = idUser;
+	public void setIdEmpresa(Long idEmpresa) {
+		this.idEmpresa = idEmpresa;
+	}
+	public Long getIdCondominio() {
+		return idCondominio;
+	}
+	public void setIdCondominio(Long idCondominio) {
+		this.idCondominio = idCondominio;
+	}
+	public Long getIdBridge() {
+		return idBridge;
+	}
+	public void setIdBridge(Long idBridge) {
+		this.idBridge = idBridge;
 	}
 	public Long getIdMedidor() {
 		return idMedidor;
 	}
 	public void setIdMedidor(Long idMedidor) {
 		this.idMedidor = idMedidor;
+	}
+	public Long getIdUser() {
+		return idUser;
+	}
+	public void setIdUser(Long idUser) {
+		this.idUser = idUser;
 	}
 	public String getDevice() {
 		return device;
