@@ -27,7 +27,6 @@ import br.com.waterbridge.dao.BridgeDAO;
 import br.com.waterbridge.dao.CondominioDAO;
 import br.com.waterbridge.dao.ConsumoDAO;
 import br.com.waterbridge.dao.EmailAlarmDAO;
-import br.com.waterbridge.dao.EmpresaDAO;
 import br.com.waterbridge.dao.LogSqlDAO;
 import br.com.waterbridge.dao.MedidorDAO;
 import br.com.waterbridge.dao.MessageDAO;
@@ -36,7 +35,6 @@ import br.com.waterbridge.modelo.Bridge;
 import br.com.waterbridge.modelo.Condominio;
 import br.com.waterbridge.modelo.Consumo;
 import br.com.waterbridge.modelo.EmailAlarm;
-import br.com.waterbridge.modelo.Empresa;
 import br.com.waterbridge.modelo.Message;
 
 public class MessageBO extends HttpServlet {
