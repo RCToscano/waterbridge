@@ -37,7 +37,7 @@
 		<div class="container">
 			<div class="row">
 				<!--SOMENTE PERFIL LOCAL -->		
-				<c:if test="${sessionScope.user.perfil.idPerfil == 1 or sessionScope.user.perfil.idPerfil == 2 or sessionScope.user.perfil.idPerfil == 3 or sessionScope.user.perfil.idPerfil == 4}">
+				<c:if test="${sessionScope.user.perfil.idPerfil == 1 or sessionScope.user.perfil.idPerfil == 2 or sessionScope.user.perfil.idPerfil == 3 or sessionScope.user.perfil.idPerfil == 4 or sessionScope.user.perfil.idPerfil == 6}">
 					<div class="col-sm-5 col-md-4">
 						<div class="thumbnail">
 							<div class="caption">
