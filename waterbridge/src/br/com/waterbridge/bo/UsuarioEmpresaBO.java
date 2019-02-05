@@ -193,10 +193,11 @@ public class UsuarioEmpresaBO extends HttpServlet {
 					
 					aviso = "O cpf informado não foi localizado";
 				}
-				else if(user1.getPerfil().getIdPerfil().longValue() != 3) {//PERFIL DO USUARIO NAO COMPATIVEL COM VINCULO
-					
-					aviso = "O usuário informado não possui perfil compatível com vínculo";
-				}
+//              CANCELADA EM 201902042255			
+//				else if(user1.getPerfil().getIdPerfil().longValue() != 3) {//PERFIL DO USUARIO NAO COMPATIVEL COM VINCULO
+//					
+//					aviso = "O usuário informado não possui perfil compatível com vínculo";
+//				}
 				else {
 
 					UserEmpresa userEmpresa = new UserEmpresa();

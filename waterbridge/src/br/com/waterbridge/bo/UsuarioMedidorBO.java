@@ -317,10 +317,11 @@ public class UsuarioMedidorBO extends HttpServlet {
 					
 					aviso = "O cpf informado não foi localizado";
 				}
-				else if(user1.getPerfil().getIdPerfil().longValue() != 5) {//PERFIL DO USUARIO NAO COMPATIVEL COM VINCULO
-					
-					aviso = "O usuário informado não possui perfil compatível com vínculo";
-				}
+//              CANCELADA EM 201902042255				
+//				else if(user1.getPerfil().getIdPerfil().longValue() != 5) {//PERFIL DO USUARIO NAO COMPATIVEL COM VINCULO
+//					
+//					aviso = "O usuário informado não possui perfil compatível com vínculo";
+//				}
 				else {
 
 					UserMedidor userMedidor = new UserMedidor();
