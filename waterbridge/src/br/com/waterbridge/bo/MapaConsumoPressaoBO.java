@@ -52,7 +52,7 @@ public class MapaConsumoPressaoBO extends HttpServlet {
 	                "ON        VW_MAPACONSUMOPRESSAO.ID_CONSUMO = VW_ID_CONSUMOMAX.ID_CONSUMO " +
 	                "WHERE     VW_ID_CONSUMOMAX.ID_CONSUMO IS NOT NULL " ;
 				}
-				else if(user.getPerfil().getIdPerfil().longValue() == 3) {//REPRESENTANTE
+				else {//PROVISORIO
 					sql +=				
 					"LEFT JOIN VW_ID_CONSUMOMAX " +
 					"ON        VW_MAPACONSUMOPRESSAO.ID_CONSUMO = VW_ID_CONSUMOMAX.ID_CONSUMO " + 
@@ -61,24 +61,33 @@ public class MapaConsumoPressaoBO extends HttpServlet {
 					"WHERE     VW_ID_CONSUMOMAX.ID_CONSUMO IS NOT NULL " +
 					"AND       VW_USEREMPRESA.ID_USER = " + user.getIdUser() + " " ;
 				}
-				else if(user.getPerfil().getIdPerfil().longValue() == 4) {//ADMINISTRADOR LOCAL
-					sql +=
-					"LEFT JOIN VW_ID_CONSUMOMAX " +
-					"ON        VW_MAPACONSUMOPRESSAO.ID_CONSUMO = VW_ID_CONSUMOMAX.ID_CONSUMO " + 
-					"LEFT JOIN VW_USERCONDOMINIO " +
-					"ON        VW_MAPACONSUMOPRESSAO.ID_CONDOMINIO = VW_USERCONDOMINIO.ID_CONDOMINIO " +
-					"WHERE     VW_ID_CONSUMOMAX.ID_CONSUMO IS NOT NULL " +
-					"AND       VW_USERCONDOMINIO.ID_USER = " + user.getIdUser() + " " ;
-				}
-				else if(user.getPerfil().getIdPerfil().longValue() == 5) {//CONSUMIDOR
-					sql +=
-					"LEFT JOIN VW_ID_CONSUMOMAX " +
-					"ON        VW_MAPACONSUMOPRESSAO.ID_CONSUMO = VW_ID_CONSUMOMAX.ID_CONSUMO " + 
-					"LEFT JOIN VW_USERMEDIDOR " +
-					"ON        VW_MAPACONSUMOPRESSAO.ID_MEDIDOR = VW_USERMEDIDOR.ID_MEDIDOR " +
-					"WHERE     VW_ID_CONSUMOMAX.ID_CONSUMO IS NOT NULL " +
-					"AND       VW_USERMEDIDOR.ID_USER = " + user.getIdUser() + " " ;
-				}
+//				else if(user.getPerfil().getIdPerfil().longValue() == 3) {//REPRESENTANTE
+//					sql +=				
+//					"LEFT JOIN VW_ID_CONSUMOMAX " +
+//					"ON        VW_MAPACONSUMOPRESSAO.ID_CONSUMO = VW_ID_CONSUMOMAX.ID_CONSUMO " + 
+//					"LEFT JOIN VW_USEREMPRESA " +
+//					"ON        VW_MAPACONSUMOPRESSAO.ID_EMPRESA = VW_USEREMPRESA.ID_EMPRESA " +
+//					"WHERE     VW_ID_CONSUMOMAX.ID_CONSUMO IS NOT NULL " +
+//					"AND       VW_USEREMPRESA.ID_USER = " + user.getIdUser() + " " ;
+//				}
+//				else if(user.getPerfil().getIdPerfil().longValue() == 4) {//ADMINISTRADOR LOCAL
+//					sql +=
+//					"LEFT JOIN VW_ID_CONSUMOMAX " +
+//					"ON        VW_MAPACONSUMOPRESSAO.ID_CONSUMO = VW_ID_CONSUMOMAX.ID_CONSUMO " + 
+//					"LEFT JOIN VW_USERCONDOMINIO " +
+//					"ON        VW_MAPACONSUMOPRESSAO.ID_CONDOMINIO = VW_USERCONDOMINIO.ID_CONDOMINIO " +
+//					"WHERE     VW_ID_CONSUMOMAX.ID_CONSUMO IS NOT NULL " +
+//					"AND       VW_USERCONDOMINIO.ID_USER = " + user.getIdUser() + " " ;
+//				}
+//				else if(user.getPerfil().getIdPerfil().longValue() == 5) {//CONSUMIDOR
+//					sql +=
+//					"LEFT JOIN VW_ID_CONSUMOMAX " +
+//					"ON        VW_MAPACONSUMOPRESSAO.ID_CONSUMO = VW_ID_CONSUMOMAX.ID_CONSUMO " + 
+//					"LEFT JOIN VW_USERMEDIDOR " +
+//					"ON        VW_MAPACONSUMOPRESSAO.ID_MEDIDOR = VW_USERMEDIDOR.ID_MEDIDOR " +
+//					"WHERE     VW_ID_CONSUMOMAX.ID_CONSUMO IS NOT NULL " +
+//					"AND       VW_USERMEDIDOR.ID_USER = " + user.getIdUser() + " " ;
+//				}
 
 				RelMapaConsumoPressaoDAO relMapaConsumoPressaoDAO = new RelMapaConsumoPressaoDAO(connection);
 				List<RelMapaConsumoPressao> listRelMapaConsumoPressao = relMapaConsumoPressaoDAO.listar(sql);
