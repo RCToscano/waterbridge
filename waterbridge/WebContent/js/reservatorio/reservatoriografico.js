@@ -188,7 +188,6 @@ function atualizarReservatorios() {
         				credits : {
         					enabled : false
         				},
-
         				plotOptions : {
         					bar : {
         						colorByPoint : true
@@ -196,16 +195,16 @@ function atualizarReservatorios() {
         					series : {
         						zones : [ {
         							color : '#FF5722',
-        							value : 0
-        						}, {
-        							color : '#FF5722',
         							value : pressaoMinBaixaPerc
         						}, {
-        							color : '#17a2b8',
+        							color : '#ff9800',
         							value : pressaoMinPerc
         						}, {
         							color : '#17a2b8',
-        							value : pressaoMaxAltaPerc
+        							value : pressaoMaxPerc
+        						}, {
+        							color : '#ff9800',
+        							value : pressaoMaxAltaPerc	
         						}, {
         							color : '#FF5722',
         							value : Number.MAX_VALUE
