@@ -31,6 +31,7 @@ public class AndMedidorBO extends HttpServlet {
     	if(req.getParameter("acao") != null && req.getParameter("acao").equals("1")) {
     	
     		Connection connection = null;
+    		String sql = "";
     		
     		try {
          		
@@ -41,36 +42,21 @@ public class AndMedidorBO extends HttpServlet {
 	    		req.getParameter("idUser");
 	    		req.getParameter("idPerfil");
 
+	    		//SE PERFIL NAO FOR PROGRAMADOR OU GERENCIAL 
                 if (req.getParameter("idPerfil") != null 
-                		&& req.getParameter("idPerfil").equals("1")) {//PERFIL PROGRAMADOR
-                	
-                	List<Medidor> listMedidor = medidorDAO.listarPerfilProgramador();
-                	write(res, new Gson().toJson(listMedidor));
+                		&& !req.getParameter("idPerfil").equals("1")
+                		&& !req.getParameter("idPerfil").equals("2")) {
+		    		sql = 
+		    		"LEFT JOIN VW_VINCULOBRIDGEUSER " +
+		    		"ON        VW_MEDIDORAPP.ID_BRIDGE = VW_VINCULOBRIDGEUSER.ID_BRIDGE " +
+		    		"LEFT JOIN VW_VINCULOMEDIDORUSER " +
+		    		"ON        VW_MEDIDORAPP.ID_MEDIDOR = VW_VINCULOMEDIDORUSER.ID_MEDIDOR " +  
+		    		"WHERE     VW_VINCULOBRIDGEUSER.ID_USER = " + req.getParameter("idUser") + " " +
+		    		"OR        VW_VINCULOMEDIDORUSER.ID_USER = " + req.getParameter("idUser") + " " ;
                 }
-                else if (req.getParameter("idPerfil") != null 
-                		&& req.getParameter("idPerfil").equals("2")) {//PERFIL GERENCIAL
-                	
-                	List<Medidor> listMedidor = medidorDAO.listarPerfilGerencial();
-                	write(res, new Gson().toJson(listMedidor));
-                }
-                else if (req.getParameter("idPerfil") != null 
-                		&& req.getParameter("idPerfil").equals("3")) {//PERFIL REPRESENTANTE
-                	
-                	List<Medidor> listMedidor = medidorDAO.listarPerfilRepresentante(req.getParameter("idUser"));
-                	write(res, new Gson().toJson(listMedidor));
-                }
-                else if (req.getParameter("idPerfil") != null 
-                		&& req.getParameter("idPerfil").equals("4")) {//PERFIL ADMINISTRADOR LOCAL
-                	
-                	List<Medidor> listMedidor = medidorDAO.listarPerfilAdministrador(req.getParameter("idUser"));
-                	write(res, new Gson().toJson(listMedidor));
-                }
-                else if (req.getParameter("idPerfil") != null 
-                		&& req.getParameter("idPerfil").equals("5")) {//PERFIL CONSUMIDOR
-                	
-                	List<Medidor> listMedidor = medidorDAO.listarPerfilConsumidor(req.getParameter("idUser"));
-                	write(res, new Gson().toJson(listMedidor));
-                }              
+                
+                List<Medidor> listMedidor = medidorDAO.listar(sql);
+            	write(res, new Gson().toJson(listMedidor));             
 	        }
 	        catch (Exception e) {
 	        	write(res, "erro " + e.toString());
