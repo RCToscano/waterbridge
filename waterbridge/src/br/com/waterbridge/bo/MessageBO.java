@@ -160,6 +160,10 @@ public class MessageBO extends HttpServlet {
 					&& (bridge.getBridgeTp().getIdBridgeTp().longValue() == 2 
 			    			|| bridge.getBridgeTp().getIdBridgeTp().longValue() == 4)) {
 				consumo.setPressure(consumo.getPressure() + bridge.getAjuste());
+				//TRATAMENTO DE PRESSAO QUANDO FOR MENOR QUE 0 APOSTO AJUSTE //ATUALIZADO 06/03/2019 12:28
+				if(consumo.getPressure() != null && consumo.getPressure().doubleValue() < 0){
+					consumo.setPressure(0d);						
+				}
 			}
 			consumo.setFlow(message.getFlow());
 			consumo.setTemperature(message.getTemperature());
