@@ -135,8 +135,8 @@ public class RelatorioPressaoBO extends HttpServlet {
 					}
 					sql += "ORDER BY DTINSERT ";
 	
-					RelPressaoDAO relPressaoDAODAO = new RelPressaoDAO(connection);
-					List<RelPressao> listRelPressao = relPressaoDAODAO.listar(sql);
+					RelPressaoDAO relPressaoDAO = new RelPressaoDAO(connection);
+					List<RelPressao> listRelPressao = relPressaoDAO.listar(sql);
 					
 					String bridge = "";
 					List<String> listData = new ArrayList<String>();
@@ -268,7 +268,45 @@ public class RelatorioPressaoBO extends HttpServlet {
 
             		//Dados
             		List<RelPressao> listaView = relPressaoDAO.listar(sql);
-		        	
+            		
+            		//TRATAMENTO CAMPO ALARME            		
+            		MetaPressaoDAO metaPressaoDAO = new MetaPressaoDAO(connection);
+            		MetaPressao metaPressao = metaPressaoDAO.buscarPorIdBridge(Long.parseLong(req.getParameter("idBridge")));
+            		if(metaPressao != null) {
+            			for(int i = 0; i < listaView.size(); i++) {
+            				
+            				RelPressao relPressao2 = listaView.get(i);
+            				String alarmPressao = "";
+    	                	if(metaPressao.getPressaoMinBaixa() != null && metaPressao.getPressaoMinBaixa() > relPressao2.getPressure()) {
+    	                		alarmPressao = "Pressão Baixa (Nível Crítico)";
+    	                	}
+    	                	else if(metaPressao.getPressaoMin() != null && metaPressao.getPressaoMin() > relPressao2.getPressure()) {
+    	                		alarmPressao = "Pressão Baixa";
+    	                	}
+    	                	else if(metaPressao.getPressaoMaxAlta() != null && metaPressao.getPressaoMaxAlta() < relPressao2.getPressure()) {
+    	                		alarmPressao = "Pressão Alta (Nível Crítico)";
+    	                	}
+    	                	else if(metaPressao.getPressaoMax() != null && metaPressao.getPressaoMax() < relPressao2.getPressure()) {
+    	                		alarmPressao = "Pressão Alta";
+    	                	}
+    	                	
+    	                	String alarmPadrao = "";
+    	                	if(relPressao2.getAlarmDesc() != null && !relPressao2.getAlarmDesc().equals("NO ALARM")) {
+
+    	                		alarmPadrao = relPressao2.getAlarmDesc();
+    	                	}
+    	                	else if(alarmPressao.equals("")) {
+    	                		alarmPadrao = "Sem Alarme";
+    	                	}
+    	                	
+    	                	String separador = "";
+    	                	if(!alarmPadrao.equals("Sem Alarme") && !alarmPadrao.equals("") && !alarmPressao.equals("")) {
+    	                		separador = "/";
+    	                	}
+                			relPressao2.setAlarmDesc(alarmPadrao + separador + alarmPressao);
+                		}
+            		}
+            		
 		        	abas.add("Dados");
 		        	
 		        	colunas.add(new ColunasExcel().getColunasRelPressaoDados());
