@@ -275,12 +275,13 @@ function atualizarReservatorios() {
             }
         },
         error : function() {		
-            alert('erro');
-            window.location = "http://www.waterbridge.com.br/";
+            //alert('erro');
+            //window.location = "http://www.waterbridge.com.br/";
+            $('#divHoraAtualizacao').html('<p class="text-muted"><label style="font-size: 8pt;">ATUALIZA&Ccedil;&Atilde;O </label></p>');
         }
     });
 	
 	timeAtualizarRelatorios = setTimeout(function() {
 		atualizarReservatorios();
-	}, 300000);
+	}, 600000);
 }
