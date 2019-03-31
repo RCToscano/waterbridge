@@ -1367,7 +1367,7 @@ public class Email {
 				"																			<tr>\r\n" + 
 				"																				<td valign=\"top\" class=\"textContent\">\r\n" + 
 				"																					<h3 mc:edit=\"header\" style=\"color:#5F5F5F;line-height:125%;font-family:Helvetica,Arial,sans-serif;font-size:20px;font-weight:normal;margin-top:0;margin-bottom:3px;text-align:left;\">\r\n" + 
-				"																						Prezado Gerente, abaixo o Device com a ocorrência de alarme na data de hoje "+new SimpleDateFormat("dd/MM/yyyy").format(new Date())+" </h3>\r\n" + 
+				"																						Prezado, abaixo o Device com a ocorrência de alarme na data de hoje "+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+" </h3>\r\n" + 
 				"																						<br>\r\n" + 
 				"																					<div mc:edit=\"body\" style=\"text-align:left;font-family:Helvetica,Arial,sans-serif;font-size:15px;margin-bottom:0;color:#5F5F5F;line-height:135%;\">\r\n" + 
 				"																						Device: "+device+" \r\n" + 

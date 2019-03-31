@@ -45,7 +45,7 @@ function validarForm() {
 
     	deviceNum.style.borderColor = colorRed;
         exibirAviso('Informe o número do device');
-        deviceNum.focus();
+//        deviceNum.focus();
         return false;
     }
     else if(dtAtivacao.value.trim() == '') {
@@ -179,4 +179,66 @@ function exibirDivLimitesPressao() {
 function exibirAviso(texto) {
 	var divAviso = document.getElementById("divAviso");
 	divAviso.innerHTML = "<div class='alert alert-danger'>" + texto + "</div>";
+	$('html, body').animate({ scrollTop: 0 }, 'fast');
+}
+
+function excluirCampo(qtde) {
+	var cont = 0;
+	for(var i = 1; i < 100; i++) {
+    	if(document.getElementById("email"+i) != null) {
+    		cont++;
+    	}
+    }
+	
+	if(cont <= 1) {
+		document.getElementById("email"+qtde).value = "";
+	}
+	else {
+		document.getElementById("formGroup"+qtde).innerHTML = "";
+	}
+}
+
+function addCampo(){
+	var qtde = (Number) (document.getElementById("cont").value);  
+    var conc = "";
+    
+    if(document.getElementById("email"+(qtde-1)) != null && document.getElementById("email"+(qtde-1)).value == '') {
+    	return false;
+    }
+    
+    var cont = 0;
+    for(var i = 1; i < 100; i++) {
+    	if(document.getElementById("email"+i) != null && document.getElementById("email"+i).value != '') {
+    		cont++;
+    		if(cont == 4) {
+            	exibirAviso('Limite máximo de 4 e-mails atingido');
+            	return false;
+            }
+    	}
+    }
+    
+    
+    conc =  "<div class='form-group' id='formGroup"+qtde+"' name='formGroup"+qtde+"'>" +
+			"	<div class='input-group input-file' name='Fichier1'>" +
+			"		<input type='email' class='form-control' id='email"+qtde+"' name='email"+qtde+"' value='' maxlength='100' />" +
+			"		<span class='input-group-btn'>" +
+			"			<button class='btn btn-warning btn-reset' type='button' onClick='excluirCampo("+qtde+")'>Excluir</button>" +
+			"		</span>" +
+			"	</div>" +
+			"</div>";
+
+    document.getElementById("cont").value = qtde+1;
+    document.getElementById("aqui"+qtde).innerHTML = conc;
+
+    //cria outra div na sequencia
+    var parentGuest = document.getElementById("aqui"+qtde);
+    var div = document.createElement("div");
+    div.id = "aqui"+(qtde+1)+"";
+
+    if (parentGuest.nextSibling) {
+        parentGuest.parentNode.insertBefore(div, parentGuest.nextSibling);
+    }
+    else {
+        parentGuest.parentNode.appendChild(div);
+    }
 }

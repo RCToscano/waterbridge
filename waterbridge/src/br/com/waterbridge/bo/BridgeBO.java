@@ -10,18 +10,19 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import br.com.andwaterbridge.dao.MetaPressaoDAO;
 import br.com.andwaterbridge.modelo.MetaPressao;
 import br.com.waterbridge.auxiliar.Auxiliar;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.BridgeDAO;
+import br.com.waterbridge.dao.BridgeEmailDAO;
 import br.com.waterbridge.dao.BridgeTpAlimDAO;
 import br.com.waterbridge.dao.BridgeTpDAO;
 import br.com.waterbridge.dao.CondominioDAO;
 import br.com.waterbridge.dao.SituacaoDAO;
 import br.com.waterbridge.modelo.Bridge;
+import br.com.waterbridge.modelo.BridgeEmail;
 import br.com.waterbridge.modelo.BridgeTp;
 import br.com.waterbridge.modelo.BridgeTpAlim;
 import br.com.waterbridge.modelo.Condominio;
@@ -43,7 +44,6 @@ public class BridgeBO extends HttpServlet {
 		if (req.getParameter("acao") != null && req.getParameter("acao").equals("1")) {//ENTRA NA TELA DE CADASTRO
 			
 			Connection connection = null;
-			String sql = "";
 			
 			try {
 				
@@ -69,6 +69,7 @@ public class BridgeBO extends HttpServlet {
 				req.setAttribute("listBridgeTp", listBridgeTp);
 				req.setAttribute("listSituacao", listSituacao);
 				req.setAttribute("listCondominio", listCondominio);
+				req.setAttribute("listCondominio", listCondominio);
 				req.getRequestDispatcher("/jsp/bridge/cadaltbridge.jsp").forward(req, res);
 			}
 	        catch (Exception e) {
@@ -84,8 +85,7 @@ public class BridgeBO extends HttpServlet {
 		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("2")) {//CADASTRA BRIDGE
 
 			Connection connection = null;
-			HttpSession session = req.getSession(true);
-            User user = (User) session.getValue("user");
+			User user = (User) req.getSession().getAttribute("user");
 			
 			try {
 			
@@ -165,6 +165,20 @@ public class BridgeBO extends HttpServlet {
 						
 						metaPressaoDAO.inserir(metaPressao);		
 					}
+					
+					//CADASTRA EMAIL
+					if(req.getParameter("cont") != null) {
+		            	BridgeEmailDAO bridgeEmailDAO = new BridgeEmailDAO(connection);
+		            	for(int i = 1; i <= Integer.parseInt(req.getParameter("cont")); i++) {
+		            		if(req.getParameter("email"+i) != null && !req.getParameter("email"+i).isEmpty()) {
+		            			BridgeEmail bridgeEmail = new BridgeEmail();
+		            			bridgeEmail.setIdBridge(bridge.getIdBridge());
+		            			bridgeEmail.setIdUser(user.getIdUser());
+		            			bridgeEmail.setEmail(req.getParameter("email"+i));
+			            		bridgeEmailDAO.inserir(bridgeEmail);
+			            	}
+		            	}
+	            	}
 				
 					req.setAttribute("aviso", 
 					"<div class='alert alert-success'>" +
@@ -207,8 +221,6 @@ public class BridgeBO extends HttpServlet {
 		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("3")) {//ENTRA NA TELA DE ALTERACAO ATRAVES DA TELA DE CONSULTA
 
 			Connection connection = null;
-			HttpSession session = req.getSession(true);
-            User user = (User) session.getValue("user");
 			
 			try {
 			
@@ -232,6 +244,9 @@ public class BridgeBO extends HttpServlet {
 				MetaPressaoDAO metaPressaoDAO = new MetaPressaoDAO(connection);
 				MetaPressao metaPressao = metaPressaoDAO.buscarPorIdBridge(bridge.getIdBridge());
 				
+				BridgeEmailDAO bridgeEmailDAO = new BridgeEmailDAO(connection);
+				List<BridgeEmail> listaEmail = bridgeEmailDAO.listarPorBridge(bridge.getIdBridge());
+				
 				req.setAttribute("tituloTela", "Atera&ccedil;&atilde;o Bridge");
 				req.setAttribute("acao", "BridgeBO?acao=4");
 				req.setAttribute("devicereadonly", "readonly='readonly'");
@@ -240,6 +255,7 @@ public class BridgeBO extends HttpServlet {
 				req.setAttribute("listBridgeTp", listBridgeTp);
 				req.setAttribute("listSituacao", listSituacao);
 				req.setAttribute("listCondominio", listCondominio);
+				req.setAttribute("listaEmails", listaEmail);
 				req.setAttribute("bridge", bridge);
 				req.setAttribute("metaPressao", metaPressao);
 				req.getRequestDispatcher("/jsp/bridge/cadaltbridge.jsp").forward(req, res);
@@ -257,8 +273,7 @@ public class BridgeBO extends HttpServlet {
 		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("4")) {//ALTERA BRIDGE
 
 			Connection connection = null;
-			HttpSession session = req.getSession(true);
-            User user = (User) session.getValue("user");
+			User user = (User) req.getSession().getAttribute("user");
 			
 			try {
 			
@@ -377,6 +392,33 @@ public class BridgeBO extends HttpServlet {
 						metaPressaoDAO.excluir(metaPressao.getIdMetaPressao());
 					}					
 				}
+				
+				//ALTERA-EXCLUI EMAIL
+				BridgeEmailDAO bridgeEmailDAO = new BridgeEmailDAO(connection);
+				if(req.getParameter("cont") != null) {
+	            	for(int i = 1; i <= Integer.parseInt(req.getParameter("cont")); i++) {
+            			BridgeEmail bridgeEmail = new BridgeEmail();
+            			bridgeEmail.setIdBridge(bridge.getIdBridge());
+            			bridgeEmail.setIdUser(user.getIdUser());
+            			
+						if (req.getParameter("idEmail" + i) != null && req.getParameter("email" + i) == null
+								|| (req.getParameter("email" + i)!= null && req.getParameter("email" + i).isEmpty())) {
+            				bridgeEmail.setIdBridgeEmail(Long.parseLong(req.getParameter("idEmail"+i)));
+            				bridgeEmailDAO.excluir(bridgeEmail);
+            			}
+						else if (req.getParameter("idEmail"+i) != null && req.getParameter("email"+i) != null
+								&& !req.getParameter("email"+i).isEmpty()) {
+							bridgeEmail.setIdBridgeEmail(Long.parseLong(req.getParameter("idEmail"+i)));
+							bridgeEmail.setEmail(req.getParameter("email"+i));
+							bridgeEmailDAO.alterar(bridgeEmail);
+						}
+            			else if (req.getParameter("email"+i) != null && !req.getParameter("email"+i).isEmpty()) {
+            				bridgeEmail.setEmail(req.getParameter("email"+i));
+            				bridgeEmailDAO.inserir(bridgeEmail);
+            			}
+	            	}
+            	}
+				List<BridgeEmail> listaEmail = bridgeEmailDAO.listarPorBridge(bridge.getIdBridge());
 
 				req.setAttribute("aviso", 
 				"<div class='alert alert-success'>" +
@@ -391,6 +433,7 @@ public class BridgeBO extends HttpServlet {
 				req.setAttribute("listBridgeTp", listBridgeTp);
 				req.setAttribute("listSituacao", listSituacao);
 				req.setAttribute("listCondominio", listCondominio);
+				req.setAttribute("listaEmails", listaEmail);
 				req.setAttribute("bridge", bridge);
 				req.setAttribute("metaPressao", metaPressao);
 				req.getRequestDispatcher("/jsp/bridge/cadaltbridge.jsp").forward(req, res);
@@ -408,8 +451,6 @@ public class BridgeBO extends HttpServlet {
 		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("5")) {//TELA CONSULTA / LISTA ENTRADA MENU
 
 			Connection connection = null;
-			HttpSession session = req.getSession(true);
-            User user = (User) session.getValue("user");
 			
 			try {
 				
@@ -435,7 +476,6 @@ public class BridgeBO extends HttpServlet {
 		else if (req.getParameter("acao") != null && req.getParameter("acao").equals("6")) {//TELA CONSULTA LISTAR BRIDGE
 
 			Connection connection = null;
-			HttpSession session = req.getSession(true);
             String sql = "WHERE  ID_BRIDGE > 0 ";
             
 			try {

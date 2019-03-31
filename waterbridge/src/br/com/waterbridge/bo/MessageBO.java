@@ -7,6 +7,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -19,19 +24,22 @@ import br.com.andwaterbridge.dao.AlarmPressaoDAO;
 import br.com.andwaterbridge.dao.MetaPressaoDAO;
 import br.com.andwaterbridge.modelo.AlarmPressao;
 import br.com.andwaterbridge.modelo.MetaPressao;
-import br.com.waterbridge.auxiliar.Constantes;
 import br.com.waterbridge.auxiliar.Email;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.dao.AlarmDAO;
 import br.com.waterbridge.dao.BridgeDAO;
+import br.com.waterbridge.dao.BridgeEmailDAO;
 import br.com.waterbridge.dao.CondominioDAO;
 import br.com.waterbridge.dao.ConsumoDAO;
 import br.com.waterbridge.dao.EmailAlarmDAO;
 import br.com.waterbridge.dao.LogSqlDAO;
 import br.com.waterbridge.dao.MedidorDAO;
 import br.com.waterbridge.dao.MessageDAO;
+import br.com.waterbridge.enuns.AlarmePressaoEnum;
 import br.com.waterbridge.modelo.Alarm;
 import br.com.waterbridge.modelo.Bridge;
+import br.com.waterbridge.modelo.BridgeEmail;
+import br.com.waterbridge.modelo.BridgeTp;
 import br.com.waterbridge.modelo.Condominio;
 import br.com.waterbridge.modelo.Consumo;
 import br.com.waterbridge.modelo.EmailAlarm;
@@ -173,41 +181,40 @@ public class MessageBO extends HttpServlet {
 			
 			consumoDAO.inserir(consumo);
 			
+			MetaPressao metaPressao = null;
+			
 			//VERIFICA ALARM PRESSAO		    
-		    if(bridge != null) {		    	
+		    if(bridge != null && bridge.getBridgeTp().getIdBridgeTp().longValue() == 2 
+	    			|| bridge.getBridgeTp().getIdBridgeTp().longValue() == 4) {
 		    	
-		    	if(bridge.getBridgeTp().getIdBridgeTp().longValue() == 2 
-		    			|| bridge.getBridgeTp().getIdBridgeTp().longValue() == 4) {//PRESSURE BRIDGE
-		    		
-		    		MetaPressaoDAO metaPressaoDAO = new MetaPressaoDAO(connection);
-		    		MetaPressao metaPressao = metaPressaoDAO.buscarPorIdBridge(bridge.getIdBridge());
-		    		if(metaPressao != null) {
-		    			
-		    			if(consumo.getPressure().doubleValue() > metaPressao.getPressaoMax().doubleValue()
-		    					|| consumo.getPressure().doubleValue() < metaPressao.getPressaoMin().doubleValue()) {
-		    				
-		    				AlarmPressao alarmPressao = new AlarmPressao();
-		    				alarmPressao.setIdAlarmPressao(0l);
-		    				alarmPressao.setIdEmpresa(metaPressao.getIdEmpresa());
-		    				alarmPressao.setIdCondominio(bridge.getIdCondominio());
-		    				alarmPressao.setIdBridge(bridge.getIdBridge());
-		    				alarmPressao.setIdMedidor(null);
-		    				alarmPressao.setMeterPosition(0l);
-		    				alarmPressao.setPressaoMin(metaPressao.getPressaoMin());
-		    				alarmPressao.setPressaoMax(metaPressao.getPressaoMax());
-		    				alarmPressao.setPressaoReal(consumo.getPressure());
-		    				alarmPressao.setPressaoMinBaixa(metaPressao.getPressaoMinBaixa());
-		    				alarmPressao.setPressaoMaxAlta(metaPressao.getPressaoMaxAlta());
-		    				alarmPressao.setDtInsert(null);
-		    				
-		    				AlarmPressaoDAO alarmPressaoDAO = new AlarmPressaoDAO(connection);
-		    				alarmPressaoDAO.inserir(alarmPressao);
-		    			}
-		    		}
-		    	}
+	    		MetaPressaoDAO metaPressaoDAO = new MetaPressaoDAO(connection);
+	    		metaPressao = metaPressaoDAO.buscarPorIdBridge(bridge.getIdBridge());
+	    		if(metaPressao != null) {
+	    			
+	    			if(consumo.getPressure().doubleValue() > metaPressao.getPressaoMax().doubleValue()
+	    					|| consumo.getPressure().doubleValue() < metaPressao.getPressaoMin().doubleValue()) {
+	    				
+	    				AlarmPressao alarmPressao = new AlarmPressao();
+	    				alarmPressao.setIdAlarmPressao(0l);
+	    				alarmPressao.setIdEmpresa(metaPressao.getIdEmpresa());
+	    				alarmPressao.setIdCondominio(bridge.getIdCondominio());
+	    				alarmPressao.setIdBridge(bridge.getIdBridge());
+	    				alarmPressao.setIdMedidor(null);
+	    				alarmPressao.setMeterPosition(0l);
+	    				alarmPressao.setPressaoMin(metaPressao.getPressaoMin());
+	    				alarmPressao.setPressaoMax(metaPressao.getPressaoMax());
+	    				alarmPressao.setPressaoReal(consumo.getPressure());
+	    				alarmPressao.setPressaoMinBaixa(metaPressao.getPressaoMinBaixa());
+	    				alarmPressao.setPressaoMaxAlta(metaPressao.getPressaoMaxAlta());
+	    				alarmPressao.setDtInsert(null);
+	    				
+	    				AlarmPressaoDAO alarmPressaoDAO = new AlarmPressaoDAO(connection);
+	    				alarmPressaoDAO.inserir(alarmPressao);
+	    			}
+	    		}
 		    }
 			
-			verificarAlarm(consumo, connection);
+			verificarAlarm(consumo, bridge, metaPressao, connection);
 			
             String json = "ok";
             
@@ -236,44 +243,134 @@ public class MessageBO extends HttpServlet {
 		}
     }
 	
-	public void verificarAlarm(Consumo consumo, Connection connection) {
+	public static void verificarAlarm(Consumo consumo, Bridge bridge, MetaPressao metaPressao, Connection connection) {
 		try {
-			if(consumo.getAlarm() > 0) {
+			if(bridge != null && bridge.getBridgeTp().getIdBridgeTp().longValue() == 4) {
 				
-				EmailAlarmDAO emailAlarmDAO = new EmailAlarmDAO(connection);
-				EmailAlarm emailAlarm = emailAlarmDAO.buscarPorAlarmDevice(consumo.getAlarm(), consumo.getDevice());
-				if(emailAlarm == null) {
-					emailAlarm = new EmailAlarm();
-					emailAlarm.setDevice(consumo.getDevice());
-					emailAlarm.setIdAlarm(consumo.getAlarm());
+				BridgeEmailDAO bridgeEmailDAO = new BridgeEmailDAO(connection);
+				List<BridgeEmail> lista = bridgeEmailDAO.listarPorBridge(bridge.getIdBridge());
+				
+				if(!lista.isEmpty()) {
+					emailTbAlarm(consumo, connection, lista);
 					
-					enviarEmailAlarm(emailAlarm, connection);
-
-					emailAlarmDAO.inserir(emailAlarm);
+					emailNivelPressao(consumo, bridge, metaPressao, bridgeEmailDAO, lista);
 				}
 			}
 		} 
 		catch (Exception e) {
 			System.out.println(e);
 			try {
-				new LogSqlDAO(connection).inserir(1l, "", e.getMessage(), "MessageBO", "");
+				new LogSqlDAO(connection).inserir(1l, "", e.getMessage(), "MessageBO", "verificarAlarm");
 			} catch (SQLException e1) {
 				System.out.println(e1);
 			}
 		}
 	}
+
+	private static void emailTbAlarm(Consumo consumo, Connection connection, List<BridgeEmail> lista) throws Exception {
+		if(consumo.getAlarm() > 0) {
+			
+			EmailAlarmDAO emailAlarmDAO = new EmailAlarmDAO(connection);
+			EmailAlarm emailAlarm = emailAlarmDAO.buscarPorAlarmDevice(consumo.getAlarm(), consumo.getDevice());
+			if(emailAlarm == null) {
+				emailAlarm = new EmailAlarm();
+				emailAlarm.setDevice(consumo.getDevice());
+				emailAlarm.setIdAlarm(consumo.getAlarm());
+				
+				for (BridgeEmail bridgeEmail : lista) {
+					enviarEmailAlarm(emailAlarm, bridgeEmail.getEmail(), connection);
+				}
+				emailAlarmDAO.inserir(emailAlarm);
+			}
+		}
+	}
+
+	private static void emailNivelPressao(Consumo consumo, Bridge bridge, MetaPressao metaPressao,
+			BridgeEmailDAO bridgeEmailDAO, List<BridgeEmail> lista) throws SQLException, ParseException {
+		
+		Date dataEmail = null;
+		Calendar dataEmailFutura = null;
+		if(lista.get(0).getDtEnvioEmail() != null) {
+			SimpleDateFormat formatoBanco = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			dataEmail = formatoBanco.parse(lista.get(0).getDtEnvioEmail());
+
+			//Intervalo de 4 horas do e-mail anterior
+			dataEmailFutura = Calendar.getInstance();
+			dataEmailFutura.setTime(dataEmail);
+			dataEmailFutura.add(Calendar.HOUR_OF_DAY, 4);
+		}
+		
+		Calendar dataAtual = Calendar.getInstance();
+		
+		
+		if(dataEmail == null || dataAtual.after(dataEmailFutura)) {
+			String descricao = "";
+			if(consumo.getPressure().doubleValue() >= metaPressao.getPressaoMaxAlta().doubleValue()) {
+				descricao = AlarmePressaoEnum.PRESSAO_ALTA_CRITICO.getDescricao() + ": "+consumo.getPressure().doubleValue();
+			}
+			else if(consumo.getPressure().doubleValue() >= metaPressao.getPressaoMax().doubleValue()) {
+				descricao = AlarmePressaoEnum.PRESSAO_ALTA.getDescricao() + ": "+consumo.getPressure().doubleValue();
+			}
+			else if(consumo.getPressure().doubleValue() <= metaPressao.getPressaoMinBaixa().doubleValue()) {
+				descricao = AlarmePressaoEnum.PRESSAO_BAIXA_CRITICO.getDescricao() + ": "+consumo.getPressure().doubleValue();
+			}
+			else if(consumo.getPressure().doubleValue() <= metaPressao.getPressaoMin().doubleValue()) {
+				descricao = AlarmePressaoEnum.PRESSAO_BAIXA.getDescricao() + ": "+consumo.getPressure().doubleValue();
+			}
+			
+			String mensagem = Email.corpoEmailAlarme(bridge.getDeviceNum(), 0L, descricao);
+			for (BridgeEmail bridgeEmail : lista) {
+				enviarEmail(bridge.getDeviceNum(), mensagem, bridgeEmail.getEmail());
+				bridgeEmailDAO.alterarDtEnvioEmail(bridgeEmail);
+			}
+		}
+	}
 	
-	public void enviarEmailAlarm(EmailAlarm emailAlarm, Connection connection) throws Exception {
+	public static void enviarEmailAlarm(EmailAlarm emailAlarm, String email, Connection connection) throws SQLException {
 		AlarmDAO alarmDAO = new AlarmDAO(connection);
 		Alarm alarm = alarmDAO.buscarPorId(emailAlarm.getIdAlarm());
 		if(alarm != null) {
 			String mensagem = Email.corpoEmailAlarme(emailAlarm.getDevice(), emailAlarm.getIdAlarm(),
 					alarm.getAlarm() + " - " + alarm.getDescricao());
-    		Email.enviarEmail("WaterBridge - Alarme Device "+emailAlarm.getDevice(), mensagem, Constantes.EMAIL_DESOLTEC);
+			enviarEmail(emailAlarm.getDevice(), mensagem, email);
 		}
 		else {
-			new LogSqlDAO(connection).inserir(1l, "", "Alarm nao encontrado na tabela", "MessageBO", "");
+			new LogSqlDAO(connection).inserir(1l, "", "Alarm nao encontrado na tabela", "MessageBO", "enviarEmailAlarm");
 		}
+	}
+	
+	public static void enviarEmail(String device, String mensagem, String email) {
+		new Thread() {	       
+	        @Override
+	        public void run() {
+	        	Email.enviarEmail("WaterBridge - Alarme Device "+device, mensagem, email);
+	        }
+	    }.start();
+	}
+	
+	public static void testeEnvioEmail(String[] args) throws SQLException {
+		Bridge bridge = new Bridge();
+		bridge.setIdBridge(62L);
+		bridge.setDeviceNum("TESTE");
+		
+		BridgeTp bridgeTp = new BridgeTp();
+		bridgeTp.setIdBridgeTp(4L);
+		bridge.setBridgeTp(bridgeTp);
+		
+		Consumo consumo = new Consumo();
+		consumo.setPressure(10.0);
+		consumo.setAlarm(0L);
+		
+		MetaPressao metaPressao = new MetaPressao();
+		metaPressao.setPressaoMaxAlta(10.0);
+		metaPressao.setPressaoMax(9.0);
+		metaPressao.setPressaoMinBaixa(4.0);
+		metaPressao.setPressaoMin(5.0);
+		
+		
+		Connection connection = ConnectionFactory.getConnection();
+		
+		verificarAlarm(consumo, bridge, metaPressao, connection);
 	}
 	
 }
