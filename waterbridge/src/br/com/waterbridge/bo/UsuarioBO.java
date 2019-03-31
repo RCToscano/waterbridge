@@ -494,14 +494,7 @@ public class UsuarioBO extends HttpServlet {
             
         }
         catch (Exception e) {
-        	
             req.setAttribute("erro", e.toString());
-            try {
-				new LogSqlDAO(connection).inserir(((User) req.getSession().getAttribute("user")).getIdUser(),
-						"", e.getMessage(), "UsuarioBO", relat);
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
             req.getRequestDispatcher("/jsp/erro.jsp").forward(req, res);
         }
         finally {

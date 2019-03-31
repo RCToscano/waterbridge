@@ -56,7 +56,7 @@
 						<div class="col-sm-4">
 							<div class="form-group">
 								<label class="control-label">N&deg; Device</label><label class="text-danger">*</label>
-								<input type="text" class="form-control" id="deviceNum" name="deviceNum" value="${bridge.deviceNum}" maxlength="20" ${devicereadonly} required />			
+								<input type="text" class="form-control" id="deviceNum" name="deviceNum" value="${bridge.deviceNum}" maxlength="20" ${devicereadonly} required />
 							</div>
 						</div>
 						
@@ -262,6 +262,48 @@
 			                     	</c:forEach>
 								</select>					
 							</div>					
+						</div>
+						
+						<div class="col-sm-12">
+							<label>Lista de e-mails para avisos de alarmes: </label> 
+						</div>
+						
+						<div class="col-sm-8">
+							<% int cont = 1;%>
+							<c:choose>
+								<c:when test="${not empty listaEmails}">
+									<c:forEach items="${listaEmails}" var="listaEmail">
+										<input type="hidden" id="idEmail<%=cont%>" name="idEmail<%=cont%>" value="${listaEmail.idBridgeEmail}" />
+										<div class="form-group" id="formGroup<%=cont%>" name="formGroup<%=cont%>">
+											<div class="input-group input-file" name="Fichier1">
+												<input type="email" class="form-control" id="email<%=cont%>" name="email<%=cont%>" value="${listaEmail.email}" maxlength="100" />
+												<span class="input-group-btn">
+									       			<button class="btn btn-warning btn-reset" type="button" onClick="excluirCampo(<%=cont%>)">Excluir</button>
+									    		</span>
+											</div>
+										</div>
+										<%cont++;%>
+									</c:forEach>
+								</c:when>
+								<c:otherwise>
+									<div class="form-group" id="formGroup<%=cont%>" name="formGroup<%=cont%>">
+										<div class="input-group input-file" name="Fichier1">
+											<input type="email" class="form-control" id="email<%=cont%>" name="email<%=cont%>" value="" maxlength="100" />
+											<span class="input-group-btn">
+								       			<button class="btn btn-warning btn-reset" type="button" onClick="excluirCampo(<%=cont%>)">Excluir</button>
+								    		</span>
+										</div>
+									</div>
+									<%cont++;%>
+								</c:otherwise>
+							</c:choose>
+							<div id="aqui<%=cont%>"></div>
+							<div class="form-group">
+								<div class="col-sm-offset-0">
+						        	<button type="button" class="btn btn-primary" onClick="addCampo()">Adicionar</button>
+						      	</div>
+					      	</div>
+							<input type="hidden" id="cont" name="cont" value="<%=cont%>" />
 						</div>
 						
 						<div class="col-sm-12">
