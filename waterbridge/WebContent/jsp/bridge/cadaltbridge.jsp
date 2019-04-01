@@ -300,7 +300,7 @@
 							<div id="aqui<%=cont%>"></div>
 							<div class="form-group">
 								<div class="col-sm-offset-0">
-						        	<button type="button" class="btn btn-primary" onClick="addCampo()">Adicionar</button>
+						        	<button type="button" class="btn btn-primary" onClick="addCampo()">Adicionar E-mail</button>
 						      	</div>
 					      	</div>
 							<input type="hidden" id="cont" name="cont" value="<%=cont%>" />

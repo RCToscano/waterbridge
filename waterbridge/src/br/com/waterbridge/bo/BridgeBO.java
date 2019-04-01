@@ -401,8 +401,8 @@ public class BridgeBO extends HttpServlet {
             			bridgeEmail.setIdBridge(bridge.getIdBridge());
             			bridgeEmail.setIdUser(user.getIdUser());
             			
-						if (req.getParameter("idEmail" + i) != null && req.getParameter("email" + i) == null
-								|| (req.getParameter("email" + i)!= null && req.getParameter("email" + i).isEmpty())) {
+						if (req.getParameter("idEmail" + i) != null && (req.getParameter("email" + i) == null
+								|| (req.getParameter("email" + i)!= null && req.getParameter("email" + i).isEmpty()))) {
             				bridgeEmail.setIdBridgeEmail(Long.parseLong(req.getParameter("idEmail"+i)));
             				bridgeEmailDAO.excluir(bridgeEmail);
             			}
