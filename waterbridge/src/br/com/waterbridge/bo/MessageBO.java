@@ -7,10 +7,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -39,7 +35,6 @@ import br.com.waterbridge.enuns.AlarmePressaoEnum;
 import br.com.waterbridge.modelo.Alarm;
 import br.com.waterbridge.modelo.Bridge;
 import br.com.waterbridge.modelo.BridgeEmail;
-import br.com.waterbridge.modelo.BridgeTp;
 import br.com.waterbridge.modelo.Condominio;
 import br.com.waterbridge.modelo.Consumo;
 import br.com.waterbridge.modelo.EmailAlarm;
@@ -243,7 +238,7 @@ public class MessageBO extends HttpServlet {
 		}
     }
 	
-	public static void verificarAlarm(Consumo consumo, Bridge bridge, MetaPressao metaPressao, Connection connection) {
+	public void verificarAlarm(Consumo consumo, Bridge bridge, MetaPressao metaPressao, Connection connection) {
 		try {
 			if(bridge != null && bridge.getBridgeTp().getIdBridgeTp().longValue() == 4) {
 				
@@ -253,7 +248,7 @@ public class MessageBO extends HttpServlet {
 				if(!lista.isEmpty()) {
 					emailTbAlarm(consumo, connection, lista);
 					
-					emailNivelPressao(consumo, bridge, metaPressao, bridgeEmailDAO, lista);
+					emailNivelPressao(consumo, bridge, metaPressao, lista);
 				}
 			}
 		} 
@@ -267,7 +262,7 @@ public class MessageBO extends HttpServlet {
 		}
 	}
 
-	private static void emailTbAlarm(Consumo consumo, Connection connection, List<BridgeEmail> lista) throws Exception {
+	private void emailTbAlarm(Consumo consumo, Connection connection, List<BridgeEmail> lista) throws Exception {
 		if(consumo.getAlarm() > 0) {
 			
 			EmailAlarmDAO emailAlarmDAO = new EmailAlarmDAO(connection);
@@ -285,48 +280,24 @@ public class MessageBO extends HttpServlet {
 		}
 	}
 
-	private static void emailNivelPressao(Consumo consumo, Bridge bridge, MetaPressao metaPressao,
-			BridgeEmailDAO bridgeEmailDAO, List<BridgeEmail> lista) throws SQLException, ParseException {
+	private void emailNivelPressao(Consumo consumo, Bridge bridge, MetaPressao metaPressao,
+			List<BridgeEmail> lista) throws Exception {
 		
-		Date dataEmail = null;
-		Calendar dataEmailFutura = null;
-		if(lista.get(0).getDtEnvioEmail() != null) {
-			SimpleDateFormat formatoBanco = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			dataEmail = formatoBanco.parse(lista.get(0).getDtEnvioEmail());
-
-			//Intervalo de 4 horas do e-mail anterior
-			dataEmailFutura = Calendar.getInstance();
-			dataEmailFutura.setTime(dataEmail);
-			dataEmailFutura.add(Calendar.HOUR_OF_DAY, 4);
+		String descricao = "";
+		if(consumo.getPressure().doubleValue() >= metaPressao.getPressaoMaxAlta().doubleValue()) {
+			descricao = AlarmePressaoEnum.PRESSAO_ALTA_CRITICO.getDescricao() + ": "+consumo.getPressure().doubleValue();
+		}
+		else if(consumo.getPressure().doubleValue() <= metaPressao.getPressaoMinBaixa().doubleValue()) {
+			descricao = AlarmePressaoEnum.PRESSAO_BAIXA_CRITICO.getDescricao() + ": "+consumo.getPressure().doubleValue();
 		}
 		
-		Calendar dataAtual = Calendar.getInstance();
-		
-		
-		if(dataEmail == null || dataAtual.after(dataEmailFutura)) {
-			String descricao = "";
-			if(consumo.getPressure().doubleValue() >= metaPressao.getPressaoMaxAlta().doubleValue()) {
-				descricao = AlarmePressaoEnum.PRESSAO_ALTA_CRITICO.getDescricao() + ": "+consumo.getPressure().doubleValue();
-			}
-			else if(consumo.getPressure().doubleValue() >= metaPressao.getPressaoMax().doubleValue()) {
-				descricao = AlarmePressaoEnum.PRESSAO_ALTA.getDescricao() + ": "+consumo.getPressure().doubleValue();
-			}
-			else if(consumo.getPressure().doubleValue() <= metaPressao.getPressaoMinBaixa().doubleValue()) {
-				descricao = AlarmePressaoEnum.PRESSAO_BAIXA_CRITICO.getDescricao() + ": "+consumo.getPressure().doubleValue();
-			}
-			else if(consumo.getPressure().doubleValue() <= metaPressao.getPressaoMin().doubleValue()) {
-				descricao = AlarmePressaoEnum.PRESSAO_BAIXA.getDescricao() + ": "+consumo.getPressure().doubleValue();
-			}
-			
-			String mensagem = Email.corpoEmailAlarme(bridge.getDeviceNum(), 0L, descricao);
-			for (BridgeEmail bridgeEmail : lista) {
-				enviarEmail(bridge.getDeviceNum(), mensagem, bridgeEmail.getEmail());
-				bridgeEmailDAO.alterarDtEnvioEmail(bridgeEmail);
-			}
+		String mensagem = Email.corpoEmailAlarme(bridge.getDeviceNum(), 0L, descricao);
+		for (BridgeEmail bridgeEmail : lista) {
+			enviarEmail(bridge.getDeviceNum(), mensagem, bridgeEmail.getEmail());
 		}
 	}
 	
-	public static void enviarEmailAlarm(EmailAlarm emailAlarm, String email, Connection connection) throws SQLException {
+	public void enviarEmailAlarm(EmailAlarm emailAlarm, String email, Connection connection) throws SQLException {
 		AlarmDAO alarmDAO = new AlarmDAO(connection);
 		Alarm alarm = alarmDAO.buscarPorId(emailAlarm.getIdAlarm());
 		if(alarm != null) {
@@ -339,38 +310,13 @@ public class MessageBO extends HttpServlet {
 		}
 	}
 	
-	public static void enviarEmail(String device, String mensagem, String email) {
+	public void enviarEmail(String device, String mensagem, String email) {
 		new Thread() {	       
 	        @Override
 	        public void run() {
 	        	Email.enviarEmail("WaterBridge - Alarme Device "+device, mensagem, email);
 	        }
 	    }.start();
-	}
-	
-	public static void testeEnvioEmail(String[] args) throws SQLException {
-		Bridge bridge = new Bridge();
-		bridge.setIdBridge(62L);
-		bridge.setDeviceNum("TESTE");
-		
-		BridgeTp bridgeTp = new BridgeTp();
-		bridgeTp.setIdBridgeTp(4L);
-		bridge.setBridgeTp(bridgeTp);
-		
-		Consumo consumo = new Consumo();
-		consumo.setPressure(10.0);
-		consumo.setAlarm(0L);
-		
-		MetaPressao metaPressao = new MetaPressao();
-		metaPressao.setPressaoMaxAlta(10.0);
-		metaPressao.setPressaoMax(9.0);
-		metaPressao.setPressaoMinBaixa(4.0);
-		metaPressao.setPressaoMin(5.0);
-		
-		
-		Connection connection = ConnectionFactory.getConnection();
-		
-		verificarAlarm(consumo, bridge, metaPressao, connection);
 	}
 	
 }
