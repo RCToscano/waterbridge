@@ -262,7 +262,7 @@ public class RelatorioPressaoBO extends HttpServlet {
 					RelPressaoDAO relPressaoDAO = new RelPressaoDAO(connection);
 					RelPressao relPressao = relPressaoDAO.buscarUmaLinha(sql);
 					
-					List<String> abas = new ArrayList<String>();
+					List<String> abas = new ArrayList<>();
 					List<List<List<String>>> listaFinal = new ArrayList<>();
 					List<List<String>> colunas = new ArrayList<>();
 
@@ -335,7 +335,8 @@ public class RelatorioPressaoBO extends HttpServlet {
         			lista1.add(listaValores1);
             		listaFinal.add(lista1);
             		
-            		String nomeArquivo = "RelatorioPressao_"+Auxiliar.dataAtual()+".xlsx";
+            		String nomeCondominio = relPressao.getNomeCondominio().substring(0, 30).trim().replaceAll("\\s", "_");
+            		String nomeArquivo = nomeCondominio+"_"+Auxiliar.dataAtual()+".xlsx";
             		
 		        	GeradorExcel.gerar2Abas(res, nomeArquivo, abas, colunas, listaFinal);
 					
@@ -369,6 +370,11 @@ public class RelatorioPressaoBO extends HttpServlet {
                 try {connection.close();} catch (SQLException ex) {}
             }
         }
+	}
+	
+	public static void main(String[] args) {
+		String nome = "nome estranho aqui";
+		System.out.println(nome.replaceAll("\\s","_"));
 	}
 	
 	
