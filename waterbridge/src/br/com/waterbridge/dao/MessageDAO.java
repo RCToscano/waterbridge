@@ -115,8 +115,8 @@ public class MessageDAO {
             	message.setMeterPosition(rs.getLong("METERPOSITION"));
             	message.setVolume(rs.getDouble("VOLUME"));
             	message.setPressure(rs.getDouble("PRESSURE"));
-            	message.setFlow(rs.getLong("FLOW"));
-            	message.setTemperature(rs.getLong("TEMPERATURE"));
+            	message.setFlow(rs.getDouble("FLOW"));
+            	message.setTemperature(rs.getDouble("TEMPERATURE"));
             	message.setBattery(rs.getDouble("BATTERY"));
             	message.setAlarm(rs.getLong("ALARM"));
             	message.setDtInsert(rs.getString("DTINSERT"));
@@ -184,8 +184,8 @@ public class MessageDAO {
             	message.setMeterPosition(rs.getLong("METERPOSITION"));
             	message.setVolume(rs.getDouble("VOLUME"));
             	message.setPressure(rs.getDouble("PRESSURE"));
-            	message.setFlow(rs.getLong("FLOW"));
-            	message.setTemperature(rs.getLong("TEMPERATURE"));
+            	message.setFlow(rs.getDouble("FLOW"));
+            	message.setTemperature(rs.getDouble("TEMPERATURE"));
             	message.setBattery(rs.getDouble("BATTERY"));
             	message.setAlarm(rs.getLong("ALARM"));
             	message.setDtInsert(rs.getString("DTINSERT"));
@@ -337,19 +337,6 @@ public class MessageDAO {
             }
         }
     }
-    
-//    public static void main(String[] args) throws SQLException {
-//		
-//    	Connection connection = ConnectionFactory.getConnection();
-//    	
-//    	Message message = new Message();
-//    	message.setTexto("teste");
-//    	
-//    	MessageDAO messageDAO = new MessageDAO(connection);
-//    	messageDAO.inserir(message);
-//    	
-//    	connection.close();
-//	}
 }
 
 

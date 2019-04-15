@@ -67,62 +67,129 @@ public class MessageBO extends HttpServlet {
 	    	Message message = new Gson().fromJson(sb.toString(), Message.class);
 	    	//message.setData("10017335000001700017A508");//SOBREPONDO O DATA ATE QUE O FELIPE ALTERE O FRAME ENVIADO
 
-			String dataVersion = message.getData().substring(0, 2);
-	        String dataMeterPosition = message.getData().substring(2, 4);
-	        String dataVolume = message.getData().substring(4, 12);
-	        //ROTACIONAR VOLUME        
-	        dataVolume = dataVolume.substring(6, 8) +
-	                     dataVolume.substring(4, 6) +
-	                     dataVolume.substring(2, 4) +
-	                     dataVolume.substring(0, 2) ;
-	        String dataPressure = message.getData().substring(12, 16);
-	        //ROTACIONAR PRESSAO        
-	        dataPressure = dataPressure.substring(2, 4) +
-	        		       dataPressure.substring(0, 2) ;        
-	        String dataFlow = message.getData().substring(16, 18);        
-	        String dataTemperature = message.getData().substring(18, 20);
-	        String dataBattery = message.getData().substring(20, 22);
-	        String dataAlarme = message.getData().substring(22, 24);
-	        
-			BigInteger biVersion = new BigInteger(dataVersion, 16);
-			BigInteger biMeterPosition = new BigInteger(dataMeterPosition, 16);
-			BigInteger biVolume = new BigInteger(dataVolume, 16);		
-			biVolume = new BigInteger(biVolume.toString(10));//CONVERTE VOLUME DECIMAL
-			BigInteger biPressure = new BigInteger(dataPressure, 16);
-			BigInteger biFlow = new BigInteger(dataFlow, 16);
-			BigInteger biTemperature = new BigInteger(dataTemperature, 16);
-			BigInteger biBattery = new BigInteger(dataBattery, 16);
-			BigInteger biAlarme = new BigInteger(dataAlarme, 16);
-			
-			connection = ConnectionFactory.getConnection();
+	    	connection = ConnectionFactory.getConnection();
 			MessageDAO messageDAO = new MessageDAO(connection);
 			ConsumoDAO consumoDAO = new ConsumoDAO(connection);
 			MedidorDAO medidorDAO = new MedidorDAO(connection);
-			
-			DecimalFormatSymbols dfs = new DecimalFormatSymbols();
-			dfs.setDecimalSeparator('.');
-			DecimalFormat df = new DecimalFormat("0.###", dfs);
-			
-			message.setIdMessage(0l);
-			message.setIdUser(4l);
-			//message.setDevice();
-			//message.setData(data);
-			message.setVersion(biVersion.toString(10));
-			message.setMeterPosition(Long.parseLong(biMeterPosition.toString(10)));
-			message.setVolume(Double.parseDouble(biVolume.toString(10)));
-			message.setVolume(message.getVolume() / 1000);
-			message.setVolume(Double.parseDouble(df.format(message.getVolume())));
-			message.setPressure(Double.parseDouble(biPressure.toString(10)));
-			message.setPressure(message.getPressure() / 700);
-			message.setPressure(Double.parseDouble(df.format(message.getPressure())));
-			message.setFlow(Long.parseLong(biFlow.toString(10)));
-			message.setTemperature(Long.parseLong(biTemperature.toString(10)));
-			message.setBattery(Double.parseDouble(biBattery.toString(10)));
-			message.setBattery(message.getBattery() / 50);
-			message.setBattery(Double.parseDouble(df.format(message.getBattery())));
-			message.setAlarm(Long.parseLong(biAlarme.toString(10)));
-			message.setDtInsert(messageDAO.dataHoraMinSeg());
-			
+	    	
+	    	BridgeDAO bridgeDAO = new BridgeDAO(connection);
+		    Bridge bridge = bridgeDAO.buscarPorDeviceNum(message.getDevice(), "A");
+		    //VERSAO FRAME 1
+		    if(bridge != null
+		    		&& bridge.getIdVersaoFrame() != null
+		    		&& bridge.getIdVersaoFrame().longValue() == 1) {
+		    	
+		    	String dataVersion = message.getData().substring(0, 2);
+		        String dataMeterPosition = message.getData().substring(2, 4);
+		        String dataVolume = message.getData().substring(4, 12);
+		        //ROTACIONAR VOLUME        
+		        dataVolume = dataVolume.substring(6, 8) +
+		                     dataVolume.substring(4, 6) +
+		                     dataVolume.substring(2, 4) +
+		                     dataVolume.substring(0, 2) ;
+		        String dataPressure = message.getData().substring(12, 16);
+		        //ROTACIONAR PRESSAO        
+		        dataPressure = dataPressure.substring(2, 4) +
+		        		       dataPressure.substring(0, 2) ;        
+		        String dataFlow = message.getData().substring(16, 18);        
+		        String dataTemperature = message.getData().substring(18, 20);
+		        String dataBattery = message.getData().substring(20, 22);
+		        String dataAlarme = message.getData().substring(22, 24);
+		        
+				BigInteger biVersion = new BigInteger(dataVersion, 16);
+				BigInteger biMeterPosition = new BigInteger(dataMeterPosition, 16);
+				BigInteger biVolume = new BigInteger(dataVolume, 16);		
+				biVolume = new BigInteger(biVolume.toString(10));//CONVERTE VOLUME DECIMAL
+				BigInteger biPressure = new BigInteger(dataPressure, 16);
+				BigInteger biFlow = new BigInteger(dataFlow, 16);
+				BigInteger biTemperature = new BigInteger(dataTemperature, 16);
+				BigInteger biBattery = new BigInteger(dataBattery, 16);
+				BigInteger biAlarme = new BigInteger(dataAlarme, 16);
+				
+				DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+				dfs.setDecimalSeparator('.');
+				DecimalFormat df = new DecimalFormat("0.###", dfs);
+				
+				message.setIdMessage(0l);
+				message.setIdUser(4l);
+				//message.setDevice();
+				//message.setData(data);
+				message.setVersion(biVersion.toString(10));
+				message.setMeterPosition(Long.parseLong(biMeterPosition.toString(10)));
+				message.setVolume(Double.parseDouble(biVolume.toString(10)));
+				message.setVolume(message.getVolume() / 1000);
+				message.setVolume(Double.parseDouble(df.format(message.getVolume())));
+				message.setPressure(Double.parseDouble(biPressure.toString(10)));
+				message.setPressure(message.getPressure() / 700);
+				message.setPressure(Double.parseDouble(df.format(message.getPressure())));
+				message.setFlow(Double.parseDouble(biFlow.toString(10)));
+				message.setTemperature(Double.parseDouble(biTemperature.toString(10)));
+				message.setBattery(Double.parseDouble(biBattery.toString(10)));
+				message.setBattery(message.getBattery() / 50);
+				message.setBattery(Double.parseDouble(df.format(message.getBattery())));
+				message.setAlarm(Long.parseLong(biAlarme.toString(10)));
+				message.setDtInsert(messageDAO.dataHoraMinSeg());		    	
+		    }
+		    //VERSAO FRAME 2
+		    else if(bridge != null
+		    		&& bridge.getIdVersaoFrame() != null
+		    		&& bridge.getIdVersaoFrame().longValue() == 2) {
+		    	
+		    	String dataVersion = null;
+		        String dataMeterPosition = null;
+		        String dataVolume = message.getData().substring(0, 8);
+		        //ROTACIONAR VOLUME        
+		        dataVolume = dataVolume.substring(6, 8) +
+		                     dataVolume.substring(4, 6) +
+		                     dataVolume.substring(2, 4) +
+		                     dataVolume.substring(0, 2) ;		        
+		        String dataPressure = message.getData().substring(14, 18);
+		        //ROTACIONAR PRESSAO        
+		        dataPressure = dataPressure.substring(2, 4) +
+		        		       dataPressure.substring(0, 2) ;        
+		        String dataFlow = message.getData().substring(8, 14);        
+		        String dataTemperature = message.getData().substring(18, 20);
+		        String dataBattery = message.getData().substring(20, 22);
+		        String dataAlarme = message.getData().substring(22, 24);
+		        
+				//BigInteger biVersion = new BigInteger(dataVersion, 16);
+				//BigInteger biMeterPosition = new BigInteger(dataMeterPosition, 16);
+				BigInteger biVolume = new BigInteger(dataVolume, 16);		
+				biVolume = new BigInteger(biVolume.toString(10));//CONVERTE VOLUME DECIMAL
+				BigInteger biPressure = new BigInteger(dataPressure, 16);
+				BigInteger biFlow = new BigInteger(dataFlow, 16);
+				biFlow = new BigInteger(biFlow.toString(10));//CONVERTE FLOW DECIMAL
+				BigInteger biTemperature = new BigInteger(dataTemperature, 16);
+				BigInteger biBattery = new BigInteger(dataBattery, 16);
+				BigInteger biAlarme = new BigInteger(dataAlarme, 16);
+				
+				DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+				dfs.setDecimalSeparator('.');
+				DecimalFormat df = new DecimalFormat("0.###", dfs);
+				
+				message.setIdMessage(0l);
+				message.setIdUser(4l);
+				//message.setDevice();
+				//message.setData(data);
+				message.setVersion(null);
+				message.setMeterPosition(null);
+				message.setVolume(Double.parseDouble(biVolume.toString(10)));
+				message.setVolume(message.getVolume() / 1000);
+				message.setVolume(Double.parseDouble(df.format(message.getVolume())));
+				message.setPressure(Double.parseDouble(biPressure.toString(10)));
+				message.setPressure(message.getPressure() / 400);
+				message.setPressure(Double.parseDouble(df.format(message.getPressure())));				
+				message.setFlow(Double.parseDouble(biVolume.toString(10)));
+				message.setFlow(message.getFlow() / 100);					
+				message.setTemperature(Double.parseDouble(biTemperature.toString(10)));
+				message.setTemperature(message.getTemperature() / 4);				
+				message.setBattery(Double.parseDouble(biBattery.toString(10)));
+				message.setBattery(message.getBattery() / 50);
+				message.setBattery(Double.parseDouble(df.format(message.getBattery())));
+				message.setAlarm(Long.parseLong(biAlarme.toString(10)));
+				message.setDtInsert(messageDAO.dataHoraMinSeg());		    	
+		    }
+		    
 			//INSERIR
 			messageDAO.inserir(message);
 			
@@ -131,8 +198,6 @@ public class MessageBO extends HttpServlet {
 			Long idBridge = null;	
 			Long idMedidor = null;
 			
-			BridgeDAO bridgeDAO = new BridgeDAO(connection);
-		    Bridge bridge = bridgeDAO.buscarPorDeviceNum(message.getDevice(), "A");
 		    if(bridge != null) {
 		    	
 		    	idMedidor = medidorDAO.buscarIdMedidor(message.getDevice(), message.getMeterPosition().intValue());
@@ -310,7 +375,7 @@ public class MessageBO extends HttpServlet {
 		}
 	}
 	
-	public void enviarEmail(String device, String mensagem, String email) {
+	public void enviarEmail(final String device, final String mensagem, final String email) {
 		new Thread() {	       
 	        @Override
 	        public void run() {

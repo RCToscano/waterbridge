@@ -42,10 +42,11 @@ public class BridgeDAO {
     		"       SITUACAO, " +
     		"       ID_BRIDGETP, " +
     		"       AJUSTE, " +
+    		"       ID_VFRAME, " +
     		"       DTINSERT " +
             ") VALUES ( " +
             "       ?,?,?,?,?,?,?,?,?,?, " +
-            "       ?,?,SYSDATE() " +
+            "       ?,?,?,SYSDATE() " +
             ")");
             
             //stmt.setObject(1, bridge.getIdBridge());
@@ -61,6 +62,7 @@ public class BridgeDAO {
             stmt.setObject(10, bridge.getSituacao());
             stmt.setObject(11, bridge.getBridgeTp().getIdBridgeTp());
             stmt.setObject(12, bridge.getAjuste());
+            stmt.setObject(13, bridge.getIdVersaoFrame());
             //stmt.setObject(10, bridge.getDtInsert());
             
             stmt.execute();
@@ -101,6 +103,7 @@ public class BridgeDAO {
     		"       SITUACAO = ?, " +
     		"       ID_BRIDGETP = ?, " +
     		"       AJUSTE = ?, " +
+    		"       ID_VFRAME = ?, " +
     		"       DTINSERT = SYSDATE() " +
     		"WHERE  ID_BRIDGE = ? ");
             
@@ -116,8 +119,9 @@ public class BridgeDAO {
             stmt.setObject(10, bridge.getSituacao());
             stmt.setObject(11, bridge.getBridgeTp().getIdBridgeTp());
             stmt.setObject(12, bridge.getAjuste());
+            stmt.setObject(13, bridge.getIdVersaoFrame());
             //stmt.setObject(10, bridge.getDtInsert());
-            stmt.setObject(13, bridge.getIdBridge());
+            stmt.setObject(14, bridge.getIdBridge());
 
             stmt.execute();
         }
@@ -186,6 +190,7 @@ public class BridgeDAO {
             "       TAXAENVIO, " +
             "       SITUACAO, " +
             "       AJUSTE, " +
+            "       ID_VFRAME, " +
             " 	    DTINSERT " +
             "FROM   TB_BRIDGE " +
             "WHERE  ID_BRIDGE = ? "
@@ -217,6 +222,7 @@ public class BridgeDAO {
                 bridge.setTaxaEnvio(rs.getLong("TAXAENVIO"));
                 bridge.setSituacao(rs.getString("SITUACAO"));
                 bridge.setAjuste(rs.getDouble("AJUSTE"));
+                bridge.setIdVersaoFrame(rs.getLong("ID_VFRAME"));
                 bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));                
             }
             
@@ -261,6 +267,7 @@ public class BridgeDAO {
             "       TAXAENVIO, " +
             "       SITUACAO, " +
             "       AJUSTE, " +
+            "       ID_VFRAME, " +
             " 	    DTINSERT " +
             "FROM   TB_BRIDGE " +
             sql
@@ -290,6 +297,7 @@ public class BridgeDAO {
                 bridge.setTaxaEnvio(rs.getLong("TAXAENVIO"));
                 bridge.setSituacao(rs.getString("SITUACAO"));
                 bridge.setAjuste(rs.getDouble("AJUSTE"));
+                bridge.setIdVersaoFrame(rs.getLong("ID_VFRAME"));
                 bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));        
                 
                 listBridge.add(bridge);
@@ -336,6 +344,7 @@ public class BridgeDAO {
             "       TAXAENVIO, " +
             "       SITUACAO, " +
             "       AJUSTE, " +
+            "       ID_VFRAME, " +
             " 	    DTINSERT " +
             "FROM   TB_BRIDGE " +
             "WHERE  DEVICENUM = ? "
@@ -367,6 +376,7 @@ public class BridgeDAO {
                 bridge.setTaxaEnvio(rs.getLong("TAXAENVIO"));
                 bridge.setSituacao(rs.getString("SITUACAO"));
                 bridge.setAjuste(rs.getDouble("AJUSTE"));
+                bridge.setIdVersaoFrame(rs.getLong("ID_VFRAME"));
                 bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));                
             }
             
@@ -411,6 +421,7 @@ public class BridgeDAO {
             "       TAXAENVIO, " +
             "       SITUACAO, " +
             "       AJUSTE, " +
+            "       ID_VFRAME, " +
             " 	    DTINSERT " +
             "FROM   TB_BRIDGE " +
             "WHERE  DEVICENUM = ? " +
@@ -444,6 +455,7 @@ public class BridgeDAO {
                 bridge.setTaxaEnvio(rs.getLong("TAXAENVIO"));
                 bridge.setSituacao(rs.getString("SITUACAO"));
                 bridge.setAjuste(rs.getDouble("AJUSTE"));
+                bridge.setIdVersaoFrame(rs.getLong("ID_VFRAME"));
                 bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));                
             }
             
@@ -488,6 +500,7 @@ public class BridgeDAO {
             "       TAXAENVIO, " +
             "       SITUACAO, " +
             "       AJUSTE, " +
+            "       ID_VFRAME, " +
             " 	    DTINSERT " +
             "FROM   TB_BRIDGE " +
             "WHERE  UPPER(DEVICENUM) LIKE '%" + deviceNum.toUpperCase() + "%' "
@@ -517,6 +530,7 @@ public class BridgeDAO {
                 bridge.setTaxaEnvio(rs.getLong("TAXAENVIO"));
                 bridge.setSituacao(rs.getString("SITUACAO"));
                 bridge.setAjuste(rs.getDouble("AJUSTE"));
+                bridge.setIdVersaoFrame(rs.getLong("ID_VFRAME"));
                 bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));        
                 
                 listBridge.add(bridge);
@@ -563,6 +577,7 @@ public class BridgeDAO {
             "       TAXAENVIO, " +
             "       SITUACAO, " +
             "       AJUSTE, " +
+            "       ID_VFRAME, " +
             " 	    DTINSERT " +
             "FROM   TB_BRIDGE " +
             "WHERE  ID_CONDOMINIO = ? "
@@ -594,6 +609,7 @@ public class BridgeDAO {
                 bridge.setTaxaEnvio(rs.getLong("TAXAENVIO"));
                 bridge.setSituacao(rs.getString("SITUACAO"));
                 bridge.setAjuste(rs.getDouble("AJUSTE"));
+                bridge.setIdVersaoFrame(rs.getLong("ID_VFRAME"));
                 bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));        
                 
                 listBridge.add(bridge);
@@ -640,6 +656,7 @@ public class BridgeDAO {
             "          TB_BRIDGE.TAXAENVIO, " +
             "          TB_BRIDGE.SITUACAO, " +
             "          TB_BRIDGE.AJUSTE, " +
+            "          TB_BRIDGE.ID_VFRAME, " +
             " 	       TB_BRIDGE.DTINSERT " +
             "FROM      TB_BRIDGE " +
             "LEFT JOIN VW_USERBRIDGEID " +
@@ -675,6 +692,7 @@ public class BridgeDAO {
                 bridge.setTaxaEnvio(rs.getLong("TAXAENVIO"));
                 bridge.setSituacao(rs.getString("SITUACAO"));
                 bridge.setAjuste(rs.getDouble("AJUSTE"));
+                bridge.setIdVersaoFrame(rs.getLong("ID_VFRAME"));
                 bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));        
                 
                 listBridge.add(bridge);
@@ -721,6 +739,7 @@ public class BridgeDAO {
             "          TB_BRIDGE.TAXAENVIO, " +
             "          TB_BRIDGE.SITUACAO, " +
             "          TB_BRIDGE.AJUSTE, " +
+            "          TB_BRIDGE.ID_VFRAME, " +
             " 	       TB_BRIDGE.DTINSERT " +
             "FROM      TB_BRIDGE " +
             "LEFT JOIN VW_USERBRIDGEID " +
@@ -757,6 +776,7 @@ public class BridgeDAO {
                 bridge.setTaxaEnvio(rs.getLong("TAXAENVIO"));
                 bridge.setSituacao(rs.getString("SITUACAO"));
                 bridge.setAjuste(rs.getDouble("AJUSTE"));
+                bridge.setIdVersaoFrame(rs.getLong("ID_VFRAME"));
                 bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));        
                 
                 listBridge.add(bridge);
@@ -803,6 +823,7 @@ public class BridgeDAO {
             "          TB_BRIDGE.TAXAENVIO, " +
             "          TB_BRIDGE.SITUACAO, " +
             "          TB_BRIDGE.AJUSTE, " +
+            "          TB_BRIDGE.ID_VFRAME, " +
             " 	       TB_BRIDGE.DTINSERT " +
             "FROM      TB_BRIDGE " +
             "LEFT JOIN VW_USERBRIDGEID " +
@@ -839,6 +860,7 @@ public class BridgeDAO {
                 bridge.setTaxaEnvio(rs.getLong("TAXAENVIO"));
                 bridge.setSituacao(rs.getString("SITUACAO"));
                 bridge.setAjuste(rs.getDouble("AJUSTE"));
+                bridge.setIdVersaoFrame(rs.getLong("ID_VFRAME"));
                 bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));        
                 
                 listBridge.add(bridge);
@@ -884,6 +906,7 @@ public class BridgeDAO {
 					"       TAXAENVIO, " +
 					"       SITUACAO, " +
 					"       AJUSTE, " +
+					"       ID_VFRAME, " +
 					" 	    DTINSERT " +
 					"FROM   TB_BRIDGE " 
     				);
@@ -912,6 +935,7 @@ public class BridgeDAO {
     			bridge.setTaxaEnvio(rs.getLong("TAXAENVIO"));
     			bridge.setSituacao(rs.getString("SITUACAO"));
     			bridge.setAjuste(rs.getDouble("AJUSTE"));
+    			bridge.setIdVersaoFrame(rs.getLong("ID_VFRAME"));
     			bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));        
     			
     			listBridge.add(bridge);
