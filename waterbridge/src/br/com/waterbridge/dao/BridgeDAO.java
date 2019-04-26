@@ -62,7 +62,8 @@ public class BridgeDAO {
             stmt.setObject(10, bridge.getSituacao());
             stmt.setObject(11, bridge.getBridgeTp().getIdBridgeTp());
             stmt.setObject(12, bridge.getAjuste());
-            stmt.setObject(13, bridge.getIdVersaoFrame());
+            //stmt.setObject(13, bridge.getIdVersaoFrame());
+            stmt.setObject(13, 1);
             //stmt.setObject(10, bridge.getDtInsert());
             
             stmt.execute();
@@ -119,7 +120,8 @@ public class BridgeDAO {
             stmt.setObject(10, bridge.getSituacao());
             stmt.setObject(11, bridge.getBridgeTp().getIdBridgeTp());
             stmt.setObject(12, bridge.getAjuste());
-            stmt.setObject(13, bridge.getIdVersaoFrame());
+            //stmt.setObject(13, bridge.getIdVersaoFrame());
+            stmt.setObject(13, 1);
             //stmt.setObject(10, bridge.getDtInsert());
             stmt.setObject(14, bridge.getIdBridge());
 
