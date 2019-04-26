@@ -274,7 +274,7 @@ public class MessageBO extends HttpServlet {
 	    		}
 		    }
 			
-			verificarAlarm(consumo, bridge, metaPressao, connection);
+			//verificarAlarm(consumo, bridge, metaPressao, connection);
 			
             String json = "ok";
             
