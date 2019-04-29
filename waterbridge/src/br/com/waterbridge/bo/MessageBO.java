@@ -274,7 +274,7 @@ public class MessageBO extends HttpServlet {
 	    		}
 		    }
 			
-			//verificarAlarm(consumo, bridge, metaPressao, connection);
+			verificarAlarm(consumo, bridge, metaPressao, connection);
 			
             String json = "ok";
             
@@ -351,14 +351,17 @@ public class MessageBO extends HttpServlet {
 		String descricao = "";
 		if(consumo.getPressure().doubleValue() >= metaPressao.getPressaoMaxAlta().doubleValue()) {
 			descricao = AlarmePressaoEnum.PRESSAO_ALTA_CRITICO.getDescricao() + ": "+consumo.getPressure().doubleValue();
+			String mensagem = Email.corpoEmailAlarme(bridge.getDeviceNum(), 0L, descricao);
+			for (BridgeEmail bridgeEmail : lista) {
+				enviarEmail(bridge.getDeviceNum(), mensagem, bridgeEmail.getEmail());
+			}
 		}
 		else if(consumo.getPressure().doubleValue() <= metaPressao.getPressaoMinBaixa().doubleValue()) {
 			descricao = AlarmePressaoEnum.PRESSAO_BAIXA_CRITICO.getDescricao() + ": "+consumo.getPressure().doubleValue();
-		}
-		
-		String mensagem = Email.corpoEmailAlarme(bridge.getDeviceNum(), 0L, descricao);
-		for (BridgeEmail bridgeEmail : lista) {
-			enviarEmail(bridge.getDeviceNum(), mensagem, bridgeEmail.getEmail());
+			String mensagem = Email.corpoEmailAlarme(bridge.getDeviceNum(), 0L, descricao);
+			for (BridgeEmail bridgeEmail : lista) {
+				enviarEmail(bridge.getDeviceNum(), mensagem, bridgeEmail.getEmail());
+			}
 		}
 	}
 	
