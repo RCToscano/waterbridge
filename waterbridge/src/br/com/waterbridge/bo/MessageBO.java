@@ -198,6 +198,7 @@ public class MessageBO extends HttpServlet {
 			Long idBridge = null;	
 			Long idMedidor = null;
 			
+			Condominio condominio = null;
 		    if(bridge != null) {
 		    	
 		    	idMedidor = medidorDAO.buscarIdMedidor(message.getDevice(), message.getMeterPosition().intValue());
@@ -206,7 +207,7 @@ public class MessageBO extends HttpServlet {
 		    	idCondominio = bridge.getIdCondominio();
 		    	
 		    	CondominioDAO condominioDAO = new CondominioDAO(connection);
-		    	Condominio condominio = condominioDAO.buscarPorId(bridge.getIdCondominio());		    	
+		    	condominio = condominioDAO.buscarPorId(bridge.getIdCondominio());		    	
 		    	idEmpresa = condominio.getIdEmpresa();
 		    }
 		   
@@ -274,7 +275,7 @@ public class MessageBO extends HttpServlet {
 	    		}
 		    }
 			
-			verificarAlarm(consumo, bridge, metaPressao, connection);
+			verificarAlarm(consumo, condominio, bridge, metaPressao, connection);
 			
             String json = "ok";
             
@@ -303,7 +304,7 @@ public class MessageBO extends HttpServlet {
 		}
     }
 	
-	public void verificarAlarm(Consumo consumo, Bridge bridge, MetaPressao metaPressao, Connection connection) {
+	public void verificarAlarm(Consumo consumo, Condominio condominio, Bridge bridge, MetaPressao metaPressao, Connection connection) {
 		try {
 			if(bridge != null && bridge.getBridgeTp().getIdBridgeTp().longValue() == 4) {
 				
@@ -313,7 +314,7 @@ public class MessageBO extends HttpServlet {
 				if(!lista.isEmpty()) {
 					emailTbAlarm(consumo, connection, lista);
 					
-					emailNivelPressao(consumo, bridge, metaPressao, lista);
+					emailNivelPressao(consumo, condominio, bridge, metaPressao, lista);
 				}
 			}
 		} 
@@ -345,20 +346,20 @@ public class MessageBO extends HttpServlet {
 		}
 	}
 
-	private void emailNivelPressao(Consumo consumo, Bridge bridge, MetaPressao metaPressao,
+	private void emailNivelPressao(Consumo consumo, Condominio condominio, Bridge bridge, MetaPressao metaPressao,
 			List<BridgeEmail> lista) throws Exception {
 		
 		String descricao = "";
 		if(consumo.getPressure().doubleValue() >= metaPressao.getPressaoMaxAlta().doubleValue()) {
 			descricao = AlarmePressaoEnum.PRESSAO_ALTA_CRITICO.getDescricao() + ": "+consumo.getPressure().doubleValue();
-			String mensagem = Email.corpoEmailAlarme(bridge.getDeviceNum(), 0L, descricao);
+			String mensagem = Email.corpoEmailAlarmePressao(condominio, bridge.getDeviceNum(), 0L, descricao);
 			for (BridgeEmail bridgeEmail : lista) {
 				enviarEmail(bridge.getDeviceNum(), mensagem, bridgeEmail.getEmail());
 			}
 		}
 		else if(consumo.getPressure().doubleValue() <= metaPressao.getPressaoMinBaixa().doubleValue()) {
 			descricao = AlarmePressaoEnum.PRESSAO_BAIXA_CRITICO.getDescricao() + ": "+consumo.getPressure().doubleValue();
-			String mensagem = Email.corpoEmailAlarme(bridge.getDeviceNum(), 0L, descricao);
+			String mensagem = Email.corpoEmailAlarmePressao(condominio, bridge.getDeviceNum(), 0L, descricao);
 			for (BridgeEmail bridgeEmail : lista) {
 				enviarEmail(bridge.getDeviceNum(), mensagem, bridgeEmail.getEmail());
 			}
