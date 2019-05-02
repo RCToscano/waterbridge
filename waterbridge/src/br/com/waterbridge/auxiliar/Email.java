@@ -1428,7 +1428,7 @@ public class Email {
 				"</html>";
 	}
 	
-	public static String corpoEmailAlarmePressao(Condominio condominio, String device, Long idAlarme, String descricaoAlarme) {
+	public static String corpoEmailAlarmePressao(Condominio condominio, String device, String descricaoAlarme) {
 		return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n" + 
 				"<html xmlns=\"http://www.w3.org/1999/xhtml\">\r\n" + 
 				"	<head>\r\n" + 
@@ -1606,9 +1606,7 @@ public class Email {
 				"																						Endereço: "+condominio.getEndereco()+ " " +condominio.getNumero() + " "+Auxiliar.isNull(condominio.getCompl()) + " \r\n" + 
 				"																						<br>\r\n" + 
 				"																						Device: "+device+" \r\n" + 
-				"																						<br>\r\n" + 
-				"																						Alarme: "+idAlarme+" \r\n" + 
-				"																						<br>\r\n" + 
+				"																						<br>\r\n" + 			 
 				"																						Descrição: "+descricaoAlarme+" \r\n" + 
 				"																					</div>\r\n" + 
 				"																				</td>\r\n" + 

@@ -352,18 +352,19 @@ public class MessageBO extends HttpServlet {
 		String descricao = "";
 		if(consumo.getPressure().doubleValue() >= metaPressao.getPressaoMaxAlta().doubleValue()) {
 			descricao = AlarmePressaoEnum.PRESSAO_ALTA_CRITICO.getDescricao() + ": "+consumo.getPressure().doubleValue();
-			String mensagem = Email.corpoEmailAlarmePressao(condominio, bridge.getDeviceNum(), 0L, descricao);
+			String mensagem = Email.corpoEmailAlarmePressao(condominio, bridge.getDeviceNum(), descricao);
 			for (BridgeEmail bridgeEmail : lista) {
 				enviarEmail(bridge.getDeviceNum(), mensagem, bridgeEmail.getEmail());
 			}
 		}
-		else if(consumo.getPressure().doubleValue() <= metaPressao.getPressaoMinBaixa().doubleValue()) {
-			descricao = AlarmePressaoEnum.PRESSAO_BAIXA_CRITICO.getDescricao() + ": "+consumo.getPressure().doubleValue();
-			String mensagem = Email.corpoEmailAlarmePressao(condominio, bridge.getDeviceNum(), 0L, descricao);
-			for (BridgeEmail bridgeEmail : lista) {
-				enviarEmail(bridge.getDeviceNum(), mensagem, bridgeEmail.getEmail());
-			}
-		}
+//		FELIPE PEDIU PARA NAO ENVIAR EMAIL EM CASO DE NIVEL BAIXO CRITICO 02/05/2019
+//		else if(consumo.getPressure().doubleValue() <= metaPressao.getPressaoMinBaixa().doubleValue()) {
+//			descricao = AlarmePressaoEnum.PRESSAO_BAIXA_CRITICO.getDescricao() + ": "+consumo.getPressure().doubleValue();
+//			String mensagem = Email.corpoEmailAlarmePressao(condominio, bridge.getDeviceNum(), 0L, descricao);
+//			for (BridgeEmail bridgeEmail : lista) {
+//				enviarEmail(bridge.getDeviceNum(), mensagem, bridgeEmail.getEmail());
+//			}
+//		}
 	}
 	
 	public void enviarEmailAlarm(EmailAlarm emailAlarm, String email, Connection connection) throws SQLException {
