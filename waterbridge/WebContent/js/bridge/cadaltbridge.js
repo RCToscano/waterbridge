@@ -210,8 +210,8 @@ function addCampo(){
     for(var i = 1; i < 100; i++) {
     	if(document.getElementById("email"+i) != null && document.getElementById("email"+i).value != '') {
     		cont++;
-    		if(cont == 4) {
-            	exibirAviso('Limite máximo de 4 e-mails atingido');
+    		if(cont == 5) {
+            	exibirAviso('Limite máximo de 5 e-mails atingido');
             	return false;
             }
     	}
