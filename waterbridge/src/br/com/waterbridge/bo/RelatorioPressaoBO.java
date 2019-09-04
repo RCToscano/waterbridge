@@ -335,11 +335,14 @@ public class RelatorioPressaoBO extends HttpServlet {
         			lista1.add(listaValores1);
             		listaFinal.add(lista1);
             		
-            		String nomeCondominio = relPressao.getNomeCondominio().substring(0, 30).trim().replaceAll("\\s", "_");
+            		String nomeCondominio = relPressao.getNomeCondominio();
+            		if(nomeCondominio != null && nomeCondominio.length() > 29) {            			
+            			nomeCondominio = nomeCondominio.substring(0, 30).trim();
+            		}
+            		nomeCondominio = nomeCondominio.replaceAll("\\s", "_");
             		String nomeArquivo = nomeCondominio+"_"+Auxiliar.dataAtual()+".xlsx";
             		
-		        	GeradorExcel.gerar2Abas(res, nomeArquivo, abas, colunas, listaFinal);
-					
+		        	GeradorExcel.gerar2Abas(res, nomeArquivo, abas, colunas, listaFinal);					
 				} 
 				catch (Exception e) {
 					System.out.println(e);
@@ -375,6 +378,9 @@ public class RelatorioPressaoBO extends HttpServlet {
 	public static void main(String[] args) {
 		String nome = "nome estranho aqui";
 		System.out.println(nome.replaceAll("\\s","_"));
+		System.out.println(nome.length());
+		String a = nome.substring(0, 18);
+		System.out.println("deu certo " + a);
 	}
 	
 	
