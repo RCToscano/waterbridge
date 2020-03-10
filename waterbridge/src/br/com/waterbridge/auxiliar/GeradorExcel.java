@@ -141,5 +141,16 @@ public class GeradorExcel {
 		// Closing the workbook
 		workbook.close();
 	}
+	
+	public static String nomeArquivo(String nomeArquivo) {
+		if(nomeArquivo.split("-")[0] != null) {
+			nomeArquivo = nomeArquivo.split("-")[0].replaceAll("-", "").trim();
+		}
+		
+		if(nomeArquivo.length() > 30) {
+			nomeArquivo = nomeArquivo.substring(0, 30);
+		}
+		return nomeArquivo.replaceAll("\\s", "_").trim();
+	}
 
 }

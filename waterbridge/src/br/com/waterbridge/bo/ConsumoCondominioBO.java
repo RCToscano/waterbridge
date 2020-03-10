@@ -395,10 +395,8 @@ public class ConsumoCondominioBO extends HttpServlet {
     			lista1.add(listaValores1);
         		listaFinal.add(lista1);
         		
-        		String nomeCondominio = "Relatorio_Consumo_Local_";
-        		if(condominio.split("-")[0] != null) {
-        			nomeCondominio = condominio.split("-")[0].trim().substring(0, 30).replaceAll("\\s", "_");
-        		}
+        		String nomeCondominio = "Relatorio_Consumo_Local";
+        		nomeCondominio = GeradorExcel.nomeArquivo(condominio);
         		String nomeArquivo = nomeCondominio+"_"+Auxiliar.dataAtual()+".xlsx";
         		
 	        	GeradorExcel.gerar2Abas(res, nomeArquivo, abas, colunas, listaFinal);
