@@ -19,10 +19,15 @@
 	
 	<script src="http://malsup.github.io/jquery.blockUI.js"></script>
 
-	<script src="https://code.highcharts.com/highcharts.js"></script>
-	<script src="https://code.highcharts.com/highcharts-3d.js"></script>
-	<script src="https://code.highcharts.com/modules/data.js"></script>
-	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<!-- 	<script src="https://code.highcharts.com/highcharts.js"></script> -->
+<!--     <script src="https://code.highcharts.com/highcharts-3d.js"></script> -->
+<!-- 	<script src="https://code.highcharts.com/modules/data.js"></script> -->
+<!-- 	<script src="https://code.highcharts.com/modules/exporting.js"></script> -->
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.2.0/highcharts.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.2.0/highcharts-3d.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.2.0/js/modules/data.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.2.0/js/modules/exporting.js"></script>
 	
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.js"></script>

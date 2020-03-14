@@ -10,8 +10,8 @@ public class Message {
 	private Long meterPosition;
 	private Double volume;
 	private Double pressure;
-	private Long flow;
-	private Long temperature;
+	private Double flow;
+	private Double temperature;
 	private Double battery;
 	private Long alarm;
 	private String dtInsert;
@@ -64,16 +64,16 @@ public class Message {
 	public void setPressure(Double pressure) {
 		this.pressure = pressure;
 	}
-	public Long getFlow() {
+	public Double getFlow() {
 		return flow;
 	}
-	public void setFlow(Long flow) {
+	public void setFlow(Double flow) {
 		this.flow = flow;
-	}
-	public Long getTemperature() {
+	}	
+	public Double getTemperature() {
 		return temperature;
 	}
-	public void setTemperature(Long temperature) {
+	public void setTemperature(Double temperature) {
 		this.temperature = temperature;
 	}
 	public Double getBattery() {

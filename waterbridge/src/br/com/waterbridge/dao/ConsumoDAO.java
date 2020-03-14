@@ -133,8 +133,8 @@ public class ConsumoDAO {
             	consumo.setMeterPosition(rs.getLong("METERPOSITION"));
             	consumo.setVolume(rs.getDouble("VOLUME"));
             	consumo.setPressure(rs.getDouble("PRESSURE"));
-            	consumo.setFlow(rs.getLong("FLOW"));
-            	consumo.setTemperature(rs.getLong("TEMPERATURE"));
+            	consumo.setFlow(rs.getDouble("FLOW"));
+            	consumo.setTemperature(rs.getDouble("TEMPERATURE"));
             	consumo.setBattery(rs.getDouble("BATTERY"));
             	consumo.setAlarm(rs.getLong("ALARM"));            	
             	consumo.setIdEmpresa(rs.getLong("ID_EMPRESA"));
@@ -213,8 +213,8 @@ public class ConsumoDAO {
             	consumo.setMeterPosition(rs.getLong("METERPOSITION"));
             	consumo.setVolume(rs.getDouble("VOLUME"));
             	consumo.setPressure(rs.getDouble("PRESSURE"));
-            	consumo.setFlow(rs.getLong("FLOW"));
-            	consumo.setTemperature(rs.getLong("TEMPERATURE"));
+            	consumo.setFlow(rs.getDouble("FLOW"));
+            	consumo.setTemperature(rs.getDouble("TEMPERATURE"));
             	consumo.setBattery(rs.getDouble("BATTERY"));
             	consumo.setAlarm(rs.getLong("ALARM"));
             	consumo.setIdEmpresa(rs.getLong("ID_EMPRESA"));
@@ -293,8 +293,8 @@ public class ConsumoDAO {
             	consumo.setMeterPosition(rs.getLong("METERPOSITION"));
             	consumo.setVolume(rs.getDouble("VOLUME"));
             	consumo.setPressure(rs.getDouble("PRESSURE"));
-            	consumo.setFlow(rs.getLong("FLOW"));
-            	consumo.setTemperature(rs.getLong("TEMPERATURE"));
+            	consumo.setFlow(rs.getDouble("FLOW"));
+            	consumo.setTemperature(rs.getDouble("TEMPERATURE"));
             	consumo.setBattery(rs.getDouble("BATTERY"));
             	consumo.setAlarm(rs.getLong("ALARM"));
             	consumo.setIdEmpresa(rs.getLong("ID_EMPRESA"));
@@ -373,8 +373,8 @@ public class ConsumoDAO {
             	consumo.setMeterPosition(rs.getLong("METERPOSITION"));
             	consumo.setVolume(rs.getDouble("VOLUME"));
             	consumo.setPressure(rs.getDouble("PRESSURE"));
-            	consumo.setFlow(rs.getLong("FLOW"));
-            	consumo.setTemperature(rs.getLong("TEMPERATURE"));
+            	consumo.setFlow(rs.getDouble("FLOW"));
+            	consumo.setTemperature(rs.getDouble("TEMPERATURE"));
             	consumo.setBattery(rs.getDouble("BATTERY"));
             	consumo.setAlarm(rs.getLong("ALARM"));
             	consumo.setIdEmpresa(rs.getLong("ID_EMPRESA"));
@@ -453,8 +453,8 @@ public class ConsumoDAO {
             	consumo.setMeterPosition(rs.getLong("METERPOSITION"));
             	consumo.setVolume(rs.getDouble("VOLUME"));
             	consumo.setPressure(rs.getDouble("PRESSURE"));
-            	consumo.setFlow(rs.getLong("FLOW"));
-            	consumo.setTemperature(rs.getLong("TEMPERATURE"));
+            	consumo.setFlow(rs.getDouble("FLOW"));
+            	consumo.setTemperature(rs.getDouble("TEMPERATURE"));
             	consumo.setBattery(rs.getDouble("BATTERY"));
             	consumo.setAlarm(rs.getLong("ALARM"));
             	consumo.setIdEmpresa(rs.getLong("ID_EMPRESA"));
@@ -873,8 +873,8 @@ public class ConsumoDAO {
             	consumo.setMeterPosition(rs.getLong("METERPOSITION"));
             	consumo.setVolume(rs.getDouble("VOLUME"));
             	consumo.setPressure(rs.getDouble("PRESSURE"));
-            	consumo.setFlow(rs.getLong("FLOW"));
-            	consumo.setTemperature(rs.getLong("TEMPERATURE"));
+            	consumo.setFlow(rs.getDouble("FLOW"));
+            	consumo.setTemperature(rs.getDouble("TEMPERATURE"));
             	consumo.setBattery(rs.getDouble("BATTERY"));
             	consumo.setAlarm(rs.getLong("ALARM"));
             	consumo.setIdEmpresa(rs.getLong("ID_EMPRESA"));

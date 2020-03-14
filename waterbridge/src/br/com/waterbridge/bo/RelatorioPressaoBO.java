@@ -335,13 +335,14 @@ public class RelatorioPressaoBO extends HttpServlet {
         			lista1.add(listaValores1);
             		listaFinal.add(lista1);
             		
-            		String nomeCondominio = "RelatorioPressao";
-            		nomeCondominio = GeradorExcel.nomeArquivo(relPressao.getNomeCondominio());
-            		
+            		String nomeCondominio = relPressao.getNomeCondominio();
+            		if(nomeCondominio != null && nomeCondominio.length() > 29) {            			
+            			nomeCondominio = nomeCondominio.substring(0, 30).trim();
+            		}
+            		nomeCondominio = nomeCondominio.replaceAll("\\s", "_");
             		String nomeArquivo = nomeCondominio+"_"+Auxiliar.dataAtual()+".xlsx";
             		
-		        	GeradorExcel.gerar2Abas(res, nomeArquivo, abas, colunas, listaFinal);
-					
+		        	GeradorExcel.gerar2Abas(res, nomeArquivo, abas, colunas, listaFinal);					
 				} 
 				catch (Exception e) {
 					System.out.println(e);
@@ -372,6 +373,14 @@ public class RelatorioPressaoBO extends HttpServlet {
                 try {connection.close();} catch (SQLException ex) {}
             }
         }
+	}
+	
+	public static void main(String[] args) {
+		String nome = "nome estranho aqui";
+		System.out.println(nome.replaceAll("\\s","_"));
+		System.out.println(nome.length());
+		String a = nome.substring(0, 18);
+		System.out.println("deu certo " + a);
 	}
 	
 	private void recuperaDados(List<RelPressao> listaView, int i, List<String> listaValores2) throws ParseException {

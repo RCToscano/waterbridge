@@ -92,8 +92,8 @@ public class Frame {
 				message.setPressure(Double.parseDouble(biPressure.toString(10)));
 				message.setPressure(message.getPressure() / 700);
 				message.setPressure(Double.parseDouble(df.format(message.getPressure())));
-				message.setFlow(Long.parseLong(biFlow.toString(10)));
-				message.setTemperature(Long.parseLong(biTemperature.toString(10)));
+				message.setFlow(Double.parseDouble(biFlow.toString(10)));
+				message.setTemperature(Double.parseDouble(biTemperature.toString(10)));
 				message.setBattery(Double.parseDouble(biBattery.toString(10)));
 				message.setBattery(message.getBattery() / 50);
 				message.setBattery(Double.parseDouble(df.format(message.getBattery())));

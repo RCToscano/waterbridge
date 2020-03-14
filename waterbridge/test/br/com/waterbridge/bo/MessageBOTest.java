@@ -9,11 +9,11 @@ import br.com.andwaterbridge.modelo.MetaPressao;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.modelo.Bridge;
 import br.com.waterbridge.modelo.BridgeTp;
+import br.com.waterbridge.modelo.Condominio;
 import br.com.waterbridge.modelo.Consumo;
 
 class MessageBOTest {
 
-	@Test
 	void test() throws SQLException {
 		MessageBO messageBO = new MessageBO();
 		Bridge bridge = new Bridge();
@@ -37,7 +37,7 @@ class MessageBOTest {
 		
 		Connection connection = ConnectionFactory.getConnection();
 		
-		messageBO.verificarAlarm(consumo, bridge, metaPressao, connection);
+		messageBO.verificarAlarm(consumo, new Condominio(), bridge, metaPressao, connection);
 	}
 
 }

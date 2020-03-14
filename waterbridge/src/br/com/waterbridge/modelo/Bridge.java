@@ -14,8 +14,10 @@ public class Bridge {
 	private Long taxaEnvio;
 	private String descricao;
 	private Double ajuste;
+	private Long idVersaoFrame;
 	private String situacao;
 	private String dtInsert;
+	
 	public Long getIdBridge() {
 		return idBridge;
 	}
@@ -87,6 +89,12 @@ public class Bridge {
 	}
 	public void setAjuste(Double ajuste) {
 		this.ajuste = ajuste;
+	}	
+	public Long getIdVersaoFrame() {
+		return idVersaoFrame;
+	}
+	public void setIdVersaoFrame(Long idVersaoFrame) {
+		this.idVersaoFrame = idVersaoFrame;
 	}
 	public String getSituacao() {
 		return situacao;
