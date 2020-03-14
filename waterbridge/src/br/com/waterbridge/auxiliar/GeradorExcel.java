@@ -1,12 +1,13 @@
 package br.com.waterbridge.auxiliar;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
@@ -16,11 +17,14 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import br.com.waterbridge.relmodelo.RelConsumoPressaoExcel;
+
 public class GeradorExcel {
 	
+	private GeradorExcel() { }
 	
-	public static void gerar2Abas(HttpServletResponse res, String nomeArquivo, List<String> abas, List<List<String>> colunas, List<List<List<String>>> valores)
-			throws IOException, InvalidFormatException {
+	public static void gerar2Abas(HttpServletResponse res, String nomeArquivo, List<String> abas,
+			List<List<String>> colunas, List<List<List<String>>> valores) throws IOException {
 		// Create a Workbook .xsl
 		Workbook workbook = new XSSFWorkbook();
 
@@ -81,8 +85,8 @@ public class GeradorExcel {
 		workbook.close();
 	}
 	
-	public static void gerarExcel(HttpServletResponse res, String nomeArquivo, String nomeAba, List<String> colunas, List<List<String>> valores)
-			throws IOException, InvalidFormatException {
+	public static void gerarExcel(HttpServletResponse res, String nomeArquivo, String nomeAba, List<String> colunas,
+			List<List<String>> valores) throws IOException {
 		// Create a Workbook .xsl
 		Workbook workbook = new XSSFWorkbook();
 		
@@ -140,6 +144,60 @@ public class GeradorExcel {
 		
 		// Closing the workbook
 		workbook.close();
+	}
+	
+	public static void gerarExcelConsumo(String nomeArquivo, List<String> abas, List<String> colunas,
+			HashMap<Integer, List<RelConsumoPressaoExcel>> map) {
+		try (Workbook workbook = new XSSFWorkbook(); FileOutputStream fileOut = new FileOutputStream(nomeArquivo)) {
+			
+			/** Abas */
+			for(int i = 0; i < abas.size(); i++) {
+				Sheet sheet = workbook.createSheet(abas.get(i));
+		
+				/** Fonte da celula */
+				Font headerFont = workbook.createFont();
+				headerFont.setBold(true);
+				headerFont.setFontHeightInPoints((short) 12);
+				headerFont.setColor(IndexedColors.RED.getIndex());
+				
+				CellStyle headerCellStyle = workbook.createCellStyle();
+				headerCellStyle.setFont(headerFont);
+		
+				/** Nova linha */
+				int posicaoLinha = 0;
+				Row headerRow = sheet.createRow(posicaoLinha++);
+				
+				/** Cabecalho - 1ª linha */
+				for(int j = 0; j < colunas.size(); j++) {
+					Cell cell = headerRow.createCell(j);
+					cell.setCellValue(colunas.get(j));
+					cell.setCellStyle(headerCellStyle);
+				}
+				
+				/** Registros - Demais linhas */
+				for (int j = 0; j < map.get(i).size(); j++) {
+					Row row = sheet.createRow(posicaoLinha++);
+					int celula = 0;
+					
+					row.createCell(celula++).setCellValue(j+1);
+					row.createCell(celula++).setCellValue(map.get(i).get(j).getNomeEmpresa());
+					row.createCell(celula++).setCellValue(map.get(i).get(j).getNomeCondominio());
+					row.createCell(celula++).setCellValue(map.get(i).get(j).getDtInsert());
+					row.createCell(celula++).setCellValue(map.get(i).get(j).getHoraInsert());
+					row.createCell(celula++).setCellValue(map.get(i).get(j).getPressure());
+					row.createCell(celula++).setCellValue(map.get(i).get(j).getBattery());
+					row.createCell(celula++).setCellValue(map.get(i).get(j).getAlarmDesc());
+					row.createCell(celula++).setCellValue(map.get(i).get(j).getTemperature());
+				}
+				
+			}
+			
+			/** Gera o arquivo fisico */
+			workbook.write(fileOut);
+		} 
+		catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 	
 	public static String nomeArquivo(String nomeArquivo) {

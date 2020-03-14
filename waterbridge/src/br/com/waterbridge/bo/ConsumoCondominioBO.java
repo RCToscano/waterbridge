@@ -365,7 +365,7 @@ public class ConsumoCondominioBO extends HttpServlet {
 				}
 				
 				List<List<String>> colunas = new ArrayList<>();
-				List<String> abas = new ArrayList<String>();
+				List<String> abas = new ArrayList<>();
 				List<List<List<String>>> listaFinal = new ArrayList<>();
 				
         		//Dados

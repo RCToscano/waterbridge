@@ -27,6 +27,19 @@ public class ColunasExcel {
 	}};
 	
 	@SuppressWarnings("serial")
+	private List<String> colunasConsumoUserEmpresa = new ArrayList<String>(){{
+		add("Nº");
+		add("EMPRESA");
+	    add("LOCAL");
+		add("DATA");
+		add("HORA");
+		add("PRESSAO");
+		add("BATERIA");
+		add("ALARME");
+		add("TEMPERATURA");
+	}};
+	
+	@SuppressWarnings("serial")
 	private List<String> colunasRelMedidorResumo = new ArrayList<String>(){{
 		add("EMPRESA");
 		add("LOCAL");
@@ -74,6 +87,10 @@ public class ColunasExcel {
 
 	public List<String> getColunasRelPressaoDados() {
 		return colunasRelPressaoDados;
+	}
+
+	public List<String> getColunasConsumoUserEmpresa() {
+		return colunasConsumoUserEmpresa;
 	}
 
 	public List<String> getColunasRelMedidorResumo() {
