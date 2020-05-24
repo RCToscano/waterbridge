@@ -8,6 +8,8 @@
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
         <meta charset="utf-8"/>
         
+        <script src="./js/mapa/mapaconsumopressao.js" type="text/javascript"></script>
+       
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -78,15 +80,12 @@
             var map;
             function initMap() {
 
-                //var myLatLng = {lat: -23.614233, lng: -46.662033};
-                var myLatLng = {lat: -22.901452, lng: -47.066742};
+                var myLatLng = {lat: -22.831140, lng: -47.266112};
                 
                 map = new google.maps.Map(document.getElementById('map'), {
-                    zoom: 9,
+                    zoom: 12,
                     center: myLatLng
                 });
-                
-                //addPontoDesoltec(map);
                 
               	//EXIBE MEDIDORES E PRESSURE BRIDGE
                 for (i = 0; i < listRelMapaConsumoPressao.length; i++) {
@@ -106,11 +105,6 @@
                         '  <div id="siteNotice"></div>' +
                         '  <h4 id="firstHeading" class="firstHeading">Desoltec Engenharia</h4>' +
                         '  <div id="bodyContent">' +
-                        //'    <img src="http://www.w3schools.com/images/w3schools_green.jpg" alt="W3Schools.com">'+
-                        //'    <p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large </p>'+
-                        //'    <p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
-                        //'    https://en.wikipedia.org/w/index.php?title=Uluru</a> </p>'+
-                        //'    <a href="#" onclick="guardarCoordenadas(\'Escritório\', \'RB\', -23.614233, -46.662033); return false;">Rota</a></p>' +
                         '  </div>' +
                         '</div>';
 
@@ -133,29 +127,21 @@
             
             function addPontoDispositivo(map, relMapaConsumoPressao) {    
                 
-                var image;
-                image = './images/ic_dispositivo_mapa.png';
-//                 if (Number(cliente.idSituacaoCli) == 1) {
-//                     image = './images/cliente_ativo.png';
-//                 }
-//                 else if (Number(cliente.idSituacaoCli) == 2) {
-//                     image = './images/cliente_inativo.png';
-//                 }
-//                 else if (Number(cliente.idSituacaoCli) == 3) {
-//                     image = './images/cliente_suspenso.png';
-//                 }
-//                 else if (Number(cliente.idSituacaoCli) == 4) {
-//                     image = './images/cliente_internado.png';
-//                 }
-//                 else if (Number(cliente.idSituacaoCli) == 5) {
-//                     image = './images/cliente_viagem.png';
-//                 }
-//                 else if (Number(cliente.idSituacaoCli) == 6) {
-//                     image = './images/cliente_prospect.png';
-//                 }
-//                 else {
-//                     image = './images/cliente.png';
-//                 }
+                var image = './images/ic_dispositivo_mapa.png';
+               	if(relMapaConsumoPressao.idBridgeTp == 2 || relMapaConsumoPressao.idBridgeTp == 4) {
+               		if(relMapaConsumoPressao.pressure < relMapaConsumoPressao.pressaoMinBaixa ) {
+               			image = './images/ic_dispositivo_mapa_danger.png';		
+               		}
+               		else if(relMapaConsumoPressao.pressure > relMapaConsumoPressao.pressaoMaxAlta ) {
+               			image = './images/ic_dispositivo_mapa_danger.png';
+               		}
+					else if(relMapaConsumoPressao.pressure < relMapaConsumoPressao.pressaoMin ) {
+						image = './images/ic_dispositivo_mapa_warning.png';
+               		}
+					else if(relMapaConsumoPressao.pressure > relMapaConsumoPressao.pressaoMax ) {
+						image = './images/ic_dispositivo_mapa_warning.png';
+               		}
+               	}
                 
                 var myLatLng1 = {lat: Number(relMapaConsumoPressao.coordX), lng: Number(relMapaConsumoPressao.coordY)};
                 var marker1 = new google.maps.Marker({
@@ -173,17 +159,23 @@
                     '    <p><b>Pressao (MCA): </b> ' + relMapaConsumoPressao.pressure + '</p>' +
                     '    <p><b>Volume (M3): </b> ' + relMapaConsumoPressao.volume + '</p>' ;	
                 }
-                else if(relMapaConsumoPressao.idBridgeTp == 2 || relMapaConsumoPressao.idBridgeTp == 4) {
+                else if(relMapaConsumoPressao.idBridgeTp == 2) {
                 	texto = 
                  	'    <p><b>Tipo Medidor: </b> PRESSAO </p>' +	
                		'    <p><b>Bridge: </b> ' + relMapaConsumoPressao.device + ' </p>' +
                     '    <p><b>Pressao (MCA): </b> ' + relMapaConsumoPressao.pressure + '</p>' ;
-                }
+                }                
                 else if(relMapaConsumoPressao.idBridgeTp == 3) {
                 	texto = 
                    	'    <p><b>Tipo Medidor: </b> AGUA </p>' +	
               		'    <p><b>Numero Medidor: </b> ' + relMapaConsumoPressao.numeroMedidor + ' </p>' +
                     '    <p><b>Volume (M3): </b> ' + relMapaConsumoPressao.volume + '</p>' ;
+                }
+                else if(relMapaConsumoPressao.idBridgeTp == 4) {
+                	texto = 
+                 	'    <p><b>Tipo Medidor: </b> PRESSAO / LEVEL </p>' +	
+               		'    <p><b>Bridge: </b> ' + relMapaConsumoPressao.device + ' </p>' +
+                    '    <p><b>Pressao (MCA): </b> ' + relMapaConsumoPressao.pressure + '</p>' ;
                 }
 
                 var contentString1 =
@@ -195,8 +187,6 @@
                 contentString1 += texto ;                
                 contentString1 +=
                 '    <p><b>Data Leitura: </b> ' + relMapaConsumoPressao.dtInsert + '</p>' +
-//                 '    <A HREF="ASSISTCADALT?ACAO=3&CODCLIENTEBUSCA=' + CLIENTE.CODIGO + '" TARGET="_BLANK">CADASTRO</A>&EMSP;&EMSP;' +
-//                 '    <A HREF="#" ONCLICK="GUARDARCOORDENADAS(\'CLIENTE\', \'' + CLIENTE.CLIENTE + '\', ' + CLIENTE.COORDX + ', ' + CLIENTE.COORDY + '); RETURN FALSE;">ROTA</A></P>' +
                 '  </div>' +
                 '</div>';
 
@@ -209,19 +199,20 @@
             }
 
             function clearMarkers() {
-                
-                var myLatLng = {lat: -22.7593783, lng: -47.331158500000015};
+            	
+                var myLatLng = {lat: -22.831140, lng: -47.266112};
                 map = new google.maps.Map(document.getElementById('map'), {
                     zoom: 12,
                     center: myLatLng
                 });
-                
-                addPontoDesoltec(map);
-            }
-            
+            }            
         </script>
 
         <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQYeBkyboWkHixtUDY9NZ_crkhBDa8eFQ&signed_in=true&callback=initMap"></script>
+        
+        <script type="text/javascript">		
+			atualizarReservatorios();
+		</script>
     </body>
 </html>

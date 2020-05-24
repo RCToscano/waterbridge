@@ -23,6 +23,10 @@ public class RelMapaConsumoPressao {
 	private Double battery;
 	private Long idAlarm;
 	private String alarm;
+	private Double pressaoMinBaixa;
+	private Double pressaoMin;
+	private Double pressaoMax;
+	private Double pressaoMaxAlta;
 	private String dtInsert;
 	
 	public Long getIdConsumo() {
@@ -150,12 +154,35 @@ public class RelMapaConsumoPressao {
 	}
 	public void setAlarm(String alarm) {
 		this.alarm = alarm;
+	}	
+	public Double getPressaoMinBaixa() {
+		return pressaoMinBaixa;
+	}
+	public void setPressaoMinBaixa(Double pressaoMinBaixa) {
+		this.pressaoMinBaixa = pressaoMinBaixa;
+	}
+	public Double getPressaoMin() {
+		return pressaoMin;
+	}
+	public void setPressaoMin(Double pressaoMin) {
+		this.pressaoMin = pressaoMin;
+	}
+	public Double getPressaoMax() {
+		return pressaoMax;
+	}
+	public void setPressaoMax(Double pressaoMax) {
+		this.pressaoMax = pressaoMax;
+	}
+	public Double getPressaoMaxAlta() {
+		return pressaoMaxAlta;
+	}
+	public void setPressaoMaxAlta(Double pressaoMaxAlta) {
+		this.pressaoMaxAlta = pressaoMaxAlta;
 	}
 	public String getDtInsert() {
 		return dtInsert;
 	}
 	public void setDtInsert(String dtInsert) {
 		this.dtInsert = dtInsert;
-	}
-	
+	}	
 }

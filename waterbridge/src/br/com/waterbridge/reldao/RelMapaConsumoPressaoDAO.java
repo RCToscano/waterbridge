@@ -27,7 +27,7 @@ public class RelMapaConsumoPressaoDAO {
         List<RelMapaConsumoPressao> listRelMapaConsumoPressao = new ArrayList<RelMapaConsumoPressao>();
         
         try {
-            
+        	
             stmt = connection.prepareStatement(
     		"SELECT    VW_MAPACONSUMOPRESSAO.ID_CONSUMO, " +
             "          VW_MAPACONSUMOPRESSAO.ID_EMPRESA, " +
@@ -50,6 +50,10 @@ public class RelMapaConsumoPressaoDAO {
             "          VW_MAPACONSUMOPRESSAO.BATTERY, " +
             "          VW_MAPACONSUMOPRESSAO.ID_ALARM, " +
             "          VW_MAPACONSUMOPRESSAO.ALARM, " +
+            "          VW_MAPACONSUMOPRESSAO.PRESSAOMIN, " +
+            "          VW_MAPACONSUMOPRESSAO.PRESSAOMAX, " +
+            "          VW_MAPACONSUMOPRESSAO.PRESSAOMINBAIXA, " +
+            "          VW_MAPACONSUMOPRESSAO.PRESSAOMAXALTA, " +
             "          VW_MAPACONSUMOPRESSAO.DTINSERT " +
             "FROM      VW_MAPACONSUMOPRESSAO " +            	
             sql
@@ -79,8 +83,13 @@ public class RelMapaConsumoPressaoDAO {
             	relMapaConsumoPressao.setConsumo(rs.getDouble("CONSUMO"));
             	relMapaConsumoPressao.setTemperature(rs.getDouble("TEMPERATURE"));
             	relMapaConsumoPressao.setBattery(rs.getDouble("BATTERY"));
-            	relMapaConsumoPressao.setIdAlarm(rs.getLong("ID_ALARM"));
+            	relMapaConsumoPressao.setIdAlarm(rs.getLong("ID_ALARM"));            	
+            	relMapaConsumoPressao.setPressaoMinBaixa(rs.getDouble("PRESSAOMINBAIXA"));
+            	relMapaConsumoPressao.setPressaoMin(rs.getDouble("PRESSAOMIN"));
+            	relMapaConsumoPressao.setPressaoMax(rs.getDouble("PRESSAOMAX"));
+            	relMapaConsumoPressao.setPressaoMaxAlta(rs.getDouble("PRESSAOMAXALTA"));            	
             	relMapaConsumoPressao.setAlarm(rs.getString("ALARM"));
+            	
             	relMapaConsumoPressao.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));
             	
             	listRelMapaConsumoPressao.add(relMapaConsumoPressao);

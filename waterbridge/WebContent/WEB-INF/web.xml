@@ -226,7 +226,7 @@
   <servlet-mapping>
     <servlet-name>DataMedidorAjusteBO</servlet-name>
     <url-pattern>/DataMedidorAjusteBO</url-pattern>
-  </servlet-mapping>  
+  </servlet-mapping>
   <session-config>
     <session-timeout>30</session-timeout>
   </session-config>

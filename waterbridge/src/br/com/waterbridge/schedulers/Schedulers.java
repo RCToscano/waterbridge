@@ -31,9 +31,7 @@ public class Schedulers implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
-    	try {
-	    	System.out.println("entrou");
-	    	
+    	try {	    	
 	    	scheduler = Executors.newSingleThreadScheduledExecutor();
 	    	validadeToken();
 	    	excelConsumoUserEmpresa();
