@@ -43,17 +43,17 @@ public class RelPontoDAO {
 
             while (rs.next()) {
             	
-            	RelPonto relponto = new RelPonto();
-            	relponto.setIdPonto(rs.getLong("ID_PONTO"));
-            	relponto.setIdEmpresa(rs.getLong("ID_EMPRESA"));
-            	relponto.setIdPontoTp(rs.getLong("ID_PONTOTP"));
-            	relponto.setDescricaoPonto(rs.getString("DESCRICAO_PONTO"));
-            	relponto.setDescricaoPontoTp(rs.getString("DESCRICAO_PONTOTP"));
-            	relponto.setCoordX(rs.getString("COORDX"));
-            	relponto.setCoordY(rs.getString("COORDY"));
-            	relponto.setDtInsert(rs.getString("DTINSERT"));
+            	RelPonto relPonto = new RelPonto();
+            	relPonto.setIdPonto(rs.getLong("ID_PONTO"));
+            	relPonto.setIdEmpresa(rs.getLong("ID_EMPRESA"));
+            	relPonto.setIdPontoTp(rs.getLong("ID_PONTOTP"));
+            	relPonto.setDescricaoPonto(rs.getString("DESCRICAO_PONTO"));
+            	relPonto.setDescricaoPontoTp(rs.getString("DESCRICAO_PONTOTP"));
+            	relPonto.setCoordX(rs.getString("COORDX"));
+            	relPonto.setCoordY(rs.getString("COORDY"));
+            	relPonto.setDtInsert(rs.getString("DTINSERT"));
                         	
-            	listRelPonto.add(relponto);
+            	listRelPonto.add(relPonto);
             }
             
             return listRelPonto;
@@ -75,5 +75,59 @@ public class RelPontoDAO {
         }
     }
 
+    public RelPonto buscarPorId(Long idPonto) throws SQLException {
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        RelPonto relPonto = null;
+        
+        try {
+            
+            stmt = connection.prepareStatement(
+    		"SELECT ID_PONTO, " +
+        	"       ID_EMPRESA, " +
+        	"       ID_PONTOTP, " +
+        	"       DESCRICAO_PONTO, " +
+        	"       DESCRICAO_PONTOTP, " +
+        	" 	    COORDX, " +
+        	"       COORDY, " +
+        	"       DTINSERT " +
+        	"FROM   VW_PONTO " +            		            
+            "WHERE  ID_PONTO = " + idPonto
+            );
+
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+            	
+            	relPonto = new RelPonto();
+            	relPonto.setIdPonto(rs.getLong("ID_PONTO"));
+            	relPonto.setIdEmpresa(rs.getLong("ID_EMPRESA"));
+            	relPonto.setIdPontoTp(rs.getLong("ID_PONTOTP"));
+            	relPonto.setDescricaoPonto(rs.getString("DESCRICAO_PONTO"));
+            	relPonto.setDescricaoPontoTp(rs.getString("DESCRICAO_PONTOTP"));
+            	relPonto.setCoordX(rs.getString("COORDX"));
+            	relPonto.setCoordY(rs.getString("COORDY"));
+            	relPonto.setDtInsert(rs.getString("DTINSERT"));
+            }
+            
+            return relPonto;
+        }
+        catch(SQLException e) {
+            
+            throw e;
+        }
+        finally {
+
+            if(stmt != null) {
+                
+                stmt.close();
+            }
+            if(rs != null) {
+                
+                rs.close();
+            }
+        }
+    }
 }
 

@@ -12,6 +12,7 @@ public class RelMapaConsumoPressao {
 	private String compl;
 	private String coordX;
 	private String coordY;
+	private Long idBridge;
 	private Long idBridgeTp;
 	private Long idMedidor;
 	private String numeroMedidor;
@@ -85,6 +86,12 @@ public class RelMapaConsumoPressao {
 	}
 	public String getCoordY() {
 		return coordY;
+	}	
+	public Long getIdBridge() {
+		return idBridge;
+	}
+	public void setIdBridge(Long idBridge) {
+		this.idBridge = idBridge;
 	}
 	public void setCoordY(String coordY) {
 		this.coordY = coordY;
