@@ -96,7 +96,7 @@ function carregarReservatorios() {
 	}
 	else {
 	
-		for (i = 1; i < 49; i++) {
+		for (i = 1; i < 73; i++) {
 			$("#container" + i).html("");
 			$("#titulo" + i).html("");
 		}

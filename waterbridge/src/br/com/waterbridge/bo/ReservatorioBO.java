@@ -4,7 +4,6 @@ package br.com.waterbridge.bo;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -45,13 +44,13 @@ public class ReservatorioBO extends HttpServlet {
 				
 				connection = ConnectionFactory.getConnection();
 				
-				RelPressaoLastDAO relPressaoLastDAO = new RelPressaoLastDAO(connection);
-				List<RelPressaoLast> listRelPressaoLast = relPressaoLastDAO.listar(sql);
+//				RelPressaoLastDAO relPressaoLastDAO = new RelPressaoLastDAO(connection);
+//				List<RelPressaoLast> listRelPressaoLast = relPressaoLastDAO.listar(sql);
 				
 				EmpresaDAO empresaDAO = new EmpresaDAO(connection);
 				List<Empresa> listEmpresa = empresaDAO.listarPorUsuario(user.getIdUser());
 			
-				req.setAttribute("listRelPressaoLast", listRelPressaoLast);
+				//req.setAttribute("listRelPressaoLast", listRelPressaoLast);
 				req.setAttribute("listEmpresa", listEmpresa);
         		req.getRequestDispatcher("/jsp/reservatorio/reservatoriografico.jsp").forward(req, res);
 			}

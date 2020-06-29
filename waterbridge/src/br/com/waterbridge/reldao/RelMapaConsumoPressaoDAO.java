@@ -169,7 +169,10 @@ public class RelMapaConsumoPressaoDAO {
 		  	"  WHERE  ID_EMPRESA = " + idEmpresa + " " +
 		  	"  AND    ID_CONDOMINIO = " + idCondominio + " " +
 		  	"  AND    ID_BRIDGE = " + idBridge + " " +
-		    ") " 
+		    ") " +
+		    "AND       TB_EMPRESA.SITUACAO = 'A' " + 
+		    "AND       TB_CONDOMINIO.SITUACAO = 'A' " +
+		    "AND       TB_BRIDGE.SITUACAO = 'A' "
             );
                         
             rs = stmt.executeQuery();
@@ -225,7 +228,7 @@ public class RelMapaConsumoPressaoDAO {
         }
     }
     
-    public List<RelMapaConsumoPressao> listarPressureBridgeEmpresa(Long idEmpresa) throws Exception {
+    public List<RelMapaConsumoPressao> listarPressureBridgeEmpresa() throws Exception {
 
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -242,7 +245,7 @@ public class RelMapaConsumoPressaoDAO {
             "ON        TB_EMPRESA.ID_EMPRESA = TB_CONDOMINIO.ID_EMPRESA " +
             "LEFT JOIN TB_BRIDGE " +
             "ON        TB_CONDOMINIO.ID_CONDOMINIO = TB_BRIDGE.ID_CONDOMINIO " +
-            "WHERE     TB_EMPRESA.ID_EMPRESA = " + idEmpresa + " " +
+            "WHERE     TB_EMPRESA.ID_EMPRESA IN(4,6) " +
             "AND       TB_EMPRESA.SITUACAO = 'A' " +
             "AND       TB_CONDOMINIO.SITUACAO = 'A' " +
             "AND       TB_BRIDGE.SITUACAO = 'A' " +

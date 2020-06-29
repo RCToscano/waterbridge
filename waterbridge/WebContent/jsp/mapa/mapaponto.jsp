@@ -111,10 +111,10 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                          	<a data-toggle="collapse" data-parent="#accordion" href="#collapse0">Acessórios</a>
+                          	<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Acessórios</a>
                        	</h4>                        
                     </div>
-                    <div id="collapse0" class="panel-collapse collapse">
+                    <div id="collapse1" class="panel-collapse collapse">
                     	<div class="panel-body" style="padding: 5px;">                            
                             Incluir <a href="#" onclick="exibirModalCadastrarPonto();return false;"><span class='glyphicon glyphicon-plus' style="color:#6991fd"></span></a>
                         </div>                    
@@ -159,6 +159,32 @@
                         </div>                                                                                                                                                                                        
                     </div>
                 </div>
+                <!-- 
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                          	<a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Setor</a>
+                       	</h4>                        
+                    </div>
+                     
+                    <div id="collapse2" class="panel-collapse collapse">
+                    
+                    	<div class="panel-body" style="padding: 5px;">                            
+                            Incluir <a href="#" onclick="exibirModalCadastrarPonto();return false;"><span class='glyphicon glyphicon-plus' style="color:#6991fd"></span></a>
+                            <select class="mdb-select md-form" multiple>
+								<option value="" disabled selected>Choose your country</option>
+								<option value="1">USA</option>
+								<option value="2">Germany</option>
+								<option value="3">France</option>
+								<option value="4">Poland</option>
+								<option value="5">Japan</option>
+							</select>
+                        </div>                    
+                                                                                                                                                                                        
+                    </div>
+                   
+                </div>
+                 -->
             </div>            
         </div>
         <div id="question" style="display:none; cursor: default"> 
@@ -168,8 +194,10 @@
 		</div> 
         <script>
         
+        	var timerAtualizaMarkers;
             var listRelPonto = ${listRelPonto};
             var listRelMapaConsumoPressao = ${listRelMapaConsumoPressao};
+            var markers = [];
             
             var map;
             function initMap() {
@@ -223,6 +251,7 @@
                 marker.addListener('click', function () {
                     infowindow.open(map, marker);
                 });
+                markers.push(marker);
             }
             
             function addPontoDispositivo(map, relPonto) {    
@@ -264,7 +293,8 @@
                     position: myLatLng1,
                     map: map,
                     icon: image,
-                    title: String('')
+                    title: String(''),
+                    id: '' + relPonto.idPonto + ''
                 });
                 
                 var texto = '';
@@ -272,8 +302,9 @@
                		'    <p><b>Id: </b> ' + relPonto.idPonto + ' </p>' +
                     '    <p><b>Tipo: </b> ' + relPonto.descricaoPontoTp + '</p>' +
                     '    <p><b>Descricao: </b> ' + relPonto.descricaoPonto + '</p>' +
-                    '    <a href="#" onclick="buscarPonto(' + relPonto.idPonto + '); return false;">Alterar</a></p>' ;
-                
+                    '    <a href="#" onclick="buscarPonto(' + relPonto.idPonto + '); return false;">Alterar</a></p>' +
+                    '    <a href="#" onclick="deleteMarker(' + relPonto.idPonto + '); return false;">excluir marker</a></p>' ;
+               
                 var contentString1 =
                 '<div id="content">' +
                 '  <div id="siteNotice"></div>' +
@@ -289,6 +320,7 @@
                 marker1.addListener('click', function () {
                     infowindow1.open(map, marker1);
                 });
+                markers.push(marker1);
             }
             
 			function addPontoBridge(map, relMapaConsumoPressao) {    
@@ -321,8 +353,8 @@
                 '<div id="content">' +
                 '  <div id="siteNotice"></div>' +
                 '  <div id="bodyContent">' ;                        
-                contentString1 +=
-                '    <p>' + relMapaConsumoPressao.device + '<br/><b>(MCA): </b>' + relMapaConsumoPressao.pressure + '<br/>' + relMapaConsumoPressao.dtInsert + '</p>' +
+                contentString1 +=                	
+                '    ' + relMapaConsumoPressao.device + '<br/>' + relMapaConsumoPressao.pressure + ' (MCA)<br/>' + relMapaConsumoPressao.dtInsert.substring(0, 6) + relMapaConsumoPressao.dtInsert.substring(8) + '' + 
                 '  </div>' +
                 '</div>';
 
@@ -332,7 +364,7 @@
                 marker1.addListener('click', function () {
                     infowindow1.open(map, marker1);
                 });
-                infowindow1.open(map,marker1);
+                markers.push(marker1);
             }
 
             function clearMarkers() {                
@@ -344,7 +376,15 @@
                 //addPontoDesoltec(map);
             }            
             
-            function listarPontos(idPontoTp) {                	           	    
+            timerMarkers = setTimeout(function() {
+       	 		listarPontos('0');
+       		//}, 600000);
+       	 	}, 10000);
+            
+            function listarPontos(idPontoTp) {     
+            	if(timerAtualizaMarkers != null) {
+            		clearTimeout(timerAtualizaMarkers);
+            	}
             	$.blockUI({ 
            	    	message: '<img src="./images/busy.gif" />',
            	    	css: { 
@@ -380,7 +420,10 @@
            	            $.unblockUI();
            	            alert('Falha ao listar pontos');
            	        }
-           	    });                	
+           	    });
+           	 	timerAtualizaMarkers = setTimeout(function() {
+           	 		listarPontos('0');
+           		}, 600000);
             }
             
             function buscarPonto(idPonto) {
@@ -577,6 +620,19 @@
                 });                
             }
                         
+			function deleteMarker(id) {				
+		        //Find and remove the marker from the Array		     
+		        for (var i = 0; i < markers.length; i++) {
+		            if (markers[i].id == id) {
+		                //Remove the marker from Map                  
+		                markers[i].setMap(null);		 
+		                //Remove the marker from array.
+		                markers.splice(i, 1);
+		                return;
+		            }
+		        }
+		    };
+			
             function resetModal() {         
             	$('#divAviso').html('');
             	$('#idPonto').val("");

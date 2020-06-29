@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.PredicateUtils;
+
 import com.google.gson.Gson;
 
 import br.com.waterbridge.connection.ConnectionFactory;
@@ -71,13 +74,13 @@ public class PontoBO extends HttpServlet {
 			List<RelPonto> listRelPonto = relPontoDAO.listar("");
 			
 			RelMapaConsumoPressaoDAO relMapaConsumoPressaoDAO = new RelMapaConsumoPressaoDAO(connection);
-			List<RelMapaConsumoPressao> listRelMapaConsumoPressao = relMapaConsumoPressaoDAO.listarPressureBridgeEmpresa(4l);
+			List<RelMapaConsumoPressao> listRelMapaConsumoPressao = relMapaConsumoPressaoDAO.listarPressureBridgeEmpresa();
 			for(int i = 0; i < listRelMapaConsumoPressao.size(); i++ ) {
 				listRelMapaConsumoPressao.set(i, relMapaConsumoPressaoDAO.buscar(
 						listRelMapaConsumoPressao.get(i).getIdEmpresa(), 
-						listRelMapaConsumoPressao.get(i).getIdCondominio(), listRelMapaConsumoPressao.get(i).getIdBridge()));
+						listRelMapaConsumoPressao.get(i).getIdCondominio(), listRelMapaConsumoPressao.get(i).getIdBridge()));								
 			}
-			listRelMapaConsumoPressao.remove(null);
+			CollectionUtils.filter(listRelMapaConsumoPressao, PredicateUtils.notNullPredicate());
 			
 			req.setAttribute("listRelPonto", new Gson().toJson(listRelPonto));
 			req.setAttribute("listRelMapaConsumoPressao", new Gson().toJson(listRelMapaConsumoPressao));
@@ -111,13 +114,13 @@ public class PontoBO extends HttpServlet {
 			List<RelPonto> listRelPonto = relPontoDAO.listar(sql);
 			
 			RelMapaConsumoPressaoDAO relMapaConsumoPressaoDAO = new RelMapaConsumoPressaoDAO(connection);
-			List<RelMapaConsumoPressao> listRelMapaConsumoPressao = relMapaConsumoPressaoDAO.listarPressureBridgeEmpresa(4l);
+			List<RelMapaConsumoPressao> listRelMapaConsumoPressao = relMapaConsumoPressaoDAO.listarPressureBridgeEmpresa();
 			for(int i = 0; i < listRelMapaConsumoPressao.size(); i++ ) {
 				listRelMapaConsumoPressao.set(i, relMapaConsumoPressaoDAO.buscar(
 						listRelMapaConsumoPressao.get(i).getIdEmpresa(), 
-						listRelMapaConsumoPressao.get(i).getIdCondominio(), listRelMapaConsumoPressao.get(i).getIdBridge()));
+						listRelMapaConsumoPressao.get(i).getIdCondominio(), listRelMapaConsumoPressao.get(i).getIdBridge()));				
 			}
-			listRelMapaConsumoPressao.remove(null);
+			CollectionUtils.filter(listRelMapaConsumoPressao, PredicateUtils.notNullPredicate());
 			
 			List<Object> listObject = new ArrayList<>();	
 			listObject.add(listRelPonto);
