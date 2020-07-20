@@ -183,7 +183,7 @@ public class RelPressaoDAO {
 				"LEFT JOIN TB_METAPRESSAO " + 
 				"	    ON TB_CONSUMO.ID_BRIDGE = TB_METAPRESSAO.ID_BRIDGE " + 
 				"    WHERE TB_CONSUMO.DTINSERT BETWEEN ? AND ? " + 
-			    "      AND TB_CONSUMO.ID_EMPRESA = ? " + 
+			    "      AND TB_CONSUMO.ID_EMPRESA IN(4,6) " + 
 			    "      AND TB_CONSUMO.ID_USER = ? " + 
 	    		" ORDER BY TB_CONSUMO.DEVICE, TB_CONSUMO.ID_CONSUMO DESC";
         
@@ -191,8 +191,8 @@ public class RelPressaoDAO {
 
 			statement.setString(1, dtInicio);
 			statement.setString(2, dtFim);
-			statement.setLong(3, idEmpresa);
-			statement.setLong(4, idUser);
+			//statement.setLong(3, idEmpresa);
+			statement.setLong(3, idUser);
 			
 			try (ResultSet rs = statement.executeQuery()) {
 				

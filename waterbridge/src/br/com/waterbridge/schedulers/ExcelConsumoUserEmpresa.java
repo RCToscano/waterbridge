@@ -12,11 +12,10 @@ import br.com.waterbridge.reldao.RelPressaoDAO;
 
 public class ExcelConsumoUserEmpresa implements Runnable {
 	
-	
 	@Override
 	public void run() {
 		Calendar dataInicio = Calendar.getInstance();
-		if (dataInicio.get(Calendar.DAY_OF_MONTH) == 14) {
+		if (dataInicio.get(Calendar.DAY_OF_MONTH) == 01) {
 		
 			System.out.println("Inicio geracao Excel Mensal Consumo Empresa Usuario");
 			try (Connection connection = ConnectionFactory.getConnection()) {
@@ -47,7 +46,7 @@ public class ExcelConsumoUserEmpresa implements Runnable {
 				if (!resultado.getAbas().isEmpty()) {
 					System.out.println("Gerando excel com ["+resultado.getAbas().size()+"] Bridges");
 					
-					GeradorExcel.gerarExcelConsumo("C:\\TEMP\\CSV\\Teste.xlsx", resultado.getAbas(),
+					GeradorExcel.gerarExcelConsumo("C:\\Temp\\Teste.xlsx", resultado.getAbas(),
 							new ColunasExcel().getColunasConsumoUserEmpresa(), resultado.getMap());
 					
 					System.out.println("Excel gerado com sucesso");
@@ -62,4 +61,8 @@ public class ExcelConsumoUserEmpresa implements Runnable {
 		}
 	}
 	
+	public static void main(String[] args) {
+	
+		new ExcelConsumoUserEmpresa().run();
+	}	
 }

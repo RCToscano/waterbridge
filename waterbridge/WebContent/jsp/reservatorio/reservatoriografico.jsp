@@ -95,7 +95,7 @@
 			</form>	
 		</div>	
 		<div class="row" id="divReservatorio">
-			<c:forEach var = "i" begin = "1" end = "72">
+			<c:forEach var = "i" begin = "1" end = "120">
 		        <div class="col-sm-1" style="padding: 3px;">		        			    
 	            	<div id="container${i}"></div>
 	            	<div id="titulo${i}" style="width: 100%; height: 30px; text-align: center;"></div>

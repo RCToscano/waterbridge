@@ -159,7 +159,7 @@
                         </div>                                                                                                                                                                                        
                     </div>
                 </div>
-                <!-- 
+                <!-- --> 
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
@@ -179,12 +179,18 @@
 								<option value="4">Poland</option>
 								<option value="5">Japan</option>
 							</select>
-                        </div>                    
+                        </div>
+                        <script type="javascript">
+$(document).ready(function() {
+$('.mdb-select').materialSelect();
+});
+
+						</script>                    
                                                                                                                                                                                         
                     </div>
                    
                 </div>
-                 -->
+                 
             </div>            
         </div>
         <div id="question" style="display:none; cursor: default"> 
