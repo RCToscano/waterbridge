@@ -73,7 +73,7 @@
 							        tickLength: 0
 							    },
 							    yAxis: {
-							        min: 0,
+							    	max : pressaoMaxAlta,
 							        title: {
 							        	text: 'MCA'
 							        }							        
@@ -82,17 +82,28 @@
 								      	//minorGridLineWidth: 0,
 								        //gridLineWidth: 0,
 								        //alternateGridColor: null,
-								        plotBands: [{ // Light air
-								            from: ${metaPressao.pressaoMin},
-								            to: ${metaPressao.pressaoMax},
-								            color: 'rgba(68, 170, 213, 0.1)',
-								            label: {
-								                text: ' ',
-								                style: {
-								                    color: '#606060'
-								                }
-								            }
-								        }]							        
+								        plotBands: [
+								        	{ // Light air
+									            from: 0,
+									            to: ${metaPressao.pressaoMinBaixa},
+									            color: 'rgb(244, 91, 91)'
+								        	},
+								        	{ 
+									            from: ${metaPressao.pressaoMinBaixa},
+									            to: ${metaPressao.pressaoMin},
+									            color: 'rgb(247, 163, 92)'
+								        	},
+								        	{ 
+									            from: ${metaPressao.pressaoMin},
+									            to: ${metaPressao.pressaoMax},
+									            color: 'rgb(228, 211, 84)'
+								        	},
+								        	{ 
+									            from: ${metaPressao.pressaoMax},
+									            to: ${metaPressao.pressaoMaxAlta},
+									            color: 'rgb(124, 181, 236)'
+								        	}
+								        ]							        
 							        </c:if>								        
 							    },
 							    tooltip: {

@@ -187,39 +187,52 @@
 											      	//minorGridLineWidth: 0,
 											        //gridLineWidth: 0,
 											        //alternateGridColor: null,
-											        plotBands: [{ // limite pressao baixa
-											            from: ${metaPressao.pressaoMinBaixa},
-											            to: ${metaPressao.pressaoMin},
-											            color: 'rgba(255, 153, 153, 0.1)',
-											            label: {
-											                text: ' ',
-											                style: {
-											                    color: '#606060'
-											                }
-											            }
-											        },
-											        { // limite pressao normal
-											            from: ${metaPressao.pressaoMin},
-											            to: ${metaPressao.pressaoMax},
-											            color: 'rgba(68, 170, 213, 0.1)',
-											            label: {
-											                text: ' ',
-											                style: {
-											                    color: '#606060'
-											                }
-											            }
-											        },
-											        { //limite maximo pressao alta
-											            from: ${metaPressao.pressaoMax},
-											            to: ${metaPressao.pressaoMaxAlta},
-											            color: 'rgba(255, 153, 153, 0.1)',
-											            label: {
-											                text: ' ',
-											                style: {
-											                    color: '#606060'
-											                }
-											            }
-											        }]							        
+											        plotBands: [
+											        	{ 
+												            from: 0,
+												            to: ${metaPressao.pressaoMin},
+												            color: 'rgb(244, 91, 91)',
+												            label: {
+												                text: ' ',
+												                style: {
+												                    color: '#606060'
+												                }
+												            }
+												        },
+												        { // limite pressao baixa
+												            from: ${metaPressao.pressaoMinBaixa},
+												            to: ${metaPressao.pressaoMin},
+												            color: 'rgb(247, 163, 92)',
+												            label: {
+												                text: ' ',
+												                style: {
+												                    color: '#606060'
+												                }
+												            }
+												        },
+												        { // limite pressao normal
+												            from: ${metaPressao.pressaoMin},
+												            to: ${metaPressao.pressaoMax},
+												            color: 'rgb(228, 211, 84)',
+												            label: {
+												                text: ' ',
+												                style: {
+												                    color: '#606060'
+												                }
+												            }
+												        },
+												        { //limite maximo pressao alta
+												            from: ${metaPressao.pressaoMax},
+												            to: ${metaPressao.pressaoMaxAlta},
+												            color: 'rgb(124, 181, 236)',
+												            label: {
+												                text: ' ',
+												                style: {
+												                    color: '#606060'
+												                }
+												            }
+												        }
+											        ]							        
 										        </c:if>								        
 										    },
 										    tooltip: {
@@ -243,6 +256,7 @@
 										    },							    
 										    series: [{
 										    	name: '${bridge.deviceNum}',
+										    	color: 'rgb(118, 118, 123)',
 										        data: [
 										        	<c:set var="count" value="0" scope="page" />
 										        	<c:forEach var="relPressao" items='${listRelPressao}'>

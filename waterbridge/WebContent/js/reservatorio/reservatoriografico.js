@@ -236,19 +236,45 @@ function atualizarReservatorios() {
         			        },			        
         					max : 100,
         					title : false,
-        					plotBands : [ {
-        						from : pressaoMinBaixaPerc,
-        						to : pressaoMinPerc,
-        						color : '#FFEBEE'
-        					}, {
-        						from : pressaoMinPerc,
-        						to : pressaoMaxPerc,
-        						color : '#cce6ff'
-        					}, {
-        						from : pressaoMaxPerc,
-        						to : pressaoMaxAltaPerc,
-        						color : "#FFEBEE"
-        					} ]
+        					plotBands : [ 
+        						{
+	        						from : 0,
+	        						to : pressaoMinBaixaPerc,
+	        						color : 'rgb(244, 91, 91)'
+	        					}, 
+	        					{
+	        						from : pressaoMinBaixaPerc,
+	        						to : pressaoMinPerc,
+	        						color : 'rgb(247, 163, 92)'
+	        					}, 
+	        					{
+	        						from : pressaoMinPerc,
+	        						to : pressaoMaxPerc,
+	        						color : 'rgb(228, 211, 84)'
+	        					}, 
+	        					{
+	        						from : pressaoMaxPerc,
+	        						to : pressaoMaxAltaPerc,
+	        						color : 'rgb(124, 181, 236)'
+	        					}
+        					]
+//        					plotBands : [ 
+//	        					{
+//	        						from : pressaoMinBaixaPerc,
+//	        						to : pressaoMinPerc,
+//	        						color : '#FFEBEE'
+//	        					}, 
+//	        					{
+//	        						from : pressaoMinPerc,
+//	        						to : pressaoMaxPerc,
+//	        						color : '#cce6ff'
+//	        					}, 
+//	        					{
+//	        						from : pressaoMaxPerc,
+//	        						to : pressaoMaxAltaPerc,
+//	        						color : "#FFEBEE"
+//	        					} 
+//        					]
         				},
         				series : [ {
         					//name: 'Sales',

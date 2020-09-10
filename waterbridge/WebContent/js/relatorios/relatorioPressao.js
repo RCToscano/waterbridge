@@ -359,6 +359,7 @@ function listarConsumoMedidor() {
 					    },
 					    xAxis: {
 					    	crosshair: true,
+					    	
 					    	categories: (function () {
 					            // generate an array of random data
 					            var data = [];
@@ -375,15 +376,25 @@ function listarConsumoMedidor() {
 					    	min: 0,  
 					        title: {  
 					            text: 'MCA'  
-					        }  							    
-					       	,
+					        },
 					      	//minorGridLineWidth: 0,
 					        //gridLineWidth: 0,
 					        //alternateGridColor: null,
-					        plotBands: [{ // limite pressao baixa
+					       	plotBands: [{ // limite pressao baixa
+					            from: 0,
+					            to: relPressao.metaPressao.pressaoMinBaixa,
+					            color: 'rgb(244, 91, 91)',
+					            label: {
+					                text: ' ',
+					                style: {
+					                    color: '#606060'
+					                }
+					            }
+					        },
+					        { // limite pressao baixa
 					            from: relPressao.metaPressao.pressaoMinBaixa,
 					            to: relPressao.metaPressao.pressaoMin,
-					            color: 'rgba(255, 153, 153, 0.1)',
+					            color: 'rgb(247, 163, 92)',
 					            label: {
 					                text: ' ',
 					                style: {
@@ -394,7 +405,7 @@ function listarConsumoMedidor() {
 					        { // limite pressao normal
 					            from: relPressao.metaPressao.pressaoMin,
 					            to: relPressao.metaPressao.pressaoMax,
-					            color: 'rgba(68, 170, 213, 0.1)',
+					            color: 'rgb(228, 211, 84)',
 					            label: {
 					                text: ' ',
 					                style: {
@@ -405,7 +416,7 @@ function listarConsumoMedidor() {
 					        { //limite maximo pressao alta
 					            from: relPressao.metaPressao.pressaoMax,
 					            to: relPressao.metaPressao.pressaoMaxAlta,
-					            color: 'rgba(255, 153, 153, 0.1)',
+					            color: 'rgb(124, 181, 236)',
 					            label: {
 					                text: ' ',
 					                style: {
@@ -429,6 +440,7 @@ function listarConsumoMedidor() {
 					    },  
 					    series: [{  
 					        name: 'Bridge ' + relPressao.bridge,  
+					        color: 'rgb(118, 118, 123)',
 					        data: (function () {
 					            // generate an array of random data
 					            var data = [];
