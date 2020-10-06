@@ -14,6 +14,11 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>        
         <script src="http://malsup.github.io/jquery.blockUI.js"></script>
         
+<!--         <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css" rel="stylesheet"/> -->
+<!--         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script> -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+        
         <title>WaterBridge</title>
         <style>
             html, body {
@@ -115,6 +120,30 @@
                        	</h4>                        
                     </div>
                     <div id="collapse1" class="panel-collapse collapse">
+                        <div class="panel-body" style="padding: 5px;">      
+                            <label>Setores</label><br/>                      
+                        	<!-- 
+                        	<select class="js-example-basic-multiple" name="idEmpresa" id="idEmpresa" multiple="multiple" title="Selecione Setor">
+	                            <c:forEach var="empresa" items="${listEmpresa}">
+	                                <option value="${empresa.idEmpresa}">${empresa.nome}</option>
+	                            </c:forEach>
+	                        </select>
+	                        -->
+	                        <select class="js-example-basic-multiple" name="idEmpresa" id="idEmpresa" multiple="multiple" title="Selecione Setor">
+	                            <c:forEach var="relPontoFiltroSetor" items="${listRelPontoFiltroSetor}">
+	                                <option value="${relPontoFiltroSetor.idEmpresa}-${relPontoFiltroSetor.compl}">${relPontoFiltroSetor.compl}</option>
+	                            </c:forEach>
+	                        </select>	                        
+	                        <br/><br/>
+	                        <script>
+	                            $(document).ready(function() {
+	                                $('.js-example-basic-multiple').select2({
+	                                    placeholder: "Selecione",
+	                                    width: '100%'
+	                                });
+	                            });
+	                        </script>
+                        </div>
                     	<div class="panel-body" style="padding: 5px;">                            
                             Incluir <a href="#" onclick="exibirModalCadastrarPonto();return false;"><span class='glyphicon glyphicon-plus' style="color:#6991fd"></span></a>
                         </div>                    
@@ -158,39 +187,7 @@
                             - normal <img src='./images/ic_dispositivo_mapa.png' height="20"/>                          
                         </div>                                                                                                                                                                                        
                     </div>
-                </div>
-                <!-- --> 
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                          	<a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Setor</a>
-                       	</h4>                        
-                    </div>
-                     
-                    <div id="collapse2" class="panel-collapse collapse">
-                    
-                    	<div class="panel-body" style="padding: 5px;">                            
-                            Incluir <a href="#" onclick="exibirModalCadastrarPonto();return false;"><span class='glyphicon glyphicon-plus' style="color:#6991fd"></span></a>
-                            <select class="mdb-select md-form" multiple>
-								<option value="" disabled selected>Choose your country</option>
-								<option value="1">USA</option>
-								<option value="2">Germany</option>
-								<option value="3">France</option>
-								<option value="4">Poland</option>
-								<option value="5">Japan</option>
-							</select>
-                        </div>
-                        <script type="javascript">
-$(document).ready(function() {
-$('.mdb-select').materialSelect();
-});
-
-						</script>                    
-                                                                                                                                                                                        
-                    </div>
-                   
-                </div>
-                 
+                </div>                 
             </div>            
         </div>
         <div id="question" style="display:none; cursor: default"> 
@@ -222,7 +219,103 @@ $('.mdb-select').materialSelect();
                 for (i = 0; i < listRelMapaConsumoPressao.length; i++) {                              
                     var relMapaConsumoPressao = listRelMapaConsumoPressao[i];                         
                     addPontoBridge(map,relMapaConsumoPressao);
-                } 
+                }
+            }
+            
+            function addPoligon() {            	            	            	
+            	if($("#idEmpresa").val() != null && $("#idEmpresa").val() != '') {
+            		var listIdEmpresa = $("#idEmpresa").val();
+                    for (i = 0; i < listIdEmpresa.length; i++) {                                        		                    	
+                        var idEmpresa = listIdEmpresa[i];
+                        var array = idEmpresa.split("-");                        
+                        var src = buscarUrl(array);
+                        console.log('src: ' + src);
+                        if(src != '') {
+                			var kmlLayer = new google.maps.KmlLayer(src, {                  
+                            	suppressInfoWindows: true,
+                              	preserveViewport: false,
+                             	map: map
+                            });	
+                		}                        
+                    }
+            	}
+            }
+            
+            function buscarUrl(array) {
+            	var src = '';
+        		if(array[1] == 'BOOSTER ACLIMACAO (AREA CURA)') {
+        			src = 'http://waterbridge.com.br/kml/aclimacao.kml';		
+        		}
+        		else if(array[1] == 'BOOSTER ACLIMACAO (AREA CURA)') {
+        			src = 'http://waterbridge.com.br/kml/aclimacao.kml';
+        		}
+				else if(array[1] == 'CALEGARI (AREA CURA)') {
+					src = 'http://waterbridge.com.br/kml/calegari.kml';		
+        		}
+				else if(array[1] == 'CARLOTA') {
+					src = 'http://waterbridge.com.br/kml/carlota.kml';		
+				}
+				else if(array[1] == 'CENTRO') {
+					src = 'http://waterbridge.com.br/kml/centro.kml';		
+				}
+				else if(array[1] == 'CENTRO (FRANCESCHINI)') {
+					src = 'http://waterbridge.com.br/kml/centro.kml';
+				}
+				else if(array[1] == 'CENTRO (PLANALTO)') {
+					src = 'http://waterbridge.com.br/kml/centro.kml';
+				}
+				else if(array[1] == 'CENTRO (VECCON)') {
+					src = 'http://waterbridge.com.br/kml/centro.kml';
+				}
+				else if(array[1] == 'CENTRO (VILA MENUZZO)') {
+					src = 'http://waterbridge.com.br/kml/centro.kml';
+				}
+				else if(array[1] == 'JARDIM DULCE') {
+					src = '';	
+				}
+				else if(array[1] == 'JOAO PAULO') {
+					src = 'http://waterbridge.com.br/kml/joao_paulo.kml';		
+				}
+				else if(array[1] == 'MARIA ANTONIA') {
+					src = 'http://waterbridge.com.br/kml/maria_antonia.kml';
+				}
+				else if(array[1] == 'MATAO PARTE ALTA') {
+					src = 'http://waterbridge.com.br/kml/matao_parte_alta.kml';				
+				}
+				else if(array[1] == 'MATAO PARTE BAIXA') {
+					src = 'http://waterbridge.com.br/kml/matao_parte_baixa.kml';		
+				}
+				else if(array[1] == 'NOVA VENEZA') {
+					src = 'http://waterbridge.com.br/kml/nova_veneza.kml';	
+				}
+				else if(array[1] == 'NOVA VENEZA (APOIADO ETA II)') {
+					src = '';
+				}
+				else if(array[1] == 'PARQUE DAS NACOES') {
+					src = '';
+				}
+				else if(array[1] == 'PICERNO') {
+					src = 'http://waterbridge.com.br/kml/picerno.kml';
+				}
+				else if(array[1] == 'POCOS (CRUZEIRO DO SUL)') {
+					src = 'http://waterbridge.com.br/kml/pocos.kml';	
+				}
+				else if(array[1] == 'POCOS (DANTE MARMIROLLI)') {
+					src = 'http://waterbridge.com.br/kml/pocos.kml';
+				}
+				else if(array[1] == 'POCOS (ESTRELA D ALVA)') {
+					src = 'http://waterbridge.com.br/kml/pocos.kml';
+				}
+				else if(array[1] == 'POCOS (SAO BENTO)') {
+					src = 'http://waterbridge.com.br/kml/pocos.kml';
+				}
+				else if(array[1] == 'RAVAGNANI') {
+					src = '';
+				}
+				else if(array[1] == 'SANTA TEREZINHA') {
+					src = '';
+				}        		
+        		return src;
             }
             
             function addPontoDesoltec(map) {
@@ -402,7 +495,8 @@ $('.mdb-select').materialSelect();
            	    });     	    
            	    $.ajax({
            	        url: 'PontoBO?acao=2' +
-           	             '&idPontoTp=' + idPontoTp,
+           	             '&idPontoTp=' + idPontoTp +
+           	             '&idEmpresa=' + $("#idEmpresa").val(),
            	        type: "POST",
            	        dataType: 'json',
            	        success: function(result) {
@@ -414,11 +508,12 @@ $('.mdb-select').materialSelect();
     	           	        	var relPonto = listRelPonto[i];        	                      
     	           	        	addPontoDispositivo(map,relPonto);
     	                    }       	           	        
-    	           	        var relMapaConsumoPressao = listRelMapaConsumoPressao[1];
+    	           	        var listRelMapaConsumoPressao = listObject[1];
     	                    for (i = 0; i < listRelMapaConsumoPressao.length; i++) {                              
     	                        var relMapaConsumoPressao = listRelMapaConsumoPressao[i];                         
     	                        addPontoBridge(map,relMapaConsumoPressao);
     	                    } 
+    	                    addPoligon();
            	        	}           	        	 
            	            $.unblockUI();
            	        },
@@ -429,7 +524,8 @@ $('.mdb-select').materialSelect();
            	    });
            	 	timerAtualizaMarkers = setTimeout(function() {
            	 		listarPontos('0');
-           		}, 600000);
+           		//}, 600000);
+                }, 15000);
             }
             
             function buscarPonto(idPonto) {
@@ -646,6 +742,10 @@ $('.mdb-select').materialSelect();
 	       	    $('#coordX').val("");
 	       	    $('#coordY').val("");
 	       	    $('#descricao').val("");
+            }
+            
+            function buscarPorIdEmpresa() {            	
+            	alert('idEmpresa ' + $('#idEmpresa').val())
             }
         </script>
 

@@ -63,6 +63,8 @@ public class ExcelConsumoUserEmpresa implements Runnable {
 	
 	public static void main(String[] args) {
 	
+		System.out.println("inicio");
 		new ExcelConsumoUserEmpresa().run();
+		System.out.println("fim");
 	}	
 }

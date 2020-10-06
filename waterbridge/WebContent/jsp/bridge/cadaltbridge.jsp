@@ -252,8 +252,8 @@
 									<option value="" selected>Selecione...</option>
 									<c:forEach var="situacao" items="${listSituacao}">
 		                     		        <c:choose>
-		                                   	<c:when test="${situacao.situacao eq bridge.situacao}">
-		                                   		<option value="${situacao.situacao}" selected="true">${situacao.descricao}</option> 
+			                                   	<c:when test="${situacao.situacao eq bridge.situacao}">
+			                                   		<option value="${situacao.situacao}" selected="true">${situacao.descricao}</option> 
 		                                     	</c:when>
 		                                     	<c:otherwise>
 		                                     		<option value="${situacao.situacao}">${situacao.descricao}</option>
@@ -262,6 +262,20 @@
 			                     	</c:forEach>
 								</select>					
 							</div>					
+						</div>
+						
+						<div class="col-sm-4">						
+							<div class="form-group">
+								<label class="control-label">Divisor</label><label class="text-danger">*</label>															
+								<c:choose>
+                                   	<c:when test="${bridge.divisor != null && bridge.divisor > 0}">
+                                   		<input type="text" class="form-control" id="divisor" name="divisor" value="${bridge.divisor}" maxlength="4" required/>
+                                   	</c:when>
+                                   	<c:otherwise>
+                                   		<input type="text" class="form-control" id="divisor" name="divisor" value="700" maxlength="4" required/>
+                                   	</c:otherwise>
+                                </c:choose>
+							</div>
 						</div>
 						
 						<div class="col-sm-12">

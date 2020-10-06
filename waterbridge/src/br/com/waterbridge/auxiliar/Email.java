@@ -68,11 +68,11 @@ public class Email {
     }
 	public static void main(String[] args) {
 		Email.enviarEmailComAnexo(
-				"LISTA PRESSAO 06/2020", 
-				"Lista de pressões medidas no mês 06/2020", 
+				"LISTA PRESSAO 09/2020", 
+				"Lista de pressões medidas no mês 09/2020", 
 				"felipe@desoltec.com.br", 
 				"C:\\Temp\\Teste.xlsx",
-				"LISTA_PRESSAO_202006.xlsx");
+				"LISTA_PRESSAO_202009.xlsx");
 	}
 	public static void enviarEmailComAnexo(
 			String titulo, String mensagem, String destino, String src, String nomeArquivo){

@@ -43,10 +43,11 @@ public class BridgeDAO {
     		"       ID_BRIDGETP, " +
     		"       AJUSTE, " +
     		"       ID_VFRAME, " +
+    		"       DIVISOR, " +
     		"       DTINSERT " +
             ") VALUES ( " +
             "       ?,?,?,?,?,?,?,?,?,?, " +
-            "       ?,?,?,SYSDATE() " +
+            "       ?,?,?,?,SYSDATE() " +
             ")");
             
             //stmt.setObject(1, bridge.getIdBridge());
@@ -64,6 +65,7 @@ public class BridgeDAO {
             stmt.setObject(12, bridge.getAjuste());
             //stmt.setObject(13, bridge.getIdVersaoFrame());
             stmt.setObject(13, 1);
+            stmt.setObject(14, bridge.getDivisor());
             //stmt.setObject(10, bridge.getDtInsert());
             
             stmt.execute();
@@ -105,6 +107,7 @@ public class BridgeDAO {
     		"       ID_BRIDGETP = ?, " +
     		"       AJUSTE = ?, " +
     		"       ID_VFRAME = ?, " +
+    		"       DIVISOR = ?, " +
     		"       DTINSERT = SYSDATE() " +
     		"WHERE  ID_BRIDGE = ? ");
             
@@ -122,8 +125,9 @@ public class BridgeDAO {
             stmt.setObject(12, bridge.getAjuste());
             //stmt.setObject(13, bridge.getIdVersaoFrame());
             stmt.setObject(13, 1);
+            stmt.setObject(14, bridge.getDivisor());
             //stmt.setObject(10, bridge.getDtInsert());
-            stmt.setObject(14, bridge.getIdBridge());
+            stmt.setObject(15, bridge.getIdBridge());
 
             stmt.execute();
         }
@@ -193,6 +197,7 @@ public class BridgeDAO {
             "       SITUACAO, " +
             "       AJUSTE, " +
             "       ID_VFRAME, " +
+            "       DIVISOR, " +
             " 	    DTINSERT " +
             "FROM   TB_BRIDGE " +
             "WHERE  ID_BRIDGE = ? "
@@ -225,6 +230,7 @@ public class BridgeDAO {
                 bridge.setSituacao(rs.getString("SITUACAO"));
                 bridge.setAjuste(rs.getDouble("AJUSTE"));
                 bridge.setIdVersaoFrame(rs.getLong("ID_VFRAME"));
+                bridge.setDivisor(rs.getLong("DIVISOR"));
                 bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));                
             }
             
@@ -270,6 +276,7 @@ public class BridgeDAO {
             "       SITUACAO, " +
             "       AJUSTE, " +
             "       ID_VFRAME, " +
+            "       DIVISOR, " +
             " 	    DTINSERT " +
             "FROM   TB_BRIDGE " +
             sql
@@ -300,6 +307,7 @@ public class BridgeDAO {
                 bridge.setSituacao(rs.getString("SITUACAO"));
                 bridge.setAjuste(rs.getDouble("AJUSTE"));
                 bridge.setIdVersaoFrame(rs.getLong("ID_VFRAME"));
+                bridge.setDivisor(rs.getLong("DIVISOR"));
                 bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));        
                 
                 listBridge.add(bridge);
@@ -347,6 +355,7 @@ public class BridgeDAO {
             "       SITUACAO, " +
             "       AJUSTE, " +
             "       ID_VFRAME, " +
+            "       DIVISOR, " +
             " 	    DTINSERT " +
             "FROM   TB_BRIDGE " +
             "WHERE  DEVICENUM = ? "
@@ -379,6 +388,7 @@ public class BridgeDAO {
                 bridge.setSituacao(rs.getString("SITUACAO"));
                 bridge.setAjuste(rs.getDouble("AJUSTE"));
                 bridge.setIdVersaoFrame(rs.getLong("ID_VFRAME"));
+                bridge.setDivisor(rs.getLong("DIVISOR"));
                 bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));                
             }
             
@@ -424,6 +434,7 @@ public class BridgeDAO {
             "       SITUACAO, " +
             "       AJUSTE, " +
             "       ID_VFRAME, " +
+            "       DIVISOR, " +
             " 	    DTINSERT " +
             "FROM   TB_BRIDGE " +
             "WHERE  DEVICENUM = ? " +
@@ -458,6 +469,7 @@ public class BridgeDAO {
                 bridge.setSituacao(rs.getString("SITUACAO"));
                 bridge.setAjuste(rs.getDouble("AJUSTE"));
                 bridge.setIdVersaoFrame(rs.getLong("ID_VFRAME"));
+                bridge.setDivisor(rs.getLong("DIVISOR"));
                 bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));                
             }
             
@@ -503,6 +515,7 @@ public class BridgeDAO {
             "       SITUACAO, " +
             "       AJUSTE, " +
             "       ID_VFRAME, " +
+            "       DIVISOR, " +
             " 	    DTINSERT " +
             "FROM   TB_BRIDGE " +
             "WHERE  UPPER(DEVICENUM) LIKE '%" + deviceNum.toUpperCase() + "%' "
@@ -533,6 +546,7 @@ public class BridgeDAO {
                 bridge.setSituacao(rs.getString("SITUACAO"));
                 bridge.setAjuste(rs.getDouble("AJUSTE"));
                 bridge.setIdVersaoFrame(rs.getLong("ID_VFRAME"));
+                bridge.setDivisor(rs.getLong("DIVISOR"));
                 bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));        
                 
                 listBridge.add(bridge);
@@ -580,6 +594,7 @@ public class BridgeDAO {
             "       SITUACAO, " +
             "       AJUSTE, " +
             "       ID_VFRAME, " +
+            "       DIVISOR, " +
             " 	    DTINSERT " +
             "FROM   TB_BRIDGE " +
             "WHERE  ID_CONDOMINIO = ? "
@@ -612,6 +627,7 @@ public class BridgeDAO {
                 bridge.setSituacao(rs.getString("SITUACAO"));
                 bridge.setAjuste(rs.getDouble("AJUSTE"));
                 bridge.setIdVersaoFrame(rs.getLong("ID_VFRAME"));
+                bridge.setDivisor(rs.getLong("DIVISOR"));
                 bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));        
                 
                 listBridge.add(bridge);
@@ -659,6 +675,7 @@ public class BridgeDAO {
             "          TB_BRIDGE.SITUACAO, " +
             "          TB_BRIDGE.AJUSTE, " +
             "          TB_BRIDGE.ID_VFRAME, " +
+            "          TB_BRIDGE.DIVISOR, " +
             " 	       TB_BRIDGE.DTINSERT " +
             "FROM      TB_BRIDGE " +
             "LEFT JOIN VW_USERBRIDGEID " +
@@ -695,6 +712,7 @@ public class BridgeDAO {
                 bridge.setSituacao(rs.getString("SITUACAO"));
                 bridge.setAjuste(rs.getDouble("AJUSTE"));
                 bridge.setIdVersaoFrame(rs.getLong("ID_VFRAME"));
+                bridge.setDivisor(rs.getLong("DIVISOR"));
                 bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));        
                 
                 listBridge.add(bridge);
@@ -742,6 +760,7 @@ public class BridgeDAO {
             "          TB_BRIDGE.SITUACAO, " +
             "          TB_BRIDGE.AJUSTE, " +
             "          TB_BRIDGE.ID_VFRAME, " +
+            "          TB_BRIDGE.DIVISOR, " +
             " 	       TB_BRIDGE.DTINSERT " +
             "FROM      TB_BRIDGE " +
             "LEFT JOIN VW_USERBRIDGEID " +
@@ -779,6 +798,7 @@ public class BridgeDAO {
                 bridge.setSituacao(rs.getString("SITUACAO"));
                 bridge.setAjuste(rs.getDouble("AJUSTE"));
                 bridge.setIdVersaoFrame(rs.getLong("ID_VFRAME"));
+                bridge.setDivisor(rs.getLong("DIVISOR"));
                 bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));        
                 
                 listBridge.add(bridge);
@@ -826,6 +846,7 @@ public class BridgeDAO {
             "          TB_BRIDGE.SITUACAO, " +
             "          TB_BRIDGE.AJUSTE, " +
             "          TB_BRIDGE.ID_VFRAME, " +
+            "          TB_BRIDGE.DIVISOR, " +
             " 	       TB_BRIDGE.DTINSERT " +
             "FROM      TB_BRIDGE " +
             "LEFT JOIN VW_USERBRIDGEID " +
@@ -863,6 +884,7 @@ public class BridgeDAO {
                 bridge.setSituacao(rs.getString("SITUACAO"));
                 bridge.setAjuste(rs.getDouble("AJUSTE"));
                 bridge.setIdVersaoFrame(rs.getLong("ID_VFRAME"));
+                bridge.setDivisor(rs.getLong("DIVISOR"));
                 bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));        
                 
                 listBridge.add(bridge);
@@ -909,6 +931,7 @@ public class BridgeDAO {
 					"       SITUACAO, " +
 					"       AJUSTE, " +
 					"       ID_VFRAME, " +
+					"       DIVISOR, " +
 					" 	    DTINSERT " +
 					"FROM   TB_BRIDGE " 
     				);
@@ -938,6 +961,7 @@ public class BridgeDAO {
     			bridge.setSituacao(rs.getString("SITUACAO"));
     			bridge.setAjuste(rs.getDouble("AJUSTE"));
     			bridge.setIdVersaoFrame(rs.getLong("ID_VFRAME"));
+    			bridge.setDivisor(rs.getLong("DIVISOR"));
     			bridge.setDtInsert(Auxiliar.formataDtTelaHr(rs.getString("DTINSERT")));        
     			
     			listBridge.add(bridge);

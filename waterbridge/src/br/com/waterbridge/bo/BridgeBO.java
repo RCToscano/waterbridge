@@ -136,6 +136,7 @@ public class BridgeBO extends HttpServlet {
 					else {
 						bridge.setAjuste(0.0);
 					}
+					bridge.setDivisor(Long.parseLong(req.getParameter("divisor")));
 					bridge.setDtInsert(null);
 					
 					bridgeDAO.inserir(bridge);
@@ -298,8 +299,6 @@ public class BridgeBO extends HttpServlet {
 				bridge.setTaxaEnvio(Long.parseLong(req.getParameter("taxaEnvio")));
 				bridge.setDescricao(Auxiliar.removerCaracteres(req.getParameter("descricao")).toUpperCase());
 				bridge.setSituacao(req.getParameter("situacao"));
-				System.out.println("ajuste " + req.getParameter("ajuste"));
-				System.out.println("idBridgeTp " + req.getParameter("idBridgeTp"));
 				if(req.getParameter("ajuste") != null 
 						&& req.getParameter("ajuste").toString().length() > 0
 						&& !req.getParameter("ajuste").equals("-0,000")
@@ -309,6 +308,7 @@ public class BridgeBO extends HttpServlet {
 				else {
 					bridge.setAjuste(0.0);
 				}
+				bridge.setDivisor(Long.parseLong(req.getParameter("divisor")));
 				bridge.setDtInsert(null);
 				
 				BridgeDAO bridgeDAO = new BridgeDAO(connection);

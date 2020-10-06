@@ -16,6 +16,7 @@ public class Bridge {
 	private Double ajuste;
 	private Long idVersaoFrame;
 	private String situacao;
+	private Long divisor;
 	private String dtInsert;
 	
 	public Long getIdBridge() {
@@ -101,6 +102,12 @@ public class Bridge {
 	}
 	public void setSituacao(String situacao) {
 		this.situacao = situacao;
+	}	
+	public Long getDivisor() {
+		return divisor;
+	}
+	public void setDivisor(Long divisor) {
+		this.divisor = divisor;
 	}
 	public String getDtInsert() {
 		return dtInsert;

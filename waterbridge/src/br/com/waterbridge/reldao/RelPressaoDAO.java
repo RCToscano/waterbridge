@@ -183,7 +183,7 @@ public class RelPressaoDAO {
 				"LEFT JOIN TB_METAPRESSAO " + 
 				"	    ON TB_CONSUMO.ID_BRIDGE = TB_METAPRESSAO.ID_BRIDGE " + 
 				"    WHERE TB_CONSUMO.DTINSERT BETWEEN ? AND ? " + 
-			    "      AND TB_CONSUMO.ID_EMPRESA IN(4,6) " + 
+			    "      AND TB_CONSUMO.ID_EMPRESA IN(4,6,7) " + 
 			    "      AND TB_CONSUMO.ID_USER = ? " + 
 	    		" ORDER BY TB_CONSUMO.DEVICE, TB_CONSUMO.ID_CONSUMO DESC";
         
