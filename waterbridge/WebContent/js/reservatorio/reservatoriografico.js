@@ -240,22 +240,22 @@ function atualizarReservatorios() {
         						{
 	        						from : 0,
 	        						to : pressaoMinBaixaPerc,
-	        						color : 'rgb(244, 91, 91)'
+	        						color : 'rgb(238, 89, 91)'
 	        					}, 
 	        					{
 	        						from : pressaoMinBaixaPerc,
 	        						to : pressaoMinPerc,
-	        						color : 'rgb(247, 163, 92)'
+	        						color : 'rgb(248, 189, 146)'
 	        					}, 
 	        					{
 	        						from : pressaoMinPerc,
 	        						to : pressaoMaxPerc,
-	        						color : 'rgb(228, 211, 84)'
+	        						color : 'rgb(247, 247, 247)'
 	        					}, 
 	        					{
 	        						from : pressaoMaxPerc,
 	        						to : pressaoMaxAltaPerc,
-	        						color : 'rgb(124, 181, 236)'
+	        						color : 'rgb(105, 156, 250)'
 	        					}
         					]
 //        					plotBands : [ 
