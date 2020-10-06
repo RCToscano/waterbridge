@@ -383,7 +383,7 @@ function listarConsumoMedidor() {
 					       	plotBands: [{ // limite pressao baixa
 					            from: 0,
 					            to: relPressao.metaPressao.pressaoMinBaixa,
-					            color: 'rgb(244, 91, 91)',
+					            color: 'rgb(238, 89, 91)',
 					            label: {
 					                text: ' ',
 					                style: {
@@ -394,7 +394,7 @@ function listarConsumoMedidor() {
 					        { // limite pressao baixa
 					            from: relPressao.metaPressao.pressaoMinBaixa,
 					            to: relPressao.metaPressao.pressaoMin,
-					            color: 'rgb(247, 163, 92)',
+					            color: 'rgb(248, 189, 146)',
 					            label: {
 					                text: ' ',
 					                style: {
@@ -405,7 +405,7 @@ function listarConsumoMedidor() {
 					        { // limite pressao normal
 					            from: relPressao.metaPressao.pressaoMin,
 					            to: relPressao.metaPressao.pressaoMax,
-					            color: 'rgb(228, 211, 84)',
+					            color: 'rgb(247, 247, 247)',
 					            label: {
 					                text: ' ',
 					                style: {
@@ -416,7 +416,7 @@ function listarConsumoMedidor() {
 					        { //limite maximo pressao alta
 					            from: relPressao.metaPressao.pressaoMax,
 					            to: relPressao.metaPressao.pressaoMaxAlta,
-					            color: 'rgb(124, 181, 236)',
+					            color: 'rgb(105, 156, 250)',
 					            label: {
 					                text: ' ',
 					                style: {
