@@ -1,5 +1,7 @@
 package br.com.waterbridge.modelo;
 
+import java.math.BigInteger;
+
 public class Message {
 
 	private Long idMessage;
@@ -94,5 +96,4 @@ public class Message {
 	public void setDtInsert(String dtInsert) {
 		this.dtInsert = dtInsert;
 	}
-	
 }
