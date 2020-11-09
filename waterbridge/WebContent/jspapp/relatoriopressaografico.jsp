@@ -100,8 +100,13 @@
 								        	},
 								        	{ 
 									            from: ${metaPressao.pressaoMax},
-									            to: ${metaPressao.pressaoMaxAlta},
+									            to: 99,
 									            color: 'rgb(105, 156, 250)'
+								        	},
+								        	{ 
+									            from: 99,
+									            to: 100,
+									            color: 'rgb(174, 52, 235)'
 								        	}
 								        ]							        
 							        </c:if>								        

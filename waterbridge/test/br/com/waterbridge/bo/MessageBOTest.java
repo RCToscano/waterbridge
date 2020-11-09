@@ -3,8 +3,6 @@ package br.com.waterbridge.bo;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import org.junit.jupiter.api.Test;
-
 import br.com.andwaterbridge.modelo.MetaPressao;
 import br.com.waterbridge.connection.ConnectionFactory;
 import br.com.waterbridge.modelo.Bridge;

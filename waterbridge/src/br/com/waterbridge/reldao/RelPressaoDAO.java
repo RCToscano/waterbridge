@@ -141,12 +141,16 @@ public class RelPressaoDAO {
 		List<String> abas = new ArrayList<>();
 		HashMap<Integer, List<RelConsumoPressaoExcel>> map = new HashMap<>();
 		
+		HashMap<Integer, List<RelConsumoPressaoExcel>> mapEmp = new HashMap<>();
+		
+		int posicao = 0;
+		
 		SimpleDateFormat formatoBanco = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
 		SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
 		
 		String select = 
-				"   select TB_EMPRESA.ID_EMPRESA AS ID_EMPRESA, " + 
+				"   SELECT TB_EMPRESA.ID_EMPRESA AS ID_EMPRESA, " + 
 				"          TB_EMPRESA.NOME AS NOME_EMPRESA, " + 
 				"          TB_CONDOMINIO.ID_CONDOMINIO AS ID_CONDOMINIO, " + 
 				"          concat(TB_CONDOMINIO.NOME,' - ',TB_CONDOMINIO.ENDERECO,' ',TB_CONDOMINIO.NUMERO,' ',TB_CONDOMINIO.COMPL) AS NOME_CONDOMINIO, " + 
@@ -183,7 +187,7 @@ public class RelPressaoDAO {
 				"LEFT JOIN TB_METAPRESSAO " + 
 				"	    ON TB_CONSUMO.ID_BRIDGE = TB_METAPRESSAO.ID_BRIDGE " + 
 				"    WHERE TB_CONSUMO.DTINSERT BETWEEN ? AND ? " + 
-			    "      AND TB_CONSUMO.ID_EMPRESA IN(4,6) " + 
+			    "      AND TB_CONSUMO.ID_EMPRESA IN(4,6,7) " + 
 			    "      AND TB_CONSUMO.ID_USER = ? " + 
 	    		" ORDER BY TB_CONSUMO.DEVICE, TB_CONSUMO.ID_CONSUMO DESC";
         
@@ -197,8 +201,10 @@ public class RelPressaoDAO {
 			try (ResultSet rs = statement.executeQuery()) {
 				
 				List<RelConsumoPressaoExcel> valores = new ArrayList<>();
+				List<RelConsumoPressaoExcel> devicesEmp4 = new ArrayList<>();
+				List<RelConsumoPressaoExcel> devicesEmp6 = new ArrayList<>();
+				List<RelConsumoPressaoExcel> devicesEmp7 = new ArrayList<>();
 				
-				int posicao = 0;
 				while (rs.next()) {
 					String bridge = rs.getString("DEVICE");
 
@@ -209,6 +215,20 @@ public class RelPressaoDAO {
 						/** Adiciona os valores antes de mudar aba */
 						map.put(posicao, valores);
 						valores = new ArrayList<>();
+						
+						
+						if(rs.getLong("ID_EMPRESA") == 4l) {
+							devicesEmp4.add(new RelConsumoPressaoExcel(rs.getString("NOME_EMPRESA"), bridge));
+							mapEmp.put(0, devicesEmp4);
+						}
+						else if(rs.getLong("ID_EMPRESA") == 6l) {
+							devicesEmp6.add(new RelConsumoPressaoExcel(rs.getString("NOME_EMPRESA"), bridge));
+							mapEmp.put(1, devicesEmp6);
+						}
+						else if(rs.getLong("ID_EMPRESA") == 7l) {
+							devicesEmp7.add(new RelConsumoPressaoExcel(rs.getString("NOME_EMPRESA"), bridge));
+							mapEmp.put(2, devicesEmp7);
+						}
 
 						/** Muda aba */
 						abas.add(bridge);
@@ -246,8 +266,14 @@ public class RelPressaoDAO {
 				}
 				map.put(posicao, valores);
 			}
+			
+			for (Integer key: mapEmp.keySet()) {
+				abas.add(mapEmp.get(key).get(0).getNomeEmpresa());
+			}
+			
 			resultado.setAbas(abas);
 			resultado.setMap(map);
+			resultado.setMapEmp(mapEmp);
             return resultado;
         }
     }

@@ -194,19 +194,19 @@ function atualizarReservatorios() {
         					},
         					series : {
         						zones : [ {
-        							color : '#FF5722',
+        							color : 'rgb(113, 203, 225)',
         							value : pressaoMinBaixaPerc
         						}, {
-        							color : '#ff9800',
+        							color : 'rgb(113, 203, 225)',
         							value : pressaoMinPerc
         						}, {
-        							color : '#17a2b8',
+        							color : 'rgb(113, 203, 225)',
         							value : pressaoMaxPerc
         						}, {
-        							color : '#ff9800',
+        							color : 'rgb(113, 203, 225)',
         							value : pressaoMaxAltaPerc	
         						}, {
-        							color : '#FF5722',
+        							color : 'rgb(113, 203, 225)',
         							value : Number.MAX_VALUE
         						} ],
         						dataLabels : {
@@ -254,8 +254,13 @@ function atualizarReservatorios() {
 	        					}, 
 	        					{
 	        						from : pressaoMaxPerc,
-	        						to : pressaoMaxAltaPerc,
+	        						to : 99,
 	        						color : 'rgb(105, 156, 250)'
+	        					},
+	        					{
+	        						from : 99,
+	        						to : 100,
+	        						color : 'rgb(174, 52, 235)'
 	        					}
         					]
 //        					plotBands : [ 

@@ -46,8 +46,9 @@ public class ExcelConsumoUserEmpresa implements Runnable {
 				if (!resultado.getAbas().isEmpty()) {
 					System.out.println("Gerando excel com ["+resultado.getAbas().size()+"] Bridges");
 					
-					GeradorExcel.gerarExcelConsumo("C:\\Temp\\Teste.xlsx", resultado.getAbas(),
-							new ColunasExcel().getColunasConsumoUserEmpresa(), resultado.getMap());
+					GeradorExcel.gerarExcelConsumo("C:\\Temp\\Teste.xlsx",
+							new ColunasExcel().getColunasConsumoUserEmpresa(),
+							new ColunasExcel().getColunasConsumoEmpresa(), resultado);
 					
 					System.out.println("Excel gerado com sucesso");
 				}

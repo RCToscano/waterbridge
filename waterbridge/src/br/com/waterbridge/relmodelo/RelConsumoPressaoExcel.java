@@ -29,7 +29,15 @@ public class RelConsumoPressaoExcel {
 	private String dtInsert;
 	private String horaInsert;
 	
-    
+	
+	public RelConsumoPressaoExcel() {
+		
+	}
+	public RelConsumoPressaoExcel(String nomeEmpresa, String device) {
+		super();
+		this.nomeEmpresa = nomeEmpresa;
+		this.device = device;
+	}
 	public Long getIdEmpresa() {
 		return idEmpresa;
 	}
