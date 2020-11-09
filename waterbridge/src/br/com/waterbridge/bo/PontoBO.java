@@ -18,14 +18,18 @@ import org.apache.commons.collections4.PredicateUtils;
 import com.google.gson.Gson;
 
 import br.com.waterbridge.connection.ConnectionFactory;
+import br.com.waterbridge.dao.EmpresaDAO;
 import br.com.waterbridge.dao.PontoDAO;
 import br.com.waterbridge.dao.PontoTpDAO;
+import br.com.waterbridge.modelo.Empresa;
 import br.com.waterbridge.modelo.Ponto;
 import br.com.waterbridge.modelo.PontoTp;
 import br.com.waterbridge.reldao.RelMapaConsumoPressaoDAO;
 import br.com.waterbridge.reldao.RelPontoDAO;
+import br.com.waterbridge.reldao.RelPontoFiltroSetorDAO;
 import br.com.waterbridge.relmodelo.RelMapaConsumoPressao;
 import br.com.waterbridge.relmodelo.RelPonto;
+import br.com.waterbridge.relmodelo.RelPontoFiltroSetor;
 
 @WebServlet("/PontoBO")
 public class PontoBO extends HttpServlet {
@@ -70,11 +74,17 @@ public class PontoBO extends HttpServlet {
 			
 			connection = ConnectionFactory.getConnection();
 			
+			RelPontoFiltroSetorDAO relPontoFiltroSetorDAO = new RelPontoFiltroSetorDAO(connection);
+			List<RelPontoFiltroSetor> listRelPontoFiltroSetor = relPontoFiltroSetorDAO.listar();
+			
+			EmpresaDAO empresaDAO = new EmpresaDAO(connection);
+			List<Empresa> listEmpresa = empresaDAO.listar();
+			
 			RelPontoDAO relPontoDAO = new RelPontoDAO(connection);			
 			List<RelPonto> listRelPonto = relPontoDAO.listar("");
 			
 			RelMapaConsumoPressaoDAO relMapaConsumoPressaoDAO = new RelMapaConsumoPressaoDAO(connection);
-			List<RelMapaConsumoPressao> listRelMapaConsumoPressao = relMapaConsumoPressaoDAO.listarPressureBridgeEmpresa();
+			List<RelMapaConsumoPressao> listRelMapaConsumoPressao = relMapaConsumoPressaoDAO.listarPressureBridgeEmpresa(req.getParameter("idEmpresa"));
 			for(int i = 0; i < listRelMapaConsumoPressao.size(); i++ ) {
 				listRelMapaConsumoPressao.set(i, relMapaConsumoPressaoDAO.buscar(
 						listRelMapaConsumoPressao.get(i).getIdEmpresa(), 
@@ -82,6 +92,8 @@ public class PontoBO extends HttpServlet {
 			}
 			CollectionUtils.filter(listRelMapaConsumoPressao, PredicateUtils.notNullPredicate());
 			
+			req.setAttribute("listRelPontoFiltroSetor", listRelPontoFiltroSetor);
+			req.setAttribute("listEmpresa", listEmpresa);
 			req.setAttribute("listRelPonto", new Gson().toJson(listRelPonto));
 			req.setAttribute("listRelMapaConsumoPressao", new Gson().toJson(listRelMapaConsumoPressao));
 			req.getRequestDispatcher("/jsp/mapa/mapaponto.jsp").forward(req, res);
@@ -111,10 +123,10 @@ public class PontoBO extends HttpServlet {
 			if(req.getParameter("idPontoTp") != null && !req.getParameter("idPontoTp").equals("0")) {
 				sql = "WHERE  ID_PONTOTP = " + req.getParameter("idPontoTp") ;
 			}						
-			List<RelPonto> listRelPonto = relPontoDAO.listar(sql);
+			List<RelPonto> listRelPonto = relPontoDAO.listar(sql);	
 			
 			RelMapaConsumoPressaoDAO relMapaConsumoPressaoDAO = new RelMapaConsumoPressaoDAO(connection);
-			List<RelMapaConsumoPressao> listRelMapaConsumoPressao = relMapaConsumoPressaoDAO.listarPressureBridgeEmpresa();
+			List<RelMapaConsumoPressao> listRelMapaConsumoPressao = relMapaConsumoPressaoDAO.listarPressureBridgeEmpresa(req.getParameter("idEmpresa"));
 			for(int i = 0; i < listRelMapaConsumoPressao.size(); i++ ) {
 				listRelMapaConsumoPressao.set(i, relMapaConsumoPressaoDAO.buscar(
 						listRelMapaConsumoPressao.get(i).getIdEmpresa(), 

@@ -119,8 +119,8 @@ public class MessageBO extends HttpServlet {
 				message.setVolume(Double.parseDouble(biVolume.toString(10)));
 				message.setVolume(message.getVolume() / 1000);
 				message.setVolume(Double.parseDouble(df.format(message.getVolume())));
-				message.setPressure(Double.parseDouble(biPressure.toString(10)));
-				message.setPressure(message.getPressure() / 700);
+				message.setPressure(Double.parseDouble(biPressure.toString(10)));				
+				message.setPressure(message.getPressure() / bridge.getDivisor());
 				message.setPressure(Double.parseDouble(df.format(message.getPressure())));
 				message.setFlow(Double.parseDouble(biFlow.toString(10)));
 				message.setTemperature(Double.parseDouble(biTemperature.toString(10)));
@@ -177,7 +177,7 @@ public class MessageBO extends HttpServlet {
 				message.setVolume(message.getVolume() / 1000);
 				message.setVolume(Double.parseDouble(df.format(message.getVolume())));
 				message.setPressure(Double.parseDouble(biPressure.toString(10)));
-				message.setPressure(message.getPressure() / 400);
+				message.setPressure(message.getPressure() / bridge.getDivisor());
 				message.setPressure(Double.parseDouble(df.format(message.getPressure())));				
 				message.setFlow(Double.parseDouble(biVolume.toString(10)));
 				message.setFlow(message.getFlow() / 100);					

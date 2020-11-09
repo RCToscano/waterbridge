@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document id="Matão_-_Parte_alta" xsi:schemaLocation="http://www.opengis.net/kml/2.2 http://schemas.opengis.net/kml/2.2.0/ogckml22.xsd http://www.google.com/kml/ext/2.2 http://code.google.com/apis/kml/schema/kml22gx.xsd">
+	<name>Matão - Parte alta</name>
+	<Snippet maxLines="0"></Snippet>
+	<Style id="PolyStyle00">
+		<LabelStyle>
+			<color>00000000</color>
+			<scale>0</scale>
+		</LabelStyle>
+		<LineStyle>
+			<color>ff7af5f5</color>
+			<width>3</width>
+		</LineStyle>
+		<PolyStyle>
+			<color>00f0f0f0</color>
+		</PolyStyle>
+	</Style>
+	<Folder id="FeatureLayer0">
+		<name>Matão - Parte alta</name>
+		<Snippet maxLines="0"></Snippet>
+		<Placemark id="ID_00000">
+			<name>NULL</name>
+			<Snippet maxLines="0"></Snippet>
+			<description><![CDATA[<html xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+
+<head>
+
+<META http-equiv="Content-Type" content="text/html">
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body style="margin:0px 0px 0px 0px;overflow:auto;background:#FFFFFF;">
+
+<table style="font-family:Arial,Verdana,Times;font-size:12px;text-align:left;width:100%;border-collapse:collapse;padding:3px 3px 3px 3px">
+
+<tr style="text-align:center;font-weight:bold;background:#9CBCE2">
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>
+
+<table style="font-family:Arial,Verdana,Times;font-size:12px;text-align:left;width:100%;border-spacing:0px; padding:3px 3px 3px 3px">
+
+<tr>
+
+<td>ID Setor Pressão</td>
+
+<td>&lt;Null&gt;</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>Nome Setor</td>
+
+<td>Matão - Parte Alta</td>
+
+</tr>
+
+<tr>
+
+<td>Valor Macro Medidor</td>
+
+<td>&lt;Null&gt;</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>Data Atualização</td>
+
+<td>10/02/2020 18:30:23</td>
+
+</tr>
+
+<tr>
+
+<td>Usuário Atualização</td>
+
+<td>ESANTOS</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>Data Criação</td>
+
+<td>10/02/2020 18:30:23</td>
+
+</tr>
+
+<tr>
+
+<td>Usuário Criação</td>
+
+<td>ESANTOS</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>SHAPE</td>
+
+<td>Polygon</td>
+
+</tr>
+
+<tr>
+
+<td>GlobalID</td>
+
+<td>{1C3ECB03-5411-42F7-B2E3-1E14EFDF633A}</td>
+
+</tr>
+
+<tr bgcolor="#D4E4F3">
+
+<td>SHAPE_Length</td>
+
+<td>7715,629747</td>
+
+</tr>
+
+<tr>
+
+<td>SHAPE_Area</td>
+
+<td>3050250,291361</td>
+
+</tr>
+
+</table>
+
+</td>
+
+</tr>
+
+</table>
+
+</body>
+
+</html>]]></description>
+			<styleUrl>#PolyStyle00</styleUrl>
+			<MultiGeometry>
+				<Polygon>
+					<outerBoundaryIs>
+						<LinearRing>
+							<coordinates>
+								-47.16105111493465,-22.84899423937517,0 -47.16013657847931,-22.84958674305176,0 -47.15969665401852,-22.84987653709345,0 -47.15967045345622,-22.84990300215766,0 -47.15913547668899,-22.85031707479816,0 -47.15794353047612,-22.84796339844788,0 -47.15718645067372,-22.84833678424273,0 -47.15548540194794,-22.844787713941,0 -47.15494762142421,-22.8436656408296,0 -47.15585237151461,-22.84353294341338,0 -47.15607987045298,-22.84319851534509,0 -47.15670820558223,-22.84276552156878,0 -47.15782454793032,-22.84192592301203,0 -47.15635574247964,-22.83610990346416,0 -47.15594836998749,-22.83599327823877,0 -47.15566737250931,-22.83590749715354,0 -47.15538659017773,-22.83575362752124,0 -47.15511604111206,-22.83559484060393,0 -47.15487103472415,-22.83542137279621,0 -47.15462580321469,-22.83523357475616,0 -47.15444301876211,-22.83508315521614,0 -47.15425440267159,-22.83488981215008,0 -47.15411867864316,-22.83478175578648,0 -47.15403433984162,-22.83466344853316,0 -47.15392818291651,-22.83446899024388,0 -47.15386378224834,-22.83430741182822,0 -47.15382537502928,-22.83415981550308,0 -47.15378933889845,-22.83383540363065,0 -47.1537677859565,-22.83344868250358,0 -47.1536386764891,-22.8322214734855,0 -47.1536053451447,-22.83195926729517,0 -47.1537051234042,-22.83123714152839,0 -47.15378526961575,-22.8308564106376,0 -47.1540030377065,-22.83048447249128,0 -47.1541000539239,-22.83015149959573,0 -47.15437903871857,-22.8298933443751,0 -47.15493763999767,-22.8294752891881,0 -47.1556264917756,-22.82901601533437,0 -47.15592203094902,-22.82859690313692,0 -47.15634241482172,-22.82755906834549,0 -47.15651744490355,-22.82733601966423,0 -47.15963763842276,-22.82883760913514,0 -47.16549014694487,-22.83040374842584,0 -47.16695664457337,-22.83023340915534,0 -47.17083367205331,-22.82979107936416,0 -47.17420213301055,-22.83589718906613,0 -47.17412217195736,-22.83598165991934,0 -47.17322290991255,-22.8369524110639,0 -47.17182097326866,-22.83843980762517,0 -47.17030759404106,-22.84003135278014,0 -47.16869774057032,-22.84170897758992,0 -47.1675025006673,-22.84294839629091,0 -47.16627668897176,-22.84425273342032,0 -47.16532463122068,-22.84526614715633,0 -47.16528200208197,-22.84530935075321,0 -47.16390409643834,-22.84670580280399,0 -47.16285637234488,-22.84766755156084,0 -47.16105111493465,-22.84899423937517,0 
+							</coordinates>
+						</LinearRing>
+					</outerBoundaryIs>
+				</Polygon>
+			</MultiGeometry>
+		</Placemark>
+	</Folder>
+</Document>
+</kml>

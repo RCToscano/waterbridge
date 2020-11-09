@@ -21,7 +21,8 @@ function validarForm() {
 	
 	var situacao = document.getElementById("situacao");
 	var descricao = document.getElementById("descricao");
-    
+	var divisor = document.getElementById("divisor");
+	
 	divAviso.innerHTML = "";
 	deviceNum.style.removeProperty('border');
 	dtAtivacao.style.removeProperty('border');
@@ -40,6 +41,7 @@ function validarForm() {
 	
 	situacao.style.removeProperty('border');
 	descricao.style.removeProperty('border');
+	divisor.style.removeProperty('border');
 
     if(deviceNum.value.trim() == '') {
 
@@ -143,6 +145,20 @@ function validarForm() {
     	situacao.style.borderColor = colorRed;
     	exibirAviso('Selecione a situação');
         situacao.focus();
+        return false;
+    }
+    else if(divisor.value.trim() == '') {
+
+    	divisor.style.borderColor = colorRed;
+    	exibirAviso('Informe o divisor');
+    	divisor.focus();
+        return false;
+    }
+    else if(isNaN(divisor.value.trim())) {
+
+    	divisor.style.borderColor = colorRed;
+    	exibirAviso('O campo divisor só pode conter números');
+    	divisor.focus();
         return false;
     }
     else {

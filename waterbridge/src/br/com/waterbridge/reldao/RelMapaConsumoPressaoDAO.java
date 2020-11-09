@@ -228,7 +228,7 @@ public class RelMapaConsumoPressaoDAO {
         }
     }
     
-    public List<RelMapaConsumoPressao> listarPressureBridgeEmpresa() throws Exception {
+    public List<RelMapaConsumoPressao> listarPressureBridgeEmpresa(String idEmpresa) throws Exception {
 
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -236,8 +236,8 @@ public class RelMapaConsumoPressaoDAO {
         
         try {
         	
-            stmt = connection.prepareStatement(
-		    "SELECT    TB_EMPRESA.ID_EMPRESA, " +
+        	String sql =
+			"SELECT    TB_EMPRESA.ID_EMPRESA, " +
             "          TB_CONDOMINIO.ID_CONDOMINIO, " +
             "          TB_BRIDGE.ID_BRIDGE " +
             "FROM      TB_EMPRESA " +
@@ -245,12 +245,30 @@ public class RelMapaConsumoPressaoDAO {
             "ON        TB_EMPRESA.ID_EMPRESA = TB_CONDOMINIO.ID_EMPRESA " +
             "LEFT JOIN TB_BRIDGE " +
             "ON        TB_CONDOMINIO.ID_CONDOMINIO = TB_BRIDGE.ID_CONDOMINIO " +
-            "WHERE     TB_EMPRESA.ID_EMPRESA IN(4,6) " +
-            "AND       TB_EMPRESA.SITUACAO = 'A' " +
+            "WHERE     TB_EMPRESA.SITUACAO = 'A' " +
             "AND       TB_CONDOMINIO.SITUACAO = 'A' " +
-            "AND       TB_BRIDGE.SITUACAO = 'A' " +
-            "AND       ( TB_BRIDGE.ID_BRIDGETP = 2 OR TB_BRIDGE.ID_BRIDGETP = 4 ) "            
-            );
+            "AND       TB_BRIDGE.SITUACAO = 'A' " ;
+        	if(idEmpresa != null && !idEmpresa.equals("null")) {
+        		String [] arrayEmpresasSetores = idEmpresa.split(",");
+        		for(int i=0; i < arrayEmpresasSetores.length; i++) {
+        			String empresa = arrayEmpresasSetores[i];
+        			if(i==0) {
+        				sql += "AND       ( ";
+        			}
+        			sql += " TB_EMPRESA.ID_EMPRESA = " + empresa.split("-")[0] + " AND TB_CONDOMINIO.COMPL = '" + empresa.split("-")[1] + "' ";
+        			if(i < (arrayEmpresasSetores.length - 1)) {
+        				sql += "OR " ;
+        			}
+        			if(i == (arrayEmpresasSetores.length - 1)) {
+        				sql += " ) ";
+        			}
+        		}        		
+        	}
+        	else {
+        		sql += "AND       TB_EMPRESA.ID_EMPRESA IN(4,6,7) " ;
+        	}
+            sql += "AND       ( TB_BRIDGE.ID_BRIDGETP = 2 OR TB_BRIDGE.ID_BRIDGETP = 4 ) ";	
+            stmt = connection.prepareStatement(sql);
                         
             rs = stmt.executeQuery();
 
