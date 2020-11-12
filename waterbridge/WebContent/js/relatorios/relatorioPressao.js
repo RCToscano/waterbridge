@@ -415,8 +415,19 @@ function listarConsumoMedidor() {
 					        },
 					        { //limite maximo pressao alta
 					            from: relPressao.metaPressao.pressaoMax,
-					            to: relPressao.metaPressao.pressaoMaxAlta,
+					            to: 99,
 					            color: 'rgb(105, 156, 250)',
+					            label: {
+					                text: ' ',
+					                style: {
+					                    color: '#606060'
+					                }
+					            }
+					        },
+					        {
+					            from: 99,
+					            to: 100,
+					            color: 'rgb(174, 52, 235)',
 					            label: {
 					                text: ' ',
 					                style: {
