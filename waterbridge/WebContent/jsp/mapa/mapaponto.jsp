@@ -151,6 +151,9 @@
                             Exibir Todos <a href="#" onclick="listarPontos(0);return false;"><span class='glyphicon glyphicon-asterisk text-danger' style="color:#6991fd"></span></a>
                         </div>
                         <div class="panel-body" style="padding: 5px;">                            
+                            Ocultar Todos <a href="#" onclick="clearMarkers();return false;"><span class='glyphicon glyphicon-asterisk text-danger' style="color:#6991fd"></span></a>
+                        </div>
+                        <div class="panel-body" style="padding: 5px;">                            
                             Descarga <a href="#" onclick="listarPontos(1);return false;"><img src='./images/ic_descarga.png' height="20"/></a>
                         </div>
                         <div class="panel-body" style="padding: 5px;">                            
@@ -182,9 +185,11 @@
                         </div>
                         <div class="panel-body" style="padding: 5px;">                            
                             <strong>Legenda</strong><br/>
-                            - limite crítico <img src='./images/ic_dispositivo_mapa_danger.png' height="20"/><br/>
-                            - limite intermediário <img src='./images/ic_dispositivo_mapa_warning.png' height="20"/><br/>
-                            - normal <img src='./images/ic_dispositivo_mapa.png' height="20"/>                          
+                            - pressão baixa (crítico) <img src='./images/ic_dispositivo_001.png' height="20"/><br/>
+                            - pressão baixa <img src='./images/ic_dispositivo_002.png' height="20"/><br/>
+                            - pressão normal <img src='./images/ic_dispositivo_003.png' height="20"/><br/>
+                            - pressão alta <img src='./images/ic_dispositivo_004.png' height="20"/><br/>
+                            - pressão alta (crítico) <img src='./images/ic_dispositivo_005.png' height="20"/>                          
                         </div>                                                                                                                                                                                        
                     </div>
                 </div>                 
@@ -427,16 +432,20 @@
                 var image = './images/ic_dispositivo_mapa.png';
                	if(relMapaConsumoPressao.idBridgeTp == 2 || relMapaConsumoPressao.idBridgeTp == 4) {
                		if(relMapaConsumoPressao.pressure < relMapaConsumoPressao.pressaoMinBaixa ) {
-               			image = './images/ic_dispositivo_mapa_danger.png';		
+               			image = './images/ic_dispositivo_001.png';
                		}
                		else if(relMapaConsumoPressao.pressure > relMapaConsumoPressao.pressaoMaxAlta ) {
-               			image = './images/ic_dispositivo_mapa_danger.png';
+               			image = './images/ic_dispositivo_004.png';
                		}
 					else if(relMapaConsumoPressao.pressure < relMapaConsumoPressao.pressaoMin ) {
-						image = './images/ic_dispositivo_mapa_warning.png';
+						image = './images/ic_dispositivo_002.png';
                		}
 					else if(relMapaConsumoPressao.pressure > relMapaConsumoPressao.pressaoMax ) {
-						image = './images/ic_dispositivo_mapa_warning.png';
+						image = './images/ic_dispositivo_004.png';
+               		}
+					else if(relMapaConsumoPressao.pressure >= relMapaConsumoPressao.pressaoMin
+							|| relMapaConsumoPressao.pressure <= relMapaConsumoPressao.pressaoMax) {
+						image = './images/ic_dispositivo_003.png';
                		}
                	}
                 
@@ -525,7 +534,7 @@
            	 	timerAtualizaMarkers = setTimeout(function() {
            	 		listarPontos('0');
            		//}, 600000);
-                }, 15000);
+                }, 60000);
             }
             
             function buscarPonto(idPonto) {

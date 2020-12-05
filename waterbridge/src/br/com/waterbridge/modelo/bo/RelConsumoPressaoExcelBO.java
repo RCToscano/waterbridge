@@ -10,8 +10,6 @@ public class RelConsumoPressaoExcelBO {
 	private HashMap<Integer, List<RelConsumoPressaoExcel>> map;
 	
 	private List<String> abas;
-	
-	private HashMap<Integer, List<RelConsumoPressaoExcel>> mapEmp;
 
 	public HashMap<Integer, List<RelConsumoPressaoExcel>> getMap() {
 		return map;
@@ -27,14 +25,6 @@ public class RelConsumoPressaoExcelBO {
 
 	public void setAbas(List<String> abas) {
 		this.abas = abas;
-	}
-
-	public HashMap<Integer, List<RelConsumoPressaoExcel>> getMapEmp() {
-		return mapEmp;
-	}
-
-	public void setMapEmp(HashMap<Integer, List<RelConsumoPressaoExcel>> mapEmp) {
-		this.mapEmp = mapEmp;
 	}
 	
 }

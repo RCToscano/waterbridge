@@ -853,7 +853,7 @@ public class BridgeDAO {
 		    "ON        TB_BRIDGE.ID_BRIDGE = VW_USERBRIDGEID.ID_BRIDGE " +
 		    "WHERE     VW_USERBRIDGEID.ID_USER = ? " +
 		    "AND       TB_BRIDGE.ID_CONDOMINIO = ? " +
-		    "AND       TB_BRIDGE.ID_BRIDGETP IN(2,4) "
+		    "AND       TB_BRIDGE.ID_BRIDGETP IN(2,4,5) "
             );
             
             stmt.setObject(1, idUser);

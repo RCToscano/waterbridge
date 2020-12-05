@@ -3,6 +3,7 @@ package br.com.waterbridge.auxiliar;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +17,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import br.com.waterbridge.modelo.bo.RelConsumoPressaoExcelBO;
+import br.com.waterbridge.relmodelo.RelConsumoPressaoExcel;
 
 public class GeradorExcel {
 	
@@ -145,15 +146,13 @@ public class GeradorExcel {
 		workbook.close();
 	}
 	
-	public static void gerarExcelConsumo(String nomeArquivo, List<String> colunas, List<String> colunasEmp,
-			RelConsumoPressaoExcelBO resultado) {
+	public static void gerarExcelConsumo(String nomeArquivo, List<String> abas, List<String> colunas,
+			HashMap<Integer, List<RelConsumoPressaoExcel>> map) {
 		try (Workbook workbook = new XSSFWorkbook(); FileOutputStream fileOut = new FileOutputStream(nomeArquivo)) {
 			
-			int empresas = 0;
-			
 			/** Abas */
-			for(int i = 0; i < resultado.getAbas().size(); i++) {
-				Sheet sheet = workbook.createSheet(resultado.getAbas().get(i));
+			for(int i = 0; i < abas.size(); i++) {
+				Sheet sheet = workbook.createSheet(abas.get(i));
 		
 				/** Fonte da celula */
 				Font headerFont = workbook.createFont();
@@ -164,57 +163,31 @@ public class GeradorExcel {
 				CellStyle headerCellStyle = workbook.createCellStyle();
 				headerCellStyle.setFont(headerFont);
 		
+				/** Nova linha */
+				int posicaoLinha = 0;
+				Row headerRow = sheet.createRow(posicaoLinha++);
+				
+				/** Cabecalho - 1ï¿½ linha */
+				for(int j = 0; j < colunas.size(); j++) {
+					Cell cell = headerRow.createCell(j);
+					cell.setCellValue(colunas.get(j));
+					cell.setCellStyle(headerCellStyle);
+				}
 				
 				/** Registros - Demais linhas */
-				if(i < resultado.getMap().size()) {
-					/** Nova linha */
-					int posicaoLinha = 0;
-					Row headerRow = sheet.createRow(posicaoLinha++);
+				for (int j = 0; j < map.get(i).size(); j++) {
+					Row row = sheet.createRow(posicaoLinha++);
+					int celula = 0;
 					
-					/** Cabecalho - 1ª linha */
-					for(int j = 0; j < colunas.size(); j++) {
-						Cell cell = headerRow.createCell(j);
-						cell.setCellValue(colunas.get(j));
-						cell.setCellStyle(headerCellStyle);
-					}
-					
-					
-					for (int j = 0; j < resultado.getMap().get(i).size(); j++) {
-						Row row = sheet.createRow(posicaoLinha++);
-						int celula = 0;
-						
-						row.createCell(celula++).setCellValue(j+1);
-						row.createCell(celula++).setCellValue(resultado.getMap().get(i).get(j).getNomeEmpresa());
-						row.createCell(celula++).setCellValue(resultado.getMap().get(i).get(j).getNomeCondominio());
-						row.createCell(celula++).setCellValue(resultado.getMap().get(i).get(j).getDtInsert());
-						row.createCell(celula++).setCellValue(resultado.getMap().get(i).get(j).getHoraInsert());
-						row.createCell(celula++).setCellValue(resultado.getMap().get(i).get(j).getPressure());
-						row.createCell(celula++).setCellValue(resultado.getMap().get(i).get(j).getBattery());
-						row.createCell(celula++).setCellValue(resultado.getMap().get(i).get(j).getAlarmDesc());
-						row.createCell(celula++).setCellValue(resultado.getMap().get(i).get(j).getTemperature());
-					}
-				}
-				else {
-					/** Nova linha */
-					int posicaoLinha = 0;
-					Row headerRow = sheet.createRow(posicaoLinha++);
-					
-					/** Cabecalho - 1ª linha */
-					for(int j = 0; j < colunasEmp.size(); j++) {
-						Cell cell = headerRow.createCell(j);
-						cell.setCellValue(colunasEmp.get(j));
-						cell.setCellStyle(headerCellStyle);
-					}
-					
-					for (int j = 0; j < resultado.getMapEmp().get(empresas).size(); j++) {
-						Row row = sheet.createRow(posicaoLinha++);
-						int celula = 0;
-						
-						row.createCell(celula++).setCellValue(j+1);
-						row.createCell(celula++).setCellValue(resultado.getMapEmp().get(empresas).get(j).getNomeEmpresa());
-						row.createCell(celula++).setCellValue(resultado.getMapEmp().get(empresas).get(j).getDevice());
-					}
-					empresas++;
+					row.createCell(celula++).setCellValue(j+1);
+					row.createCell(celula++).setCellValue(map.get(i).get(j).getNomeEmpresa());
+					row.createCell(celula++).setCellValue(map.get(i).get(j).getNomeCondominio());
+					row.createCell(celula++).setCellValue(map.get(i).get(j).getDtInsert());
+					row.createCell(celula++).setCellValue(map.get(i).get(j).getHoraInsert());
+					row.createCell(celula++).setCellValue(map.get(i).get(j).getPressure());
+					row.createCell(celula++).setCellValue(map.get(i).get(j).getBattery());
+					row.createCell(celula++).setCellValue(map.get(i).get(j).getAlarmDesc());
+					row.createCell(celula++).setCellValue(map.get(i).get(j).getTemperature());
 				}
 				
 			}

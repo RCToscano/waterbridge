@@ -213,13 +213,15 @@ function listarConsumoMedidor() {
 	        	var consumo = 0;
 	            var relPressao = result;
 	            if(relPressao != null && relPressao.listRelPressao.length > 0) {
-	            		            	
-	            	var tootipAlarm = 
-	                "data-toggle='popover' title='Limites Pressão' data-trigger='hover' " +
-	                "data-content='Baixa: " + formatarTresDecimais(relPressao.metaPressao.pressaoMinBaixa) + "<br>" +
-	                "Normal: " + formatarTresDecimais(relPressao.metaPressao.pressaoMin) + " ~ " + formatarTresDecimais(relPressao.metaPressao.pressaoMax) + "<br>" +
-	                "Alta: " + formatarTresDecimais(relPressao.metaPressao.pressaoMaxAlta) + "'";
-	            		
+	            		            	console.log('meta pressao' + relPressao.metaPressao);
+	            	var tootipAlarm = '';
+	            	if(relPressao.metaPressao != null && relPressao.metaPressao != undefined) {
+	            		tootipAlarm +=
+	    	                "data-toggle='popover' title='Limites Pressão' data-trigger='hover' " +
+	    	                "data-content='Baixa: " + formatarTresDecimais(relPressao.metaPressao.pressaoMinBaixa) + "<br>" +
+	    	                "Normal: " + formatarTresDecimais(relPressao.metaPressao.pressaoMin) + " ~ " + formatarTresDecimais(relPressao.metaPressao.pressaoMax) + "<br>" +
+	    	                "Alta: " + formatarTresDecimais(relPressao.metaPressao.pressaoMaxAlta) + "'";	
+	            	}
 	            	texto +=	            	
 	            	"<table class='table table-hover table-striped'>" +
 	            	"	<thead>" +
@@ -236,7 +238,7 @@ function listarConsumoMedidor() {
 					"		             </button>" +
 					"		         </form>" +
 					"			</th>" +
-					"			<th colspan='7'>" +
+					"			<th colspan='8'>" +
 					"		         <form action='RelatorioPressaoBO?acao=excel' method='post' target='_blank'>" +
 					"                    <input type='hidden' name='idEmpresa' value='" + idEmpresa.value + "'>" +
 					"                    <input type='hidden' name='idCondominio' value='" + idCondominio.value + "'>" +
@@ -254,8 +256,12 @@ function listarConsumoMedidor() {
 		            "		<tr>" +
 		            "			<th>Nº</th>" +
 		            "			<th>Data</th>" +
-		            "			<th>Hora</th>" +
-		            "			<th>Pressão (MCA)</th>" +
+		            "			<th>Hora</th>" ;
+	            	texto +=
+		            "			<th>Pressão (MCA)</th>" ;
+	            	texto +=
+		            "			<th>Vazão (L/s)</th>" ;
+	            	texto +=
 		            "			<th>Alarme</th>" +
 		            "			<th>Bateria (V)</th>" +
 		            "			<th>Temperatura (ºC)</th>" +
@@ -306,6 +312,7 @@ function listarConsumoMedidor() {
     		            "			<td " + bgTd + "><small>" + relatPressao.dtInsert + "</small></td>" +
     		            "			<td " + bgTd + "><small>" + relatPressao.horaInsert + "</small></td>" +
     		            "			<td " + bgTd + "><small " + tootipAlarm + ">" + formatarTresDecimais(relatPressao.pressure) + "</small></td>" +
+    		            "			<td " + bgTd + "><small>" + formatarDuasDecimais(relatPressao.flow) + "</small></td>" +
     		            "			<td " + bgTd + "><small>" + alarmPadrao + " " + separador + " " + alarmPressao + "</small></td>" +
     		            "			<td " + bgTd + "><small>" + substituirPonto(relatPressao.battery) + "</small></td>" +
     		            "			<td " + bgTd + "><small>" + relatPressao.temperature + "</small></td>" +
@@ -326,7 +333,7 @@ function listarConsumoMedidor() {
 					"		             </button>" +
 					"		         </form>" +
 					"	         </td>" +
-					"	         <td colspan='7' style='text-align: left'>" +
+					"	         <td colspan='8' style='text-align: left'>" +
 					"		         <form action='RelatorioPressaoBO?acao=excel' method='post' target='_blank'>" +
 					"                    <input type='hidden' name='idEmpresa' value='" + idEmpresa.value + "'>" +
 					"                    <input type='hidden' name='idCondominio' value='" + idCondominio.value + "'>" +
@@ -341,121 +348,122 @@ function listarConsumoMedidor() {
 					"        </tr>" +
 		            "    </tbody>" +
 		            "</table>" ;
+		            if(relPressao.metaPressao != null && relPressao.metaPressao != undefined) {
 		            
-					Highcharts.chart('graficopressaodiaria', {
-					    chart: {  
-					    	type: 'line',  
-				            panning: true  
-					    },  
-					    mapNavigation: {  
-			                enabled: true,  
-			                enableButtons: false  
-			            },  
-					    title: {  
-					        text: 'Gráfico de Pressão<br/><label>Bridge ' + relPressao.bridge +' </label>'  
-					    },  
-					    subtitle: {  
-					        text: 'Período '+ relPressao.dtInicio +' a '+ relPressao.dtFim  
-					    },
-					    xAxis: {
-					    	crosshair: true,
-					    	
-					    	categories: (function () {
-					            // generate an array of random data
-					            var data = [];
+		            	Highcharts.chart('graficopressaodiaria', {
+						    chart: {  
+						    	type: 'line',  
+					            panning: true  
+						    },  
+						    mapNavigation: {  
+				                enabled: true,  
+				                enableButtons: false  
+				            },  
+						    title: {  
+						        text: 'Gráfico de Pressão<br/><label>Bridge ' + relPressao.bridge +' </label>'  
+						    },  
+						    subtitle: {  
+						        text: 'Período '+ relPressao.dtInicio +' a '+ relPressao.dtFim  
+						    },
+						    xAxis: {
+						    	crosshair: true,
+						    	
+						    	categories: (function () {
+						            // generate an array of random data
+						            var data = [];
 
-					            for(i = 0; i < relPressao.listData.length; i++) {
-					                data.push([
-					                	relPressao.listData[i]
-					                ]);
-					            }
-					            return data;
-					        }())
-					    },
-					    yAxis: {
-					    	min: 0,  
-					        title: {  
-					            text: 'MCA'  
-					        },
-					      	//minorGridLineWidth: 0,
-					        //gridLineWidth: 0,
-					        //alternateGridColor: null,
-					       	plotBands: [{ // limite pressao baixa
-					            from: 0,
-					            to: relPressao.metaPressao.pressaoMinBaixa,
-					            color: 'rgb(238, 89, 91)',
-					            label: {
-					                text: ' ',
-					                style: {
-					                    color: '#606060'
-					                }
-					            }
-					        },
-					        { // limite pressao baixa
-					            from: relPressao.metaPressao.pressaoMinBaixa,
-					            to: relPressao.metaPressao.pressaoMin,
-					            color: 'rgb(248, 189, 146)',
-					            label: {
-					                text: ' ',
-					                style: {
-					                    color: '#606060'
-					                }
-					            }
-					        },
-					        { // limite pressao normal
-					            from: relPressao.metaPressao.pressaoMin,
-					            to: relPressao.metaPressao.pressaoMax,
-					            color: 'rgb(247, 247, 247)',
-					            label: {
-					                text: ' ',
-					                style: {
-					                    color: '#606060'
-					                }
-					            }
-					        },
-					        { //limite maximo pressao alta
-					            from: relPressao.metaPressao.pressaoMax,
-					            to: relPressao.metaPressao.pressaoMaxAlta,
-					            color: 'rgb(105, 156, 250)',
-					            label: {
-					                text: ' ',
-					                style: {
-					                    color: '#606060'
-					                }
-					            }
-					        }]
-					    },  
-					    tooltip: {  
-					    	headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-					        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:.3f}</b></td></tr>',
-					        footerFormat: '</table>',
-					        shared: true,
-					        useHTML: true 
-					    },  
-					    plotOptions: {  
-					        column: {  
-					            pointPadding: 0.3,  
-					            borderWidth: 0  
-					        }  
-					    },  
-					    series: [{  
-					        name: 'Bridge ' + relPressao.bridge,  
-					        color: 'rgb(118, 118, 123)',
-					        data: (function () {
-					            // generate an array of random data
-					            var data = [];
+						            for(i = 0; i < relPressao.listData.length; i++) {
+						                data.push([
+						                	relPressao.listData[i]
+						                ]);
+						            }
+						            return data;
+						        }())
+						    },
+						    yAxis: {
+						    	min: 0,  
+						        title: {  
+						            text: 'MCA'  
+						        },
+						      	//minorGridLineWidth: 0,
+						        //gridLineWidth: 0,
+						        //alternateGridColor: null,
+						       	plotBands: [{ // limite pressao baixa
+						            from: 0,
+						            to: relPressao.metaPressao.pressaoMinBaixa,
+						            color: 'rgb(238, 89, 91)',
+						            label: {
+						                text: ' ',
+						                style: {
+						                    color: '#606060'
+						                }
+						            }
+						        },
+						        { // limite pressao baixa
+						            from: relPressao.metaPressao.pressaoMinBaixa,
+						            to: relPressao.metaPressao.pressaoMin,
+						            color: 'rgb(248, 189, 146)',
+						            label: {
+						                text: ' ',
+						                style: {
+						                    color: '#606060'
+						                }
+						            }
+						        },
+						        { // limite pressao normal
+						            from: relPressao.metaPressao.pressaoMin,
+						            to: relPressao.metaPressao.pressaoMax,
+						            color: 'rgb(247, 247, 247)',
+						            label: {
+						                text: ' ',
+						                style: {
+						                    color: '#606060'
+						                }
+						            }
+						        },
+						        { //limite maximo pressao alta
+						            from: relPressao.metaPressao.pressaoMax,
+						            to: relPressao.metaPressao.pressaoMaxAlta,
+						            color: 'rgb(105, 156, 250)',
+						            label: {
+						                text: ' ',
+						                style: {
+						                    color: '#606060'
+						                }
+						            }
+						        }]
+						    },  
+						    tooltip: {  
+						    	headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+						        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + '<td style="padding:0"><b>{point.y:.3f}</b></td></tr>',
+						        footerFormat: '</table>',
+						        shared: true,
+						        useHTML: true 
+						    },  
+						    plotOptions: {  
+						        column: {  
+						            pointPadding: 0.3,  
+						            borderWidth: 0  
+						        }  
+						    },  
+						    series: [{  
+						        name: 'Bridge ' + relPressao.bridge,  
+						        color: 'rgb(118, 118, 123)',
+						        data: (function () {
+						            // generate an array of random data
+						            var data = [];
 
-					            for(i = 0; i < relPressao.listPressao.length; i++) {
-					                data.push([
-					                	relPressao.listData[i],
-					                    relPressao.listPressao[i]
-					                ]);
-					            }
-					            return data;
-					        }())  
-					    }]  
-					});
-
+						            for(i = 0; i < relPressao.listPressao.length; i++) {
+						                data.push([
+						                	relPressao.listData[i],
+						                    relPressao.listPressao[i]
+						                ]);
+						            }
+						            return data;
+						        }())  
+						    }]  
+						});
+		            }
 		            setTimeout(listarConsumoMedidor, 600000);
 	            }
 	            else {

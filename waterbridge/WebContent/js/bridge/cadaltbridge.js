@@ -182,12 +182,10 @@ function exibirDivLimitesPressao() {
 	
 	if(idBridgeTp.value == 2 || idBridgeTp.value == 4) {
 		
-		//divLimitesPressao.style.display = 'block';
 		$("#divLimitesPressao").fadeIn(300);
 	}
 	else {
-		
-		//divLimitesPressao.style.display = 'none';
+	
 		$("#divLimitesPressao").fadeOut(300);
 	}
 }

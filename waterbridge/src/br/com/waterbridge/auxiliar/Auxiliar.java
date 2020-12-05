@@ -14,16 +14,8 @@ import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Properties;
 import java.util.Random;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
@@ -227,7 +219,26 @@ public class Auxiliar {
        }
 
        return texto;
-   }    
+    }
+
+    public static String rightPad(String texto, int tamanho, String caractere) {
+
+        texto = texto.trim();
+
+        while(texto.length() < tamanho) {
+                
+            texto = texto + caractere;
+        }
+
+        return texto;
+     }
+    public static String gerarFiller(int tamanho, String caractere) {
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < tamanho; i++) {
+        	sb.append(caractere);
+        }
+        return sb.toString();
+    }
     
     public static double distFrom(double lat1, double lng1, double lat2, double lng2) {   
    

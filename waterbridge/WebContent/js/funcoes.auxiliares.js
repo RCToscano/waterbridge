@@ -236,6 +236,12 @@ function formatarTresDecimais(numero) {
     return numero.join(',');
 }
 
+function formatarDuasDecimais(numero) {
+    var numero = numero.toFixed(2).split('.');
+    numero[0] = numero[0].split(/(?=(?:...)*$)/).join('.');
+    return numero.join(',');
+}
+
 function substituirPonto(input) {
 	return input.toString().replace(".",",");
 }
