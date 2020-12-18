@@ -5,9 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import br.com.waterbridge.auxiliar.ColunasExcel;
-import br.com.waterbridge.auxiliar.GeradorExcel;
 import br.com.waterbridge.connection.ConnectionFactory;
-import br.com.waterbridge.modelo.bo.RelConsumoPressaoExcelBO;
 import br.com.waterbridge.reldao.RelPressaoDAO;
 
 public class ExcelConsumoUserEmpresa implements Runnable {
@@ -15,7 +13,7 @@ public class ExcelConsumoUserEmpresa implements Runnable {
 	@Override
 	public void run() {
 		Calendar dataInicio = Calendar.getInstance();
-		if (dataInicio.get(Calendar.DAY_OF_MONTH) == 01) {
+//		if (dataInicio.get(Calendar.DAY_OF_MONTH) == 01) {
 		
 			System.out.println("Inicio geracao Excel Mensal Consumo Empresa Usuario");
 			try (Connection connection = ConnectionFactory.getConnection()) {
@@ -39,26 +37,32 @@ public class ExcelConsumoUserEmpresa implements Runnable {
 	
 				System.out.println("Buscando consumo no banco de dados");
 				RelPressaoDAO relPressaoDAO = new RelPressaoDAO(connection);
-				RelConsumoPressaoExcelBO resultado = relPressaoDAO.buscarConsumoUserEmpresa(4l, 4l,
-						formatoBanco.format(dataInicio.getTime()),
-						formatoBanco.format(dataFim.getTime()));
+
+//				RelConsumoPressaoExcelBO resultado = relPressaoDAO.buscarConsumoUserEmpresa(4l, 4l,
+//						formatoBanco.format(dataInicio.getTime()),
+//						formatoBanco.format(dataFim.getTime()));
 				
-				if (!resultado.getAbas().isEmpty()) {
-					System.out.println("Gerando excel com ["+resultado.getAbas().size()+"] Bridges");
-					
-					GeradorExcel.gerarExcelConsumo("C:\\Temp\\Teste.xlsx", resultado.getAbas(),
-							new ColunasExcel().getColunasConsumoUserEmpresa(), resultado.getMap());
-					
-					System.out.println("Excel gerado com sucesso");
-				}
-				else {
-					System.out.println("Nenhum resultado encontrado");
-				}
+				new RelPressaoDAO(connection).buscarConsumoUserEmpresa1(4l, 4l,
+						formatoBanco.format(dataInicio.getTime()), formatoBanco.format(dataFim.getTime()),
+						"C:\\Temp\\Teste.xlsx", new ColunasExcel().getColunasConsumoUserEmpresa());
+				
+				
+//				if (!resultado.getAbas().isEmpty()) {
+//					System.out.println("Gerando excel com ["+resultado.getAbas().size()+"] Bridges");
+//					
+//					GeradorExcel.gerarExcelConsumo("C:\\Temp\\Teste.xlsx", resultado.getAbas(),
+//							new ColunasExcel().getColunasConsumoUserEmpresa(), resultado.getMap());
+//					
+//					System.out.println("Excel gerado com sucesso");
+//				}
+//				else {
+//					System.out.println("Nenhum resultado encontrado");
+//				}
 			} 
 			catch (Exception e) {
 				System.out.println(e);
 			}
-		}
+//		}
 	}
 	
 	public static void main(String[] args) {
