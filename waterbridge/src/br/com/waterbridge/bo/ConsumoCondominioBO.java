@@ -82,7 +82,9 @@ public class ConsumoCondominioBO extends HttpServlet {
 				CondominioDAO condominioDAO = new CondominioDAO(connection);
 				List<Condominio> listCondominio = new ArrayList<Condominio>();		
 				listCondominio = condominioDAO.listarPorUsuario(user.getIdUser(), Long.parseLong(req.getParameter("idEmpresa")));
-				
+				for(Condominio condominio: listCondominio) {
+					System.out.println(condominio.getNome());
+				}
 				String json = new Gson().toJson(listCondominio);
 				
 				res.setContentType("application/json");

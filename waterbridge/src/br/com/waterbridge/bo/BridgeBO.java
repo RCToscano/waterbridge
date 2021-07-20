@@ -144,7 +144,7 @@ public class BridgeBO extends HttpServlet {
 					bridge = bridgeDAO.buscarPorDeviceNum(req.getParameter("deviceNum").trim().toUpperCase(), "A");
 					
 					//CADASTRA META PRESSAO
-					if(bridgeTp.getIdBridgeTp().longValue() == 2 || bridgeTp.getIdBridgeTp().longValue() == 4) {
+					if(bridgeTp.getIdBridgeTp().longValue() == 2 || bridgeTp.getIdBridgeTp().longValue() == 4 || bridgeTp.getIdBridgeTp().longValue() == 5) {
 						
 						Condominio condominio = condominioDAO.buscarPorId(bridge.getIdCondominio());
 
@@ -339,7 +339,7 @@ public class BridgeBO extends HttpServlet {
 				//CADASTRA META PRESSAO
 				MetaPressaoDAO metaPressaoDAO = new MetaPressaoDAO(connection);
 				MetaPressao metaPressao = null;
-				if(bridgeTp.getIdBridgeTp().longValue() == 2 || bridgeTp.getIdBridgeTp().longValue() == 4) {
+				if(bridgeTp.getIdBridgeTp().longValue() == 2 || bridgeTp.getIdBridgeTp().longValue() == 4 || bridgeTp.getIdBridgeTp().longValue() == 5) {
 					
 					Condominio condominio = condominioDAO.buscarPorId(bridge.getIdCondominio());
 					

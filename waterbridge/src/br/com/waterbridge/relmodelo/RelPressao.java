@@ -5,6 +5,7 @@ public class RelPressao {
 	private Long idEmpresa;
 	private Long idCondominio;
 	private Long idBridge;
+	private Long idBridgeTp;
 	private Long idConsumo;
 	private Long idUser;
 	private String nomeEmpresa;
@@ -15,7 +16,7 @@ public class RelPressao {
 	private Long meterPosition;
 	private Double volume;
 	private Double pressure;
-	private Long flow;
+	private Double flow;
 	private Long temperature;
 	private Double battery;
 	private Long alarm;
@@ -42,6 +43,12 @@ public class RelPressao {
 	}
 	public void setIdBridge(Long idBridge) {
 		this.idBridge = idBridge;
+	}	
+	public Long getIdBridgeTp() {
+		return idBridgeTp;
+	}
+	public void setIdBridgeTp(Long idBridgeTp) {
+		this.idBridgeTp = idBridgeTp;
 	}
 	public Long getIdConsumo() {
 		return idConsumo;
@@ -102,11 +109,11 @@ public class RelPressao {
 	}
 	public void setPressure(Double pressure) {
 		this.pressure = pressure;
-	}
-	public Long getFlow() {
+	}	
+	public Double getFlow() {
 		return flow;
 	}
-	public void setFlow(Long flow) {
+	public void setFlow(Double flow) {
 		this.flow = flow;
 	}
 	public Long getTemperature() {

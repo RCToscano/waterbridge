@@ -33,8 +33,8 @@ import br.com.waterbridge.relmodelo.RelMapaConsumoPressao;
 import br.com.waterbridge.relmodelo.RelPonto;
 import br.com.waterbridge.relmodelo.RelPontoFiltroSetor;
 
-@WebServlet("/PontoBO")
-public class PontoBO extends HttpServlet {
+@WebServlet("/GeracaoArquivoBO")
+public class GeracaoArquivoBO extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -46,7 +46,7 @@ public class PontoBO extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {			
 		switch(Integer.parseInt(req.getParameter("acao"))){
 	        case 1:
-	        	listarPontos(req, res);//LISTAR PONTOS
+	        	acessarTelaGeracaoArquivoEstatistica(req, res);//LISTAR PONTOS
 	            break;
 	        case 2:
 	        	listarPontosPorId(req, res);//LISTAR PONTOS POR ID_PONTOTP
@@ -68,7 +68,7 @@ public class PontoBO extends HttpServlet {
 	    }		
 	}
 		
-	public void listarPontos(HttpServletRequest req, HttpServletResponse res)throws ServletException, IOException {
+	public void acessarTelaGeracaoArquivoEstatistica(HttpServletRequest req, HttpServletResponse res)throws ServletException, IOException {
 		
 		Connection connection = null;
 		User user = (User) req.getSession().getAttribute("user");

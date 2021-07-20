@@ -5,8 +5,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.waterbridge.auxiliar.Auxiliar;
+import br.com.waterbridge.modelo.Conta;
 import br.com.waterbridge.modelo.UserEmpresa;
 
 public class UserEmpresaDAO {
@@ -156,6 +159,47 @@ public class UserEmpresaDAO {
             }
         }
     }    
+    
+    public List<Long> listarPorIdUser(Long idUser) throws SQLException {
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Long> list = new ArrayList<Long>();
+        
+        try {
+            
+        	stmt = connection.prepareStatement(
+			"SELECT TB_USEREMPRESA.ID_EMPRESA " +
+			"FROM   TB_USEREMPRESA " +
+			"WHERE  TB_USEREMPRESA.ID_USER = ? " 
+            );
+
+        	stmt.setLong(1, idUser);
+        	
+            rs = stmt.executeQuery();
+
+            while(rs.next()) {
+            	list.add(rs.getLong("ID_EMPRESA"));
+            }
+            
+            return list;
+        }
+        catch(SQLException e) {
+            
+            throw e;
+        }
+        finally {
+
+            if(stmt != null) {
+                
+                stmt.close();
+            }
+            if(rs != null) {
+                
+                rs.close();
+            }
+        }
+    }
     
     public void logar(Long idUserEmpresa) throws SQLException {
 

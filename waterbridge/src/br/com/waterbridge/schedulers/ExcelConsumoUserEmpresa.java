@@ -15,7 +15,7 @@ public class ExcelConsumoUserEmpresa implements Runnable {
 	@Override
 	public void run() {
 		Calendar dataInicio = Calendar.getInstance();
-		if (dataInicio.get(Calendar.DAY_OF_MONTH) == 01) {
+		if (dataInicio.get(Calendar.DAY_OF_MONTH) == 1) {
 		
 			System.out.println("Inicio geracao Excel Mensal Consumo Empresa Usuario");
 			try (Connection connection = ConnectionFactory.getConnection()) {

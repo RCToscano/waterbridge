@@ -185,6 +185,7 @@ public class GeradorExcel {
 					row.createCell(celula++).setCellValue(map.get(i).get(j).getDtInsert());
 					row.createCell(celula++).setCellValue(map.get(i).get(j).getHoraInsert());
 					row.createCell(celula++).setCellValue(map.get(i).get(j).getPressure());
+					//row.createCell(celula++).setCellValue(map.get(i).get(j).getFlow());
 					row.createCell(celula++).setCellValue(map.get(i).get(j).getBattery());
 					row.createCell(celula++).setCellValue(map.get(i).get(j).getAlarmDesc());
 					row.createCell(celula++).setCellValue(map.get(i).get(j).getTemperature());

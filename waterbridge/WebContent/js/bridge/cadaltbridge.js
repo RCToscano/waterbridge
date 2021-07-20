@@ -180,7 +180,7 @@ function exibirDivLimitesPressao() {
 	var idBridgeTp = document.getElementById("idBridgeTp");
 	var divLimitesPressao = document.getElementById("divLimitesPressao");
 	
-	if(idBridgeTp.value == 2 || idBridgeTp.value == 4) {
+	if(idBridgeTp.value == 2 || idBridgeTp.value == 4 || idBridgeTp.value == 5) {
 		
 		$("#divLimitesPressao").fadeIn(300);
 	}

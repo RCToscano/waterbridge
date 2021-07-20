@@ -5,6 +5,8 @@
 
 <html>
     <head>
+    	<title>WaterBridge</title>	
+		<link rel="icon" type="image/png" href="./images/favicon.ico"/>
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
         <meta charset="utf-8"/>
         
@@ -12,12 +14,10 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>        
-        <script src="http://malsup.github.io/jquery.blockUI.js"></script>
-        
-<!--         <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css" rel="stylesheet"/> -->
-<!--         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script> -->
+        <script src="http://malsup.github.io/jquery.blockUI.js"></script>        
         <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         
         <title>WaterBridge</title>
         <style>
@@ -45,8 +45,8 @@
             <div class="col-sm-2 text-right"><img class="img-responsive center-block" src="./images/logo_desoltec_branco_menu.png" alt=""></div>            
 		</div>
         <div id="map"></div>
-        <div id='divscript' style='background-color: #fff; position: absolute; top: 50px; min-width: 50px; right: 10px; z-index: 1; width: 5%;' >
-            <a href="#" id="hrfiltros"><span class="label label-primary">F I L T R O S</span></a>
+        <div id='divscript' style='position: absolute; top: 50px; min-width: 50px; right: 10px; z-index: 1; width: 5%;' >
+            <a href="#" id="hrfiltros"><span class="glyphicon glyphicon-fullscreen"></span></a>            
             <script>
                 $('#divColaborador').animate({width: 'toggle'});
                 $('#hrfiltros').click(function(){
@@ -110,25 +110,39 @@
 	            </div>
 	        </div>
 	    </div>
-        
+
+        <div id="divAlertaNivel" class="map-cnt" style='display: none;'></div>  		
+		<style>
+			.map-alert {
+			   position: absolute; 
+			   left: 2%;
+			   top: 90%;
+			    
+			}
+		</style>
+                
         <div id='divColaborador' style='background-color: #fff; position: absolute; top: 70px; min-width: 400px; right: 10px; z-index: 1; width: 20%;' >
             <div class="panel-group" id="accordion" style="margin: 0px;">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                          	<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Acessórios</a>
+                          	<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Painel de Exibição</a>
                        	</h4>                        
                     </div>
                     <div id="collapse1" class="panel-collapse collapse">
+                        <div class="panel-body" style="padding: 5px;">                                                    
+                        	<button type="button" class="btn btn-primary btn-sm" onclick="listarPontos(0)">
+					          <span class="glyphicon glyphicon-refresh"></span> Atualizar Mapa
+					        </button>
+					        <button type="button" class="btn btn-danger btn-sm" onclick="clearMarkers()">
+					          <span class="glyphicon glyphicon-erase"></span> Limpar Mapa
+					        </button>
+					        <button type="button" class="btn btn-success btn-sm" onclick="exibirModalCadastrarPonto()">
+					          <span class="glyphicon glyphicon-plus"></span> Acessório
+					        </button>
+                        </div>
                         <div class="panel-body" style="padding: 5px;">      
                             <label>Setores</label><br/>                      
-                        	<!-- 
-                        	<select class="js-example-basic-multiple" name="idEmpresa" id="idEmpresa" multiple="multiple" title="Selecione Setor">
-	                            <c:forEach var="empresa" items="${listEmpresa}">
-	                                <option value="${empresa.idEmpresa}">${empresa.nome}</option>
-	                            </c:forEach>
-	                        </select>
-	                        -->
 	                        <select class="js-example-basic-multiple" name="idEmpresa" id="idEmpresa" multiple="multiple" title="Selecione Setor">
 	                            <c:forEach var="relPontoFiltroSetor" items="${listRelPontoFiltroSetor}">
 	                                <option value="${relPontoFiltroSetor.idEmpresa}-${relPontoFiltroSetor.compl}">${relPontoFiltroSetor.compl}</option>
@@ -144,51 +158,55 @@
 	                            });
 	                        </script>
                         </div>
-                    	<div class="panel-body" style="padding: 5px;">                            
-                            Incluir <a href="#" onclick="exibirModalCadastrarPonto();return false;"><span class='glyphicon glyphicon-plus' style="color:#6991fd"></span></a>
-                        </div>                    
-                    	<div class="panel-body" style="padding: 5px;">                            
-                            Exibir Todos <a href="#" onclick="listarPontos(0);return false;"><span class='glyphicon glyphicon-asterisk text-danger' style="color:#6991fd"></span></a>
+                        <div class="panel-body" style="padding: 5px;">
+                            <label>Acessórios</label>
                         </div>
-                        <div class="panel-body" style="padding: 5px;">                            
-                            Ocultar Todos <a href="#" onclick="clearMarkers();return false;"><span class='glyphicon glyphicon-asterisk text-danger' style="color:#6991fd"></span></a>
+                        <div class="panel-body" style="padding: 5px;">
+                            <input type="checkbox" id="acessorio1" name="acessorio1" value="1">
+                            Descarga <a href="#"><img src='./images/ic_descarga.png' height="20"/></a>
                         </div>
-                        <div class="panel-body" style="padding: 5px;">                            
-                            Descarga <a href="#" onclick="listarPontos(1);return false;"><img src='./images/ic_descarga.png' height="20"/></a>
+                        <div class="panel-body" style="padding: 5px;">
+                            <input type="checkbox" id="acessorio2" name="acessorio2" value="2">
+                            Estação Bomba <a href="#"><img src='http://maps.google.com/mapfiles/ms/icons/blue-dot.png' height="20"/></a>
                         </div>
-                        <div class="panel-body" style="padding: 5px;">                            
-                            Estacao Bomba <a href="#" onclick="listarPontos(2);return false;"><img src='http://maps.google.com/mapfiles/ms/icons/blue-dot.png' height="20"/></a>
+                        <div class="panel-body" style="padding: 5px;">
+                            <input type="checkbox" id="acessorio3" name="acessorio3" value="3">
+                            Estação Tratamento <a href="#"><img src='http://maps.google.com/mapfiles/ms/icons/green-dot.png' height="20"/></span></a>
                         </div>
-                        <div class="panel-body" style="padding: 5px;">                            
-                            Estacao Tratamento <a href="#" onclick="listarPontos(3);return false;"><img src='http://maps.google.com/mapfiles/ms/icons/green-dot.png' height="20"/></span></a>
+                        <div class="panel-body" style="padding: 5px;">
+                        	<input type="checkbox" id="acessorio4" name="acessorio4" value="4">
+                            Gaveta <a href="#"><img src='http://maps.google.com/mapfiles/ms/icons/ltblue-dot.png' height="20"/></a>
                         </div>
-                        <div class="panel-body" style="padding: 5px;">                            
-                            Gaveta <a href="#" onclick="listarPontos(4);return false;"><img src='http://maps.google.com/mapfiles/ms/icons/ltblue-dot.png' height="20"/></a>
+                        <div class="panel-body" style="padding: 5px;">                       
+                            <input type="checkbox" id="acessorio5" name="acessorio5" value="5">
+                            Outros <a href="#"><img src='http://maps.google.com/mapfiles/ms/icons/orange-dot.png' height="20"/></a>
                         </div>
-                        <div class="panel-body" style="padding: 5px;">                            
-                            Outros <a href="#" onclick="listarPontos(5);return false;"><img src='http://maps.google.com/mapfiles/ms/icons/orange-dot.png' height="20"/></a>
+                        <div class="panel-body" style="padding: 5px;">                        
+                            <input type="checkbox" id="acessorio6" name="acessorio6" value="6">
+                            Poços <a href="#"><img src='./images/ic_poco.png' height="17"/></a>
                         </div>
-                        <div class="panel-body" style="padding: 5px;">                            
-                            Pocos <a href="#" onclick="listarPontos(6);return false;"><img src='./images/ic_poco.png' height="17"/></a>
+                        <div class="panel-body" style="padding: 5px;">
+                            <input type="checkbox" id="acessorio7" name="acessorio7" value="7">
+                            Redutora Pressão <a href="#"><img src='http://maps.google.com/mapfiles/ms/icons/purple-dot.png' height="20"/></a>
                         </div>
-                        <div class="panel-body" style="padding: 5px;">                            
-                            Redutora Pressao <a href="#" onclick="listarPontos(7);return false;"><img src='http://maps.google.com/mapfiles/ms/icons/purple-dot.png' height="20"/></a>
+                        <div class="panel-body" style="padding: 5px;">
+                            <input type="checkbox" id="acessorio8" name="acessorio8" value="8">
+                            Registro <a href="#"><img src='./images/ic_registro.png'/></a>
                         </div>
-                        <div class="panel-body" style="padding: 5px;">                            
-                            Registro <a href="#" onclick="listarPontos(8);return false;"><img src='./images/ic_registro.png'/></a>
+                        <div class="panel-body" style="padding: 5px;">
+                            <input type="checkbox" id="acessorio9" name="acessorio9" value="9">
+                            Reservatório <a href="#"><img src='./images/ic_reservatorio.png' height="20"/></a>
                         </div>
-                        <div class="panel-body" style="padding: 5px;">                            
-                            Reservatorio <a href="#" onclick="listarPontos(9);return false;"><img src='./images/ic_reservatorio.png' height="20"/></a>
-                        </div>
-                        <div class="panel-body" style="padding: 5px;">                            
-                            Ventosa <a href="#" onclick="listarPontos(10);return false;"><img src='./images/ic_ventosa.png' height="20"/></a>
+                        <div class="panel-body" style="padding: 5px;">
+                            <input type="checkbox" id="acessorio10" name="acessorio10" value="10">
+                            Ventosa <a href="#"><img src='./images/ic_ventosa.png' height="20"/></a>
                         </div>
                         <div class="panel-body" style="padding: 5px;">                            
                             <strong>Legenda</strong><br/>
-                            - pressão baixa (crítico) <img src='./images/ic_dispositivo_001.png' height="20"/><br/>
+                            - pressão crítica <img src='./images/ic_dispositivo_001.png' height="20"/><br/>
                             - pressão baixa <img src='./images/ic_dispositivo_002.png' height="20"/><br/>
-                            - pressão normal <img src='./images/ic_dispositivo_003.png' height="20"/><br/>
-                            - pressão alta <img src='./images/ic_dispositivo_004.png' height="20"/><br/>
+                            - pressão aceitável <img src='./images/ic_dispositivo_003.png' height="20"/><br/>
+                            - pressão normal <img src='./images/ic_dispositivo_004.png' height="20"/><br/>
                             - pressão alta (crítico) <img src='./images/ic_dispositivo_005.png' height="20"/>                          
                         </div>                                                                                                                                                                                        
                     </div>
@@ -206,6 +224,10 @@
             var listRelPonto = ${listRelPonto};
             var listRelMapaConsumoPressao = ${listRelMapaConsumoPressao};
             var markers = [];
+            var qtdeSetor1 = 0;
+            var qtdeSetor2 = 0;
+            var qtdeAbaixoMinSetor1 = 0;
+            var qtdeAbaixoMinSetor2 = 0;
             
             var map;
             function initMap() {
@@ -234,7 +256,6 @@
                         var idEmpresa = listIdEmpresa[i];
                         var array = idEmpresa.split("-");                        
                         var src = buscarUrl(array);
-                        console.log('src: ' + src);
                         if(src != '') {
                 			var kmlLayer = new google.maps.KmlLayer(src, {                  
                             	suppressInfoWindows: true,
@@ -427,8 +448,8 @@
                 markers.push(marker1);
             }
             
-			function addPontoBridge(map, relMapaConsumoPressao) {    
-                
+			function addPontoBridge(map, relMapaConsumoPressao) {
+
                 var image = './images/ic_dispositivo_mapa.png';
                	if(relMapaConsumoPressao.idBridgeTp == 2 || relMapaConsumoPressao.idBridgeTp == 4) {
                		if(relMapaConsumoPressao.pressure < relMapaConsumoPressao.pressaoMinBaixa ) {
@@ -438,7 +459,7 @@
                			image = './images/ic_dispositivo_004.png';
                		}
 					else if(relMapaConsumoPressao.pressure < relMapaConsumoPressao.pressaoMin ) {
-						image = './images/ic_dispositivo_002.png';
+						image = './images/ic_dispositivo_002.png';						
                		}
 					else if(relMapaConsumoPressao.pressure > relMapaConsumoPressao.pressaoMax ) {
 						image = './images/ic_dispositivo_004.png';
@@ -447,8 +468,10 @@
 							|| relMapaConsumoPressao.pressure <= relMapaConsumoPressao.pressaoMax) {
 						image = './images/ic_dispositivo_003.png';
                		}
+               		
+               		contarDispositivosSetor(relMapaConsumoPressao);
                	}
-                
+               	
                 var myLatLng1 = {lat: Number(relMapaConsumoPressao.coordX), lng: Number(relMapaConsumoPressao.coordY)};
                 var marker1 = new google.maps.Marker({
                     position: myLatLng1,
@@ -462,7 +485,8 @@
                 '  <div id="siteNotice"></div>' +
                 '  <div id="bodyContent">' ;                        
                 contentString1 +=                	
-                '    ' + relMapaConsumoPressao.device + '<br/>' + relMapaConsumoPressao.pressure + ' (MCA)<br/>' + relMapaConsumoPressao.dtInsert.substring(0, 6) + relMapaConsumoPressao.dtInsert.substring(8) + '' + 
+                '    ' + relMapaConsumoPressao.device + '<br/>' + relMapaConsumoPressao.pressure + ' (MCA)<br/>' + relMapaConsumoPressao.dtInsert.substring(0, 6) + relMapaConsumoPressao.dtInsert.substring(8) + '<br/>' +
+                '    ' + relMapaConsumoPressao.condominio + '<br/>' + relMapaConsumoPressao.endereco + ' ' + relMapaConsumoPressao.numero + '' + 
                 '  </div>' +
                 '</div>';
 
@@ -482,6 +506,7 @@
                     center: myLatLng
                 });                
                 //addPontoDesoltec(map);
+                $("#divAlertaNivel").css("display","none");
             }            
             
             timerMarkers = setTimeout(function() {
@@ -489,10 +514,52 @@
        		//}, 600000);
        	 	}, 10000);
             
-            function listarPontos(idPontoTp) {     
+       	 	function contarDispositivosSetor(relMapaConsumoPressao) {
+	       	 	if(relMapaConsumoPressao.idBridgeTp == 2 || relMapaConsumoPressao.idBridgeTp == 4) {
+	       	 		
+		       	 	if(relMapaConsumoPressao.compl != null && (relMapaConsumoPressao.compl == 'BOOSTER ACLIMACAO (AREA CURA)' || relMapaConsumoPressao.compl == 'CALEGARI (AREA CURA)' || 
+		       	 		relMapaConsumoPressao.compl == 'CALEGARI (JARDIM DULCE)' || relMapaConsumoPressao.compl == 'CALEGARI (PARQUE DAS NACOES)' ||
+		       	 		relMapaConsumoPressao.compl == 'MARIA ANTONIA' || relMapaConsumoPressao.compl == 'MATAO PARTE ALTA' ||
+		       	 		relMapaConsumoPressao.compl == 'MATAO PARTE BAIXA' || relMapaConsumoPressao.compl == 'NOVA VENEZA' || 
+		       	 		relMapaConsumoPressao.compl == 'NOVA VENEZA (APOIADO ETA II)')){
+		       	 		qtdeSetor2 = qtdeSetor2 + 1;
+			       	 	if(relMapaConsumoPressao.pressure < relMapaConsumoPressao.pressaoMin) {
+			       	 		qtdeAbaixoMinSetor2 = qtdeAbaixoMinSetor2 + 1;
+				       	}
+		       	 	}
+		       	 	else if(relMapaConsumoPressao.compl != null && (relMapaConsumoPressao.compl == 'CARLOTA'|| relMapaConsumoPressao.compl == 'CENTRO' ||
+		       	 			relMapaConsumoPressao.compl == 'CENTRO (FRANCESCHINI)' || relMapaConsumoPressao.compl == 'CENTRO (PLANALTO)' ||
+		       	 			relMapaConsumoPressao.compl == 'CENTRO (RAVAGNANI)' || relMapaConsumoPressao.compl == 'CENTRO (SANTA TEREZINHA)' ||
+		       	 			relMapaConsumoPressao.compl == 'CENTRO (VECCON)' || relMapaConsumoPressao.compl == 'CENTRO (VILA MENUZZO)' || 
+		       	 			relMapaConsumoPressao.compl == 'JOAO PAULO' || relMapaConsumoPressao.compl == 'PICERNO' ||
+		       	 			relMapaConsumoPressao.compl == 'POCOS (CRUZEIRO DO SUL)' || relMapaConsumoPressao.compl == 'POCOS (DANTE MARMIROLLI)' || 
+		       	 			relMapaConsumoPressao.compl == 'POCOS (ESTRELA D ALVA)' || relMapaConsumoPressao.compl == 'POCOS (SAO BENTO)')){
+		       	 		qtdeSetor1 = qtdeSetor1 + 1;
+			       	 	if(relMapaConsumoPressao.pressure < relMapaConsumoPressao.pressaoMin) {
+			       	 		qtdeAbaixoMinSetor1 = qtdeAbaixoMinSetor1 + 1;
+				       	}
+		       	 	}
+	       	 	}	       	 		
+       	 	}
+       	 	
+            function listarPontos(idPontoTp) {
+            	
+                qtdeSetor1 = 0;
+                qtdeSetor2 = 0;
+                qtdeAbaixoMinSetor1 = 0;
+                qtdeAbaixoMinSetor2 = 0;
+                
             	if(timerAtualizaMarkers != null) {
             		clearTimeout(timerAtualizaMarkers);
             	}
+            	
+            	var acessorios = '';
+            	for (i = 1; i < 11; i++) {                		                      
+            		if( $("#acessorio" + i).is(":checked") == true) {
+            			acessorios += '&acessorio' + i + '=' + i;
+            		}
+                }     
+            	
             	$.blockUI({ 
            	    	message: '<img src="./images/busy.gif" />',
            	    	css: { 
@@ -505,7 +572,8 @@
            	    $.ajax({
            	        url: 'PontoBO?acao=2' +
            	             '&idPontoTp=' + idPontoTp +
-           	             '&idEmpresa=' + $("#idEmpresa").val(),
+           	             '&idEmpresa=' + $("#idEmpresa").val() +
+           	             acessorios,
            	        type: "POST",
            	        dataType: 'json',
            	        success: function(result) {
@@ -516,13 +584,14 @@
     	           	        for (i = 0; i < listRelPonto.length; i++) {                		                      
     	           	        	var relPonto = listRelPonto[i];        	                      
     	           	        	addPontoDispositivo(map,relPonto);
-    	                    }       	           	        
-    	           	        var listRelMapaConsumoPressao = listObject[1];
+    	                    }       	           	     
+    	           	        var listRelMapaConsumoPressao = listObject[1];    	           	        
     	                    for (i = 0; i < listRelMapaConsumoPressao.length; i++) {                              
     	                        var relMapaConsumoPressao = listRelMapaConsumoPressao[i];                         
     	                        addPontoBridge(map,relMapaConsumoPressao);
     	                    } 
     	                    addPoligon();
+    	                    criarAlertaNivel();
            	        	}           	        	 
            	            $.unblockUI();
            	        },
@@ -533,8 +602,36 @@
            	    });
            	 	timerAtualizaMarkers = setTimeout(function() {
            	 		listarPontos('0');
-           		//}, 600000);
-                }, 60000);
+           		}, 600000);
+                //}, 60000);
+            }
+
+            function criarAlertaNivel() {
+            	if(qtdeAbaixoMinSetor1 > 0 || qtdeAbaixoMinSetor2 > 0) {                  		
+           
+            		var percentualSetor1 = 0;
+            		if(qtdeAbaixoMinSetor1 > 0) {
+            			percentualSetor1 = (parseFloat(qtdeAbaixoMinSetor1) * 100) / parseFloat(qtdeSetor1);
+            		}
+            		var percentualSetor2 = 0;
+					if(qtdeAbaixoMinSetor2 > 0) {
+						percentualSetor2 = (parseFloat(qtdeAbaixoMinSetor2) * 100) / parseFloat(qtdeSetor2);
+            		}
+            		
+            		var txt = 
+                   	"        <div id='divAlertaNivel' class='map-cnt'>" +  
+       	  		    "            <div class='alert alert-danger map-alert alert-dismissible fade in' style='color: black;'>" + 
+       	  		    "                <a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
+       	     		"                <strong>ETA 1</strong> - " + qtdeAbaixoMinSetor1 + " / " + qtdeSetor1 + " estão com pressão baixa (" + percentualSetor1.toFixed(2) + "%)</br>" +
+       	     		"                <strong>ETA 2</strong> - " + qtdeAbaixoMinSetor2 + " / " + qtdeSetor2 + " estão com pressão baixa (" + percentualSetor2.toFixed(2) + "%)" +
+       	  		    "            </div>" +
+       		        "        </div> ";
+                   	$("#divAlertaNivel").html(txt);
+                   	$("#divAlertaNivel").css("display","block");
+            	}
+            	else {
+            		$("#divAlertaNivel").css("display","none");
+            	}
             }
             
             function buscarPonto(idPonto) {

@@ -1,8 +1,14 @@
 
 package br.com.waterbridge.bo;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.math.BigInteger;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
@@ -44,6 +50,50 @@ public class MessageBO extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	
+	public String executePost(String targetURL, String urlParameters) {
+		HttpURLConnection connection = null;
+
+		try {
+			// Create connection
+			URL url = new URL(targetURL);
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("POST");
+			connection.setRequestProperty("Content-Type", "application/json");
+
+			connection.setRequestProperty("Content-Length", Integer.toString(urlParameters.getBytes().length));
+			connection.setRequestProperty("Content-Language", "en-US");
+
+			connection.setUseCaches(false);
+			connection.setDoOutput(true);
+
+			// Send request
+			DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
+			wr.writeBytes(urlParameters);
+			wr.close();
+
+			// Get Response
+			InputStream is = connection.getInputStream();
+			BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+			StringBuilder response = new StringBuilder(); // or StringBuffer if Java version 5+
+			String line;
+			while ((line = rd.readLine()) != null) {
+				response.append(line);
+				response.append('\r');
+			}
+			rd.close();
+			return response.toString();
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} 
+		finally {
+			if (connection != null) {
+				connection.disconnect();
+			}
+		}
+	}
+	
 	@Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         doPost(req, res);
@@ -67,6 +117,12 @@ public class MessageBO extends HttpServlet {
 	    	Message message = new Gson().fromJson(sb.toString(), Message.class);
 	    	//message.setData("10017335000001700017A508");//SOBREPONDO O DATA ATE QUE O FELIPE ALTERE O FRAME ENVIADO
 
+		    if(message.getDevice() != null
+		    		&& (message.getDevice().equals("8060A5") || message.getDevice().equals("8069A1"))) {
+		    	
+		    	executePost("http://waterbridge.com.br/MessageBO", sb.toString());		    	
+		    }
+	    	
 	    	connection = ConnectionFactory.getConnection();
 			MessageDAO messageDAO = new MessageDAO(connection);
 			ConsumoDAO consumoDAO = new ConsumoDAO(connection);
@@ -74,6 +130,7 @@ public class MessageBO extends HttpServlet {
 	    	
 	    	BridgeDAO bridgeDAO = new BridgeDAO(connection);
 		    Bridge bridge = bridgeDAO.buscarPorDeviceNum(message.getDevice(), "A");
+		    
 		    //VERSAO FRAME 1
 		    if(bridge != null
 		    		&& bridge.getIdVersaoFrame() != null
@@ -230,7 +287,7 @@ public class MessageBO extends HttpServlet {
 			    			|| bridge.getBridgeTp().getIdBridgeTp().longValue() == 4)) {
 				consumo.setPressure(consumo.getPressure() + bridge.getAjuste());
 				//TRATAMENTO DE PRESSAO QUANDO FOR MENOR QUE 0 APOSTO AJUSTE //ATUALIZADO 06/03/2019 12:28
-				if(consumo.getPressure() != null && consumo.getPressure().doubleValue() < 0){
+				if(consumo.getPressure() != null && consumo.getPressure().doubleValue() < 0) {
 					consumo.setPressure(0d);						
 				}
 			}
@@ -387,8 +444,7 @@ public class MessageBO extends HttpServlet {
 	        	Email.enviarEmail("WaterBridge - Alarme Device "+device, mensagem, email);
 	        }
 	    }.start();
-	}
-	
+	}	
 }
 
 

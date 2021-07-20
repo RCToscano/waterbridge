@@ -9,6 +9,8 @@ public class RelPressaoBO {
 	
 	String bridge;
 	
+	Long idBridgeTp;
+	
 	String dtInicio;
 	
 	String dtFim;
@@ -19,6 +21,8 @@ public class RelPressaoBO {
 	
 	List<Double> listPressao;
 	
+	List<Double> listVazao;
+	
 	MetaPressao metaPressao;
 
 	public String getBridge() {
@@ -27,6 +31,14 @@ public class RelPressaoBO {
 
 	public void setBridge(String bridge) {
 		this.bridge = bridge;
+	}
+
+	public Long getIdBridgeTp() {
+		return idBridgeTp;
+	}
+
+	public void setIdBridgeTp(Long idBridgeTp) {
+		this.idBridgeTp = idBridgeTp;
 	}
 
 	public String getDtInicio() {
@@ -67,6 +79,14 @@ public class RelPressaoBO {
 
 	public void setListPressao(List<Double> listPressao) {
 		this.listPressao = listPressao;
+	}
+
+	public List<Double> getListVazao() {
+		return listVazao;
+	}
+
+	public void setListVazao(List<Double> listVazao) {
+		this.listVazao = listVazao;
 	}
 
 	public MetaPressao getMetaPressao() {

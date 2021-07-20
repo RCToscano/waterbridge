@@ -228,7 +228,7 @@ public class RelMapaConsumoPressaoDAO {
         }
     }
     
-    public List<RelMapaConsumoPressao> listarPressureBridgeEmpresa(String idEmpresa) throws Exception {
+    public List<RelMapaConsumoPressao> listarPressureBridgeEmpresa(String idEmpresa, List<Long> listIdEmpresa) throws Exception {
 
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -255,7 +255,7 @@ public class RelMapaConsumoPressaoDAO {
         			if(i==0) {
         				sql += "AND       ( ";
         			}
-        			sql += " TB_EMPRESA.ID_EMPRESA = " + empresa.split("-")[0] + " AND TB_CONDOMINIO.COMPL = '" + empresa.split("-")[1] + "' ";
+        			sql += " ( TB_EMPRESA.ID_EMPRESA = " + empresa.split("-")[0] + " AND TB_CONDOMINIO.COMPL = '" + empresa.split("-")[1] + "' ) ";
         			if(i < (arrayEmpresasSetores.length - 1)) {
         				sql += "OR " ;
         			}
@@ -264,12 +264,14 @@ public class RelMapaConsumoPressaoDAO {
         			}
         		}        		
         	}
-        	else {
-        		sql += "AND       TB_EMPRESA.ID_EMPRESA IN(4,6,7) " ;
+        	else if(listIdEmpresa.size() > 0) {
+        		sql += "AND       TB_EMPRESA.ID_EMPRESA IN(" + listIdEmpresa.toString().replace("[", "").replace("]", "") + ") " ;
         	}
-            sql += "AND       ( TB_BRIDGE.ID_BRIDGETP = 2 OR TB_BRIDGE.ID_BRIDGETP = 4 ) ";	
-            stmt = connection.prepareStatement(sql);
-                        
+        	else {
+        		sql += "AND       TB_EMPRESA.ID_EMPRESA IN(0) " ;
+        	}
+            sql += "AND       ( TB_BRIDGE.ID_BRIDGETP = 2 OR TB_BRIDGE.ID_BRIDGETP = 4 OR TB_BRIDGE.ID_BRIDGETP = 5 ) ";
+            stmt = connection.prepareStatement(sql);           
             rs = stmt.executeQuery();
 
             while (rs.next()) {

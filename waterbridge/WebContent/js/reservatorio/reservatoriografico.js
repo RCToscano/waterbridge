@@ -56,7 +56,7 @@ function listarCondominio() {
 }
 
 function abrirMapaReservatorios() {
-	window.open('MapaConsumoPressaoBO?acao=1', '_blank');
+	window.open('PontoBO?acao=1', '_blank');
 }
 
 function lPad(number, length) {   
@@ -113,6 +113,17 @@ function atualizarReservatorios() {
 	if(timeAtualizarRelatorios != null) {
 		clearTimeout(timeAtualizarRelatorios);
 	}
+	
+    $.blockUI({ 
+    	message: '<img src="./images/busy.gif" />',
+    	css: { 
+    		padding:        5,
+    		left:           '45%', 
+            width:          '10%', 
+            border:         '1px solid #aaa'
+        }         		
+    }); 
+	
 	$.ajax({
         url: 'ReservatorioBO?acao=2' +
         '&idEmpresa=' + idEmpresaValue +
@@ -194,19 +205,19 @@ function atualizarReservatorios() {
         					},
         					series : {
         						zones : [ {
-        							color : 'rgb(113, 203, 225)',
+        							color : 'rgb(255, 153, 0)',
         							value : pressaoMinBaixaPerc
         						}, {
-        							color : 'rgb(113, 203, 225)',
+        							color : 'rgb(255, 153, 0)',
         							value : pressaoMinPerc
         						}, {
         							color : 'rgb(113, 203, 225)',
         							value : pressaoMaxPerc
         						}, {
-        							color : 'rgb(113, 203, 225)',
+        							color : 'rgb(255, 153, 0)',
         							value : pressaoMaxAltaPerc	
         						}, {
-        							color : 'rgb(113, 203, 225)',
+        							color : 'rgb(255, 153, 0)',
         							value : Number.MAX_VALUE
         						} ],
         						dataLabels : {
@@ -303,11 +314,11 @@ function atualizarReservatorios() {
             }		        
             else {
             	$("#aviso").html("Nenhum registro encontrado!");
-            }
+            }            
+            $.unblockUI();
         },
         error : function() {		
-            //alert('erro');
-            //window.location = "http://www.waterbridge.com.br/";
+        	$.unblockUI();
             $('#divHoraAtualizacao').html('<p class="text-muted"><label style="font-size: 8pt;">ATUALIZA&Ccedil;&Atilde;O </label></p>');
         }
     });

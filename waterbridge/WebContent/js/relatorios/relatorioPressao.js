@@ -213,7 +213,7 @@ function listarConsumoMedidor() {
 	        	var consumo = 0;
 	            var relPressao = result;
 	            if(relPressao != null && relPressao.listRelPressao.length > 0) {
-	            		            	console.log('meta pressao' + relPressao.metaPressao);
+	            		            	
 	            	var tootipAlarm = '';
 	            	if(relPressao.metaPressao != null && relPressao.metaPressao != undefined) {
 	            		tootipAlarm +=
@@ -275,19 +275,28 @@ function listarConsumoMedidor() {
 	                	
 	                	var bgTd = '';
 	                	var alarmPressao = '';
-	                	if(relPressao.metaPressao != null && relPressao.metaPressao.pressaoMinBaixa > relatPressao.pressure) {
+	                	var valor = 0;
+	                	
+	                	if(relatPressao.idBridgeTp == 5) {
+	                		valor = relatPressao.flow;
+	                	}
+	                	else {
+	                		valor = relatPressao.pressure;
+	                	}
+	                	
+	                	if(relPressao.metaPressao != null && relPressao.metaPressao.pressaoMinBaixa > valor) {
 	                		bgTd = "bgcolor='#f2dede'";
 	                		alarmPressao = 'Pressão Baixa (Nível Crítico)';
 	                	}
-	                	else if(relPressao.metaPressao != null && relPressao.metaPressao.pressaoMin > relatPressao.pressure) {
+	                	else if(relPressao.metaPressao != null && relPressao.metaPressao.pressaoMin > valor) {
 	                		bgTd = "bgcolor='#f2dede'";
 	                		alarmPressao = 'Pressão Baixa';
 	                	}
-	                	else if(relPressao.metaPressao != null && relPressao.metaPressao.pressaoMaxAlta < relatPressao.pressure) {
+	                	else if(relPressao.metaPressao != null && relPressao.metaPressao.pressaoMaxAlta < valor) {
 	                		bgTd = "bgcolor='#f2dede'";
 	                		alarmPressao = 'Pressão Alta (Nível Crítico)';
 	                	}
-	                	else if(relPressao.metaPressao != null && relPressao.metaPressao.pressaoMax < relatPressao.pressure) {
+	                	else if(relPressao.metaPressao != null && relPressao.metaPressao.pressaoMax < valor) {
 	                		bgTd = "bgcolor='#f2dede'";
 	                		alarmPressao = 'Pressão Alta';
 	                	}
@@ -348,8 +357,14 @@ function listarConsumoMedidor() {
 					"        </tr>" +
 		            "    </tbody>" +
 		            "</table>" ;
-		            if(relPressao.metaPressao != null && relPressao.metaPressao != undefined) {
 		            
+		            if(relPressao.metaPressao != null && relPressao.metaPressao != undefined) {
+
+		            	var unidadeMedida = 'MCA';
+		            	if(relPressao.idBridgeTp == 5) {
+		            		unidadeMedida = 'L/s';
+		            	}
+		            	
 		            	Highcharts.chart('graficopressaodiaria', {
 						    chart: {  
 						    	type: 'line',  
@@ -360,7 +375,7 @@ function listarConsumoMedidor() {
 				                enableButtons: false  
 				            },  
 						    title: {  
-						        text: 'Gráfico de Pressão<br/><label>Bridge ' + relPressao.bridge +' </label>'  
+						        text: 'Gráfico<br/><label>Bridge ' + relPressao.bridge +' </label>'  
 						    },  
 						    subtitle: {  
 						        text: 'Período '+ relPressao.dtInicio +' a '+ relPressao.dtFim  
@@ -383,7 +398,7 @@ function listarConsumoMedidor() {
 						    yAxis: {
 						    	min: 0,  
 						        title: {  
-						            text: 'MCA'  
+						            text: unidadeMedida
 						        },
 						      	//minorGridLineWidth: 0,
 						        //gridLineWidth: 0,
@@ -454,10 +469,18 @@ function listarConsumoMedidor() {
 						            var data = [];
 
 						            for(i = 0; i < relPressao.listPressao.length; i++) {
-						                data.push([
-						                	relPressao.listData[i],
-						                    relPressao.listPressao[i]
-						                ]);
+						            	if(relPressao.idBridgeTp == 5) {		            		
+						            		data.push([
+							                	relPressao.listData[i],
+							                    relPressao.listVazao[i]
+							                ]);
+						            	}
+						            	else {						            	
+						            		data.push([
+							                	relPressao.listData[i],
+							                    relPressao.listPressao[i]
+							                ]);
+						            	}						                
 						            }
 						            return data;
 						        }())  

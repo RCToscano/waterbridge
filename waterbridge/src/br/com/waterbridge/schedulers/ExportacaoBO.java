@@ -31,7 +31,6 @@ public class ExportacaoBO implements Runnable {
 	public void run() {
 		
 		try {
-			System.out.println("inicio exportacao");
 			
 			conn = ConnectionFactory.getConnection();			
 			stmt = conn.prepareCall("{call PROC_PREPARAR_EXPORTACAO()}");
@@ -39,19 +38,16 @@ public class ExportacaoBO implements Runnable {
 			
 			ExportacaoDAO exportacaoDAO = new ExportacaoDAO(conn);
 			List<Exportacao> listExportacao = exportacaoDAO.listarParaExportacao();
-			System.out.println("lista exportacao " + listExportacao.size());
+			
 			if(listExportacao.size() > 0) {
 			
 				ArquivoDAO arquivoDAO = new ArquivoDAO(conn);
 				String dataAtual = arquivoDAO.buscarDataAtual();
-				System.out.println("busca data atual " + dataAtual);
 				
 				Integer ultimaRemessa = arquivoDAO.buscarUltimaRemessa(dataAtual.substring(0, 10));
-				System.out.println("busca ultima remessa");
-	 			
+				
 				Integer remessa = ultimaRemessa + 1;
 				String nomeArquivo = "W" + Auxiliar.leftPad(remessa.toString(), 4, "0") + dataAtual.replace("-", "").replace(":", "").replace(" ", "");
-				System.out.println("cria nome arquivo " + nomeArquivo);
 			
 				//File file = new File("c:/Temp/" + nomeArquivo + ".txt");
 				File file = new File("/home/waterbridge/exportacao/" + nomeArquivo + ".txt");
@@ -91,16 +87,11 @@ public class ExportacaoBO implements Runnable {
 				arquivo.setQtde(listExportacao.size());
 				arquivo.setDtInsert(dataAtual);
 				arquivoDAO.inserir(arquivo);
-				System.out.println("inseriu arquivo " + remessa + " dataAtual " + dataAtual);
 				
 				arquivo = arquivoDAO.buscarPorRemessaData(remessa, dataAtual);
-				System.out.println("buscou arquivo " + arquivo);
 				
 				exportacaoDAO.atualizarIdArquivo(arquivo.getIdArquivo());
-				System.out.println("atualizou idArquivo exportacao");
 			}
-			
-			System.out.println("fim exportacao");
 		} 
 		catch (Exception e) {
 			System.out.println("erro " + e.toString());
@@ -123,7 +114,8 @@ public class ExportacaoBO implements Runnable {
 		try {		
 			client = new FTPClient();
 			client.connect("waws-prod-cq1-007.ftp.azurewebsites.windows.net");
-		    client.login("ftp-barragens\\engenharia", "jhoykRweBzm8nxwWlX2kZN33cEdE3lCwsxGWvTyLlCiKl4XKKbNKPbk9QqmM");
+		    client.login("ftp-barragens\\engenharia", "jhoykRweBzm8nxwWlX2kZN33cEdE3lCwsxGWvTyLlCiKl4XKKbNKPbk9QqmM");		    
+		    client.changeWorkingDirectory("/Desoltec");
 		    
 		    fis = new FileInputStream(file);
 		    client.storeFile(file.getName(), fis);

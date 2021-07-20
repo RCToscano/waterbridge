@@ -41,7 +41,7 @@
 					<div class="col-sm-5 col-md-4">
 						<div class="thumbnail">
 							<div class="caption">
-								<h3>Pressure Bridge</h3>
+								<h3>Consulta Bridge</h3>
 <!-- 								<p>&nbsp;</p> -->
 								<p><a href="RelatorioPressaoBO?acao=1" class="btn btn-primary" role="button">Acessar</a></p>
 							</div>
@@ -77,9 +77,8 @@
 					<div class="col-sm-5 col-md-4">
 						<div class="thumbnail">
 							<div class="caption">
-								<h3>Cadastro de Usuários</h3>
-<!-- 								<p>&nbsp;</p> -->
-								<p><a href="UsuarioBO?acao=cadUsuario" class="btn btn-primary" role="button">Acessar</a></p>
+								<h3>Mapa de Dispositivos</h3>
+								<p><a href="PontoBO?acao=1" class="btn btn-primary" role="button" target="_blank">Acessar</a></p>
 							</div>
 						</div>
 					</div>
@@ -87,9 +86,9 @@
 				<div class="col-sm-5 col-md-4">
 					<div class="thumbnail">
 						<div class="caption">
-							<h3>Mapa Dispositivos</h3>
+							<h3>Painel de Controle</h3>
 <!-- 								<p>&nbsp;</p> -->
-							<p><a href="MapaConsumoPressaoBO?acao=1" class="btn btn-primary" role="button" target="_blank">Acessar</a></p>
+							<p><a href="ReservatorioBO?acao=1" class="btn btn-primary" role="button" target="_blank">Acessar</a></p>
 						</div>
 					</div>
 				</div>

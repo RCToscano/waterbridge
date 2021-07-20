@@ -683,7 +683,8 @@ public class CondominioDAO {
 	    	"LEFT JOIN VW_USERCONDOMINIOID " +
 		    "ON        TB_CONDOMINIO.ID_CONDOMINIO = VW_USERCONDOMINIOID.ID_CONDOMINIO " +
 		    "WHERE     VW_USERCONDOMINIOID.ID_USER = ? " +
-		    "AND       TB_CONDOMINIO.ID_EMPRESA = ? "
+		    "AND       TB_CONDOMINIO.ID_EMPRESA = ? " +
+		    "ORDER BY  TB_CONDOMINIO.NOME " 
 		    );
             
             stmt.setObject(1, idUser);
@@ -780,7 +781,8 @@ public class CondominioDAO {
 	    	"ON        TB_CONDOMINIO.ID_CONDOMINIO = VW_ID_CONDOMINIOPB.ID_CONDOMINIO " +
 		    "WHERE     VW_USERCONDOMINIOID.ID_USER = ? " +
 		    "AND       TB_CONDOMINIO.ID_EMPRESA = ? " +
-		    "AND       VW_ID_CONDOMINIOPB.ID_CONDOMINIO IS NOT NULL "
+		    "AND       VW_ID_CONDOMINIOPB.ID_CONDOMINIO IS NOT NULL " +
+		    "ORDER BY  TB_CONDOMINIO.NOME "
 		    );
             
             stmt.setObject(1, idUser);

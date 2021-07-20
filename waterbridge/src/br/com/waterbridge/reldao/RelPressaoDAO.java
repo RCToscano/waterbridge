@@ -38,6 +38,7 @@ public class RelPressaoDAO {
     		"SELECT ID_EMPRESA, " +
             "		ID_CONDOMINIO, " +
             "		ID_BRIDGE, " +
+            "       ID_BRIDGETP, " +
     		"       ID_CONSUMO, " +
     		"		ID_USER, " +
     		"		DEVICE, " +
@@ -63,6 +64,7 @@ public class RelPressaoDAO {
             	relPressao.setIdEmpresa(rs.getLong("ID_EMPRESA"));
             	relPressao.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
             	relPressao.setIdBridge(rs.getLong("ID_BRIDGE"));
+            	relPressao.setIdBridgeTp(rs.getLong("ID_BRIDGETP"));
             	relPressao.setIdConsumo(rs.getLong("ID_CONSUMO"));
             	relPressao.setIdUser(rs.getLong("ID_USER"));
             	relPressao.setDevice(rs.getString("DEVICE"));
@@ -71,7 +73,7 @@ public class RelPressaoDAO {
             	relPressao.setMeterPosition(rs.getLong("METERPOSITION"));
             	relPressao.setVolume(rs.getDouble("VOLUME"));
             	relPressao.setPressure(rs.getDouble("PRESSURE"));
-            	relPressao.setFlow(rs.getLong("FLOW"));
+            	relPressao.setFlow(rs.getDouble("FLOW"));
             	relPressao.setTemperature(rs.getLong("TEMPERATURE"));
             	relPressao.setBattery(rs.getDouble("BATTERY"));
             	relPressao.setAlarm(rs.getLong("ALARM"));
@@ -105,6 +107,7 @@ public class RelPressaoDAO {
     			relPressao.setIdEmpresa(rs.getLong("ID_EMPRESA"));
     			relPressao.setIdCondominio(rs.getLong("ID_CONDOMINIO"));
     			relPressao.setIdBridge(rs.getLong("ID_BRIDGE"));
+    			relPressao.setIdBridgeTp(rs.getLong("ID_BRIDGETP"));
     			relPressao.setIdConsumo(rs.getLong("ID_CONSUMO"));
     			relPressao.setIdUser(rs.getLong("ID_USER"));
     			relPressao.setNomeEmpresa(rs.getString("NOME_EMPRESA"));
@@ -116,7 +119,7 @@ public class RelPressaoDAO {
     			relPressao.setMeterPosition(rs.getLong("METERPOSITION"));
     			relPressao.setVolume(rs.getDouble("VOLUME"));
     			relPressao.setPressure(rs.getDouble("PRESSURE"));
-    			relPressao.setFlow(rs.getLong("FLOW"));
+    			relPressao.setFlow(rs.getDouble("FLOW"));
     			relPressao.setTemperature(rs.getLong("TEMPERATURE"));
     			relPressao.setBattery(rs.getDouble("BATTERY"));
     			relPressao.setAlarm(rs.getLong("ALARM"));
@@ -183,8 +186,8 @@ public class RelPressaoDAO {
 				"LEFT JOIN TB_METAPRESSAO " + 
 				"	    ON TB_CONSUMO.ID_BRIDGE = TB_METAPRESSAO.ID_BRIDGE " + 
 				"    WHERE TB_CONSUMO.DTINSERT BETWEEN ? AND ? " + 
-			    //"      AND TB_CONSUMO.ID_EMPRESA IN(4,6,7) " +
-			    "      AND TB_CONSUMO.ID_EMPRESA IN(7) " +
+			    //"      AND TB_CONSUMO.ID_EMPRESA IN(4,6,7,8,9,10) " +
+			    "      AND TB_CONSUMO.ID_EMPRESA IN(10) " +
 			    "      AND TB_CONSUMO.ID_USER = ? " + 
 	    		" ORDER BY TB_CONSUMO.DEVICE, TB_CONSUMO.ID_CONSUMO DESC";
         

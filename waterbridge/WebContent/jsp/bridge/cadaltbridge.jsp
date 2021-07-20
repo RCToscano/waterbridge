@@ -240,7 +240,7 @@
 							</div>
 							<div class="col-sm-9"></div>
 						</div>
-						<c:if test = "${bridge.bridgeTp.idBridgeTp == 2 || bridge.bridgeTp.idBridgeTp == 4 || metaPressao != null}">
+						<c:if test = "${bridge.bridgeTp.idBridgeTp == 2 || bridge.bridgeTp.idBridgeTp == 4 || bridge.bridgeTp.idBridgeTp == 5 || metaPressao != null}">
 					    	<script type="text/javascript">
 								$("#divLimitesPressao").fadeIn(300);		
 							</script>

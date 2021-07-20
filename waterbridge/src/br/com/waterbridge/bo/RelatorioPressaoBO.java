@@ -139,26 +139,32 @@ public class RelatorioPressaoBO extends HttpServlet {
 					List<RelPressao> listRelPressao = relPressaoDAO.listar(sql);
 					
 					String bridge = "";
+					Long idBridgeTp = null;
 					List<String> listData = new ArrayList<>();
 					List<Double> listPressao = new ArrayList<>();
+					List<Double> listVazao = new ArrayList<>();
 					for(int i = 0; i < listRelPressao.size(); i++) {
 						
 						RelPressao relPressao = listRelPressao.get(i);
 	
 						if(i == 0) {
 							bridge = relPressao.getDevice();
+							idBridgeTp = relPressao.getIdBridgeTp();
 						}
 						
 						listData.add(relPressao.getDtHoraInsert());
 						listPressao.add(relPressao.getPressure());
+						listVazao.add(relPressao.getFlow());
 					}
 					
 					RelPressaoBO pressao = new RelPressaoBO();
 					pressao.setBridge(bridge);
+					pressao.setIdBridgeTp(idBridgeTp);
 					pressao.setDtInicio(req.getParameter("dtInicio"));
 					pressao.setDtFim(req.getParameter("dtFim"));
 					pressao.setListData(listData);
 					pressao.setListPressao(listPressao);
+					pressao.setListVazao(listVazao);
 					pressao.setListRelPressao(listRelPressao);
 					
 					MetaPressaoDAO metaPressaoDAO = new MetaPressaoDAO(connection);
@@ -203,18 +209,22 @@ public class RelatorioPressaoBO extends HttpServlet {
 					List<RelPressao> listRelPressao = relPressaoDAODAO.listar(sql);
 					
 					String bridge = "";
+					Long idBridgeTp = null;
 					List<String> listData = new ArrayList<>();
 					List<Double> listPressao = new ArrayList<>();
+					List<Double> listVazao = new ArrayList<>();
 					for(int i = 0; i < listRelPressao.size(); i++) {
 						
 						RelPressao relPressao = listRelPressao.get(i);
 	
 						if(i == 0) {
 							bridge = relPressao.getDevice();
+							idBridgeTp = relPressao.getIdBridgeTp();
 						}
 						
 						listData.add(relPressao.getDtHoraInsert());
 						listPressao.add(relPressao.getPressure());
+						listVazao.add(relPressao.getFlow());
 					}
 					
 					req.setAttribute("bridge", bridge);

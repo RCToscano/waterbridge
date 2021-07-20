@@ -16,8 +16,8 @@ public class ExportacaoScheduler implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent event) {
     	try {	    	
-	    	scheduler = Executors.newSingleThreadScheduledExecutor();
-	    	scheduler.scheduleAtFixedRate(new ExportacaoBO(), 0, 15L, TimeUnit.MINUTES);
+//	    	scheduler = Executors.newSingleThreadScheduledExecutor();
+//	    	scheduler.scheduleAtFixedRate(new ExportacaoBO(), 0, 20L, TimeUnit.MINUTES);
     	} 
     	catch (Exception e) {
 			System.out.println(e);

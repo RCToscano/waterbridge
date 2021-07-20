@@ -19,7 +19,7 @@ public class RelPontoFiltroSetorDAO {
         this.connection = connection;
     }
 
-    public List<RelPontoFiltroSetor> listar() throws SQLException {
+    public List<RelPontoFiltroSetor> listar(List<Long> listIdEmpresa) throws SQLException {
 
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -27,15 +27,21 @@ public class RelPontoFiltroSetorDAO {
         
         try {
             
-            stmt = connection.prepareStatement(
-            "SELECT    TB_EMPRESA.ID_EMPRESA, " +
+        	String sql = 
+			"SELECT    TB_EMPRESA.ID_EMPRESA, " +
             "          TB_EMPRESA.NOME, " +
             "          TB_CONDOMINIO.ID_CONDOMINIO, " +
             "          TB_CONDOMINIO.COMPL " +
             "FROM      TB_EMPRESA " +
             "LEFT JOIN TB_CONDOMINIO " +
-            "ON        TB_EMPRESA.ID_EMPRESA = TB_CONDOMINIO.ID_EMPRESA " +
-            "WHERE     TB_EMPRESA.ID_EMPRESA IN(4, 6, 7) " +
+            "ON        TB_EMPRESA.ID_EMPRESA = TB_CONDOMINIO.ID_EMPRESA " ;
+        	if(listIdEmpresa.size() > 0) {
+        		sql += "WHERE     TB_EMPRESA.ID_EMPRESA IN(" + listIdEmpresa.toString().replace("[", "").replace("]", "") + ") " ;
+        	}
+        	else {
+        		sql += "WHERE     TB_EMPRESA.ID_EMPRESA IN(0) " ;
+        	}        	
+        	sql +=
             "AND       TB_EMPRESA.SITUACAO = 'A' " +
             "AND       TB_CONDOMINIO.SITUACAO = 'A' " +
             "AND       TB_CONDOMINIO.COMPL IS NOT NULL " +
@@ -44,8 +50,9 @@ public class RelPontoFiltroSetorDAO {
             "          TB_EMPRESA.NOME, " +
             "          TB_CONDOMINIO.COMPL " +
             "ORDER BY  TB_EMPRESA.NOME, " +
-            "          TB_CONDOMINIO.COMPL "
-            );
+            "          TB_CONDOMINIO.COMPL " ;		
+        	
+            stmt = connection.prepareStatement(sql);
 
             rs = stmt.executeQuery();
 
